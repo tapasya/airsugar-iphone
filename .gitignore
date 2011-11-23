@@ -1,0 +1,25 @@
+# Mac OS X Finder
+.DS_Store
+
+#Build
+build
+Build
+
+#Per user artifacts
+*.pbxuser
+*.mode1v3
+*.xcuserstate
+xcuserdata
+xcdebugger
+xcdebugger/*
+
+#repository stuff
+svn
+.svn
+#mercurial
+.hg
+CVS
+
+#back up files
+~
+*.swp
