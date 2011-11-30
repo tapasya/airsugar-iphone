@@ -21,8 +21,7 @@
 		3B5C97F1147CF7BD007EF770 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
 		3B5C97F9147CF7BD007EF770 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C97F7147CF7BD007EF770 /* InfoPlist.strings */; };
 		3B5C97FC147CF7BD007EF770 /* iSugarCRMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97FB147CF7BD007EF770 /* iSugarCRMTests.m */; };
-		3B5C9808147CF800007EF770 /* WebserviceMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9807147CF800007EF770 /* WebserviceMetadataStore.m */; };
-		3B5C980B147CF817007EF770 /* DBMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C980A147CF817007EF770 /* DBMetadataStore.m */; };
+		3B5C9808147CF800007EF770 /* MetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9807147CF800007EF770 /* MetadataStore.m */; };
 		3B5C980E147CF82A007EF770 /* ViewMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */; };
 		3B5C9811147CF83E007EF770 /* WebserviceSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9810147CF83E007EF770 /* WebserviceSession.m */; };
 		3B5C9814147CF850007EF770 /* DBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9813147CF850007EF770 /* DBSession.m */; };
@@ -68,10 +67,8 @@
 		3B5C97F8147CF7BD007EF770 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B5C97FA147CF7BD007EF770 /* iSugarCRMTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iSugarCRMTests.h; sourceTree = "<group>"; };
 		3B5C97FB147CF7BD007EF770 /* iSugarCRMTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iSugarCRMTests.m; sourceTree = "<group>"; };
-		3B5C9806147CF800007EF770 /* WebserviceMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceMetadataStore.h; sourceTree = "<group>"; };
-		3B5C9807147CF800007EF770 /* WebserviceMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceMetadataStore.m; sourceTree = "<group>"; };
-		3B5C9809147CF817007EF770 /* DBMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMetadataStore.h; sourceTree = "<group>"; };
-		3B5C980A147CF817007EF770 /* DBMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMetadataStore.m; sourceTree = "<group>"; };
+		3B5C9806147CF800007EF770 /* MetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataStore.h; sourceTree = "<group>"; };
+		3B5C9807147CF800007EF770 /* MetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataStore.m; sourceTree = "<group>"; };
 		3B5C980C147CF829007EF770 /* ViewMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMetadataStore.h; sourceTree = "<group>"; };
 		3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMetadataStore.m; sourceTree = "<group>"; };
 		3B5C980F147CF83D007EF770 /* WebserviceSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceSession.h; sourceTree = "<group>"; };
@@ -123,32 +120,50 @@
 			children = (
 				3B5C980F147CF83D007EF770 /* WebserviceSession.h */,
 				3B5C9810147CF83E007EF770 /* WebserviceSession.m */,
-				3B5C9806147CF800007EF770 /* WebserviceMetadataStore.h */,
-				3B5C9807147CF800007EF770 /* WebserviceMetadataStore.m */,
 				3B5C981C1484BE25007EF770 /* WebserviceMetadata.h */,
 				3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */,
 			);
 			name = webservice;
 			sourceTree = "<group>";
 		};
-		3B504E5314862D170037D75E /* New Group */ = {
+		3B504E5314862D170037D75E /* view */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = "New Group";
+			name = view;
 			sourceTree = "<group>";
 		};
 		3B504E5414862D1B0037D75E /* database */ = {
 			isa = PBXGroup;
 			children = (
-				3B5C9809147CF817007EF770 /* DBMetadataStore.h */,
-				3B5C980A147CF817007EF770 /* DBMetadataStore.m */,
 				3B5C9812147CF84F007EF770 /* DBSession.h */,
 				3B5C9813147CF850007EF770 /* DBSession.m */,
 				3B504E5514862E410037D75E /* DBMetadata.h */,
 				3B504E5614862E410037D75E /* DBMetadata.m */,
 			);
 			name = database;
+			sourceTree = "<group>";
+		};
+		3B504E58148630AE0037D75E /* metadata */ = {
+			isa = PBXGroup;
+			children = (
+				3B5C9806147CF800007EF770 /* MetadataStore.h */,
+				3B5C9807147CF800007EF770 /* MetadataStore.m */,
+			);
+			name = metadata;
+			sourceTree = "<group>";
+		};
+		3B504E59148631500037D75E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3B5C98231484F081007EF770 /* DataObjectField.h */,
+				3B5C98241484F083007EF770 /* DataObjectField.m */,
+				3B5C98261484F14D007EF770 /* DataObjectMetadata.h */,
+				3B5C98271484F14E007EF770 /* DataObjectMetadata.m */,
+				3B5C98291484F1E0007EF770 /* DataObject.h */,
+				3B5C982A1484F1E2007EF770 /* DataObject.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		3B5C97C1147CF7BC007EF770 = {
@@ -232,19 +247,15 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				3B504E59148631500037D75E /* Model */,
+				3B504E58148630AE0037D75E /* metadata */,
 				3B504E5414862D1B0037D75E /* database */,
-				3B504E5314862D170037D75E /* New Group */,
+				3B504E5314862D170037D75E /* view */,
 				3B504E5114862CF30037D75E /* webservice */,
 				3B5C980C147CF829007EF770 /* ViewMetadataStore.h */,
 				3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */,
 				3B5C9815147CF85F007EF770 /* ViewSession.h */,
 				3B5C9816147CF85F007EF770 /* ViewSession.m */,
-				3B5C98231484F081007EF770 /* DataObjectField.h */,
-				3B5C98241484F083007EF770 /* DataObjectField.m */,
-				3B5C98261484F14D007EF770 /* DataObjectMetadata.h */,
-				3B5C98271484F14E007EF770 /* DataObjectMetadata.m */,
-				3B5C98291484F1E0007EF770 /* DataObject.h */,
-				3B5C982A1484F1E2007EF770 /* DataObject.m */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -360,8 +371,7 @@
 				3B5C97DD147CF7BC007EF770 /* main.m in Sources */,
 				3B5C97E1147CF7BD007EF770 /* AppDelegate.m in Sources */,
 				3B5C97E4147CF7BD007EF770 /* ViewController.m in Sources */,
-				3B5C9808147CF800007EF770 /* WebserviceMetadataStore.m in Sources */,
-				3B5C980B147CF817007EF770 /* DBMetadataStore.m in Sources */,
+				3B5C9808147CF800007EF770 /* MetadataStore.m in Sources */,
 				3B5C980E147CF82A007EF770 /* ViewMetadataStore.m in Sources */,
 				3B5C9811147CF83E007EF770 /* WebserviceSession.m in Sources */,
 				3B5C9814147CF850007EF770 /* DBSession.m in Sources */,

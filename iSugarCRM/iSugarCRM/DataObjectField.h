@@ -13,12 +13,20 @@ typedef enum ObjectFieldDataType
     ObjectFieldDataTypeString,
     ObjectFieldDataTypeInteger,
     ObjectFieldDataTypeFloat,
-    ObjectFieldDataTypeBool,
+    ObjectFieldDataTypeBool
 }ObjectFieldDataType;
 
 @interface DataObjectField : NSObject
 
++(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type;
+
+
 @property(strong)NSString *name;
 @property(nonatomic)ObjectFieldDataType dataType;
-+(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type;
+@property(nonatomic)BOOL sortable;
+@property(nonatomic)BOOL filterable;
+@property(nonatomic)BOOL editable;
+
+
+
 @end

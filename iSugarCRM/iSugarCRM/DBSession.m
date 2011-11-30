@@ -9,5 +9,5 @@
 #import "DBSession.h"
 
 @implementation DBSession
-@synthesize delegate;
+@synthesize delegate,metadata;
 @end

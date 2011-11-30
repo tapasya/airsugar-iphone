@@ -8,22 +8,30 @@
 
 #import "WebserviceSession.h"
 
-@interface WebserviceSession()
-@property(strong)WebserviceMetadataStore *metadataStore;
-@end
 
 @implementation WebserviceSession
 @synthesize delegate;
-@synthesize metadataStore;
-+(WebserviceSession*)sessionForModule:(NSString*)moduleId
+@synthesize metadata;
++(WebserviceSession*)sessionWithMatadata:(WebserviceMetadata*)metadata
 {
-
+    WebserviceSession *session = [[WebserviceSession alloc] init];
+    session.metadata = metadata;
+    return session;
 }
 
 
--(void)startLoadingList
+-(void)startLoading
 {
-
+    NSURLRequest *request = [metadata getRequest];
+    id completionHandler = ^(NSURLResponse *response, NSData *data, NSError* error){
+        if (error) {
+            [delegate session:self didFailWithError:error];
+        }
+        else if(delegate!= nil){
+            [delegate session:self didCompleteWithResponse:nil];
+        }
+    };
+    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:completionHandler];
     
 }
 @end

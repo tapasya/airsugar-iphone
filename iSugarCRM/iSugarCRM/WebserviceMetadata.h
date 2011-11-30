@@ -24,4 +24,6 @@ typedef enum HTTPMethod{
 -(void)setPostParam:(NSString*)postParam forKey:(NSString*)key;
 -(void)setUrlParam:(NSString*)urlParam forKey:(NSString*)key;
 
+-(NSURLRequest*)getRequest;
+
 @end

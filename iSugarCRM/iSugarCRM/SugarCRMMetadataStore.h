@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebserviceMetadataStore.h"
-@interface SugarCRMMetadataStore : WebserviceMetadataStore
+#import "MetadataStore.h"
+@interface SugarCRMMetadataStore : MetadataStore
 
 
 +(SugarCRMMetadataStore*)sharedInstance;

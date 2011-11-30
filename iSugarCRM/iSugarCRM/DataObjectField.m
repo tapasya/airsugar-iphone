@@ -10,7 +10,7 @@
 
 @implementation DataObjectField
 @synthesize name,dataType;
-
+@synthesize sortable,filterable,editable;
 
 +(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type
 {

@@ -7,21 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DBMetadataStore.h"
+#import "DBMetadata.h"
 @protocol DBSessionDelegate;
 @interface DBSession : NSObject
 {
-    @private
-    DBMetadataStore *metadataStore;
 }
 
 
 @property(weak)id<DBSessionDelegate> delegate;
-+(DBMetadataStore*)sessionForModule:(NSString*)moduleId;
--(void)startLoadingList;
--(void)startLoadingList:(NSUInteger)offset batchSize:(NSUInteger)batchSize;
--(void)startLoadingDetails:(NSArray*)beanIds;
-
+@property(strong)DBMetadata *metadata;
+-(void)startLoading;
 @end
 
 

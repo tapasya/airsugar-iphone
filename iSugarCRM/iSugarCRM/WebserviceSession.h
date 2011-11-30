@@ -7,29 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebserviceMetadataStore.h"
+#import "WebserviceMetadata.h"
 
 @protocol WebserviceSessionDelegate;
 
 @interface WebserviceSession : NSObject
 {
- @private
-    WebserviceMetadataStore *metadataStore;
+ 
 }
 @property(weak)id<WebserviceSessionDelegate> delegate;
-+(WebserviceSession*)sessionForModule:(NSString*)moduleId;
--(void)startLoadingList;
--(void)startLoadingList:(NSUInteger)offset batchSize:(NSUInteger)batchSize;
--(void)startLoadingDetails:(NSArray*)beanIds;
-
+@property(strong)WebserviceMetadata *metadata;
++(WebserviceSession*)sessionWithMatadata:(WebserviceMetadata*)metadata;
+-(void)startLoading;
 @end
 
 
 
 @protocol WebserviceSessionDelegate <NSObject>
--(void)downloadedModuleList:(NSArray*)moduleList;
--(void)listDownloadFailedWithError:(NSError*)error;
--(void)downloadedDetails:(NSArray*)details;
--(void)detailDownloadFailedWithError:(NSError*)error;
-
+-(void)sessionWillStartLoading:(WebserviceSession*)session;
+-(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response;
+-(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error;
 @end

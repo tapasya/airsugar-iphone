@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "WebserviceMetadata.h"
 
-@interface WebserviceMetadataStore : NSObject
+@interface MetadataStore : NSObject
 {
     @private
     NSDictionary *keyedMetadata;
 }
 
 
--(WebserviceMetadata*)metaDataForKey:(NSString*)key;
--(void)setMetaData:(WebserviceMetadata*)metadata ForKey:(NSString*)key;
+-(id)metaDataForKey:(NSString*)key;
+-(void)setMetaData:(id)metadata ForKey:(NSString*)key;
 
 @end
