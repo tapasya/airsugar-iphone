@@ -7,11 +7,20 @@
 //
 
 #import "AppDelegate.h"
-
+#import "JSONKit.h"
 #import "ViewController.h"
+#import "OrderedDictionary.h"
+static NSString *sugarEndpoint = @"http://192.168.1.83:6300/sugarcrm/service/v4/rest.php";
+static NSString *session = nil;
+
+
+@interface AppDelegate ()
+-(id)login;
+-(NSString*)urlStringForParams:(NSMutableDictionary*)params;
+-(void)generateConfig;
+@end
 
 @implementation AppDelegate
-
 @synthesize window = _window;
 @synthesize viewController = _viewController;
 
@@ -22,8 +31,128 @@
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-    return YES;
+    if ((session =[[self login] objectForKey:@"id"])) {
+        NSLog(@"session: %@",session); 
+        [self generateConfig];
+    }
+    else{
+        NSLog(@"error loging in");
+    }
+    return YES;   
 }
+
+
+-(void)generateConfig{
+    
+    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    
+    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+    [urlParams setObject:@"get_available_modules" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    
+    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error = nil;  
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+    if (error) {
+        NSLog(@"Error Parsing Metadata");
+        return;
+    } 
+    id moduleResponse=[adata objectFromJSONData];
+    NSMutableDictionary* moduleKeyValuePairs=[[NSMutableDictionary alloc] init];
+    for(NSDictionary* module in [moduleResponse objectForKey:@"modules"] ){
+        
+        [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
+    }
+    NSLog(@"module list%@",moduleKeyValuePairs);
+    NSString *errorDescription=nil;
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"WebServicesMetaData.plist"];
+    NSDictionary *plistDict =[NSMutableDictionary dictionary];
+    [plistDict setValue:moduleKeyValuePairs forKey:@"Modules"];
+    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:plistDict
+                                                                   format:NSPropertyListXMLFormat_v1_0
+                                                         errorDescription:&errorDescription];
+    if(plistData) {
+        [plistData writeToFile:plistPath atomically:YES];
+    }
+    else {
+        NSLog(@"%@",errorDescription);
+    }
+}
+
+-(id)login{
+    
+    NSMutableDictionary *authDictionary=[[NSMutableDictionary alloc]init];
+    [authDictionary setObject:@"will" forKey:@"user_name"];
+    [authDictionary setObject:@"18218139eec55d83cf82679934e5cd75" forKey:@"password"];
+    
+    NSMutableDictionary* restDataDictionary=[[NSMutableDictionary alloc]init];
+    [restDataDictionary setObject:authDictionary forKey:@"user_auth"];
+    [restDataDictionary setObject:@"soap_test" forKey:@"application"];
+    
+    NSMutableDictionary* urlParams=[[NSMutableDictionary alloc] init];
+    [urlParams setObject:@"login" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    
+    
+    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    
+    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error=nil;  
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];     
+    
+    if (error) {
+        return nil;
+    }
+    else{
+        return [adata objectFromJSONData];;
+    }
+}
+
+
+-(NSString*)urlStringForParams:(NSMutableDictionary*)params{
+    NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
+    
+    bool is_first=YES;
+    for(id key in [params allKeys])
+    {
+        if(![[key description] isEqualToString:@"rest_data"]){   
+            
+            if (is_first) {
+                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"%@=%@",key,[params objectForKey:key]]];
+                is_first=NO;
+            }
+            else{
+                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"&%@=%@",key,[params objectForKey:key]]];
+            }
+        }
+        else{
+            if (is_first) {
+                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"%@=%@",key,[[params objectForKey:key]JSONString ]]];
+                is_first=NO;
+            }
+            else{
+                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"&%@=%@",key,[[params objectForKey:key]JSONString]]];
+            }
+            
+        }
+    }
+    NSLog(@"%@",urlString);
+    return urlString;
+} 
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
