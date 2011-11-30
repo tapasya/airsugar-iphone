@@ -17,5 +17,5 @@
 @property(strong,readonly)DataObjectMetadata *metadata;
 -(id)initWithMetadata:(DataObjectMetadata*)objectMetadata;
 -(id)objectForFieldName:(NSString*)fieldName;
--(BOOL)setObjectForFieldName:(NSString *)fieldName;
+-(BOOL)setObject:(id)anObject forFieldName:(NSString *)fieldName;
 @end

@@ -23,7 +23,7 @@ typedef enum ObjectFieldDataType
 
 @property(strong)NSString *name;
 @property(nonatomic)ObjectFieldDataType dataType;
-@property(nonatomic)BOOL sortable;
+@property(nonatomic)BOOL sortable;//to go in crm specific model
 @property(nonatomic)BOOL filterable;
 @property(nonatomic)BOOL editable;
 

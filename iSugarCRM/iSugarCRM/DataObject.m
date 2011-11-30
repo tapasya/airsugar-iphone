@@ -31,4 +31,16 @@
     }
     return NO;
 }
+
+-(NSString*)description
+{
+    NSMutableString *description = [[NSMutableString alloc] init];
+    [description appendString:metadata.objectClassIdentifier];
+    [description appendString:@" ***********\n"];
+    for(DataObjectField *field in metadata.fields)
+    {
+        [description appendString:[NSString stringWithFormat:@"%@ : %@ \n",field.name, [self objectForFieldName:field.name]]];
+    }
+    return description;
+}
 @end

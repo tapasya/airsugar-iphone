@@ -22,7 +22,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method;
-@synthesize responseKeyPaths;
+@synthesize pathToObjectsInResponse,responseKeyPaths;
 
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key
 {

@@ -19,7 +19,9 @@ typedef enum HTTPMethod{
 @property(strong)NSDictionary *urlParameters;
 @property(strong)NSDictionary *postParameters;
 @property(strong)NSDictionary *headers;
+@property(strong)NSString *pathToObjectsInResponse;
 @property(strong)NSDictionary *responseKeyPaths;
+
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key;
 -(void)setPostParam:(NSString*)postParam forKey:(NSString*)key;
 -(void)setUrlParam:(NSString*)urlParam forKey:(NSString*)key;
