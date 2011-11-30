@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B504E5714862E410037D75E /* DBMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B504E5614862E410037D75E /* DBMetadata.m */; };
 		3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D0147CF7BC007EF770 /* UIKit.framework */; };
 		3B5C97D3147CF7BC007EF770 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
 		3B5C97D5147CF7BC007EF770 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D4147CF7BC007EF770 /* CoreGraphics.framework */; };
@@ -26,6 +27,13 @@
 		3B5C9811147CF83E007EF770 /* WebserviceSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9810147CF83E007EF770 /* WebserviceSession.m */; };
 		3B5C9814147CF850007EF770 /* DBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9813147CF850007EF770 /* DBSession.m */; };
 		3B5C9817147CF85F007EF770 /* ViewSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9816147CF85F007EF770 /* ViewSession.m */; };
+		3B5C981E1484BE27007EF770 /* WebserviceMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */; };
+		3B5C98221484C2DA007EF770 /* SugarCRMMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98211484C2DA007EF770 /* SugarCRMMetadataStore.m */; };
+		3B5C98251484F086007EF770 /* DataObjectField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98241484F083007EF770 /* DataObjectField.m */; };
+		3B5C98281484F150007EF770 /* DataObjectMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98271484F14E007EF770 /* DataObjectMetadata.m */; };
+		3B5C982B1484F1E5007EF770 /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C982A1484F1E2007EF770 /* DataObject.m */; };
+		3B5C982D14850B2B007EF770 /* Beans.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C982C14850B2A007EF770 /* Beans.plist */; };
+		3B5C982F14850E6F007EF770 /* webserviceMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C982E14850E6B007EF770 /* webserviceMap.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B504E5514862E410037D75E /* DBMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMetadata.h; sourceTree = "<group>"; };
+		3B504E5614862E410037D75E /* DBMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMetadata.m; sourceTree = "<group>"; };
 		3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSugarCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5C97D0147CF7BC007EF770 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3B5C97D2147CF7BC007EF770 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -70,6 +80,18 @@
 		3B5C9813147CF850007EF770 /* DBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBSession.m; sourceTree = "<group>"; };
 		3B5C9815147CF85F007EF770 /* ViewSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewSession.h; sourceTree = "<group>"; };
 		3B5C9816147CF85F007EF770 /* ViewSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewSession.m; sourceTree = "<group>"; };
+		3B5C981C1484BE25007EF770 /* WebserviceMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceMetadata.h; sourceTree = "<group>"; };
+		3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebserviceMetadata.m; sourceTree = "<group>"; };
+		3B5C98201484C2D9007EF770 /* SugarCRMMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SugarCRMMetadataStore.h; sourceTree = "<group>"; };
+		3B5C98211484C2DA007EF770 /* SugarCRMMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SugarCRMMetadataStore.m; sourceTree = "<group>"; };
+		3B5C98231484F081007EF770 /* DataObjectField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataObjectField.h; sourceTree = "<group>"; };
+		3B5C98241484F083007EF770 /* DataObjectField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObjectField.m; sourceTree = "<group>"; };
+		3B5C98261484F14D007EF770 /* DataObjectMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataObjectMetadata.h; sourceTree = "<group>"; };
+		3B5C98271484F14E007EF770 /* DataObjectMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObjectMetadata.m; sourceTree = "<group>"; };
+		3B5C98291484F1E0007EF770 /* DataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataObject.h; sourceTree = "<group>"; };
+		3B5C982A1484F1E2007EF770 /* DataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObject.m; sourceTree = "<group>"; };
+		3B5C982C14850B2A007EF770 /* Beans.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Beans.plist; sourceTree = "<group>"; };
+		3B5C982E14850E6B007EF770 /* webserviceMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = webserviceMap.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +118,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B504E5114862CF30037D75E /* webservice */ = {
+			isa = PBXGroup;
+			children = (
+				3B5C980F147CF83D007EF770 /* WebserviceSession.h */,
+				3B5C9810147CF83E007EF770 /* WebserviceSession.m */,
+				3B5C9806147CF800007EF770 /* WebserviceMetadataStore.h */,
+				3B5C9807147CF800007EF770 /* WebserviceMetadataStore.m */,
+				3B5C981C1484BE25007EF770 /* WebserviceMetadata.h */,
+				3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */,
+			);
+			name = webservice;
+			sourceTree = "<group>";
+		};
+		3B504E5314862D170037D75E /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		3B504E5414862D1B0037D75E /* database */ = {
+			isa = PBXGroup;
+			children = (
+				3B5C9809147CF817007EF770 /* DBMetadataStore.h */,
+				3B5C980A147CF817007EF770 /* DBMetadataStore.m */,
+				3B5C9812147CF84F007EF770 /* DBSession.h */,
+				3B5C9813147CF850007EF770 /* DBSession.m */,
+				3B504E5514862E410037D75E /* DBMetadata.h */,
+				3B504E5614862E410037D75E /* DBMetadata.m */,
+			);
+			name = database;
+			sourceTree = "<group>";
+		};
 		3B5C97C1147CF7BC007EF770 = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +191,10 @@
 				3B5C97E3147CF7BD007EF770 /* ViewController.m */,
 				3B5C97E5147CF7BD007EF770 /* ViewController.xib */,
 				3B5C97D7147CF7BC007EF770 /* Supporting Files */,
+				3B5C98201484C2D9007EF770 /* SugarCRMMetadataStore.h */,
+				3B5C98211484C2DA007EF770 /* SugarCRMMetadataStore.m */,
+				3B5C982C14850B2A007EF770 /* Beans.plist */,
+				3B5C982E14850E6B007EF770 /* webserviceMap.plist */,
 			);
 			path = iSugarCRM;
 			sourceTree = "<group>";
@@ -173,18 +232,19 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				3B5C9806147CF800007EF770 /* WebserviceMetadataStore.h */,
-				3B5C9807147CF800007EF770 /* WebserviceMetadataStore.m */,
-				3B5C9809147CF817007EF770 /* DBMetadataStore.h */,
-				3B5C980A147CF817007EF770 /* DBMetadataStore.m */,
+				3B504E5414862D1B0037D75E /* database */,
+				3B504E5314862D170037D75E /* New Group */,
+				3B504E5114862CF30037D75E /* webservice */,
 				3B5C980C147CF829007EF770 /* ViewMetadataStore.h */,
 				3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */,
-				3B5C980F147CF83D007EF770 /* WebserviceSession.h */,
-				3B5C9810147CF83E007EF770 /* WebserviceSession.m */,
-				3B5C9812147CF84F007EF770 /* DBSession.h */,
-				3B5C9813147CF850007EF770 /* DBSession.m */,
 				3B5C9815147CF85F007EF770 /* ViewSession.h */,
 				3B5C9816147CF85F007EF770 /* ViewSession.m */,
+				3B5C98231484F081007EF770 /* DataObjectField.h */,
+				3B5C98241484F083007EF770 /* DataObjectField.m */,
+				3B5C98261484F14D007EF770 /* DataObjectMetadata.h */,
+				3B5C98271484F14E007EF770 /* DataObjectMetadata.m */,
+				3B5C98291484F1E0007EF770 /* DataObject.h */,
+				3B5C982A1484F1E2007EF770 /* DataObject.m */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -261,6 +321,8 @@
 			files = (
 				3B5C97DB147CF7BC007EF770 /* InfoPlist.strings in Resources */,
 				3B5C97E7147CF7BD007EF770 /* ViewController.xib in Resources */,
+				3B5C982D14850B2B007EF770 /* Beans.plist in Resources */,
+				3B5C982F14850E6F007EF770 /* webserviceMap.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +366,12 @@
 				3B5C9811147CF83E007EF770 /* WebserviceSession.m in Sources */,
 				3B5C9814147CF850007EF770 /* DBSession.m in Sources */,
 				3B5C9817147CF85F007EF770 /* ViewSession.m in Sources */,
+				3B5C981E1484BE27007EF770 /* WebserviceMetadata.m in Sources */,
+				3B5C98221484C2DA007EF770 /* SugarCRMMetadataStore.m in Sources */,
+				3B5C98251484F086007EF770 /* DataObjectField.m in Sources */,
+				3B5C98281484F150007EF770 /* DataObjectMetadata.m in Sources */,
+				3B5C982B1484F1E5007EF770 /* DataObject.m in Sources */,
+				3B504E5714862E410037D75E /* DBMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +541,7 @@
 				3B5C9801147CF7BD007EF770 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3B5C9802147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "iSugarCRMTests" */ = {
 			isa = XCConfigurationList;
@@ -481,6 +550,7 @@
 				3B5C9804147CF7BD007EF770 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

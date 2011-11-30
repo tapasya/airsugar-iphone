@@ -17,18 +17,13 @@
 @synthesize metadataStore;
 +(WebserviceSession*)sessionForModule:(NSString*)moduleId
 {
-    //for testing return the ws session for accounts moule
-    WebserviceSession *session = [[WebserviceSession alloc] init];
-    WebserviceMetadataStore *metadataStore = [WebserviceMetadataStore storeForModule:moduleId];
-    session.metadataStore = metadataStore;
-    return session;
+
 }
 
 
 -(void)startLoadingList
 {
-    NSURLRequest *listRequest = [metadataStore listRequest];
-    //load request and inform the delegate when done
+
     
 }
 @end

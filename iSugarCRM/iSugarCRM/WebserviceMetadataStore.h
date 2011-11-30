@@ -7,25 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WebserviceMetadata.h"
 
 @interface WebserviceMetadataStore : NSObject
 {
-    
+    @private
+    NSDictionary *keyedMetadata;
 }
-@property(strong)NSString *moduleName;
 
-+(WebserviceMetadataStore*)storeForModule:(NSString*)moduleId;
 
--(NSURLRequest*)listRequest;
--(NSURLRequest*)detailRequest:(NSString*)beanId;
+-(WebserviceMetadata*)metaDataForKey:(NSString*)key;
+-(void)setMetaData:(WebserviceMetadata*)metadata ForKey:(NSString*)key;
 
-/*!
- @brief     returns a map  object keys and corresponding keyPath in list response dictionary
- */
--(NSDictionary*)listResponseKeyPaths;
-
-/*!
- @brief     returns a map  object keys and corresponding keyPath in detail response dictionary
- */
--(NSDictionary*)detailResponseKeyPaths;
 @end

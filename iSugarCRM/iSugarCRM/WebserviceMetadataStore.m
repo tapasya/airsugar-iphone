@@ -11,35 +11,25 @@
 //Temprorary for testing skeleton
 static NSString *sugarEndpoint = @"192.168.3.107:8888/sugarce6/service/v4/rest.php";
 static NSString *session = @"addSomething";
-
 @implementation WebserviceMetadataStore
-+(WebserviceMetadataStore*)storeForModule:(NSString*)moduleId
+
+
+-(id)init
 {
-        //for testing create a store for account module
-    WebserviceMetadataStore *metadataStore = [[WebserviceMetadataStore alloc] init];
+    self = [super init];
+    keyedMetadata = [[NSDictionary alloc] init];
+    return self;
     
-    metadataStore.moduleName = @"Accounts";
-    return metadataStore;
+}
+-(WebserviceMetadata*)metaDataForKey:(NSString*)key
+{
+    return [[keyedMetadata objectForKey:key] copy];
 }
 
--(NSURLRequest*)listRequest{
-    
-}
--(NSURLRequest*)detailRequest:(NSString*)beanId{
-    
-}
-
-/*!
- @brief     returns a map  object keys and corresponding keyPath in list response dictionary
- */
--(NSDictionary*)listResponseKeyPaths{
-    
-}
-
-/*!
- @brief     returns a map  object keys and corresponding keyPath in detail response dictionary
- */
--(NSDictionary*)detailResponseKeyPaths{
-    
+-(void)setMetaData:(WebserviceMetadata*)metadata ForKey:(NSString*)key
+{
+    NSMutableDictionary *copyOfKeyedMetadata = [keyedMetadata mutableCopy];
+    [copyOfKeyedMetadata setObject:metadata forKey:key];
+    keyedMetadata = copyOfKeyedMetadata;
 }
 @end

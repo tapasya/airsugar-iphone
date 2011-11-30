@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Accounts</string>
+		<key>listUrl</key>
+		<string></string>
+		<key>fields</key>
+		<dict>
+			<key>id</key>
+			<string>id</string>
+			<key>name</key>
+			<string>account_name</string>
+			<key>date_created</key>
+			<string>date_created</string>
+			<key>date_modified</key>
+			<string>last_modified_date</string>
+		</dict>
+	</dict>
+</array>
+</plist>
