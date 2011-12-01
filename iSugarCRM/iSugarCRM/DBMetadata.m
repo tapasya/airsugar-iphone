@@ -9,5 +9,5 @@
 #import "DBMetadata.h"
 
 @implementation DBMetadata
-
+@synthesize tableName,columnNames,column_objectField;
 @end

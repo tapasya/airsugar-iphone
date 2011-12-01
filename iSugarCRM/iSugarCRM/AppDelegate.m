@@ -10,14 +10,16 @@
 #import "JSONKit.h"
 #import "ViewController.h"
 #import "OrderedDictionary.h"
-static NSString *sugarEndpoint = @"http://192.168.1.83:6300/sugarcrm/service/v4/rest.php";
-static NSString *session = nil;
+#import "SugarCRMMetadataStore.h"
+#import "WebserviceSession.h"
+ NSString * session=nil;
 
 
 @interface AppDelegate ()
 -(id)login;
 -(NSString*)urlStringForParams:(NSMutableDictionary*)params;
 -(void)generateConfig;
+-(void)saveConfig:(NSMutableDictionary*)plistDictionary;
 @end
 
 @implementation AppDelegate
@@ -27,17 +29,23 @@ static NSString *session = nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     // Override point for customization after application launch.
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-    if ((session =[[self login] objectForKey:@"id"])) {
-        NSLog(@"session: %@",session); 
-        [self generateConfig];
-    }
-    else{
-        NSLog(@"error loging in");
-    }
+    
+    if (!(session =[[self login] objectForKey:@"id"])) {
+     NSLog(@"error loging in");     
+        return NO;
+    } 
+    
+    NSLog(@"session: %@",session); 
+    [self generateConfig];
+    SugarCRMMetadataStore *metaDataStore =  [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *wss=[WebserviceSession sessionWithMatadata:[metaDataStore listServiceMetadataForModule:[NSString stringWithFormat:@"list-%@",@"Accounts"]]]; 
+    wss.startLoading;
+    
     return YES;   
 }
 
@@ -70,20 +78,7 @@ static NSString *session = nil;
         [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
     }
     NSLog(@"module list%@",moduleKeyValuePairs);
-    NSString *errorDescription=nil;
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"WebServicesMetaData.plist"];
-    NSDictionary *plistDict =[NSMutableDictionary dictionary];
-    [plistDict setValue:moduleKeyValuePairs forKey:@"Modules"];
-    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:plistDict
-                                                                   format:NSPropertyListXMLFormat_v1_0
-                                                         errorDescription:&errorDescription];
-    if(plistData) {
-        [plistData writeToFile:plistPath atomically:YES];
-    }
-    else {
-        NSLog(@"%@",errorDescription);
-    }
+    [self performSelectorInBackground:@selector(configForModules:) withObject:moduleKeyValuePairs];
 }
 
 -(id)login{
@@ -103,9 +98,9 @@ static NSString *session = nil;
     [urlParams setObject:restDataDictionary forKey:@"rest_data"];
     
     
-    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     
-    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];  
     NSURLResponse* response = [[NSURLResponse alloc] init]; 
     NSError* error=nil;  
@@ -117,6 +112,65 @@ static NSString *session = nil;
     else{
         return [adata objectFromJSONData];;
     }
+}
+
+-(void)configForModules:(NSMutableDictionary*)moduleKeyValuePairs{
+    
+    NSMutableDictionary* restDataDictionary = [[OrderedDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    
+    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+    [urlParams setValue:@"get_module_fields" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    
+    NSMutableDictionary* plistDictionary = [[NSMutableDictionary alloc] init]; //plist dictionary
+    [plistDictionary setValue:moduleKeyValuePairs forKey:@"Modules"];
+    
+    NSMutableDictionary* moduleFields = [[NSMutableDictionary alloc] init];
+    
+    for(NSString *module in [moduleKeyValuePairs allKeys] ){
+        [restDataDictionary setValue:module  forKey:@"module_name"];
+        NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+        [request setHTTPMethod:@"POST"];  
+        NSURLResponse* response = [[NSURLResponse alloc] init]; 
+        NSError* error = nil;  
+        NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+        if (error) {
+            NSLog(@"Error Parsing Metadata");
+            return;
+        } 
+        id moduleFieldsResponse = [adata objectFromJSONData];
+        if ([[[moduleFieldsResponse valueForKey:@"module_fields"] class] isSubclassOfClass:[NSDictionary class]]) {
+            
+            [moduleFields setValue:[[moduleFieldsResponse valueForKey:@"module_fields"] allKeys] forKey:module];
+        }
+    }
+    NSLog(@"module fields %@",moduleFields);
+    [plistDictionary setValue:moduleFields forKey:@"ModuleFields"];
+    [self saveConfig:plistDictionary];
+    
+    
+}
+
+-(void)saveConfig:(NSMutableDictionary*)plistDictionary{
+    
+    NSString *errorDescription=nil;
+    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"];
+    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:plistDictionary
+                                                                   format:NSPropertyListXMLFormat_v1_0
+                                                         errorDescription:&errorDescription];
+    if(plistData) {
+        [plistData writeToFile:plistPath atomically:YES];
+    }
+    else {
+        NSLog(@"%@",errorDescription);
+    }
+    
+    
 }
 
 

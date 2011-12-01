@@ -17,6 +17,6 @@
 
 
 -(id)metaDataForKey:(NSString*)key;
--(void)setMetaData:(id)metadata ForKey:(NSString*)key;
+-(void)setMetaData:(id)metadata forKey:(NSString*)key;
 
 @end

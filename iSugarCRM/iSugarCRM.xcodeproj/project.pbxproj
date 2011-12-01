@@ -146,6 +146,10 @@
 		3B504E5314862D170037D75E /* view */ = {
 			isa = PBXGroup;
 			children = (
+				3B5C980C147CF829007EF770 /* ViewMetadataStore.h */,
+				3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */,
+				3B5C9815147CF85F007EF770 /* ViewSession.h */,
+				3B5C9816147CF85F007EF770 /* ViewSession.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -270,10 +274,6 @@
 				3B504E5414862D1B0037D75E /* database */,
 				3B504E5314862D170037D75E /* view */,
 				3B504E5114862CF30037D75E /* webservice */,
-				3B5C980C147CF829007EF770 /* ViewMetadataStore.h */,
-				3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */,
-				3B5C9815147CF85F007EF770 /* ViewSession.h */,
-				3B5C9816147CF85F007EF770 /* ViewSession.m */,
 			);
 			name = source;
 			sourceTree = "<group>";
