@@ -7,6 +7,7 @@
 //
 
 #import "WebserviceMetadata.h"
+#import "OrderedDictionary.h"
 static inline NSString* httpMethodAsString(HTTPMethod method){
     switch (method) {
         case HTTPMethodGet:
@@ -22,8 +23,15 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method;
-@synthesize pathToObjectsInResponse,responseKeyPaths;
-
+@synthesize pathToObjectsInResponse,responseKeyPathMap,objectMetadata;
+-(id)init{
+    if (self=[super init]) {
+        headers=[[OrderedDictionary alloc]init];
+        urlParameters=[[OrderedDictionary alloc]init];
+        postParameters=[[OrderedDictionary alloc]init];
+    }
+    return  self;
+}
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key
 {
     NSMutableDictionary *headerCopy =  [headers mutableCopy];
@@ -60,9 +68,9 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
             [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParameters valueForKey:key]]];
         }
     }
-    
+    NSLog(@"url string: %@",urlWithParams);
     //set url
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlWithParams]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[urlWithParams stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
     
     //set http method
     [request setHTTPMethod:httpMethodAsString(method)];
@@ -71,18 +79,17 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     if(method == HTTPMethodPOST){
         NSMutableString *postData = [[NSMutableString alloc] init];
         index = 0;
-        for(NSString *key in [postParameters allKeys])
-        {
-            if(index++ == 0)
-            {
-                [postData appendString:[NSString stringWithFormat:@"%@=%@",key,[postParameters valueForKey:key]]];
+        for(NSString *key in [postParameters allKeys]){  
+                if(index++ == 0)
+                {
+                    [postData appendString:[NSString stringWithFormat:@"%@=%@",key,[postParameters valueForKey:key]]];
+                }
+                else
+                {
+                    [postData appendString:[NSString stringWithFormat:@"&%@=%@",key,[postParameters valueForKey:key]]];
+                }
             }
-            else
-            {
-                [postData appendString:[NSString stringWithFormat:@"&%@=%@",key,[postParameters valueForKey:key]]];
-            }
-            
-        }
+        
         if (postData.length > 0) {
             [request setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
         }
@@ -105,6 +112,10 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     copy.urlParameters = urlParameters;
     copy.headers = headers;
     copy.postParameters = postParameters;
+    copy.pathToObjectsInResponse = pathToObjectsInResponse;
+    copy.responseKeyPathMap=responseKeyPathMap;
+    copy.objectMetadata=objectMetadata;
+    copy.method=method;
     return copy;
 }
 

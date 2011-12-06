@@ -9,5 +9,18 @@
 #import "DBMetadata.h"
 
 @implementation DBMetadata
-@synthesize tableName,columnNames,column_objectField;
+@synthesize tableName,columnNames,column_objectFieldMap,objectMetadata,column_columnIdxInTableMap;
+
+
+- (id)copyWithZone:(NSZone *)zone{
+    id copy = [[[self class] allocWithZone:zone] init];
+    [copy setTableName:[self tableName]];
+    [copy setColumnNames:[self columnNames]];
+    [copy setColumn_objectFieldMap:[self column_objectFieldMap]];
+    [copy setObjectMetadata:[self objectMetadata]];
+    [copy setColumn_columnIdxInTableMap:[self column_columnIdxInTableMap]]; 
+    
+    return copy;
+}
+
 @end

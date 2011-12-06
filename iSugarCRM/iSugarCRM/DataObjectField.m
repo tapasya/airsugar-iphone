@@ -37,4 +37,10 @@
     }
     return NO;
 }
+- (id)copyWithZone:(NSZone *)zone{
+    id copy = [[[self class] allocWithZone:zone] init];
+    [copy setName:[self name]];
+    [copy setDataType:[self dataType]];
+    return copy;
+}
 @end

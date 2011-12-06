@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "WebserviceMetadata.h"
-
 @protocol WebserviceSessionDelegate;
 
 @interface WebserviceSession : NSObject
@@ -17,6 +16,8 @@
 }
 @property(weak)id<WebserviceSessionDelegate> delegate;
 @property(strong)WebserviceMetadata *metadata;
+
+
 +(WebserviceSession*)sessionWithMatadata:(WebserviceMetadata*)metadata;
 -(void)startLoading;
 @end

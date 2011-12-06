@@ -8,9 +8,6 @@
 
 #import "MetadataStore.h"
 
-//Temprorary for testing skeleton
-//static NSString *sugarEndpoint = @"192.168.3.107:8888/sugarce6/service/v4/rest.php";
-//static NSString *session = @"addSomething";
 @implementation MetadataStore
 
 
@@ -18,6 +15,7 @@
 {
     self = [super init];
     keyedMetadata = [[NSDictionary alloc] init];
+    keyedDbMetadata = [[NSDictionary alloc] init];
     return self;
     
 }
@@ -32,4 +30,16 @@
     [copyOfKeyedMetadata setObject:metadata forKey:key];
     keyedMetadata = copyOfKeyedMetadata;
 }
+-(id)dbMetaDataForKey:(NSString*)key
+{
+    return [[keyedDbMetadata objectForKey:key] copy];
+}
+
+-(void)setDBMetaData:(id)metadata forKey:(NSString*)key
+{
+    NSMutableDictionary *copyOfKeyedDBMetadata = [keyedDbMetadata mutableCopy];
+    [copyOfKeyedDBMetadata setObject:metadata forKey:key];
+    keyedDbMetadata = copyOfKeyedDBMetadata;
+}
+
 @end

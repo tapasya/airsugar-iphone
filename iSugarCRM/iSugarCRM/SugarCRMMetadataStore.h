@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "MetadataStore.h"
+#import "WebserviceMetadata.h"
+#import "DBMetadata.h"
 @interface SugarCRMMetadataStore : MetadataStore
 
 
 +(SugarCRMMetadataStore*)sharedInstance;
 -(WebserviceMetadata*)listServiceMetadataForModule:(NSString*)moduleId;
 -(WebserviceMetadata*)detailServiceMetadataForModule:(NSString*)moduleId;
+-(DBMetadata*)dbMetadataForModule:(NSString*)moduleId;
+
 @end

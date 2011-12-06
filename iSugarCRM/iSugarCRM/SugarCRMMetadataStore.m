@@ -8,6 +8,11 @@
 
 #import "SugarCRMMetadataStore.h"
 #import "DataObjectField.h"
+#import "DataObjectMetadata.h"
+#import "WebserviceMetadata.h"
+#import "DBMetadata.h"
+#import "SqliteObj.h"
+
 #import "OrderedDictionary.h"
 #import "JSONKit.h"
 static SugarCRMMetadataStore *sharedInstance = nil;
@@ -17,6 +22,11 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 -(NSArray*)fieldsForModule:(NSString*)moduleName;
 -(NSString*)webserviceResponseKeyPathForFieldName:(NSString*)name moduleName:(NSString*)moduleName;
 -(void)initializeMetadataForModuleName:(NSString*)moduleName;
+
+-(void)initializeWebserviceMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData;
+-(void)initializeDbMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData;
+-(void)initializeViewMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData;
+
 @end
 
 @implementation SugarCRMMetadataStore
@@ -25,7 +35,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 {
     if (sharedInstance == nil) {
         sharedInstance = [[SugarCRMMetadataStore alloc] initPrivate];
-
+        
         NSMutableDictionary *modules;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL success;
@@ -47,11 +57,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         } else {
             NSLog(@"Config file doesnt exist");
         }
-        
-        for(NSString *module in modules){
+        NSLog(@"initializing metadata for modules %@",[[modules allKeys]description]);
+        for(NSString *module in [modules allKeys]){
             [sharedInstance initializeMetadataForModuleName:module];
         }
     }
+    //NSLog(@"path to key response %@",[sharedInstance listServiceMetadataForModule:@"Accounts"].pathToObjectsInResponse);
     return sharedInstance;
 }
 
@@ -81,7 +92,19 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 #pragma mark- private methods
 -(void)initializeMetadataForModuleName:(NSString*)moduleName
-{
+{  
+    DataObjectMetadata *dataObjectMetadata = [[DataObjectMetadata alloc] init];
+    NSMutableSet *fields=[[NSMutableSet alloc] initWithArray:[self fieldsForModule:moduleName]];
+    dataObjectMetadata.fields=fields;
+    dataObjectMetadata.objectClassIdentifier=@"";
+     //save data object metadata in plist??
+    [self initializeWebserviceMetadataForModule:moduleName withObjectMetaData:dataObjectMetadata];
+    [self initializeDbMetadataForModule:moduleName withObjectMetaData:dataObjectMetadata];
+    [self initializeViewMetadataForModule:moduleName withObjectMetaData:dataObjectMetadata];
+}
+
+
+-(void)initializeWebserviceMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData{
     WebserviceMetadata *listServiceMetadata = [[WebserviceMetadata alloc] init];
     listServiceMetadata.endpoint = sugarEndpoint;
     
@@ -95,18 +118,52 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     [listServiceMetadata setUrlParam:@"JSON" forKey:@"response_type"];
     [listServiceMetadata setUrlParam:restDataString forKey:@"rest_data"];
     
-    NSMutableDictionary *responseKeyPaths = [[NSMutableDictionary alloc] init];
-    
-    for(DataObjectField *field in [self fieldsForModule:moduleName])
+    NSMutableDictionary *responseKeyPathMap = [[NSMutableDictionary alloc] init];
+
+    for(DataObjectField *field in [[dataObjectMetaData fields]allObjects])
     {
-        [responseKeyPaths setObject:[self webserviceResponseKeyPathForFieldName:field.name moduleName:moduleName] forKey:field];
+        [responseKeyPathMap setObject:[self webserviceResponseKeyPathForFieldName:field.name moduleName:moduleName] forKey:field];
+        
     }
-    listServiceMetadata.responseKeyPaths=responseKeyPaths;
-    
+    listServiceMetadata.responseKeyPathMap = responseKeyPathMap;
+    listServiceMetadata.pathToObjectsInResponse = @"entry_list";
     [self setMetaData:listServiceMetadata forKey:[NSString stringWithFormat:@"list-%@",moduleName]];
+    listServiceMetadata.objectMetadata=dataObjectMetaData;
     
+       ///save webservicemetadata in plist????
+}
+
+-(void)initializeDbMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData
+{
+    DBMetadata* dbMetadata = [[DBMetadata alloc] init];
+    dbMetadata.objectMetadata = dataObjectMetaData;
+    dbMetadata.tableName = moduleName;
+    NSMutableSet *fieldsName=[[NSMutableSet alloc] init];
+    NSMutableDictionary *col_fieldMap = [[NSMutableDictionary alloc] init];
+    for(DataObjectField *field in [dataObjectMetaData.fields allObjects])
+    {   [col_fieldMap setObject:[field.name lowercaseString] forKey:field.name];
+        [fieldsName addObject:[field.name lowercaseString]];
+    }
+    dbMetadata.columnNames = fieldsName;
+    dbMetadata.column_objectFieldMap = col_fieldMap;
+    dbMetadata.column_columnIdxInTableMap= [[NSMutableDictionary alloc] init];
+    [self setDBMetaData:dbMetadata forKey:moduleName];
     
-    ///save webservicemetadata in plist????
+}
+-(DBMetadata*)dbMetadataForModule:(NSString*)moduleId
+{
+   DBMetadata* metadata=[self dbMetaDataForKey:moduleId];
+  //  NSLog(@"dbmetadata fields: %@",[metadata.columnNames allObjects]);
+    for(DataObjectField * field in [metadata.objectMetadata.fields allObjects]){
+  //NSLog(@"dataobject fields: %@",field.name);
+    }
+    return metadata;
+}
+
+
+-(void)initializeViewMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData
+{
+    
 }
 
 -(NSArray*)fieldsForModule:(NSString *)moduleName
@@ -135,12 +192,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         NSMutableArray* dataObjectFieldArray=[[NSMutableArray alloc] init];
         
         for (NSString* field in moduleFields) {
-            DataObjectField* dof=[[DataObjectField alloc] init];
-            dof.name=field;
-            dof.dataType=ObjectFieldDataTypeString;
-            dof.sortable=NO;
-            dof.filterable=NO;
-            dof.editable=NO;
+            DataObjectField* dof=[DataObjectField fieldWithName:field dataType:ObjectFieldDataTypeString];
             [dataObjectFieldArray addObject:dof];
         }
         return dataObjectFieldArray;// should be saved?
@@ -153,6 +205,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 -(NSString*)webserviceResponseKeyPathForFieldName:(NSString*)name moduleName:(NSString*)moduleName
 {
-    return [NSString stringWithFormat:@"module_fields.%@",name];
+    return [NSString stringWithFormat:@"name_value_list.%@.value",name];
 }
+
 @end

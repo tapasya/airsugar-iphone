@@ -12,6 +12,8 @@
 #import "OrderedDictionary.h"
 #import "SugarCRMMetadataStore.h"
 #import "WebserviceSession.h"
+#import "DBSession.h"
+#import "DataObject.h"
  NSString * session=nil;
 
 
@@ -25,6 +27,49 @@
 @implementation AppDelegate
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+#pragma mark DbSessionSync delegate methods
+
+-(void)syncFailedWithError:(NSError*)error{
+
+}
+
+-(void)syncSuccessful{
+     SugarCRMMetadataStore * sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    DBSession *dbs = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:@"Accounts"]];
+    dbs.delegate=self;
+    dbs.syncDelegate=self;
+ [dbs startLoading];
+}
+
+#pragma mark dbSessionLoad delegate methods
+-(void)downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing{
+    for(DataObject *dobj in moduleList){
+        NSLog(@"module list%@",dobj);
+    }
+}
+
+-(void)listDownloadFailedWithError:(NSError*)error{
+
+}
+
+#pragma mark Webservice session delegate methods
+
+-(void)sessionWillStartLoading:(WebserviceSession*)session{
+    NSLog(@"here");
+}
+-(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response{
+    SugarCRMMetadataStore * sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    DBSession *dbs = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:@"Accounts"]];
+    dbs.delegate=self;
+    dbs.syncDelegate=self;
+    [dbs updateDBWithDataObjects:response];
+ //   NSLog(@"Response data objects: %@",response);
+   
+}
+-(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error{
+
+    NSLog(@"failed with error: %@",[error localizedDescription]);
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,28 +84,41 @@
      NSLog(@"error loging in");     
         return NO;
     } 
-    
-    NSLog(@"session: %@",session); 
+    NSLog(@"session: %@",session);
     [self generateConfig];
-    SugarCRMMetadataStore *metaDataStore =  [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *wss=[WebserviceSession sessionWithMatadata:[metaDataStore listServiceMetadataForModule:[NSString stringWithFormat:@"list-%@",@"Accounts"]]]; 
-    wss.startLoading;
     
+    SugarCRMMetadataStore *sugarMetaDataStore =  [SugarCRMMetadataStore sharedInstance];
+    
+    WebserviceSession *wss = [WebserviceSession sessionWithMatadata:[sugarMetaDataStore listServiceMetadataForModule:@"Accounts"]]; 
+    wss.delegate=self;
+    [wss startLoading];
+    /*
+    DBSession *dbs = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:@"Accounts"]];
+    dbs.delegate = self;
+    dbs.syncDelegate = self;
+    */
     return YES;   
 }
 
-
--(void)generateConfig{
-    
+-(void)generateConfig
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL success;
+    NSString *rootPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+    NSString* plistPath;
+    if ([[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil]) {
+        plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"]; 
+    } 
+    success = [fileManager fileExistsAtPath:plistPath];
+    //check if plist already exist
+    if(!success){
     NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
     [restDataDictionary setObject:session forKey:@"session"];
-    
     NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
     [urlParams setObject:@"get_available_modules" forKey:@"method"];
     [urlParams setObject:@"JSON" forKey:@"input_type"];
     [urlParams setObject:@"JSON" forKey:@"response_type"];
     [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    
     NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];  
@@ -79,8 +137,8 @@
     }
     NSLog(@"module list%@",moduleKeyValuePairs);
     [self performSelectorInBackground:@selector(configForModules:) withObject:moduleKeyValuePairs];
+    }
 }
-
 -(id)login{
     
     NSMutableDictionary *authDictionary=[[NSMutableDictionary alloc]init];

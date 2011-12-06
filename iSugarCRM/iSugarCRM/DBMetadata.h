@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "DataObjectMetadata.h"
 @interface DBMetadata : NSObject
 @property(strong)NSString *tableName;
 @property(strong)NSSet  *columnNames; //everything is a varchar for the timebeing
-@property(strong)NSDictionary *column_objectField;
+@property(strong)NSDictionary *column_objectFieldMap; 
+@property(strong)DataObjectMetadata *objectMetadata;
+@property(strong)NSDictionary *column_columnIdxInTableMap;
 @end

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD9F491148D0A8900446A5F /* libsqlite3.dylib */; };
+		2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */; };
+		2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */; };
 		3B504E5714862E410037D75E /* DBMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B504E5614862E410037D75E /* DBMetadata.m */; };
 		3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D0147CF7BC007EF770 /* UIKit.framework */; };
 		3B5C97D3147CF7BC007EF770 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
@@ -52,6 +55,10 @@
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2F6C469F148676A300865C25 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		2FD9F491148D0A8900446A5F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		2FD9F4B7148D0DE900446A5F /* SqliteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteObj.h; sourceTree = "<group>"; };
+		2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqliteObj.m; sourceTree = "<group>"; };
+		2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = CRMDatabase.db; sourceTree = "<group>"; };
 		3B504E5514862E410037D75E /* DBMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMetadata.h; sourceTree = "<group>"; };
 		3B504E5614862E410037D75E /* DBMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMetadata.m; sourceTree = "<group>"; };
 		3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSugarCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */,
 				3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */,
 				3B5C97D3147CF7BC007EF770 /* Foundation.framework in Frameworks */,
 				3B5C97D5147CF7BC007EF770 /* CoreGraphics.framework in Frameworks */,
@@ -124,6 +132,8 @@
 		2F6C46A3148676A700865C25 /* Utitlity */ = {
 			isa = PBXGroup;
 			children = (
+				2FD9F4B7148D0DE900446A5F /* SqliteObj.h */,
+				2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */,
 				2F6C469C148676A300865C25 /* OrderedDictionary.h */,
 				2F6C469D148676A300865C25 /* OrderedDictionary.m */,
 				2F6C469E148676A300865C25 /* JSONKit.h */,
@@ -209,6 +219,7 @@
 		3B5C97CF147CF7BC007EF770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FD9F491148D0A8900446A5F /* libsqlite3.dylib */,
 				3B5C97D0147CF7BC007EF770 /* UIKit.framework */,
 				3B5C97D2147CF7BC007EF770 /* Foundation.framework */,
 				3B5C97D4147CF7BC007EF770 /* CoreGraphics.framework */,
@@ -238,6 +249,7 @@
 		3B5C97D7147CF7BC007EF770 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */,
 				3B5C97D8147CF7BC007EF770 /* iSugarCRM-Info.plist */,
 				3B5C97D9147CF7BC007EF770 /* InfoPlist.strings */,
 				3B5C97DC147CF7BC007EF770 /* main.m */,
@@ -352,6 +364,7 @@
 				3B5C97E7147CF7BD007EF770 /* ViewController.xib in Resources */,
 				3B5C982D14850B2B007EF770 /* Beans.plist in Resources */,
 				3B5C982F14850E6F007EF770 /* webserviceMap.plist in Resources */,
+				2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +415,7 @@
 				3B504E5714862E410037D75E /* DBMetadata.m in Sources */,
 				2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */,
 				2F6C46A1148676A400865C25 /* JSONKit.m in Sources */,
+				2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
