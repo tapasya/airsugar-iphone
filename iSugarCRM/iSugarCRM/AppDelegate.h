@@ -13,7 +13,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WebserviceSessionDelegate,DBLoadSessionDelegate,DBSyncSessionDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) ViewController *viewController;
 
 @end

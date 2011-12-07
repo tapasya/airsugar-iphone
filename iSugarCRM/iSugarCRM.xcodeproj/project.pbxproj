@@ -9,9 +9,13 @@
 /* Begin PBXBuildFile section */
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3B3E6276148E2F8A002BAE48 /* ListViewMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */; };
+		3B3E627A148E32AE002BAE48 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6279148E32AE002BAE48 /* ListViewController.m */; };
+		3B3E627E148E35D9002BAE48 /* DetailViewMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E627D148E35D9002BAE48 /* DetailViewMetadata.m */; };
 		2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD9F491148D0A8900446A5F /* libsqlite3.dylib */; };
 		2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */; };
 		2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */; };
+
 		3B504E5714862E410037D75E /* DBMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B504E5614862E410037D75E /* DBMetadata.m */; };
 		3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D0147CF7BC007EF770 /* UIKit.framework */; };
 		3B5C97D3147CF7BC007EF770 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
@@ -55,10 +59,17 @@
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2F6C469F148676A300865C25 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		3B3E6274148E2F8A002BAE48 /* ListViewMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewMetadata.h; sourceTree = "<group>"; };
+		3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewMetadata.m; sourceTree = "<group>"; };
+		3B3E6278148E32AE002BAE48 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		3B3E6279148E32AE002BAE48 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		3B3E627C148E35D8002BAE48 /* DetailViewMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewMetadata.h; sourceTree = "<group>"; };
+		3B3E627D148E35D9002BAE48 /* DetailViewMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewMetadata.m; sourceTree = "<group>"; };
 		2FD9F491148D0A8900446A5F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2FD9F4B7148D0DE900446A5F /* SqliteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteObj.h; sourceTree = "<group>"; };
 		2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqliteObj.m; sourceTree = "<group>"; };
 		2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = CRMDatabase.db; sourceTree = "<group>"; };
+
 		3B504E5514862E410037D75E /* DBMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMetadata.h; sourceTree = "<group>"; };
 		3B504E5614862E410037D75E /* DBMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMetadata.m; sourceTree = "<group>"; };
 		3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSugarCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +153,22 @@
 			name = Utitlity;
 			sourceTree = "<group>";
 		};
+		3B3E6272148E1B98002BAE48 /* sugar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = sugar;
+			sourceTree = "<group>";
+		};
+		3B3E6277148E3288002BAE48 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3B3E6278148E32AE002BAE48 /* ListViewController.h */,
+				3B3E6279148E32AE002BAE48 /* ListViewController.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		3B504E5114862CF30037D75E /* webservice */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +187,10 @@
 				3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */,
 				3B5C9815147CF85F007EF770 /* ViewSession.h */,
 				3B5C9816147CF85F007EF770 /* ViewSession.m */,
+				3B3E6274148E2F8A002BAE48 /* ListViewMetadata.h */,
+				3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */,
+				3B3E627C148E35D8002BAE48 /* DetailViewMetadata.h */,
+				3B3E627D148E35D9002BAE48 /* DetailViewMetadata.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -280,6 +311,8 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				3B3E6277148E3288002BAE48 /* UI */,
+				3B3E6272148E1B98002BAE48 /* sugar */,
 				2F6C46A3148676A700865C25 /* Utitlity */,
 				3B504E59148631500037D75E /* Model */,
 				3B504E58148630AE0037D75E /* metadata */,
@@ -415,7 +448,13 @@
 				3B504E5714862E410037D75E /* DBMetadata.m in Sources */,
 				2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */,
 				2F6C46A1148676A400865C25 /* JSONKit.m in Sources */,
+
+				3B3E6276148E2F8A002BAE48 /* ListViewMetadata.m in Sources */,
+				3B3E627A148E32AE002BAE48 /* ListViewController.m in Sources */,
+				3B3E627E148E35D9002BAE48 /* DetailViewMetadata.m in Sources */,
+
 				2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

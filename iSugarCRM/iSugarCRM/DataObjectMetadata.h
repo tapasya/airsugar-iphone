@@ -12,5 +12,8 @@
 @property(strong)NSString *objectClassIdentifier;//???
 @property(strong)NSSet *fields;
 
+
 -(BOOL)hasFieldWithName:(NSString*)fieldName;
+-(NSDictionary*)toDictionary;
++(DataObjectMetadata*)objectFromDictionary:(NSDictionary*)dictionary;
 @end

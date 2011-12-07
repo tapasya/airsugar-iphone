@@ -19,13 +19,15 @@ typedef enum ObjectFieldDataType
 @interface DataObjectField : NSObject
 
 +(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type;
-
+-(NSDictionary*)toDictionary;
++(DataObjectField*)objectFromDictionary:(NSDictionary*)dictionary;
 
 @property(strong)NSString *name;
 @property(nonatomic)ObjectFieldDataType dataType;
 @property(nonatomic)BOOL sortable;//to go in crm specific model
 @property(nonatomic)BOOL filterable;
 @property(nonatomic)BOOL editable;
+@property(strong)NSString *label;
 
 
 
