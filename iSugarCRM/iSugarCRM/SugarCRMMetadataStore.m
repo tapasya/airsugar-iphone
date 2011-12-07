@@ -141,8 +141,8 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     NSMutableSet *fieldsName=[[NSMutableSet alloc] init];
     NSMutableDictionary *col_fieldMap = [[NSMutableDictionary alloc] init];
     for(DataObjectField *field in [dataObjectMetaData.fields allObjects])
-    {   [col_fieldMap setObject:[field.name lowercaseString] forKey:field.name];
-        [fieldsName addObject:[field.name lowercaseString]];
+    {   [col_fieldMap setObject:field.name forKey:field.name];
+        [fieldsName addObject:[col_fieldMap objectForKey:field.name]];
     }
     dbMetadata.columnNames = fieldsName;
     dbMetadata.column_objectFieldMap = col_fieldMap;

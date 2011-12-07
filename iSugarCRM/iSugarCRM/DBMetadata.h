@@ -11,7 +11,7 @@
 @interface DBMetadata : NSObject
 @property(strong)NSString *tableName;
 @property(strong)NSSet  *columnNames; //everything is a varchar for the timebeing
-@property(strong)NSDictionary *column_objectFieldMap; 
+@property(strong)NSDictionary *column_objectFieldMap; //objectField_columnName map also required
 @property(strong)DataObjectMetadata *objectMetadata;
 
 @end

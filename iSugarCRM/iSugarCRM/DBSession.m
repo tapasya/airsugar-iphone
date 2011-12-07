@@ -41,13 +41,10 @@
         int columnIdx=0;
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
         {
-            NSString* fieldName = [metadata.column_objectFieldMap objectForKey:[[NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)] lowercaseString]];
-            const char *field_value = sqlite3_column_text16(stmt, columnIdx);
-            NSString *value;
-            if (field_value!=NULL) {
-                value = [NSString stringWithUTF8String:field_value];
-            }
-            else value = @"";
+            NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
+          
+          NSString *value = [NSString stringWithUTF8String:(char*)sqlite3_column_text(stmt, columnIdx)];
+          
             [dataObject setObject:value forFieldName:fieldName];
         }    
         [rows addObject:dataObject];
@@ -74,7 +71,6 @@
         BOOL is_first = YES;
         for(NSString *column_name in [metadata.columnNames allObjects]){
             if (is_first) {
-             
                 [sql appendString:[NSString stringWithFormat:@"%@ VARCHAR(100)",column_name]];
                 is_first = NO;
             }
@@ -100,12 +96,12 @@
             if (is_first) {
               
                 [sql appendString:[NSString stringWithFormat:@"%@",column_name]];
-                [values appendString:[NSString stringWithFormat:@"'%@'",[dObj objectForFieldName:[metadata.column_objectFieldMap objectForKey:column_name]]]];
+                [values appendString:[NSString stringWithFormat:@"'%@'",[dObj objectForFieldName:column_name]]];
                 is_first=NO;
             }
             else{
             [sql appendString:[NSString stringWithFormat:@", %@",column_name]];
-            [values appendString:[NSString stringWithFormat:@", '%@'",[dObj objectForFieldName:[metadata.column_objectFieldMap objectForKey:column_name]]]];
+            [values appendString:[NSString stringWithFormat:@", '%@'",[dObj objectForFieldName:column_name]]];
             }
         }
         [sql appendString:@")"];
