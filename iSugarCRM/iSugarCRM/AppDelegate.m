@@ -12,6 +12,9 @@
 #import "OrderedDictionary.h"
 #import "SugarCRMMetadataStore.h"
 #import "WebserviceSession.h"
+#import "DataObjectField.h"
+#import "DataObjectMetadata.h"
+#import "WebserviceMetadata.h"
  NSString * session=nil;
 
 
@@ -143,17 +146,34 @@
             return;
         } 
         id moduleFieldsResponse = [adata objectFromJSONData];
+        NSMutableArray *arrayOfDAOFields = [[NSMutableArray alloc] init];
         if ([[[moduleFieldsResponse valueForKey:@"module_fields"] class] isSubclassOfClass:[NSDictionary class]]) {
-            
+            NSDictionary *moduleFields = [moduleFieldsResponse objectForKey:@"module_fields"];
+            for(NSString *fieldName in [moduleFields allKeys])
+            {
+                NSDictionary *fieldDescription = [moduleFields objectForKey:fieldName];
+                DataObjectField *daoField = [[DataObjectField alloc] init];
+                daoField.name = fieldName;
+                daoField.label = [fieldDescription valueForKey:@"label"];
+                daoField.dataType = ObjectFieldDataTypeString;
+                [arrayOfDAOFields addObject:daoField];
+            }
+            DataObjectMetadata *daoMetadata = [[DataObjectMetadata alloc] init];
+            daoMetadata.objectClassIdentifier = module;
+            daoMetadata.fields = [NSSet setWithArray:arrayOfDAOFields];
+            NSLog(@"%@ = %@",module,[daoMetadata toDictionary]);
             [moduleFields setValue:[[moduleFieldsResponse valueForKey:@"module_fields"] allKeys] forKey:module];
+           
+            WebserviceMetadata *wsMap = [[WebserviceMetadata alloc] init];
+//            wsMap.pathToObjectsInResponse = @"get_entry_list"
+            
         }
     }
-    NSLog(@"module fields %@",moduleFields);
-    [plistDictionary setValue:moduleFields forKey:@"ModuleFields"];
-    [self saveConfig:plistDictionary];
-    
-    
+   // NSLog(@"module fields %@",moduleFields);
+    //[plistDictionary setValue:moduleFields forKey:@"ModuleFields"];
+    //[self saveConfig:plistDictionary];
 }
+
 
 -(void)saveConfig:(NSMutableDictionary*)plistDictionary{
     
