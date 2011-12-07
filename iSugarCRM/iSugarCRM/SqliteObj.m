@@ -125,7 +125,7 @@ NSString* const errorDomain = @"SQLite Database Error Domain";
     if (!pStmt) {
         do {
             retry   = NO;
-            rc      = sqlite3_prepare_v2(database, [sql UTF8String], -1, &pStmt, 0);
+            rc      = sqlite3_prepare_v2(database, [sql cStringUsingEncoding:NSUTF8StringEncoding], -1, &pStmt, 0);
             
             if (SQLITE_BUSY == rc) {
                 retry = YES;

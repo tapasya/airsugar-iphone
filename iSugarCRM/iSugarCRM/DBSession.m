@@ -42,10 +42,11 @@
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
         {
             NSString* fieldName = [metadata.column_objectFieldMap objectForKey:[[NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)] lowercaseString]];
-            const char *field_value = sqlite3_column_text16(stmt, columnIdx);
+             char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
+            NSLog(@"%s",field_value);
             NSString *value;
             if (field_value!=NULL) {
-                value = [NSString stringWithUTF8String:field_value];
+                value = [NSString stringWithFormat:@"%s",field_value];
             }
             else value = @"";
             [dataObject setObject:value forFieldName:fieldName];
