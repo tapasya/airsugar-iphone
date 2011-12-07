@@ -41,10 +41,15 @@
         int columnIdx=0;
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
         {
-            NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
-          
-          NSString *value = [NSString stringWithUTF8String:(char*)sqlite3_column_text(stmt, columnIdx)];
-          
+          NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
+            NSString *value;
+            char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
+            NSLog(@"%s",field_value);
+            if (field_value!=NULL) {
+                value = [NSString stringWithFormat:@"%s",field_value];
+            }
+            else value = @"";
+
             [dataObject setObject:value forFieldName:fieldName];
         }    
         [rows addObject:dataObject];
