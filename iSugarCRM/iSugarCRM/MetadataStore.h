@@ -7,16 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebserviceMetadata.h"
 
 @interface MetadataStore : NSObject
 {
     @private
     NSDictionary *keyedMetadata;
+    NSDictionary *keyedDbMetadata;
+    NSDictionary *keyedViewMetadata;
 }
 
 
 -(id)metaDataForKey:(NSString*)key;
 -(void)setMetaData:(id)metadata forKey:(NSString*)key;
-
+-(id)dbMetaDataForKey:(NSString*)key;
+-(void)setDBMetaData:(id)metadata forKey:(NSString*)key;
 @end

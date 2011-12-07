@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataObjectMetadata.h"
 typedef enum HTTPMethod{
     HTTPMethodGet,
     HTTPMethodPOST
@@ -14,13 +15,15 @@ typedef enum HTTPMethod{
 
 
 @interface WebserviceMetadata : NSObject
+
+@property(strong)DataObjectMetadata *objectMetadata;
 @property(nonatomic)HTTPMethod method;
 @property(strong)NSString *endpoint;
 @property(strong)NSDictionary *urlParameters;
 @property(strong)NSDictionary *postParameters;
 @property(strong)NSDictionary *headers;
 @property(strong)NSString *pathToObjectsInResponse;
-@property(strong)NSDictionary *responseKeyPaths;
+@property(strong)NSDictionary *responseKeyPathMap;
 
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key;
 -(void)setPostParam:(NSString*)postParam forKey:(NSString*)key;

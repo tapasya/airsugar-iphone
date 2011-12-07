@@ -9,8 +9,7 @@
 #import "WebserviceSession.h"
 #import "DataObject.h"
 #import "DataObjectField.h"
-#import "DataObjectMetadata.h"
-
+#import "JSONKit.h"
 @implementation WebserviceSession
 @synthesize delegate;
 @synthesize metadata;
@@ -30,8 +29,9 @@
             [delegate session:self didFailWithError:error];
         }
         else
-        {
-            NSDictionary *responseDictionary = nil; //parse using some parser
+        {  
+            NSDictionary *responseDictionary = [data objectFromJSONData]; //parse using some parser
+            NSLog(@"path to response keypath %@",metadata.pathToObjectsInResponse);
             id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
             if([responseObjects isKindOfClass:[NSDictionary class]])
             {
@@ -40,10 +40,12 @@
             NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
             for(NSDictionary *responseObject in responseObjects)
             {
-                DataObject *dataObject = [[DataObject alloc] initWithMetadata:nil];
-                for(DataObjectField *field in metadata.responseKeyPaths)
+                DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
+                
+                //dataobjectfields set from dataobjectmetadata in webservice metadata
+                for(DataObjectField *field in [[metadata.objectMetadata fields] allObjects]) 
                 {
-                    id value = [responseObject valueForKeyPath:[metadata.responseKeyPaths objectForKey:field]];
+                    id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field]];
                     [dataObject setObject:value forFieldName:field.name];
                 }
                 [arrayOfDataObjects addObject:dataObject];
@@ -54,7 +56,7 @@
         }
         
     };
-    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:completionHandler];
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:completionHandler];
     
 }
 @end

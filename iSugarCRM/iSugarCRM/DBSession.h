@@ -8,23 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import "DBMetadata.h"
-@protocol DBSessionDelegate;
+@protocol DBLoadSessionDelegate;
+@protocol DBSyncSessionDelegate;
 @interface DBSession : NSObject
 {
 }
 
 
-@property(weak)id<DBSessionDelegate> delegate;
+@property(weak)id<DBLoadSessionDelegate> delegate;
+@property(weak)id<DBSyncSessionDelegate> syncDelegate;
 @property(strong)DBMetadata *metadata;
++(DBSession*)sessionWithMetadata:(DBMetadata*)metadata;
 -(void)startLoading;
+-(void)updateDBWithDataObjects:(NSArray*)dataObjects;
 @end
 
 
 
-@protocol DBSessionDelegate <NSObject>
+@protocol DBLoadSessionDelegate <NSObject>
 -(void)downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing;
 -(void)listDownloadFailedWithError:(NSError*)error;
 -(void)downloadedDetails:(NSArray*)details;
 -(void)detailDownloadFailedWithError:(NSError*)error;
+@end
 
+@protocol DBSyncSessionDelegate <NSObject>
+-(void)syncFailedWithError:(NSError*)error;
+-(void)syncSuccessful;
 @end
