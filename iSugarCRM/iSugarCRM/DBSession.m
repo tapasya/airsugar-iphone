@@ -10,10 +10,6 @@
 #import "SqliteObj.h"
 #import "DataObject.h"
 
-@interface DBSession()
--(void)getTableRows;
-@end
-
 @implementation DBSession
 @synthesize delegate,metadata,syncDelegate;
 
@@ -28,7 +24,7 @@
 {
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
-    NSMutableArray *rows = nil;
+    NSMutableArray *rows = [[NSMutableArray alloc]init];
     if(![db initializeDatabaseWithError:&error]){
         NSLog(@"%@",[error localizedDescription]);
         [delegate listDownloadFailedWithError:error];
@@ -46,7 +42,12 @@
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
         {
             NSString* fieldName = [metadata.column_objectFieldMap objectForKey:[[NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)] lowercaseString]];
-            NSString *value = [NSString stringWithUTF8String:sqlite3_column_text16(stmt, columnIdx)];
+            const char *field_value = sqlite3_column_text16(stmt, columnIdx);
+            NSString *value;
+            if (field_value!=NULL) {
+                value = [NSString stringWithUTF8String:field_value];
+            }
+            else value = @"";
             [dataObject setObject:value forFieldName:fieldName];
         }    
         [rows addObject:dataObject];
@@ -59,7 +60,6 @@
 
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects
 {
-    
     NSError* error = nil;
     SqliteObj* db = [[SqliteObj alloc] init];
     if(![db initializeDatabaseWithError:&error])
@@ -68,18 +68,18 @@
         [syncDelegate syncFailedWithError:error];
     }
   
-        NSMutableDictionary* colName_idxMap = [[NSMutableDictionary alloc]init];
+    
         NSMutableString *sql = [NSMutableString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (",metadata.tableName];
-        int index = 0;
+      
         BOOL is_first = YES;
         for(NSString *column_name in [metadata.columnNames allObjects]){
             if (is_first) {
-                [colName_idxMap setObject:column_name forKey:[NSNumber numberWithInt:++index]];
+             
                 [sql appendString:[NSString stringWithFormat:@"%@ VARCHAR(100)",column_name]];
                 is_first = NO;
             }
             else{
-            [colName_idxMap setObject:column_name forKey:[NSNumber numberWithInt:++index]];
+      
             [sql appendString:[NSString stringWithFormat:@", %@ VARCHAR(100)",column_name]];
             }
         }
@@ -89,24 +89,21 @@
             NSLog(@"error creating database with sql:%@ and error: %@",sql,[error localizedDescription]);
             [syncDelegate syncFailedWithError:error];
         }
-            metadata.column_columnIdxInTableMap=colName_idxMap;
+       
 
-    NSLog(@"column name number map: %@",metadata.column_columnIdxInTableMap);
     //ADD OBJECTS NOW
     for(DataObject *dObj in dataObjects){
         NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT INTO %@ (",metadata.tableName];
         NSMutableString *values =[NSMutableString stringWithString:@"VALUES ("];
-        int count = 1;
         BOOL is_first=YES;
-        for (count=1; count<[[[metadata columnNames]allObjects]count]; count++) {
+        for(NSString *column_name in [[metadata columnNames]allObjects]){
             if (is_first) {
-                NSString *column_name = [metadata.column_columnIdxInTableMap objectForKey:[NSNumber numberWithInt:count]];
+              
                 [sql appendString:[NSString stringWithFormat:@"%@",column_name]];
                 [values appendString:[NSString stringWithFormat:@"'%@'",[dObj objectForFieldName:[metadata.column_objectFieldMap objectForKey:column_name]]]];
                 is_first=NO;
             }
             else{
-            NSString *column_name = [metadata.column_columnIdxInTableMap objectForKey:[NSNumber numberWithInt:count]];
             [sql appendString:[NSString stringWithFormat:@", %@",column_name]];
             [values appendString:[NSString stringWithFormat:@", '%@'",[dObj objectForFieldName:[metadata.column_objectFieldMap objectForKey:column_name]]]];
             }

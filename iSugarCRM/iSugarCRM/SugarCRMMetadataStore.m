@@ -146,18 +146,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     }
     dbMetadata.columnNames = fieldsName;
     dbMetadata.column_objectFieldMap = col_fieldMap;
-    dbMetadata.column_columnIdxInTableMap= [[NSMutableDictionary alloc] init];
     [self setDBMetaData:dbMetadata forKey:moduleName];
     
 }
 -(DBMetadata*)dbMetadataForModule:(NSString*)moduleId
 {
-   DBMetadata* metadata=[self dbMetaDataForKey:moduleId];
-  //  NSLog(@"dbmetadata fields: %@",[metadata.columnNames allObjects]);
-    for(DataObjectField * field in [metadata.objectMetadata.fields allObjects]){
-  //NSLog(@"dataobject fields: %@",field.name);
-    }
-    return metadata;
+    return [self dbMetaDataForKey:moduleId];
 }
 
 

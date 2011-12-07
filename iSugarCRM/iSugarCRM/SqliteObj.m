@@ -143,10 +143,9 @@ NSString* const errorDomain = @"SQLite Database Error Domain";
                 NSDictionary *errorDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:rc], @"code", errorDomain, @"domain", localizedDescription, NSLocalizedDescriptionKey, nil];
                 *error = [NSError errorWithDomain:errorDomain code:rc userInfo:errorDict];
                     NSLog(@"DB Query: %@", sql);
-                }
-                
                 sqlite3_finalize(pStmt);
-            return nil;
+                return nil;
+                }
         }
         while (retry);
     }

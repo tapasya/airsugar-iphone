@@ -26,6 +26,7 @@
 
 
 @protocol DBLoadSessionDelegate <NSObject>
+@optional
 -(void)downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing;
 -(void)listDownloadFailedWithError:(NSError*)error;
 -(void)downloadedDetails:(NSArray*)details;
@@ -33,6 +34,7 @@
 @end
 
 @protocol DBSyncSessionDelegate <NSObject>
+@optional
 -(void)syncFailedWithError:(NSError*)error;
 -(void)syncSuccessful;
 @end

@@ -9,7 +9,7 @@
 #import "DBMetadata.h"
 
 @implementation DBMetadata
-@synthesize tableName,columnNames,column_objectFieldMap,objectMetadata,column_columnIdxInTableMap;
+@synthesize tableName,columnNames,column_objectFieldMap,objectMetadata;
 
 
 - (id)copyWithZone:(NSZone *)zone{
@@ -18,7 +18,7 @@
     [copy setColumnNames:[self columnNames]];
     [copy setColumn_objectFieldMap:[self column_objectFieldMap]];
     [copy setObjectMetadata:[self objectMetadata]];
-    [copy setColumn_columnIdxInTableMap:[self column_columnIdxInTableMap]]; 
+   
     
     return copy;
 }

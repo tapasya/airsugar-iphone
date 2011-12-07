@@ -38,13 +38,13 @@
     DBSession *dbs = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:@"Accounts"]];
     dbs.delegate=self;
     dbs.syncDelegate=self;
- [dbs startLoading];
+    [dbs startLoading];
 }
 
 #pragma mark dbSessionLoad delegate methods
 -(void)downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing{
-    for(DataObject *dobj in moduleList){
-        NSLog(@"module list%@",dobj);
+    for (DataObject *object in moduleList){
+        NSLog(@"object %@",object);
     }
 }
 
@@ -55,7 +55,7 @@
 #pragma mark Webservice session delegate methods
 
 -(void)sessionWillStartLoading:(WebserviceSession*)session{
-    NSLog(@"here");
+
 }
 -(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response{
     SugarCRMMetadataStore * sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
@@ -63,7 +63,6 @@
     dbs.delegate=self;
     dbs.syncDelegate=self;
     [dbs updateDBWithDataObjects:response];
- //   NSLog(@"Response data objects: %@",response);
    
 }
 -(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error{
