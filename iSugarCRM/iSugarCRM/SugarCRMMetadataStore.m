@@ -12,7 +12,6 @@
 #import "WebserviceMetadata.h"
 #import "DBMetadata.h"
 #import "SqliteObj.h"
-
 #import "OrderedDictionary.h"
 #import "JSONKit.h"
 static SugarCRMMetadataStore *sharedInstance = nil;
@@ -30,40 +29,13 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 @end
 
 @implementation SugarCRMMetadataStore
-
+@synthesize moduleList;
 +(SugarCRMMetadataStore*)sharedInstance
 {
     if (sharedInstance == nil) {
         sharedInstance = [[SugarCRMMetadataStore alloc] initPrivate];
-        
-        NSMutableDictionary *modules;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL success;
-        NSString *rootPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
-        NSString* plistPath;
-        if ([[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil]) {
-            plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"]; 
-        } 
-        success = [fileManager fileExistsAtPath:plistPath];
-        //check if plist already exist
-        if(success)
-        {
-            NSMutableDictionary *plistDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-            if (plistDictionary) {
-                modules= [plistDictionary objectForKey:@"Modules"];
-            } else {
-                NSLog(@"Cannot read config file");
-            }
-        } else {
-            NSLog(@"Config file doesnt exist");
         }
-        NSLog(@"initializing metadata for modules %@",[[modules allKeys]description]);
-        for(NSString *module in [modules allKeys]){
-            [sharedInstance initializeMetadataForModuleName:module];
-        }
-    }
-    //NSLog(@"path to key response %@",[sharedInstance listServiceMetadataForModule:@"Accounts"].pathToObjectsInResponse);
-    return sharedInstance;
+        return sharedInstance;
 }
 
 -(id)init
@@ -77,7 +49,34 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     self = [super init];
     return self;
 }
+-(void)configureMetadata
+{
+    //NSMutableDictionary *modules;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL success;
+    NSString *rootPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+    NSString* plistPath;
+    if ([[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil]) {
+        plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"]; 
+    } 
+    success = [fileManager fileExistsAtPath:plistPath];
+    //check if plist already exist
+    if(success)
+    {
+        NSMutableDictionary *plistDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+        if (plistDictionary) {
+            moduleList= [plistDictionary objectForKey:@"Modules"];
+        } else {
+            NSLog(@"Cannot read config file");
+        }
+    } else {
+        NSLog(@"Config file doesnt exist");
+    }
+    for(NSString *module in [moduleList allKeys]){
+        [sharedInstance initializeMetadataForModuleName:module];
+    }
 
+}
 
 -(WebserviceMetadata*)listServiceMetadataForModule:(NSString*)moduleId{
     return [self metaDataForKey:[NSString stringWithFormat:@"list-%@",moduleId]];
@@ -87,8 +86,15 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return [self metaDataForKey:[NSString stringWithFormat:@"detail-%@",moduleId]];
 }
 
+-(DBMetadata*)dbMetadataForModule:(NSString*)moduleId
+{
+    return [self dbMetaDataForKey:moduleId];
+}
 
-
+-(ListViewMetadata*)listViewMetadataForModule:(NSString*)moduleName
+{
+    return [self viewMetaDataForKey:[NSString stringWithFormat:@"list-%@",moduleName]];
+}
 
 #pragma mark- private methods
 -(void)initializeMetadataForModuleName:(NSString*)moduleName
@@ -129,7 +135,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     listServiceMetadata.pathToObjectsInResponse = @"entry_list";
     [self setMetaData:listServiceMetadata forKey:[NSString stringWithFormat:@"list-%@",moduleName]];
     listServiceMetadata.objectMetadata=dataObjectMetaData;
-    
+    listServiceMetadata.moduleName = moduleName;
        ///save webservicemetadata in plist????
 }
 
@@ -149,15 +155,20 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     [self setDBMetaData:dbMetadata forKey:moduleName];
     
 }
--(DBMetadata*)dbMetadataForModule:(NSString*)moduleId
-{
-    return [self dbMetaDataForKey:moduleId];
-}
 
 
 -(void)initializeViewMetadataForModule:(NSString*)moduleName withObjectMetaData:(DataObjectMetadata*)dataObjectMetaData
 {
-    
+    ListViewMetadata *lViewMetadata = [[ListViewMetadata alloc] init];
+    DataObjectField *primaryField = [[DataObjectField alloc] init];
+    primaryField.name = @"name";
+    lViewMetadata.objectMetadata = dataObjectMetaData;
+    lViewMetadata.primaryDisplayField = primaryField; 
+    lViewMetadata.moduleName = moduleName;
+    lViewMetadata.otherFields = nil;
+    lViewMetadata.iconImageName = nil;
+    [self setViewMetaData:lViewMetadata forKey:[NSString stringWithFormat:@"list-%@",moduleName]];
+
 }
 
 -(NSArray*)fieldsForModule:(NSString *)moduleName

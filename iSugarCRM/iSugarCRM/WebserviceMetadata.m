@@ -22,7 +22,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 };
 
 @implementation WebserviceMetadata
-@synthesize urlParameters,postParameters,headers,endpoint,method;
+@synthesize urlParameters,postParameters,headers,endpoint,method,moduleName;
 @synthesize pathToObjectsInResponse,responseKeyPathMap,objectMetadata;
 -(id)init{
     if (self=[super init]) {
@@ -116,7 +116,36 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     copy.responseKeyPathMap=responseKeyPathMap;
     copy.objectMetadata=objectMetadata;
     copy.method=method;
+    copy.moduleName=moduleName;
     return copy;
+}
+
+-(NSDictionary*)toDictionary
+{       
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    [dictionary setObject:endpoint forKey:@"endpoint"];
+    [dictionary setObject:urlParameters forKey:@"urlParameters"];
+    [dictionary setObject:headers forKey:@"headers"];
+    [dictionary setObject:pathToObjectsInResponse forKey:@"pathToObjectsInResponse"];
+    [dictionary setObject:[NSNumber numberWithInt:method] forKey:@"method"];
+    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
+
+    return dictionary;
+}
+
++(WebserviceMetadata*)objectFromDictionary:(NSDictionary*)dictionary
+{
+    WebserviceMetadata *metadata = [[WebserviceMetadata alloc] init];
+    metadata.endpoint = [dictionary objectForKey:@"endpoint"];
+    metadata.headers = [dictionary objectForKey:@"headers"];
+    metadata.postParameters = [dictionary objectForKey:@"postParameters"];
+     metadata.pathToObjectsInResponse = [dictionary objectForKey:@"pathToObjectsInResponse"];
+     metadata.urlParameters = [dictionary objectForKey:@"urlParameters"];
+     metadata.responseKeyPathMap = [dictionary objectForKey:@"responseKeyPathMap"];
+     metadata.method = [[dictionary objectForKey:@"method"] intValue];
+    metadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
+    metadata.moduleName = [dictionary objectForKey:@"module_name"];
+    return metadata;
 }
 
 @end

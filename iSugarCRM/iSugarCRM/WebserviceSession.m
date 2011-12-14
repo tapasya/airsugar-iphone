@@ -13,7 +13,7 @@
 @implementation WebserviceSession
 @synthesize delegate;
 @synthesize metadata;
-+(WebserviceSession*)sessionWithMatadata:(WebserviceMetadata*)metadata
++(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata
 {
     WebserviceSession *session = [[WebserviceSession alloc] init];
     session.metadata = metadata;
@@ -31,7 +31,7 @@
         else
         {  
             NSDictionary *responseDictionary = [data objectFromJSONData]; //parse using some parser
-            NSLog(@"path to response keypath %@",metadata.pathToObjectsInResponse);
+            NSLog(@"delegate %@",delegate);
             id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
             if([responseObjects isKindOfClass:[NSDictionary class]])
             {

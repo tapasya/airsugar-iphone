@@ -9,7 +9,7 @@
 #import "ListViewMetadata.h"
 
 @implementation ListViewMetadata
-@synthesize primaryDisplayField,otherFields,iconImageName;
+@synthesize primaryDisplayField,otherFields,iconImageName,objectMetadata,moduleName;
 
 
 -(NSDictionary*)toDictionary
@@ -50,4 +50,16 @@
     }
     return lViewMetadata;
 }
+
+-(id)copy
+{
+    ListViewMetadata *copy = [[ListViewMetadata alloc] init];
+    copy.primaryDisplayField = primaryDisplayField;
+    copy.otherFields = otherFields;
+    copy.iconImageName = iconImageName;
+    copy.objectMetadata = objectMetadata;
+    copy.moduleName = moduleName;
+    return copy;
+}
+
 @end

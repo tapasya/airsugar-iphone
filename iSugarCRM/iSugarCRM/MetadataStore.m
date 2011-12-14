@@ -16,6 +16,7 @@
     self = [super init];
     keyedMetadata = [[NSDictionary alloc] init];
     keyedDbMetadata = [[NSDictionary alloc] init];
+    keyedViewMetadata = [[NSDictionary alloc] init];
     return self;
     
 }
@@ -40,6 +41,18 @@
     NSMutableDictionary *copyOfKeyedDBMetadata = [keyedDbMetadata mutableCopy];
     [copyOfKeyedDBMetadata setObject:metadata forKey:key];
     keyedDbMetadata = copyOfKeyedDBMetadata;
+}
+
+-(void)setViewMetaData:(id)metadata forKey:(NSString*)key
+{
+    NSMutableDictionary *copyOfKeyedViewMetadata = [keyedViewMetadata mutableCopy];
+    [copyOfKeyedViewMetadata setObject:metadata forKey:key];
+    keyedViewMetadata = copyOfKeyedViewMetadata;
+}
+
+-(id)viewMetaDataForKey:(NSString*)key
+{
+   return [[keyedViewMetadata objectForKey:key] copy];
 }
 
 @end

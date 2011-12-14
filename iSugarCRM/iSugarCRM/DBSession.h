@@ -27,14 +27,14 @@
 
 @protocol DBLoadSessionDelegate <NSObject>
 @optional
--(void)downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing;
--(void)listDownloadFailedWithError:(NSError*)error;
--(void)downloadedDetails:(NSArray*)details;
--(void)detailDownloadFailedWithError:(NSError*)error;
+-(void)session:(DBSession*)session downloadedModuleList:(NSArray*)moduleList moreComing:(BOOL)moreComing;
+-(void)session:(DBSession*)session listDownloadFailedWithError:(NSError*)error;
+-(void)session:(DBSession*)session downloadedDetails:(NSArray*)details;
+-(void)session:(DBSession*)session detailDownloadFailedWithError:(NSError*)error;
 @end
 
 @protocol DBSyncSessionDelegate <NSObject>
 @optional
--(void)syncFailedWithError:(NSError*)error;
--(void)syncSuccessful;
+-(void)session:(DBSession*)session syncFailedWithError:(NSError*)error;
+-(void)sessionSyncSuccessful:(DBSession*)session;
 @end

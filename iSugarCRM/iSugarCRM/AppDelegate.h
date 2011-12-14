@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WebserviceSession.h"
-#import "DBSession.h"
+#import "RootViewController.h"
+#import "SyncHandler.h"
 @class ViewController;
-@interface AppDelegate : UIResponder <UIApplicationDelegate,WebserviceSessionDelegate,DBLoadSessionDelegate,DBSyncSessionDelegate>
-
+@interface AppDelegate : UIResponder <UIApplicationDelegate,SyncHandlerDelegate>
+@property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) ViewController *viewController;
+@property (strong, nonatomic) UINavigationController *nvc;
 
 @end

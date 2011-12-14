@@ -9,21 +9,31 @@
 #import "ListViewController.h"
 #import "ListViewMetadata.h"
 #import "SugarCRMMetadataStore.h"
+#import "DBSession.h"
+#import "DataObject.h"
+
 @implementation ListViewController
-@synthesize moduleName,datasource;
-+(ListViewController*)listViewControllerForModule:(NSString*)moduleName
+@synthesize moduleName,datasource,metadata;
++(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
+{
+    ListViewController *lViewController = [[ListViewController alloc] init];
+    lViewController.metadata = metadata;
+    return lViewController;
+
+}
+
++(ListViewController*)listViewControllerWithModuleName:(NSString*)module
 {
     ListViewController *lViewController = [[ListViewController  alloc] init];
-    lViewController.moduleName = moduleName;
+    lViewController.moduleName = module;
     return lViewController;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+-(id)init{
+    if (self=[super init]) {
+        myTableView = [[UITableView alloc] init];
+    }
+    return self;
 }
 
 #pragma mark - View lifecycle
@@ -32,20 +42,36 @@
 {
     [super viewDidLoad];
     datasource = [[NSMutableArray alloc] init];
-    ListViewMetadata *lViewMetadata = nil; //get from SugarCRM store
-    
+    if (!metadata) {
+        //get from SugarCRM store
+    }
     myTableView = [[UITableView alloc] init];
     myTableView.delegate = self;
     myTableView.dataSource = self;
     myTableView.frame = [[UIScreen mainScreen] applicationFrame];
-    myTableView.rowHeight = 20.f + [[lViewMetadata otherFields] count] *15 + 10;
+    myTableView.rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     self.view = myTableView;
     
    //get DBsession
     //use viewmetadata to fetch Dataobject for the module and only specific fields only.
     // add all dataobjects in datasource
     //call reload data.
-    
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    NSLog(@"%@",metadata.moduleName);
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    dbSession.delegate = self;
+    [dbSession startLoading];
+}
+#pragma mark DBLoadSession Delegate;
+-(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
+{   
+    datasource = moduleList;
+    [myTableView reloadData];
+}
+-(void)listDownloadFailedWithError:(NSError*)error
+{
+    NSLog(@"Error: %@",[error localizedDescription]);
 }
 
 - (void)viewDidUnload
@@ -105,50 +131,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    
+    cell.textLabel.text = [[datasource objectAtIndex:indexPath.row] objectForFieldName:metadata.primaryDisplayField.name];
+    //cell.imageView.image = []
     
     return cell;
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -162,5 +149,4 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
-
 @end

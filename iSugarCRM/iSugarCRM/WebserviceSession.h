@@ -18,7 +18,7 @@
 @property(strong)WebserviceMetadata *metadata;
 
 
-+(WebserviceSession*)sessionWithMatadata:(WebserviceMetadata*)metadata;
++(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
 -(void)startLoading;
 @end
 

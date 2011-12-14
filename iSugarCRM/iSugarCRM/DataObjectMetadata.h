@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface DataObjectMetadata : NSObject
-@property(strong)NSString *objectClassIdentifier;//???
+@property(strong)NSString *objectClassIdentifier;
 @property(strong)NSSet *fields;
 
 

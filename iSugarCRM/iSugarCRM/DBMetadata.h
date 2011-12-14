@@ -14,4 +14,6 @@
 @property(strong)NSDictionary *column_objectFieldMap; //objectField_columnName map also required
 @property(strong)DataObjectMetadata *objectMetadata;
 
+-(NSDictionary*)toDictionary;
++(DBMetadata*)objectFromDictionary:(NSDictionary*)dictionary;
 @end

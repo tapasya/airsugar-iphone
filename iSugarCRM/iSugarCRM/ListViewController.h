@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface ListViewController : UIViewController<UITabBarDelegate,UITableViewDataSource>
+#import "ListViewMetadata.h"
+#import "DBSession.h"
+@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate>
 {
     @private
     UITableView *myTableView;
 }
 
-+(ListViewController*)listViewControllerForModule:(NSString*)moduleName;
++(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata;
++(ListViewController*)listViewControllerWithModuleName:(NSString*)module;
 @property(strong)NSString *moduleName;
 @property(strong)NSArray *datasource;
+@property(strong)ListViewMetadata *metadata;
 @end

@@ -14,7 +14,7 @@
 {
     for(DataObjectField *field in fields)
     {
-        if (field.name == fieldName) {
+        if ([field.name isEqualToString:fieldName]) {
             return YES;
         }
     }

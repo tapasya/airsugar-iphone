@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
+		2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC7149644B5000CFB80 /* SyncHandler.m */; };
 		2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD9F491148D0A8900446A5F /* libsqlite3.dylib */; };
 		2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */; };
 		2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */; };
@@ -22,8 +24,6 @@
 		3B5C97DB147CF7BC007EF770 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C97D9147CF7BC007EF770 /* InfoPlist.strings */; };
 		3B5C97DD147CF7BC007EF770 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97DC147CF7BC007EF770 /* main.m */; };
 		3B5C97E1147CF7BD007EF770 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97E0147CF7BD007EF770 /* AppDelegate.m */; };
-		3B5C97E4147CF7BD007EF770 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97E3147CF7BD007EF770 /* ViewController.m */; };
-		3B5C97E7147CF7BD007EF770 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C97E5147CF7BD007EF770 /* ViewController.xib */; };
 		3B5C97EF147CF7BD007EF770 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97EE147CF7BD007EF770 /* SenTestingKit.framework */; };
 		3B5C97F0147CF7BD007EF770 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D0147CF7BC007EF770 /* UIKit.framework */; };
 		3B5C97F1147CF7BD007EF770 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
@@ -58,6 +58,10 @@
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2F6C469F148676A300865C25 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		2FBBDFC21495DDF0000CFB80 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		2FBBDFC31495DDF0000CFB80 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		2FBBDFC6149644B5000CFB80 /* SyncHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncHandler.h; sourceTree = "<group>"; };
+		2FBBDFC7149644B5000CFB80 /* SyncHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncHandler.m; sourceTree = "<group>"; };
 		2FD9F491148D0A8900446A5F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2FD9F4B7148D0DE900446A5F /* SqliteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteObj.h; sourceTree = "<group>"; };
 		2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqliteObj.m; sourceTree = "<group>"; };
@@ -80,9 +84,6 @@
 		3B5C97DE147CF7BD007EF770 /* iSugarCRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iSugarCRM-Prefix.pch"; sourceTree = "<group>"; };
 		3B5C97DF147CF7BD007EF770 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3B5C97E0147CF7BD007EF770 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3B5C97E2147CF7BD007EF770 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3B5C97E3147CF7BD007EF770 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		3B5C97E6147CF7BD007EF770 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iSugarCRMTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5C97EE147CF7BD007EF770 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3B5C97F6147CF7BD007EF770 /* iSugarCRMTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iSugarCRMTests-Info.plist"; sourceTree = "<group>"; };
@@ -261,14 +262,15 @@
 			isa = PBXGroup;
 			children = (
 				3B5C9805147CF7D1007EF770 /* source */,
-				3B5C97DF147CF7BD007EF770 /* AppDelegate.h */,
-				3B5C97E0147CF7BD007EF770 /* AppDelegate.m */,
-				3B5C97E2147CF7BD007EF770 /* ViewController.h */,
-				3B5C97E3147CF7BD007EF770 /* ViewController.m */,
-				3B5C97E5147CF7BD007EF770 /* ViewController.xib */,
-				3B5C97D7147CF7BC007EF770 /* Supporting Files */,
+				2FBBDFC6149644B5000CFB80 /* SyncHandler.h */,
+				2FBBDFC7149644B5000CFB80 /* SyncHandler.m */,
+				2FBBDFC21495DDF0000CFB80 /* RootViewController.h */,
+				2FBBDFC31495DDF0000CFB80 /* RootViewController.m */,
 				3B5C98201484C2D9007EF770 /* SugarCRMMetadataStore.h */,
 				3B5C98211484C2DA007EF770 /* SugarCRMMetadataStore.m */,
+				3B5C97DF147CF7BD007EF770 /* AppDelegate.h */,
+				3B5C97E0147CF7BD007EF770 /* AppDelegate.m */,
+				3B5C97D7147CF7BC007EF770 /* Supporting Files */,
 				3B5C982C14850B2A007EF770 /* Beans.plist */,
 				3B5C982E14850E6B007EF770 /* webserviceMap.plist */,
 			);
@@ -392,7 +394,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B5C97DB147CF7BC007EF770 /* InfoPlist.strings in Resources */,
-				3B5C97E7147CF7BD007EF770 /* ViewController.xib in Resources */,
 				3B5C982D14850B2B007EF770 /* Beans.plist in Resources */,
 				3B5C982F14850E6F007EF770 /* webserviceMap.plist in Resources */,
 				2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */,
@@ -432,7 +433,6 @@
 			files = (
 				3B5C97DD147CF7BC007EF770 /* main.m in Sources */,
 				3B5C97E1147CF7BD007EF770 /* AppDelegate.m in Sources */,
-				3B5C97E4147CF7BD007EF770 /* ViewController.m in Sources */,
 				3B5C9808147CF800007EF770 /* MetadataStore.m in Sources */,
 				3B5C980E147CF82A007EF770 /* ViewMetadataStore.m in Sources */,
 				3B5C9811147CF83E007EF770 /* WebserviceSession.m in Sources */,
@@ -450,6 +450,8 @@
 				3B3E627A148E32AE002BAE48 /* ListViewController.m in Sources */,
 				3B3E627E148E35D9002BAE48 /* DetailViewMetadata.m in Sources */,
 				2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */,
+				2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */,
+				2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,14 +480,6 @@
 				3B5C97DA147CF7BC007EF770 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		3B5C97E5147CF7BD007EF770 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3B5C97E6147CF7BD007EF770 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 		3B5C97F7147CF7BD007EF770 /* InfoPlist.strings */ = {
