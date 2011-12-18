@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DataObjectMetadata.h"
+#import "OrderedDictionary.h"
 typedef enum HTTPMethod{
     HTTPMethodGet,
     HTTPMethodPOST
@@ -19,7 +20,7 @@ typedef enum HTTPMethod{
 @property(strong)DataObjectMetadata *objectMetadata;
 @property(nonatomic)HTTPMethod method;
 @property(strong)NSString *endpoint;
-@property(strong)NSDictionary *urlParameters;
+@property(strong)OrderedDictionary *urlParameters;
 @property(strong)NSDictionary *postParameters;
 @property(strong)NSDictionary *headers;
 @property(strong)NSString *pathToObjectsInResponse;

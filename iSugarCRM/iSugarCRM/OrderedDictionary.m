@@ -9,9 +9,12 @@
 #import "OrderedDictionary.h"
 
 #import "JSONKit.h"
-
+@interface OrderedDictionary()
+@property(strong)NSMutableDictionary *actualDictionary;
+@property(strong)NSMutableArray *orderedKeys;
+@end
 @implementation OrderedDictionary
-
+@synthesize orderedKeys,actualDictionary;
 
 -(id)init{
     self = [super init];
@@ -55,8 +58,6 @@
     return [actualDictionarry valueForKey:key];
 }
 
-
-
 -(NSEnumerator*)keyEnumerator
 {
     return [orderedKeys objectEnumerator];
@@ -65,5 +66,26 @@
 -(NSUInteger)count
 {
     return  [orderedKeys count];
+}
+-(id)mutableCopy
+{
+    return self;
+}
+/*
+-(id)copy
+{
+    OrderedDictionary *copy = [[OrderedDictionary alloc] init];
+    copy.orderedKeys = orderedKeys;
+    copy.actualDictionary = actualDictionary;
+    return copy;
+}
+ */
+-(NSString*)description
+{ 
+    NSMutableString *description = [NSMutableString stringWithString:@""];
+    for(NSString *key in orderedKeys){
+        [description appendString:[NSString stringWithFormat:@"%@=%@\n",[actualDictionary objectForKey:key],key]];
+    }
+    return description;
 }
 @end

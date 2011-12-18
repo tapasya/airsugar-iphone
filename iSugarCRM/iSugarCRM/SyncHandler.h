@@ -13,8 +13,8 @@
 @protocol SyncHandlerDelegate;
 @interface SyncHandler : NSObject <WebserviceSessionDelegate,DBSyncSessionDelegate>
 @property(weak)id <SyncHandlerDelegate>delegate;
--(void)syncForModule;
--(void)syncForModules:(NSArray*)modules;
+-(void)syncForModule:(NSString*)module;
+-(void)syncAllModules;
 @end
 
 @protocol SyncHandlerDelegate

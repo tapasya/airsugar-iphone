@@ -52,10 +52,6 @@
     myTableView.rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     self.view = myTableView;
     
-   //get DBsession
-    //use viewmetadata to fetch Dataobject for the module and only specific fields only.
-    // add all dataobjects in datasource
-    //call reload data.
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     NSLog(@"%@",metadata.moduleName);
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
@@ -69,7 +65,7 @@
     datasource = moduleList;
     [myTableView reloadData];
 }
--(void)listDownloadFailedWithError:(NSError*)error
+-(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error
 {
     NSLog(@"Error: %@",[error localizedDescription]);
 }

@@ -9,98 +9,56 @@
 #import "RootViewController.h"
 #import "ListViewController.h"
 #import "SugarCRMMetadataStore.h"
+@interface RootViewController()
+@property(strong)UIActivityIndicatorView *spinner;
+@end
 
 @implementation RootViewController
-@synthesize moduleList;
+@synthesize moduleList,spinner;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
+       
     }
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+     self.tableView.userInteractionEnabled = NO;
+    spinner = [[UIActivityIndicatorView alloc] init];
+    spinner.center = self.view.center;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[moduleList allKeys] count];
+    return [moduleList  count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    
-    cell.textLabel.text = [[moduleList allKeys] objectAtIndex:indexPath.row];
-    //cell.detailTextLabel.text = [[modules allValues] objectAtIndex:indexPath.row];
-    
+    cell.textLabel.text = [moduleList objectAtIndex:indexPath.row];
     return cell;
 }
 
@@ -109,17 +67,24 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    NSString *modulename = [[moduleList allKeys] objectAtIndex:indexPath.row];
-    
+    NSString *modulename = [moduleList objectAtIndex:indexPath.row];
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];
     NSLog(@"metadata module name %@",metadata.moduleName);
     ListViewController *listViewController = [ListViewController listViewControllerWithMetadata:metadata];
     listViewController.title = metadata.moduleName;
-  //  [self presentModalViewController:listViewController animated:YES];
-     [self.navigationController pushViewController:listViewController animated:YES];
+    [self.navigationController pushViewController:listViewController animated:YES];
      
 }
 
+#pragma mark --
+
+-(void)didCompleteSync
+{   
+    NSLog(@"sync complete");
+    self.tableView.userInteractionEnabled = YES;
+    [self.spinner stopAnimating];
+    [self.spinner setHidden:YES];
+    
+}
 @end

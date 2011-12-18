@@ -46,9 +46,11 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 }
 
 -(void)setUrlParam:(NSString*)urlParam forKey:(NSString*)key{
-    NSMutableDictionary *urlParamsCopy =  [urlParameters mutableCopy];
-    [urlParamsCopy setValue:urlParam forKey:key];
-    urlParameters = urlParamsCopy;
+    //OrderedDictionary *urlParamsCopy =  [urlParameters mutableCopy];
+    //[urlParamsCopy setValue:urlParam forKey:key];
+    //urlParameters = urlParamsCopy;
+    [urlParameters setValue:urlParam forKey:key];
+    NSLog(@"urlparams :%@",urlParameters);
 }
 
 -(NSURLRequest*)getRequest
@@ -125,11 +127,17 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     [dictionary setObject:endpoint forKey:@"endpoint"];
     [dictionary setObject:urlParameters forKey:@"urlParameters"];
-    [dictionary setObject:headers forKey:@"headers"];
     [dictionary setObject:pathToObjectsInResponse forKey:@"pathToObjectsInResponse"];
     [dictionary setObject:[NSNumber numberWithInt:method] forKey:@"method"];
+    [dictionary setObject:moduleName forKey:@"module_name"];
     [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
-
+    [dictionary setObject:responseKeyPathMap forKey:@"responseKeyPathMap"];
+    if (postParameters) {
+    [dictionary setObject:postParameters forKey:@"postParameters"];
+    }
+    if (headers) {
+        [dictionary setObject:headers forKey:@"headers"];
+    }
     return dictionary;
 }
 

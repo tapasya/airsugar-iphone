@@ -23,7 +23,13 @@
 -(NSDictionary*)toDictionary
 {       
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-    [dictionary setObject:columnNames forKey:@"columnNames"];
+    NSMutableArray *arrayOfColumnNames = [[NSMutableArray alloc] init];
+    for(NSString *columnName in [columnNames allObjects])
+    {
+        [arrayOfColumnNames addObject:columnName];
+    
+    }
+    [dictionary setObject:arrayOfColumnNames forKey:@"columnNames"];
     [dictionary setObject:column_objectFieldMap forKey:@"column_objectFieldMap"];
     [dictionary setObject:tableName forKey:@"tableName"];
     [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
@@ -49,6 +55,5 @@
     copy.objectMetadata = objectMetadata;
     return copy;
 }
-
 
 @end

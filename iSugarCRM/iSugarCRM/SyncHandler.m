@@ -9,54 +9,67 @@
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
 //static SyncHandler *sharedInstance;
+NSInteger moduleCount = 1;
 @implementation SyncHandler
 @synthesize delegate;
--(void)syncForModule
-{
-    
-}
 
--(void)syncForModules:(NSArray*)modules
+-(void)syncForModule:(NSString*)module
 {
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-   // for(NSString *module in modules)
-    //{
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listServiceMetadataForModule:@"Accounts"]];
-        session.delegate=self;
-        [session startLoading ];
-        
-        
-   // }
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:module]];
+    session.delegate=self;
+    [session startLoading];
+}
+
+-(void)syncAllModules
+{   
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    moduleCount = [metadataStore.modulesSupported count];
+    for(NSString *module in metadataStore.modulesSupported)
+    {
+        [self syncForModule:module];
+    }
 }
 
 #pragma mark Webservice Session delegate methods
--(void)sessionWillStartLoading:(WebserviceSession*)session
-{
-    
-}
+
 -(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response
-{  @synchronized([self class])
-    {
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        NSLog(@"table name %@",session.metadata.moduleName);
-    DBSession *dbSession = [DBSession sessionWithMetadata:[sharedInstance dbMetadataForModule:session.metadata.moduleName]];
-    dbSession.syncDelegate = self;
-    [dbSession updateDBWithDataObjects:response];
+{  
+    @synchronized([self class])
+    {   
+        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
+        dbSession.syncDelegate = self;
+        [dbSession updateDBWithDataObjects:response];
     }
 }
+
 -(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
 {
     NSLog(@"Error syncing data: %@",[error localizedDescription]);
+    moduleCount--;
 }
 
 #pragma mark Db Sync Session delegate methods
 -(void)session:(DBSession*)session syncFailedWithError:(NSError*)error
 {
-     NSLog(@"Sync failed for module: %@ with error: %@",session.metadata.tableName,[error localizedDescription]);
+    @synchronized([self class]){
+        NSLog(@"Sync failed for module: %@ with error: %@",session.metadata.tableName,[error localizedDescription]);
+        moduleCount--;
+        [delegate syncHandler:self failedWithError:error];
+    }
 }
+
 -(void)sessionSyncSuccessful:(DBSession*)session;
-{
-    NSLog(@"Sync succesfull for module: %@",session.metadata.tableName);
-    [delegate syncComplete:self];
+{   
+    @synchronized([self class]){
+        NSLog(@"Sync succesfull for module: %@",session.metadata.tableName);
+        [delegate syncComplete:self];
+        NSLog(@"module count is %d",moduleCount);
+        if (--moduleCount==0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
+        }
+    }
 }
 @end

@@ -24,6 +24,8 @@
         }
         [dictionary setObject:arrayOfOtherFieldDictionaries forKey:@"otherFields"];
     }
+    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
+    [dictionary setObject:moduleName forKey:@"module_name"];
     if(iconImageName != nil)
     {
         [dictionary setValue:iconImageName forKey:@"icon"];
@@ -44,6 +46,8 @@
         }
         lViewMetadata.otherFields = otherFields;
     }
+    lViewMetadata.moduleName = [dictionary objectForKey:@"module_name"];
+    lViewMetadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     NSString *iconImageName = [dictionary valueForKey:@"icon"];
     if (iconImageName != nil) {
         lViewMetadata.iconImageName = iconImageName;

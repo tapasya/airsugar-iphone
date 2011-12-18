@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RootViewController : UITableViewController
-@property (strong) NSDictionary *moduleList;
+@property (strong) NSArray *moduleList;
 @end

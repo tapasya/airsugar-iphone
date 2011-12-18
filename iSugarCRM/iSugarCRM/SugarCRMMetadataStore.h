@@ -11,14 +11,16 @@
 #import "WebserviceMetadata.h"
 #import "DBMetadata.h"
 #import "ListViewMetadata.h"
-
+#import "DetailViewMetadata.h"
 @interface SugarCRMMetadataStore : MetadataStore
-@property(strong)  NSDictionary * moduleList;
 
 +(SugarCRMMetadataStore*)sharedInstance;
+
 -(void)configureMetadata;
--(WebserviceMetadata*)listServiceMetadataForModule:(NSString*)moduleId;
--(WebserviceMetadata*)detailServiceMetadataForModule:(NSString*)moduleId;
+-(NSArray*)modulesSupported;
+-(WebserviceMetadata*)listWebserviceMetadataForModule:(NSString*)moduleId;
+-(WebserviceMetadata*)detailWebserviceMetadataForModule:(NSString*)moduleId;
 -(DBMetadata*)dbMetadataForModule:(NSString*)moduleId;
 -(ListViewMetadata*)listViewMetadataForModule:(NSString*)moduleName;
+-(DetailViewMetadata*)detailViewMetadataForModule:(NSString*)moduleName;
 @end

@@ -11,14 +11,14 @@
 @interface MetadataStore : NSObject
 {
     @private
-    NSDictionary *keyedMetadata;
+    NSDictionary *keyedWebMetadata;
     NSDictionary *keyedDbMetadata;
     NSDictionary *keyedViewMetadata;
 }
 
 
--(id)metaDataForKey:(NSString*)key;
--(void)setMetaData:(id)metadata forKey:(NSString*)key;
+-(id)webMetaDataForKey:(NSString*)key;
+-(void)setWebMetaData:(id)metadata forKey:(NSString*)key;
 -(id)dbMetaDataForKey:(NSString*)key;
 -(void)setDBMetaData:(id)metadata forKey:(NSString*)key;
 -(id)viewMetaDataForKey:(NSString*)key;

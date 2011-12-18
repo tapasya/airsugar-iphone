@@ -17,6 +17,7 @@
 {
     WebserviceSession *session = [[WebserviceSession alloc] init];
     session.metadata = metadata;
+   NSLog(@"module name: %@",metadata.moduleName);
     return session;
 }
 
@@ -33,15 +34,14 @@
             NSDictionary *responseDictionary = [data objectFromJSONData]; //parse using some parser
             NSLog(@"delegate %@",delegate);
             id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
-            if([responseObjects isKindOfClass:[NSDictionary class]])
-            {
+            if([responseObjects isKindOfClass:[NSDictionary class]]){
                 responseObjects = [NSArray arrayWithObject:responseObjects];
             }
             NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
             for(NSDictionary *responseObject in responseObjects)
             {
+                NSLog(@"data object %@",metadata.objectMetadata);
                 DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
-                
                 //dataobjectfields set from dataobjectmetadata in webservice metadata
                 for(DataObjectField *field in [[metadata.objectMetadata fields] allObjects]) 
                 {
@@ -51,6 +51,7 @@
                 [arrayOfDataObjects addObject:dataObject];
             }
             if(delegate!= nil){
+             
                 [delegate session:self didCompleteWithResponse:arrayOfDataObjects];
             }
         }
