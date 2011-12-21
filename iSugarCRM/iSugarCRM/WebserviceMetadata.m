@@ -58,10 +58,10 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableString *urlWithParams = [[NSMutableString alloc] init];
     [urlWithParams appendString:endpoint];
     int index = 0;
-    NSLog(@"urlparameters %@",urlParameters);
+   
     for(NSDictionary *urlParam in urlParameters)
     {
-        NSLog(@"url param dict %@",urlParam);
+       
         NSString *key = [[urlParam allKeys] objectAtIndex:0];
         if(index++ == 0)
         {

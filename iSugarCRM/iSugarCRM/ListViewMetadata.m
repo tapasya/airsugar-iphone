@@ -36,7 +36,7 @@
 +(ListViewMetadata*)objectFromDictionary:(NSDictionary*)dictionary
 {
     ListViewMetadata *lViewMetadata = [[ListViewMetadata alloc]init];
-    lViewMetadata.primaryDisplayField = [dictionary valueForKey:@"primaryDisplayField"];
+    lViewMetadata.primaryDisplayField = [DataObjectField objectFromDictionary:[dictionary valueForKey:@"primaryDisplayField"]];
     NSArray *arrayOfOtherFieldDictionaries = [dictionary objectForKey:@"otherFields"];
     if (arrayOfOtherFieldDictionaries != nil) {
         NSMutableArray *otherFields = [[NSMutableArray alloc] init];

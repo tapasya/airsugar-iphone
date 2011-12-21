@@ -124,7 +124,6 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         NSLog(@"Config file doesnt exist");
         [self generateConfig];
         [self configForModules];
-        [self configureMetadata];
     }
     return YES;
 }
@@ -216,20 +215,16 @@ static SugarCRMMetadataStore *sharedInstance = nil;
      
             //WebserviceMetadata
             WebserviceMetadata *wsMap = [[WebserviceMetadata alloc] init];
-            wsMap.pathToObjectsInResponse = @"get_entry_list";
+            wsMap.pathToObjectsInResponse = @"entry_list";
             wsMap.endpoint = sugarEndpoint;
             NSMutableDictionary *restDataDictionary=[[OrderedDictionary alloc] init];
             [restDataDictionary setObject:session forKey:@"session"];
             [restDataDictionary setObject:module forKey:@"module"];
             NSString* restDataString=[restDataDictionary JSONString];
-            
-          
             [wsMap setUrlParam:@"get_entry_list" forKey:@"method"];
             [wsMap setUrlParam:@"JSON" forKey:@"input_type"];
             [wsMap setUrlParam:@"JSON" forKey:@"response_type"];
             [wsMap setUrlParam:restDataString forKey:@"rest_data"];
-           
-            NSLog(@"urlparamsss%@",urlParams);
             NSMutableDictionary *responseKeyPathMap = [[NSMutableDictionary alloc] init];
             for(DataObjectField *field in [daoMetadata.fields allObjects]){
                 [responseKeyPathMap setObject:[NSString stringWithFormat:@"name_value_list.%@.value",field.name] forKey:field.name];
@@ -255,8 +250,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             ListViewMetadata *lViewMetadata = [[ListViewMetadata alloc] init];
             DataObjectField *primaryField = [[DataObjectField alloc] init];
             primaryField.name = @"name";
+            primaryField.label = @"Name";
             lViewMetadata.primaryDisplayField = primaryField; 
-            lViewMetadata.otherFields = nil;
+            DataObjectField *otherField = [[DataObjectField alloc] init];
+            otherField.name = @"id";
+            otherField.label = @"id";
+            lViewMetadata.otherFields = [NSArray arrayWithObject:otherField];
             lViewMetadata.iconImageName = nil;
             lViewMetadata.objectMetadata = daoMetadata;
             lViewMetadata.moduleName = module;

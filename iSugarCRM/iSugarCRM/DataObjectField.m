@@ -59,12 +59,14 @@ static inline BOOL boolValue(NSString *s){
 {
     DataObjectField *daoField = [[DataObjectField alloc]init];
     daoField.name = [dictionary valueForKey:@"name"];
+    daoField.label = [dictionary valueForKey:@"label"];
     daoField.sortable = boolValue([dictionary valueForKey:@"sortable"]);
     return daoField;
 }
 - (id)copyWithZone:(NSZone *)zone{
     id copy = [[[self class] allocWithZone:zone] init];
     [copy setName:[self name]];
+    [copy setLabel:[self label]];
     [copy setDataType:[self dataType]];
     return copy;
 }

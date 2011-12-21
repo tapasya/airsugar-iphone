@@ -43,17 +43,17 @@
     [super viewDidLoad];
     datasource = [[NSMutableArray alloc] init];
     if (!metadata) {
-        //get from SugarCRM store
+      self.metadata = [[SugarCRMMetadataStore sharedInstance]listViewMetadataForModule:moduleName];
     }
     myTableView = [[UITableView alloc] init];
     myTableView.delegate = self;
     myTableView.dataSource = self;
     myTableView.frame = [[UIScreen mainScreen] applicationFrame];
-    myTableView.rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
+    CGFloat rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
+    myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
     self.view = myTableView;
     
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    NSLog(@"%@",metadata.moduleName);
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
     DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
     dbSession.delegate = self;
@@ -126,10 +126,15 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    id dataObjectForRow = [datasource objectAtIndex:indexPath.row];
+  
+    cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
     
-    cell.textLabel.text = [[datasource objectAtIndex:indexPath.row] objectForFieldName:metadata.primaryDisplayField.name];
-    //cell.imageView.image = []
-    
+    for(DataObjectField *otherField in metadata.otherFields)
+    {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
+          NSLog(@"other display field %@ label:%@",[dataObjectForRow objectForFieldName:otherField.name],otherField.label);
+    }
     return cell;
 }
 

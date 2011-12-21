@@ -67,9 +67,10 @@ NSInteger moduleCount = 1;
         NSLog(@"Sync succesfull for module: %@",session.metadata.tableName);
         [delegate syncComplete:self];
         NSLog(@"module count is %d",moduleCount);
-        if (--moduleCount==0) {
+        if (moduleCount==1) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
         }
+        moduleCount--;
     }
 }
 @end

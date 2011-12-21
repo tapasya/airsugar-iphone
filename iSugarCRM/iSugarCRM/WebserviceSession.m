@@ -32,8 +32,8 @@
         else
         {  
             NSDictionary *responseDictionary = [data objectFromJSONData]; //parse using some parser
-            NSLog(@"delegate %@",delegate);
             id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
+            NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
             if([responseObjects isKindOfClass:[NSDictionary class]]){
                 responseObjects = [NSArray arrayWithObject:responseObjects];
             }
@@ -45,8 +45,13 @@
                 //dataobjectfields set from dataobjectmetadata in webservice metadata
                 for(DataObjectField *field in [[metadata.objectMetadata fields] allObjects]) 
                 {
-                    id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field]];
+                   // NSLog([metadata.responseKeyPathMap objectForKey:field])
+                    id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field.name]];
+                    if (value == nil) {
+                        [dataObject setObject:@" " forFieldName:field.name];
+                    } else {
                     [dataObject setObject:value forFieldName:field.name];
+                    }
                 }
                 [arrayOfDataObjects addObject:dataObject];
             }
