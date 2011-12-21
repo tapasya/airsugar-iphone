@@ -12,9 +12,11 @@
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
 		2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC7149644B5000CFB80 /* SyncHandler.m */; };
+		2FCB48F214A21328009079A1 /* DetailViewRowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */; };
+		2FCB48F314A21328009079A1 /* DetailViewSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */; };
+		2FCB48F414A21328009079A1 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EF14A21328009079A1 /* DetailViewController.m */; };
 		2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD9F491148D0A8900446A5F /* libsqlite3.dylib */; };
 		2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */; };
-		2FEEB974149F90D7003B39BC /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEEB973149F90D7003B39BC /* DetailViewController.m */; };
 		2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */; };
 		3B3E6276148E2F8A002BAE48 /* ListViewMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */; };
 		3B3E627A148E32AE002BAE48 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6279148E32AE002BAE48 /* ListViewController.m */; };
@@ -63,11 +65,17 @@
 		2FBBDFC31495DDF0000CFB80 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		2FBBDFC6149644B5000CFB80 /* SyncHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncHandler.h; sourceTree = "<group>"; };
 		2FBBDFC7149644B5000CFB80 /* SyncHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncHandler.m; sourceTree = "<group>"; };
+		2FCB48EA14A21328009079A1 /* DetailViewRowItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewRowItem.h; sourceTree = "<group>"; };
+		2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewRowItem.m; sourceTree = "<group>"; };
+		2FCB48EC14A21328009079A1 /* DetailViewSectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewSectionItem.h; sourceTree = "<group>"; };
+		2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewSectionItem.m; sourceTree = "<group>"; };
+		2FCB48EE14A21328009079A1 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = itemfiles/DetailViewController.h; sourceTree = "<group>"; };
+		2FCB48EF14A21328009079A1 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = itemfiles/DetailViewController.m; sourceTree = "<group>"; };
+		2FCB48F014A21328009079A1 /* UITableViewCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellItem.h; sourceTree = "<group>"; };
+		2FCB48F114A21328009079A1 /* UITableViewCellSectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITableViewCellSectionItem.h; sourceTree = "<group>"; };
 		2FD9F491148D0A8900446A5F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		2FD9F4B7148D0DE900446A5F /* SqliteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqliteObj.h; sourceTree = "<group>"; };
 		2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqliteObj.m; sourceTree = "<group>"; };
-		2FEEB972149F90D6003B39BC /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		2FEEB973149F90D7003B39BC /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = CRMDatabase.db; sourceTree = "<group>"; };
 		3B3E6274148E2F8A002BAE48 /* ListViewMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewMetadata.h; sourceTree = "<group>"; };
 		3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewMetadata.m; sourceTree = "<group>"; };
@@ -153,6 +161,19 @@
 			name = Utitlity;
 			sourceTree = "<group>";
 		};
+		2FCB48E914A21328009079A1 /* itemfiles */ = {
+			isa = PBXGroup;
+			children = (
+				2FCB48EA14A21328009079A1 /* DetailViewRowItem.h */,
+				2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */,
+				2FCB48EC14A21328009079A1 /* DetailViewSectionItem.h */,
+				2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */,
+				2FCB48F014A21328009079A1 /* UITableViewCellItem.h */,
+				2FCB48F114A21328009079A1 /* UITableViewCellSectionItem.h */,
+			);
+			path = itemfiles;
+			sourceTree = "<group>";
+		};
 		3B3E6272148E1B98002BAE48 /* sugar */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,10 +184,10 @@
 		3B3E6277148E3288002BAE48 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2FCB48EE14A21328009079A1 /* DetailViewController.h */,
+				2FCB48EF14A21328009079A1 /* DetailViewController.m */,
 				3B3E6278148E32AE002BAE48 /* ListViewController.h */,
 				3B3E6279148E32AE002BAE48 /* ListViewController.m */,
-				2FEEB972149F90D6003B39BC /* DetailViewController.h */,
-				2FEEB973149F90D7003B39BC /* DetailViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -313,6 +334,7 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				2FCB48E914A21328009079A1 /* itemfiles */,
 				3B3E6277148E3288002BAE48 /* UI */,
 				3B3E6272148E1B98002BAE48 /* sugar */,
 				2F6C46A3148676A700865C25 /* Utitlity */,
@@ -453,7 +475,9 @@
 				2FD9F4B9148D0DEC00446A5F /* SqliteObj.m in Sources */,
 				2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */,
 				2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */,
-				2FEEB974149F90D7003B39BC /* DetailViewController.m in Sources */,
+				2FCB48F214A21328009079A1 /* DetailViewRowItem.m in Sources */,
+				2FCB48F314A21328009079A1 /* DetailViewSectionItem.m in Sources */,
+				2FCB48F414A21328009079A1 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

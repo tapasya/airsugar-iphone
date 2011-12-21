@@ -1,37 +1,60 @@
 //
-//  DetailViewController.m
-//  iSugarCRM
+//  NearbyDealsListViewController.m
+//  Deals
 //
-//  Created by Satyavrat Mudgil on 19/12/11.
+//  Created by Ved Surtani on 06/12/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "DetailViewController.h"
-
-
+#import "NearbyDealsListItem.h"
+#import "UITableViewCellSectionItem.h"
+#import "UITableViewCellItem.h"
 @implementation DetailViewController
-@synthesize datasource,metadata,beanId;
-- (id)init
-{
+@synthesize dealsByCategory,datasource;
+
+
+
+-(id)init{
     self = [super init];
+    [self addObserver:self forKeyPath:@"datasource" options:NSKeyValueObservingOptionNew context:nil];
+    return self;
+}
+- (id)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
     return self;
 }
+
+#pragma mark - KVO
+- (void)didChangeValueForKey:(NSString *)key
+{
+    if(key == @"datasource")
+    {
+        [self.tableView reloadData];
+    }
+}
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -39,33 +62,69 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+
     // Return the number of sections.
-    return 0 ;//[[metadata sections] count];
+    return [datasource count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  
-    return [datasource count];
+
+    // Return the number of rows in the section.
+    id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:section];
+    return [[sectionItem rowItems] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:indexPath.section];
+    id<UITableViewCellRowItem> rowItem  = [[sectionItem rowItems] objectAtIndex:indexPath.row];
+    return [rowItem reusableCellForTableView:tableView];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:indexPath.section];
+    id<UITableViewCellRowItem> rowItem  = [[sectionItem rowItems] objectAtIndex:indexPath.row];
+    return [rowItem heightForCell];
+}
+
+-(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:section];
+    if ([sectionItem sectionTitle] != nil) {
+        return [sectionItem sectionTitle];
     }
-    
-    // Configure the cell...
-    
-    return cell;
+    return @"";
 }
 
 /*

@@ -1343,9 +1343,9 @@
 			<array>
 				<dict>
 					<key>label</key>
-					<string>id</string>
+					<string>phone</string>
 					<key>name</key>
-					<string>id</string>
+					<string>phone_office</string>
 					<key>sortable</key>
 					<string>0</string>
 				</dict>
