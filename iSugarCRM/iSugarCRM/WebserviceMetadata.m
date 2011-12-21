@@ -27,7 +27,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 -(id)init{
     if (self=[super init]) {
         headers=[[OrderedDictionary alloc]init];
-        urlParameters=[[OrderedDictionary alloc]init];
+        urlParameters=[[NSMutableArray alloc]init];
         postParameters=[[OrderedDictionary alloc]init];
     }
     return  self;
@@ -49,8 +49,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     //OrderedDictionary *urlParamsCopy =  [urlParameters mutableCopy];
     //[urlParamsCopy setValue:urlParam forKey:key];
     //urlParameters = urlParamsCopy;
-    [urlParameters setValue:urlParam forKey:key];
-    NSLog(@"urlparams :%@",urlParameters);
+    [urlParameters addObject:[NSDictionary dictionaryWithObject:urlParam forKey:key]];
 }
 
 -(NSURLRequest*)getRequest
@@ -59,15 +58,19 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableString *urlWithParams = [[NSMutableString alloc] init];
     [urlWithParams appendString:endpoint];
     int index = 0;
-    for(NSString *key in [urlParameters allKeys])
+    NSLog(@"urlparameters %@",urlParameters);
+    for(NSDictionary *urlParam in urlParameters)
     {
+        NSLog(@"url param dict %@",urlParam);
+        NSString *key = [[urlParam allKeys] objectAtIndex:0];
         if(index++ == 0)
         {
-            [urlWithParams appendString:[NSString stringWithFormat:@"?%@=%@",key,[urlParameters valueForKey:key]]];
+            
+            [urlWithParams appendString:[NSString stringWithFormat:@"?%@=%@",key,[urlParam valueForKey:key]]];
         }
         else
         {
-            [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParameters valueForKey:key]]];
+            [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParam valueForKey:key]]];
         }
     }
     NSLog(@"url string: %@",urlWithParams);

@@ -9,5 +9,12 @@
 #import "DetailViewMetadata.h"
 
 @implementation DetailViewMetadata
+@synthesize objectMetadata,moduleName;
+-(NSDictionary*)toDictionary
+{
 
+}
++(DetailViewMetadata*)objectFromDictionary:(NSDictionary *)dictionary{
+
+}
 @end

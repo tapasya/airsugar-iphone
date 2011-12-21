@@ -223,12 +223,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             [restDataDictionary setObject:module forKey:@"module"];
             NSString* restDataString=[restDataDictionary JSONString];
             
-            OrderedDictionary *urlParams = [[OrderedDictionary alloc] init]; 
-            [urlParams setObject:@"get_entry_list" forKey:@"method"];
-            [urlParams setObject:@"JSON" forKey:@"input_type"];
-            [urlParams setObject:@"JSON" forKey:@"response_type"];
-            [urlParams setObject:restDataString forKey:@"rest_data"];
-            wsMap.urlParameters = urlParams;
+          
+            [wsMap setUrlParam:@"get_entry_list" forKey:@"method"];
+            [wsMap setUrlParam:@"JSON" forKey:@"input_type"];
+            [wsMap setUrlParam:@"JSON" forKey:@"response_type"];
+            [wsMap setUrlParam:restDataString forKey:@"rest_data"];
+           
             NSLog(@"urlparamsss%@",urlParams);
             NSMutableDictionary *responseKeyPathMap = [[NSMutableDictionary alloc] init];
             for(DataObjectField *field in [daoMetadata.fields allObjects]){
@@ -260,6 +260,11 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             lViewMetadata.iconImageName = nil;
             lViewMetadata.objectMetadata = daoMetadata;
             lViewMetadata.moduleName = module;
+            
+            DetailViewMetadata *detailViewMetadata = [[DetailViewMetadata alloc] init];
+            detailViewMetadata.objectMetadata = daoMetadata;
+            
+            
             NSMutableDictionary *moduleMetadataDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:[daoMetadata toDictionary],@"DataObjectMetadata",[wsMap toDictionary],@"WebserviceMetadata",[dbMetadata toDictionary],@"DbMetadata",[lViewMetadata toDictionary],@"ListViewMetadata",nil];
             
             [metadata setObject:moduleMetadataDictionary forKey:module];

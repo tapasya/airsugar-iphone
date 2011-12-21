@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "DataObjectMetadata.h"
 @interface DetailViewMetadata : NSObject
+@property(strong)DataObjectMetadata *objectMetadata;
+@property(strong)NSString *moduleName;
+-(NSDictionary*)toDictionary;
++(DetailViewMetadata*)objectFromDictionary:(NSDictionary*)dictionary;
 @end

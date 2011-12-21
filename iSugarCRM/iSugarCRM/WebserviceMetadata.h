@@ -20,7 +20,7 @@ typedef enum HTTPMethod{
 @property(strong)DataObjectMetadata *objectMetadata;
 @property(nonatomic)HTTPMethod method;
 @property(strong)NSString *endpoint;
-@property(strong)OrderedDictionary *urlParameters;
+@property(strong)NSMutableArray *urlParameters;
 @property(strong)NSDictionary *postParameters;
 @property(strong)NSDictionary *headers;
 @property(strong)NSString *pathToObjectsInResponse;
