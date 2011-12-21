@@ -11,7 +11,7 @@
 #import "SugarCRMMetadataStore.h"
 #import "DBSession.h"
 #import "DataObject.h"
-
+#import "DetailViewController.h"
 @implementation ListViewController
 @synthesize moduleName,datasource,metadata;
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
@@ -124,7 +124,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     id dataObjectForRow = [datasource objectAtIndex:indexPath.row];
   
@@ -143,11 +143,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
+
+     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+
      [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
+   }
 @end

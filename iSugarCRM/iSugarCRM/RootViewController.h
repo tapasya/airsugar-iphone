@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UITableViewController<UITableViewDataSource,UITableViewDelegate>
+@interface RootViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
-   @private UITableView *tableView;
+   @private UITableView *myTableView;
 }
 @property (strong) NSArray *moduleList;
 @end

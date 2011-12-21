@@ -15,9 +15,9 @@
 
 @implementation RootViewController
 @synthesize moduleList,spinner;
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
+    self = [super init];
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
@@ -32,9 +32,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     self.tableView.userInteractionEnabled = NO;
-    spinner = [[UIActivityIndicatorView alloc] init];
-    spinner.center = self.view.center;
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    UILabel *loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(40,self.view.frame.size.width/2-50,250,50)];
+    loadingLabel.text = @"Please Wait Loading Data...";
+    [self.view addSubview:loadingLabel];
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
     [self.view addSubview:spinner];
     [spinner startAnimating];
 }
@@ -82,9 +85,12 @@
 -(void)didCompleteSync
 {   
     NSLog(@"sync complete");
-    self.tableView.userInteractionEnabled = YES;
     [self.spinner stopAnimating];
     [self.spinner setHidden:YES];
+    myTableView = [[UITableView alloc] initWithFrame:self.view.frame];
+    myTableView.delegate = self;
+    myTableView.dataSource = self;
+    [self.view addSubview:myTableView];
     
 }
 @end

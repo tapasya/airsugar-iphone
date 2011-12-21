@@ -104,29 +104,40 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 -(BOOL)initializeMetadata
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL success;
-    NSString *rootPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
-    NSString* plistPath;
-    if ([[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil]) {
-        plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"]; 
-    } 
-    success = [fileManager fileExistsAtPath:plistPath];
+   // NSFileManager *fileManager = [NSFileManager defaultManager];
+    //BOOL success;
+    //NSString *rootPath= [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)objectAtIndex:0];
+    //NSString* plistPath;
+    //if ([[NSFileManager defaultManager] createDirectoryAtPath:rootPath withIntermediateDirectories:YES attributes:nil error:nil]) {
+     //   plistPath = [rootPath stringByAppendingPathComponent:@"SugarModulesMetadata.plist"]; 
+    //} 
+    //success = [fileManager fileExistsAtPath:plistPath];
     //check if plist already exist
-    if(success)
-    {
-        metadataDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-        if (!metadataDictionary) {
-            NSLog(@"Cannot read config file");
-            return NO;
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SugarMetadata" ofType:@"plist"];  
+    if (filePath) {  
+        metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];  
+        if (metadataDictionary) {  
+            return YES;
         }
+       // }  
+   // }  
+   // if(success)
+   // {
+    //    metadataDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    //    if (!metadataDictionary) {
+     //       NSLog(@"Cannot read config file");
+     //       return NO;
+     //   }
     } else {
         NSLog(@"Config file doesnt exist");
         [self generateConfig];
         [self configForModules];
+      
     }
-    return YES;
+    return NO;
 }
+
 
 -(NSDictionary*)generateConfig 
 {

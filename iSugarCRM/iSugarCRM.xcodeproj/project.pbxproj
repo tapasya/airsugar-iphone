@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F64F5F214A1CDCA00AED168 /* SugarModulesMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F64F5F114A1CDCA00AED168 /* SugarModulesMetadata.plist */; };
+		2F64F60914A1FE4400AED168 /* SugarMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F64F60814A1FE4400AED168 /* SugarMetadata.plist */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
@@ -54,7 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2F64F5F114A1CDCA00AED168 /* SugarModulesMetadata.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SugarModulesMetadata.plist; sourceTree = "<group>"; };
+		2F64F60814A1FE4400AED168 /* SugarMetadata.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SugarMetadata.plist; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 		3B5C97D7147CF7BC007EF770 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2F64F5F114A1CDCA00AED168 /* SugarModulesMetadata.plist */,
+				2F64F60814A1FE4400AED168 /* SugarMetadata.plist */,
 				2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */,
 				3B5C97D8147CF7BC007EF770 /* iSugarCRM-Info.plist */,
 				3B5C97D9147CF7BC007EF770 /* InfoPlist.strings */,
@@ -397,7 +397,7 @@
 			files = (
 				3B5C97DB147CF7BC007EF770 /* InfoPlist.strings in Resources */,
 				2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */,
-				2F64F5F214A1CDCA00AED168 /* SugarModulesMetadata.plist in Resources */,
+				2F64F60914A1FE4400AED168 /* SugarMetadata.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
