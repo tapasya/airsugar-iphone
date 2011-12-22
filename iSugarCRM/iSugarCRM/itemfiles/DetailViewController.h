@@ -14,5 +14,6 @@
 @property(strong)NSArray *datasource;
 @property(strong)DetailViewMetadata *metadata;
 @property(strong)NSString *beanId;
-+(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata andBeanId:(NSString*)beanId;
+@property(strong)NSString *beanTitle;
++(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle;
 @end

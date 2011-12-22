@@ -7,30 +7,27 @@
 //
 
 #import "DetailViewController.h"
-//#import "NearbyDealsListItem.h"
 #import "UITableViewCellSectionItem.h"
 #import "UITableViewCellItem.h"
 #import "SugarCRMMetadataStore.h"
-
+#import "DataObject.h"
+#import "DetailViewRowItem.h"
+#import "DetailViewSectionItem.h"
 @implementation DetailViewController
-@synthesize datasource,metadata,beanId;
-+(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata andBeanId:(NSString*)beanId
+@synthesize datasource,metadata,beanId,beanTitle;
++(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
 {
     DetailViewController *detailViewController = [[DetailViewController alloc] init];
     detailViewController.metadata = metadata;
+    NSLog(@"module name %@",metadata.moduleName);
     detailViewController.beanId = beanId;
+    detailViewController.beanTitle = beanTitle;
     return detailViewController;
 }
 
 -(id)init{
     self = [super init];
-    [self addObserver:self forKeyPath:@"datasource" options:NSKeyValueObservingOptionNew context:nil];
-    self.title = metadata.moduleName;
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    dbSession.delegate = self;
-    [dbSession detailsForId:self.beanId];
+    //[self addObserver:self forKeyPath:@"datasource" options:NSKeyValueObservingOptionNew context:nil];
     return self;
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -64,7 +61,27 @@
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {   
-   // datasource = moduleList;
+    //    for(DataObject * row in details){
+    //        NSLog(@"Details for id: %@ :%@",beanId,row);
+    //    }
+    NSMutableArray* sections = [[NSMutableArray alloc] init];
+    for(NSString *sectionName in [metadata.sectionItems allKeys] )
+    {   
+        DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
+        sectionItem.sectionTitle = sectionName;
+        NSMutableArray *rowItems = [[NSMutableArray alloc] init];
+        NSArray *sectionRowItems = [metadata.sectionItems objectForKey:sectionName];
+        for(DataObjectField *rowField in sectionRowItems)
+        {
+            DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
+            rowItem.label = rowField.label;
+            rowItem.value = [[details objectAtIndex:0] objectForFieldName:rowField.name];
+            [rowItems addObject:rowItem];
+        }
+        sectionItem.rowItems = rowItems;
+        [sections addObject:sectionItem];
+    }
+    self.datasource = sections;
     [self.tableView reloadData];
 }
 -(void)session:(DBSession *)session detailDownloadFailedWithError:(NSError *)error
@@ -79,6 +96,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = self.beanTitle;
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    dbSession.delegate = self;
+    [dbSession detailsForId:self.beanId];
 
 }
 - (void)viewDidUnload

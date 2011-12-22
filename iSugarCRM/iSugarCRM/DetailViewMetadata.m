@@ -18,9 +18,11 @@
     [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
     
     NSMutableArray *sections = [NSMutableArray array];
-    for(NSString *key in [sectionItems allKeys]){
+    for(NSString *key in [sectionItems allKeys])
+    {
         NSMutableArray *sectionRowitems =[NSMutableArray array];
-        for (DataObjectField *rowItem in [sectionItems objectForKey:key]) {
+        for (DataObjectField *rowItem in [sectionItems objectForKey:key])
+        {
             [sectionRowitems addObject:[rowItem toDictionary]];
         }
         NSMutableDictionary *sectionDictionary = [NSMutableDictionary dictionary];
@@ -32,15 +34,18 @@
     return dictionary;
     
 }
-+(DetailViewMetadata*)objectFromDictionary:(NSDictionary *)dictionary{
++(DetailViewMetadata*)objectFromDictionary:(NSDictionary *)dictionary
+{
     DetailViewMetadata *detailViewMetadata = [[DetailViewMetadata alloc] init];
     NSMutableDictionary *sectionItems = [[NSMutableDictionary alloc] init];
     NSMutableArray *sections = [dictionary objectForKey:@"sectionItems"];
-    for(NSDictionary *section in sections){
+    for(NSDictionary *section in sections)
+    {
         NSString *key = [section objectForKey:@"section_name"];
         NSArray *rowItems = [section objectForKey:@"rowItems"];
         NSMutableArray *sectionRowItems = [[NSMutableArray alloc] init];
-        for(NSDictionary *rowItem in rowItems){
+        for(NSDictionary *rowItem in rowItems)
+        {
             [sectionRowItems addObject:[DataObjectField objectFromDictionary:rowItem]];
         }
         [sectionItems setObject:sectionRowItems forKey:key];

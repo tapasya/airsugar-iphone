@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "UITableViewCellItem.h"
-
+#import "DataObject.h"
 @interface DetailViewRowItem : NSObject<UITableViewCellRowItem>
 
 
-@property (nonatomic, readonly, copy) NSString *title;
-@property (nonatomic, readonly, copy) NSString *subtitle;
-
+@property (nonatomic, copy) NSString *label;
+@property (nonatomic, copy) NSString *value;
 @end

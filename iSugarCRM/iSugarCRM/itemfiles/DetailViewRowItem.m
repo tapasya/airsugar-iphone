@@ -9,13 +9,11 @@
 #import "DetailViewRowItem.h"
 
 @implementation DetailViewRowItem
-@synthesize title,subtitle;
-
-
+@synthesize label,value;
 
 -(CGFloat)heightForCell
 {
-    return 140.f;
+    return 50.0f;
 }
 
 
@@ -27,9 +25,7 @@
                                                                 reuseIdentifier:[self reusableCellIdentifier]];
     }
 
-    //cell.thumbnailImageView.imageUrl = deal.thumbnailUrl;
-    //cell.remainingTimeLabel.text = [deal.endTime description];
-    //cell.placeLabel.text = [deal placeName];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",label,value];
     return cell;
     
 }

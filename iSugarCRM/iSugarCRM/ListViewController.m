@@ -18,6 +18,7 @@
 {
     ListViewController *lViewController = [[ListViewController alloc] init];
     lViewController.metadata = metadata;
+    lViewController.moduleName = metadata.moduleName;
     return lViewController;
 
 }
@@ -25,7 +26,7 @@
 +(ListViewController*)listViewControllerWithModuleName:(NSString*)module
 {
     ListViewController *lViewController = [[ListViewController  alloc] init];
-    lViewController.moduleName = module;
+    //lViewController.moduleName = module;
     return lViewController;
 }
 
@@ -142,9 +143,12 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance]detailViewMetadataForModule:moduleName] andBeanId:[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"]];
+{    // Navigation logic may go here. Create and push another view controller.
+    id beanTitle = [[datasource objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+    id beanId =[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"];
+    NSLog(@"beanId %@, beantitle %@",beanId,beanTitle);
+                
+    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
      [self.navigationController pushViewController:detailViewController animated:YES];
    }
 @end

@@ -76,7 +76,8 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 }
 
 -(DetailViewMetadata*)detailViewMetadataForModule:(NSString *)moduleName{
-    return [self viewMetaDataForKey:[NSString stringWithFormat:@"detail-%@",moduleName]];
+    id metadata = [self viewMetaDataForKey:[NSString stringWithFormat:@"detail-%@",moduleName]];
+    return metadata;
 }
 
 -(void)configureMetadata
