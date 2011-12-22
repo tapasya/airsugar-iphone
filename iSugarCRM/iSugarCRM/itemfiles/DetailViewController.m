@@ -7,17 +7,30 @@
 //
 
 #import "DetailViewController.h"
-#import "NearbyDealsListItem.h"
+//#import "NearbyDealsListItem.h"
 #import "UITableViewCellSectionItem.h"
 #import "UITableViewCellItem.h"
+#import "SugarCRMMetadataStore.h"
+
 @implementation DetailViewController
-@synthesize dealsByCategory,datasource;
-
-
+@synthesize datasource,metadata,beanId;
++(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata andBeanId:(NSString*)beanId
+{
+    DetailViewController *detailViewController = [[DetailViewController alloc] init];
+    detailViewController.metadata = metadata;
+    detailViewController.beanId = beanId;
+    return detailViewController;
+}
 
 -(id)init{
     self = [super init];
     [self addObserver:self forKeyPath:@"datasource" options:NSKeyValueObservingOptionNew context:nil];
+    self.title = metadata.moduleName;
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    dbSession.delegate = self;
+    [dbSession detailsForId:self.beanId];
     return self;
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -47,6 +60,19 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+#pragma mark DbSession Load Delegate methods
+
+-(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
+{   
+   // datasource = moduleList;
+    [self.tableView reloadData];
+}
+-(void)session:(DBSession *)session detailDownloadFailedWithError:(NSError *)error
+{
+    NSLog(@"Error: %@",[error localizedDescription]);
+}
+
+
 
 #pragma mark - View lifecycle
 
@@ -126,45 +152,6 @@
     }
     return @"";
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 

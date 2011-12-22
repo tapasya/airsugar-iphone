@@ -34,6 +34,20 @@
 }
 +(DetailViewMetadata*)objectFromDictionary:(NSDictionary *)dictionary{
     DetailViewMetadata *detailViewMetadata = [[DetailViewMetadata alloc] init];
+    NSMutableDictionary *sectionItems = [[NSMutableDictionary alloc] init];
+    NSMutableArray *sections = [dictionary objectForKey:@"sectionItems"];
+    for(NSDictionary *section in sections){
+        NSString *key = [section objectForKey:@"section_name"];
+        NSArray *rowItems = [section objectForKey:@"rowItems"];
+        NSMutableArray *sectionRowItems = [[NSMutableArray alloc] init];
+        for(NSDictionary *rowItem in rowItems){
+            [sectionRowItems addObject:[DataObjectField objectFromDictionary:rowItem]];
+        }
+        [sectionItems setObject:sectionRowItems forKey:key];
+    }    
+    detailViewMetadata.sectionItems = sectionItems;
+    detailViewMetadata.moduleName = [dictionary objectForKey:@"module_name"];
+    detailViewMetadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     return detailViewMetadata ;
 }
 

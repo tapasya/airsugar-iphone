@@ -91,10 +91,11 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
-            
+            DetailViewMetadata *detailViewMetadata = [DetailViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DetailViewMetadata"]];
             [self setWebMetaData:webserviceMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
             [self setDBMetaData:dbMetadata forKey:module];
             [self setViewMetaData:listViewMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
+            [self setViewMetaData:detailViewMetadata forKey:[NSString stringWithFormat:@"detail-%@",module]];
         }
     }
 }
@@ -115,7 +116,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         [self generateConfig];
         [self configForModules];
     }
-    return NO;
+return NO;
 }
 
 
@@ -208,14 +209,14 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             WebserviceMetadata *wsMap = [[WebserviceMetadata alloc] init];
             wsMap.pathToObjectsInResponse = @"entry_list";
             wsMap.endpoint = sugarEndpoint;
-            NSMutableDictionary *restDataDictionary=[[OrderedDictionary alloc] init];
-            [restDataDictionary setObject:session forKey:@"session"];
-            [restDataDictionary setObject:module forKey:@"module"];
-            NSString* restDataString=[restDataDictionary JSONString];
+            //NSMutableDictionary *restDataDictionary=[[OrderedDictionary alloc] init];
+            //[restDataDictionary setObject:session forKey:@"session"];
+            //[restDataDictionary setObject:module forKey:@"module"];
+          //  NSString* restDataString=[restDataDictionary JSONString];
             [wsMap setUrlParam:@"get_entry_list" forKey:@"method"];
             [wsMap setUrlParam:@"JSON" forKey:@"input_type"];
             [wsMap setUrlParam:@"JSON" forKey:@"response_type"];
-            [wsMap setUrlParam:restDataString forKey:@"rest_data"];
+          //  [wsMap setUrlParam:restDataString forKey:@"rest_data"];
             NSMutableDictionary *responseKeyPathMap = [[NSMutableDictionary alloc] init];
             for(DataObjectField *field in [daoMetadata.fields allObjects]){
                 [responseKeyPathMap setObject:[NSString stringWithFormat:@"name_value_list.%@.value",field.name] forKey:field.name];
@@ -252,10 +253,17 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             lViewMetadata.moduleName = module;
             
             DetailViewMetadata *detailViewMetadata = [[DetailViewMetadata alloc] init];
+            NSMutableDictionary *sectionItems = [[NSMutableDictionary alloc] init];
+            DataObjectField *field = [DataObjectField fieldWithName:@"mobile_office" dataType:0];
+            field.label = @"Phone";
+            DataObjectField *field1 = [DataObjectField fieldWithName:@"name" dataType:0];
+            field1.label = @"Name";
+            [sectionItems setObject:[NSArray arrayWithObjects:field,field1, nil] forKey:@"Basic Info"];
+            detailViewMetadata.sectionItems = sectionItems;
             detailViewMetadata.objectMetadata = daoMetadata;
+            detailViewMetadata.moduleName = module;
             
-            
-            NSMutableDictionary *moduleMetadataDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:[daoMetadata toDictionary],@"DataObjectMetadata",[wsMap toDictionary],@"WebserviceMetadata",[dbMetadata toDictionary],@"DbMetadata",[lViewMetadata toDictionary],@"ListViewMetadata",nil];
+            NSMutableDictionary *moduleMetadataDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:[daoMetadata toDictionary],@"DataObjectMetadata",[wsMap toDictionary],@"WebserviceMetadata",[dbMetadata toDictionary],@"DbMetadata",[lViewMetadata toDictionary],@"ListViewMetadata",[detailViewMetadata toDictionary],@"DetailViewMetadata",nil];
             
             [metadata setObject:moduleMetadataDictionary forKey:module];
         }

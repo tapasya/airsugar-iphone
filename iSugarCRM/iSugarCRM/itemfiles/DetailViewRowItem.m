@@ -7,7 +7,7 @@
 //
 
 #import "DetailViewRowItem.h"
-#import "NearbyDealsListViewCell.h"
+
 @implementation DetailViewRowItem
 @synthesize title,subtitle;
 
@@ -21,13 +21,12 @@
 
 -(UITableViewCell*)reusableCellForTableView:(UITableView*)tableView{
     
-    NearbyDealsListViewCell *cell = (NearbyDealsListViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
+    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
     if (cell == nil) {
-        cell = [[NearbyDealsListViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
                                                                 reuseIdentifier:[self reusableCellIdentifier]];
     }
-    cell.titleLabel.text = deal.title;
-    cell.distanceLabel.text = @"0.5 miles";
+
     //cell.thumbnailImageView.imageUrl = deal.thumbnailUrl;
     //cell.remainingTimeLabel.text = [deal.endTime description];
     //cell.placeLabel.text = [deal placeName];

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface DetailViewController : UITableViewController
+#import "DetailViewMetadata.h"
+#import "DBSession.h"
+@interface DetailViewController : UITableViewController<DBLoadSessionDelegate>
 
 @property(strong)NSArray *datasource;
+@property(strong)DetailViewMetadata *metadata;
+@property(strong)NSString *beanId;
++(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata andBeanId:(NSString*)beanId;
 @end

@@ -17,6 +17,7 @@
     keyedWebMetadata = [[NSDictionary alloc] init];
     keyedDbMetadata = [[NSDictionary alloc] init];
     keyedViewMetadata = [[NSDictionary alloc] init];
+    
     return self;
     
 }
@@ -42,17 +43,17 @@
     [copyOfKeyedDBMetadata setObject:metadata forKey:key];
     keyedDbMetadata = copyOfKeyedDBMetadata;
 }
-
--(void)setViewMetaData:(id)metadata forKey:(NSString*)key
-{
-    NSMutableDictionary *copyOfKeyedViewMetadata = [keyedViewMetadata mutableCopy];
-    [copyOfKeyedViewMetadata setObject:metadata forKey:key];
-    keyedViewMetadata = copyOfKeyedViewMetadata;
-}
-
 -(id)viewMetaDataForKey:(NSString*)key
 {
    return [[keyedViewMetadata objectForKey:key] copy];
 }
 
+
+-(void)setViewMetaData:(id)metadata forKey:(NSString *)key
+{
+    NSMutableDictionary *copyOfKeyedDetailViewMetadata = [keyedViewMetadata mutableCopy];
+    [copyOfKeyedDetailViewMetadata setObject:metadata forKey:key];
+    keyedViewMetadata = copyOfKeyedDetailViewMetadata;
+
+}
 @end

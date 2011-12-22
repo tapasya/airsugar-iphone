@@ -19,8 +19,11 @@
 
 -(id)webMetaDataForKey:(NSString*)key;
 -(void)setWebMetaData:(id)metadata forKey:(NSString*)key;
+
 -(id)dbMetaDataForKey:(NSString*)key;
 -(void)setDBMetaData:(id)metadata forKey:(NSString*)key;
--(id)viewMetaDataForKey:(NSString*)key;
+
 -(void)setViewMetaData:(id)metadata forKey:(NSString*)key;
+-(id)viewMetaDataForKey:(NSString*)key;
+
 @end

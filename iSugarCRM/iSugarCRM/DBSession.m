@@ -61,7 +61,51 @@
     [delegate session:self downloadedModuleList:rows moreComing:NO];
 }
 
+-(void)detailsForId:(NSString *)beanId
+{
 
+
+    SqliteObj* db = [[SqliteObj alloc] init];
+    NSError* error = nil;
+    NSMutableArray *rows = [[NSMutableArray alloc]init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+        [delegate session:self detailDownloadFailedWithError:error];
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id is '%@';",metadata.tableName,beanId];
+    sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
+    if (error) {
+        NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
+        [delegate session:self detailDownloadFailedWithError:error];
+    }
+    while(sqlite3_step(stmt)==SQLITE_ROW){
+        DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
+        int columnCount = sqlite3_column_count(stmt);
+        int columnIdx=0;
+        for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
+        {
+            NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
+            NSString *value;
+            char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
+            //  NSLog(@"%s",field_value);
+            if (field_value!=NULL) {
+                value = [NSString stringWithFormat:@"%s",field_value];
+            }
+            else value = @"";
+            
+            if(![dataObject setObject:value forFieldName:[metadata.column_objectFieldMap objectForKey:fieldName]]){
+                NSLog(@"No %@ field in data object with specified metadata",fieldName);
+            }
+        }    
+        [rows addObject:dataObject];
+    }
+    sqlite3_finalize(stmt);
+    [db closeDatabase];
+    [delegate session:self downloadedDetails:rows];
+    
+
+
+}
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects
 {
     NSError* error = nil;

@@ -45,6 +45,7 @@ NSString * session=nil;
     [urlParams setObject:@"JSON" forKey:@"response_type"];
     [urlParams setObject:restDataDictionary forKey:@"rest_data"];
     NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSLog(@"URLSTRING = %@",urlString);
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];  
     NSURLResponse* response = [[NSURLResponse alloc] init]; 
@@ -96,8 +97,8 @@ NSString * session=nil;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // Override point for customization after application launch.
-    
-    if (!(session =[[self login] objectForKey:@"id"])) {
+    id response = [self login];
+    if (!(session =[response objectForKey:@"id"])) {
         NSLog(@"error loging in");     
         return NO;
     } 

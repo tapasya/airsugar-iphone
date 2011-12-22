@@ -20,6 +20,7 @@
 @property(strong)DBMetadata *metadata;
 +(DBSession*)sessionWithMetadata:(DBMetadata*)metadata;
 -(void)startLoading;
+-(void)detailsForId:(NSString*)beanId;
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects;
 @end
 

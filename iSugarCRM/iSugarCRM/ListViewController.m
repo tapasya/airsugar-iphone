@@ -144,9 +144,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-
-     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-
+    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance]detailViewMetadataForModule:moduleName] andBeanId:[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"]];
      [self.navigationController pushViewController:detailViewController animated:YES];
    }
 @end
