@@ -19,11 +19,12 @@
 #import "DataObject.h"
 #import "ListViewMetadata.h"
 #import "SyncHandler.h"
+#import "LoginViewController.h"
+#import "DashboardController.h"
+
 NSString * session=nil;
 
 @interface AppDelegate ()
--(id)login;
--(NSString*)urlStringForParams:(NSMutableDictionary*)params;
 @end
 
 @implementation AppDelegate
@@ -31,91 +32,31 @@ NSString * session=nil;
 @synthesize nvc;
 @synthesize syncHandler;
 
--(id)login{
-    
-    NSMutableDictionary *authDictionary=[[NSMutableDictionary alloc]init];
-    [authDictionary setObject:@"will" forKey:@"user_name"];
-    [authDictionary setObject:@"18218139eec55d83cf82679934e5cd75" forKey:@"password"];
-    NSMutableDictionary* restDataDictionary=[[NSMutableDictionary alloc]init];
-    [restDataDictionary setObject:authDictionary forKey:@"user_auth"];
-    [restDataDictionary setObject:@"soap_test" forKey:@"application"];
-    NSMutableDictionary* urlParams=[[NSMutableDictionary alloc] init];
-    [urlParams setObject:@"login" forKey:@"method"];
-    [urlParams setObject:@"JSON" forKey:@"input_type"];
-    [urlParams setObject:@"JSON" forKey:@"response_type"];
-    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSLog(@"URLSTRING = %@",urlString);
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];  
-    NSURLResponse* response = [[NSURLResponse alloc] init]; 
-    NSError* error=nil;  
-    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];     
-    if (error) {
-        return nil;
-    }
-    else{
-        return [adata objectFromJSONData];;
-    }
-}
-
--(NSString*)urlStringForParams:(NSMutableDictionary*)params{
-    NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
-    
-    bool is_first=YES;
-    for(id key in [params allKeys])
-    {
-        if(![[key description] isEqualToString:@"rest_data"]){   
-            
-            if (is_first) {
-                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"%@=%@",key,[params objectForKey:key]]];
-                is_first=NO;
-            }
-            else{
-                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"&%@=%@",key,[params objectForKey:key]]];
-            }
-        }
-        else{
-            if (is_first) {
-                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"%@=%@",key,[[params objectForKey:key]JSONString ]]];
-                is_first=NO;
-            }
-            else{
-                urlString=[urlString stringByAppendingString:[NSString stringWithFormat:@"&%@=%@",key,[[params objectForKey:key]JSONString]]];
-            }
-            
-        }
-    }
-    NSLog(@"%@",urlString);
-    return urlString;
-} 
 
 #pragma mark UIApplicationDelegate methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    // Override point for customization after application launch.
-    id response = [self login];
-    if (!(session =[response objectForKey:@"id"])) {
-        NSLog(@"error loging in");     
-        return NO;
-    } 
-    NSLog(@"session: %@",session);
-    
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    self.window.rootViewController = lvc;
+    [self.window makeKeyAndVisible];
+    return YES;   
+}
+
+-(void) showDashBoard
+{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     syncHandler = [[SyncHandler alloc] init];
     syncHandler.delegate = self;
     [syncHandler syncAllModules];
-    RootViewController *rvc = [[RootViewController alloc] init];
+    //RootViewController *rvc = [[RootViewController alloc] init];
+    DashboardController *rvc = [[DashboardController alloc] init];
     rvc.moduleList = [sugarMetaDataStore modulesSupported];   
     rvc.title = @"Modules";
-    nvc = [[UINavigationController alloc] initWithRootViewController:rvc];
-    self.window.rootViewController = self.nvc;
-    [self.window makeKeyAndVisible];
-    return YES;   
+    nvc = [[UINavigationController alloc] initWithRootViewController:rvc];  
+    self.window.rootViewController = nvc ;
 }
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error

@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
+		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
+		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
+		0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
+		0F8225F814B724AD00DCC4A5 /* MyLauncherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */; };
+		0F8225F914B724AD00DCC4A5 /* MyLauncherPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F014B724AD00DCC4A5 /* MyLauncherPageControl.m */; };
+		0F8225FA14B724AD00DCC4A5 /* MyLauncherScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */; };
+		0F8225FB14B724AD00DCC4A5 /* MyLauncherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */; };
+		0F8225FC14B724AD00DCC4A5 /* MyLauncherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */; };
+		0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
+		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
+		0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FB601A214A2CF810071AAA0 /* SugarMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB601A114A2CF810071AAA0 /* SugarMetadata.plist */; };
@@ -56,6 +68,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F02AAE214B3027300AABAA9 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		0F02AAE314B3027300AABAA9 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		0F02AAE414B3027300AABAA9 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		0F02AAE714B305D200AABAA9 /* LoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtils.h; sourceTree = "<group>"; };
+		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
+		0F8225EB14B724AD00DCC4A5 /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
+		0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
+		0F8225ED14B724AD00DCC4A5 /* MyLauncherItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherItem.h; sourceTree = "<group>"; };
+		0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherItem.m; sourceTree = "<group>"; };
+		0F8225EF14B724AD00DCC4A5 /* MyLauncherPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherPageControl.h; sourceTree = "<group>"; };
+		0F8225F014B724AD00DCC4A5 /* MyLauncherPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherPageControl.m; sourceTree = "<group>"; };
+		0F8225F114B724AD00DCC4A5 /* MyLauncherScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherScrollView.h; sourceTree = "<group>"; };
+		0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherScrollView.m; sourceTree = "<group>"; };
+		0F8225F314B724AD00DCC4A5 /* MyLauncherView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherView.h; sourceTree = "<group>"; };
+		0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherView.m; sourceTree = "<group>"; };
+		0F8225F514B724AD00DCC4A5 /* MyLauncherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherViewController.h; sourceTree = "<group>"; };
+		0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherViewController.m; sourceTree = "<group>"; };
+		0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0FB17C2A14B5B38E004F0C80 /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardController.h; sourceTree = "<group>"; };
+		0FB17C2B14B5B38E004F0C80 /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardController.m; sourceTree = "<group>"; };
+		0FB17C3114B5BF81004F0C80 /* itemImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemImage.png; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -128,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */,
 				2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */,
 				3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */,
 				3B5C97D3147CF7BC007EF770 /* Foundation.framework in Frameworks */,
@@ -148,6 +182,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FB17A0F14B5B02F004F0C80 /* Launcher */ = {
+			isa = PBXGroup;
+			children = (
+				0F8225EB14B724AD00DCC4A5 /* CustomBadge.h */,
+				0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */,
+				0F8225ED14B724AD00DCC4A5 /* MyLauncherItem.h */,
+				0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */,
+				0F8225EF14B724AD00DCC4A5 /* MyLauncherPageControl.h */,
+				0F8225F014B724AD00DCC4A5 /* MyLauncherPageControl.m */,
+				0F8225F114B724AD00DCC4A5 /* MyLauncherScrollView.h */,
+				0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */,
+				0F8225F314B724AD00DCC4A5 /* MyLauncherView.h */,
+				0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */,
+				0F8225F514B724AD00DCC4A5 /* MyLauncherViewController.h */,
+				0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */,
+			);
+			name = Launcher;
+			sourceTree = "<group>";
+		};
+		0FB17C3014B5BF72004F0C80 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				0FB17C3114B5BF81004F0C80 /* itemImage.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		2F6C46A3148676A700865C25 /* Utitlity */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +218,8 @@
 				2F6C469D148676A300865C25 /* OrderedDictionary.m */,
 				2F6C469E148676A300865C25 /* JSONKit.h */,
 				2F6C469F148676A300865C25 /* JSONKit.m */,
+				0F02AAE714B305D200AABAA9 /* LoginUtils.h */,
+				0F02AAE814B305D200AABAA9 /* LoginUtils.m */,
 			);
 			name = Utitlity;
 			sourceTree = "<group>";
@@ -188,6 +251,12 @@
 				2FCB48EF14A21328009079A1 /* DetailViewController.m */,
 				3B3E6278148E32AE002BAE48 /* ListViewController.h */,
 				3B3E6279148E32AE002BAE48 /* ListViewController.m */,
+				0F02AAE214B3027300AABAA9 /* LoginViewController.h */,
+				0F02AAE314B3027300AABAA9 /* LoginViewController.m */,
+				0F02AAE414B3027300AABAA9 /* LoginViewController.xib */,
+				0FB17C2A14B5B38E004F0C80 /* DashboardController.h */,
+				0FB17C2B14B5B38E004F0C80 /* DashboardController.m */,
+				0FB17A0F14B5B02F004F0C80 /* Launcher */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -273,6 +342,7 @@
 		3B5C97CF147CF7BC007EF770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */,
 				2FD9F491148D0A8900446A5F /* libsqlite3.dylib */,
 				3B5C97D0147CF7BC007EF770 /* UIKit.framework */,
 				3B5C97D2147CF7BC007EF770 /* Foundation.framework */,
@@ -285,6 +355,7 @@
 		3B5C97D6147CF7BC007EF770 /* iSugarCRM */ = {
 			isa = PBXGroup;
 			children = (
+				0FB17C3014B5BF72004F0C80 /* images */,
 				3B5C9805147CF7D1007EF770 /* source */,
 				2FBBDFC6149644B5000CFB80 /* SyncHandler.h */,
 				2FBBDFC7149644B5000CFB80 /* SyncHandler.m */,
@@ -420,6 +491,8 @@
 				3B5C97DB147CF7BC007EF770 /* InfoPlist.strings in Resources */,
 				2FFC25A2148EB17B0060D5A6 /* CRMDatabase.db in Resources */,
 				2FB601A214A2CF810071AAA0 /* SugarMetadata.plist in Resources */,
+				0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */,
+				0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +551,15 @@
 				2FCB48F214A21328009079A1 /* DetailViewRowItem.m in Sources */,
 				2FCB48F314A21328009079A1 /* DetailViewSectionItem.m in Sources */,
 				2FCB48F414A21328009079A1 /* DetailViewController.m in Sources */,
+				0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */,
+				0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */,
+				0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */,
+				0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */,
+				0F8225F814B724AD00DCC4A5 /* MyLauncherItem.m in Sources */,
+				0F8225F914B724AD00DCC4A5 /* MyLauncherPageControl.m in Sources */,
+				0F8225FA14B724AD00DCC4A5 /* MyLauncherScrollView.m in Sources */,
+				0F8225FB14B724AD00DCC4A5 /* MyLauncherView.m in Sources */,
+				0F8225FC14B724AD00DCC4A5 /* MyLauncherViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
