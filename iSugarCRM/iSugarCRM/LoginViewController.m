@@ -61,7 +61,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 -(void) showError
@@ -72,11 +72,11 @@
     [alertView show];
 }
 
--(void) showDashBoard
+-(void) showDashboard
 {
     [spinner setHidden:YES];
     AppDelegate *appDelegate = (AppDelegate* ) [UIApplication sharedApplication].delegate;
-    [appDelegate showDashBoard];
+    [appDelegate showDashboard];
 }
 
 -(void) authenicate
@@ -88,7 +88,7 @@
     if (!(session =[response objectForKey:@"id"])) {
         [self performSelectorOnMainThread:@selector(showError) withObject:nil waitUntilDone:NO];
     } else{
-        [self performSelectorOnMainThread:@selector(showDashBoard) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(showDashboard) withObject:nil waitUntilDone:NO];
     }
 }
 
