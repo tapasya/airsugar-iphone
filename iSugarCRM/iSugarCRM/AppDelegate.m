@@ -44,7 +44,7 @@ NSString * session=nil;
     return YES;   
 }
 
--(void) showDashBoard
+-(void) showDashboard
 {
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
