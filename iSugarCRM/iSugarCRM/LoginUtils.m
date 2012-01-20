@@ -28,14 +28,21 @@
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];  
     NSURLResponse* response = [[NSURLResponse alloc] init]; 
-    NSError* error=nil;  
-    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];     
-    if (error) {
-        return nil;
+    NSError* error=nil;
+    NSDictionary *result = nil;
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+   
+    if (error == nil) {
+        result = [[NSDictionary alloc]initWithObjectsAndKeys:
+                   [adata objectFromJSONData],@"response",
+                    nil];
+
+    }else{
+        result = [[NSDictionary alloc]initWithObjectsAndKeys:
+                  (NSError *)error, @"Error",
+                  nil];
     }
-    else{
-        return [adata objectFromJSONData];;
-    }
+    return result;
 }
 
 +(NSString*)urlStringForParams:(NSMutableDictionary*)params{

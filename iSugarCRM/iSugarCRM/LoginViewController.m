@@ -64,11 +64,14 @@
     return YES;
 }
 
--(void) showError
+-(void) showError:(NSError *)error
 {
     [spinner setHidden:YES];
-    NSLog(@"error loging in");     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Error in logging in" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    
+    NSString *messageString = [error localizedDescription];//customize this message with error.code;
+    NSLog(@"Code-->%d",[error code]);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:messageString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
 
@@ -85,9 +88,10 @@
     NSString *userName = usernameField.text;
     NSString *password = passwordField.text;
     id response = [LoginUtils login:userName :password];
-    if (!(session =[response objectForKey:@"id"])) {
-        [self performSelectorOnMainThread:@selector(showError) withObject:nil waitUntilDone:NO];
+    if ([response  objectForKey:@"Error"]) {
+        [self performSelectorOnMainThread:@selector(showError:) withObject:(NSError *)[response  objectForKey:@"Error"] waitUntilDone:NO];
     } else{
+        session = [[response objectForKey:@"response"]objectForKey:@"id"];
         [self performSelectorOnMainThread:@selector(showDashboard) withObject:nil waitUntilDone:NO];
     }
 }
