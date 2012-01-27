@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SettingsObject.h"
+#import "ModuleSettingsDataStore.h"
 
 @interface ModuleSettingsViewController : UITableViewController
 {
     NSMutableArray* _moduleSettings;
 }
 @property (nonatomic, retain) NSString* moduleName;
-@property (nonatomic, retain) NSMutableArray *moduleSettings;
+@property (nonatomic, retain) ModuleSettingsDataStore *moduleSettingsStore;
 @end

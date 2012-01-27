@@ -8,26 +8,19 @@
 
 #import "ModuleSettingsViewController.h"
 #import "ModuleSettingsDataStore.h"
+#import "ModuleSettingsObject.h"
 #import "SettingsStore.h"
 
-#define kPSGroupSpecifier                 @"PSGroupSpecifier"
-#define kPSToggleSwitchSpecifier          @"PSToggleSwitchSpecifier"
-#define kPSMultiValueSpecifier            @"PSMultiValueSpecifier"
-#define kPSSliderSpecifier                @"PSSliderSpecifier"
-#define kPSTitleValueSpecifier            @"PSTitleValueSpecifier"
-#define kPSTextFieldSpecifier             @"PSTextFieldSpecifier"
-#define kPSChildPaneSpecifier             @"PSChildPaneSpecifier"
-
 @implementation ModuleSettingsViewController
-@synthesize moduleName=_moduleName, moduleSettings=_moduleSettings;
+@synthesize moduleName=_moduleName;
+@synthesize moduleSettingsStore= _moduleSetting;
 
--(NSMutableArray*) moduleSettings
+-(ModuleSettingsDataStore*) moduleSettingsStore
 {
-    if (!_moduleSettings) {
-        ModuleSettingsDataStore* plistReader = [[ModuleSettingsDataStore alloc] initWithFile:@"ModuleSettingData"];
-        _moduleSettings = [plistReader getSettingsForModule:_moduleName];
+    if(!_moduleSetting){
+        _moduleSetting = [[ModuleSettingsDataStore alloc] initWithModuelName:_moduleName];
     }
-    return _moduleSettings;
+    return _moduleSetting;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -41,10 +34,7 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -52,19 +42,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -97,7 +79,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 - (void)selectCell:(UITableViewCell *)cell {
@@ -114,83 +96,62 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return [self.moduleSettings count];
+    return [self.moduleSettingsStore.settingsArray count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if([[self.moduleSettings objectAtIndex:section ] multipleTitles]){
-        return [[[self.moduleSettings objectAtIndex:section ] multipleTitles] count];
-    }
-    else{
-        return 1;
-    }
-    //return [self.moduleSettings count];
+    ModuleSettingsObject* settingsObject = [self.moduleSettingsStore.settingsArray objectAtIndex:section];
+    return [settingsObject.multipleTitles count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    SettingsObject* specifier = [self.moduleSettings objectAtIndex:indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        //cell = [SetttingsViewFactory getTableCellForSetting:specifier];
         if(!cell ){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.textLabel.text = @"Cell text";
         }
     }
-    
-    if ([[specifier type] isEqualToString:kPSTextFieldSpecifier]) {
-        
-    }
-    else if([[specifier type] isEqualToString:kPSToggleSwitchSpecifier]){
-      
-        
-    }
-    else if ([[specifier type] isEqualToString:kPSMultiValueSpecifier]) {
-        NSInteger selecedRow = [specifier.multipleTitles indexOfObject:specifier.value];
+   
+    ModuleSettingsObject* settingsObject = [self.moduleSettingsStore.settingsArray objectAtIndex:indexPath.section];
+    NSInteger selecedRow = [settingsObject.multipleTitles indexOfObject:settingsObject.value];
         if (indexPath.row == selecedRow) {
             [self selectCell:cell];
         } else {
             [self deselectCell:cell];
         }
-        // Configure the cell...
-        [cell.textLabel setText:[specifier.multipleTitles objectAtIndex:indexPath.row]];
-    }
-    else if ([[specifier type] isEqualToString:kPSChildPaneSpecifier]) {
     
-    }     
+        // Configure the cell...
+    NSLog(@"Setting name is :%@  ,String is : %@", settingsObject.title, settingsObject.value);
+    [cell.textLabel setText:[settingsObject.multipleTitles objectAtIndex:indexPath.row]];
     return cell;
 }
 
 - (NSString *)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
-    SettingsObject* specifier = [self.moduleSettings objectAtIndex:section];
-    return [specifier title];
+    ModuleSettingsObject* settingsObject = [self.moduleSettingsStore.settingsArray objectAtIndex:section];
+    return settingsObject.title;
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SettingsObject* specifier = [self.moduleSettings objectAtIndex:indexPath.section];
-    if ([[specifier type] isEqualToString:kPSMultiValueSpecifier]) {
-           NSString* oldValue = [SettingsStore objectForKey:specifier.key];
-        NSIndexPath* checkedItem = [NSIndexPath indexPathForRow:[specifier.multipleTitles indexOfObject:oldValue]                  inSection:indexPath.section];
-        NSInteger selecedRow = [specifier.multipleTitles indexOfObject:oldValue];
-        if (indexPath.row == selecedRow) {
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            return;
-        }
-        
+    ModuleSettingsObject* settingsObject = [self.moduleSettingsStore.settingsArray objectAtIndex:indexPath.section];
+    NSString* oldValue = settingsObject.value;
+    NSInteger selecedRow = [settingsObject.multipleTitles indexOfObject:oldValue];
+    if (indexPath.row == selecedRow) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self deselectCell:[tableView cellForRowAtIndexPath:checkedItem]];
-        [self selectCell:[tableView cellForRowAtIndexPath:indexPath]];
-        
-        [SettingsStore setObject:[specifier.multipleTitles objectAtIndex:indexPath.row] forKey:[specifier key]];
-    }
+        return;
+    }        
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSIndexPath* checkedItem = [NSIndexPath indexPathForRow:selecedRow inSection:indexPath.section];
+    [self deselectCell:[tableView cellForRowAtIndexPath:checkedItem]];
+    [self selectCell:[tableView cellForRowAtIndexPath:indexPath]];
+    [SettingsStore setObject:[settingsObject.multipleTitles objectAtIndex:indexPath.row] forKey:settingsObject.key];
 }
 
 @end

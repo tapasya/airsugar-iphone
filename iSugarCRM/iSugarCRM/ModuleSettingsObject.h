@@ -10,4 +10,11 @@
 
 @interface ModuleSettingsObject : NSObject
 
+
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *key;
+@property (nonatomic, strong) NSString *value;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSArray *multipleTitles;
+
 @end
