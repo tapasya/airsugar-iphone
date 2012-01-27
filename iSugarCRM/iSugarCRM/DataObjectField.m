@@ -11,7 +11,7 @@ static inline NSString* toString(BOOL b){
     return b?@"1":@"0";
 }
 static inline BOOL boolValue(NSString *s){
-    return (s == @"1")?YES:NO;
+    return [s isEqualToString:@"1"];
 }
 
 @implementation DataObjectField
