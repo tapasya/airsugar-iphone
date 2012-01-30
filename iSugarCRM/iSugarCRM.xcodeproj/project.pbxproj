@@ -10,6 +10,7 @@
 		0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
 		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
 		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
+		0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
 		0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
 		0F8225F814B724AD00DCC4A5 /* MyLauncherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */; };
 		0F8225F914B724AD00DCC4A5 /* MyLauncherPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F014B724AD00DCC4A5 /* MyLauncherPageControl.m */; };
@@ -19,6 +20,9 @@
 		0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
 		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
 		0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
+		0FB7DAF014BC36EB00E9F794 /* SettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */; };
+		0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
+		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FB601A214A2CF810071AAA0 /* SugarMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB601A114A2CF810071AAA0 /* SugarMetadata.plist */; };
@@ -73,6 +77,8 @@
 		0F02AAE414B3027300AABAA9 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		0F02AAE714B305D200AABAA9 /* LoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtils.h; sourceTree = "<group>"; };
 		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
+		0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsViewController.h; sourceTree = "<group>"; };
+		0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsViewController.m; sourceTree = "<group>"; };
 		0F8225EB14B724AD00DCC4A5 /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		0F8225ED14B724AD00DCC4A5 /* MyLauncherItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherItem.h; sourceTree = "<group>"; };
@@ -89,6 +95,12 @@
 		0FB17C2A14B5B38E004F0C80 /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardController.h; sourceTree = "<group>"; };
 		0FB17C2B14B5B38E004F0C80 /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardController.m; sourceTree = "<group>"; };
 		0FB17C3114B5BF81004F0C80 /* itemImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemImage.png; sourceTree = "<group>"; };
+		0FB7DAEE14BC36EA00E9F794 /* SettingsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsStore.h; sourceTree = "<group>"; };
+		0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsStore.m; sourceTree = "<group>"; };
+		0FCE1ADC14D2678B00CE04FB /* ModuleSettingsDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsDataStore.h; sourceTree = "<group>"; };
+		0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsDataStore.m; sourceTree = "<group>"; };
+		0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsObject.h; sourceTree = "<group>"; };
+		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -182,6 +194,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F4EE03A14BAFE1500F43692 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0FB7DAEE14BC36EA00E9F794 /* SettingsStore.h */,
+				0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */,
+				0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */,
+				0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */,
+				0FCE1ADC14D2678B00CE04FB /* ModuleSettingsDataStore.h */,
+				0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */,
+				0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */,
+				0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		0FB17A0F14B5B02F004F0C80 /* Launcher */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +439,7 @@
 				3B504E59148631500037D75E /* Model */,
 				3B504E58148630AE0037D75E /* metadata */,
 				3B504E5414862D1B0037D75E /* database */,
+				0F4EE03A14BAFE1500F43692 /* Settings */,
 				3B504E5314862D170037D75E /* view */,
 				3B504E5114862CF30037D75E /* webservice */,
 			);
@@ -560,6 +588,10 @@
 				0F8225FA14B724AD00DCC4A5 /* MyLauncherScrollView.m in Sources */,
 				0F8225FB14B724AD00DCC4A5 /* MyLauncherView.m in Sources */,
 				0F8225FC14B724AD00DCC4A5 /* MyLauncherViewController.m in Sources */,
+				0FB7DAF014BC36EB00E9F794 /* SettingsStore.m in Sources */,
+				0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */,
+				0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */,
+				0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

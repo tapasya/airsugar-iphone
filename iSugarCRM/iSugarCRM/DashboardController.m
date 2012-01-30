@@ -61,7 +61,7 @@
     spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
     [self.view addSubview:spinner];
     [spinner startAnimating];
-    [self.launcherView setPages:[NSMutableArray arrayWithObjects:nil,nil]];
+    [self clearSavedLauncherItems];
 }
 
 
@@ -83,16 +83,25 @@
     [self loadView];
     self.title = @"Modules";
 	if(![self hasSavedLauncherItems]){
-        NSMutableArray *pageItems = [[NSMutableArray alloc] initWithCapacity:[moduleList count]];
-        for( NSString* moduleName in moduleList){
-            [pageItems addObject:[[MyLauncherItem alloc] initWithTitle:moduleName
-                                                           iPhoneImage:@"itemImage" 
-                                                             iPadImage:@"itemImage-iPad"
-                                                                target:moduleName 
-                                                           targetTitle:moduleName
-                                                             deletable:NO]];
+        NSInteger pageCount = moduleList.count / self.launcherView.maxItemsPerPage;
+        if(moduleList.count % self.launcherView.maxItemsPerPage != 0){
+            pageCount++;
         }
-        [self.launcherView setPages:[NSMutableArray arrayWithObjects:pageItems,nil]];
+        NSMutableArray *pageItems = [[NSMutableArray alloc] initWithCapacity:pageCount];
+        for(int i =0; i<pageCount; i++){
+            [pageItems addObject:[[NSMutableArray alloc] init]];
+            NSInteger limit = MIN(moduleList.count, (i+1)*self.launcherView.maxItemsPerPage);
+            for(int j=i*self.launcherView.maxItemsPerPage; j< limit; j++){
+                NSString *moduleName = [moduleList objectAtIndex:j];
+                [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName
+                                                                                 iPhoneImage:@"itemImage" 
+                                                                                   iPadImage:@"account-iPad"
+                                                                                      target:moduleName 
+                                                                                 targetTitle:moduleName
+                                                                                   deletable:NO]];
+            }
+        }
+        [self.launcherView setPages:pageItems];
     }
 }
 

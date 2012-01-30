@@ -1199,7 +1199,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -2853,7 +2853,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -2909,7 +2909,7 @@
 						<key>name</key>
 						<string>date_modified</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -3557,7 +3557,7 @@
 					<key>name</key>
 					<string>contact_name</string>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -3565,7 +3565,7 @@
 					<key>name</key>
 					<string>deleted</string>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -3605,7 +3605,7 @@
 					<key>name</key>
 					<string>name</string>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -4149,7 +4149,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -4197,7 +4197,7 @@
 						<key>name</key>
 						<string>date_start</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -5537,7 +5537,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -6817,7 +6817,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -6873,7 +6873,7 @@
 						<key>name</key>
 						<string>date_modified</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -6921,7 +6921,7 @@
 						<key>name</key>
 						<string>priority</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -9092,7 +9092,7 @@
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -9140,7 +9140,7 @@
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -11372,7 +11372,7 @@
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -11564,7 +11564,7 @@
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -14591,7 +14591,7 @@
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -14639,7 +14639,7 @@
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -16699,7 +16699,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -18662,7 +18662,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -19906,7 +19906,7 @@
 					<key>name</key>
 					<string>name</string>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -20146,7 +20146,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 					</dict>
 					<dict>
 						<key>label</key>
