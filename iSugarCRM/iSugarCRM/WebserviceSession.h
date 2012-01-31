@@ -25,7 +25,9 @@
 
 
 @protocol WebserviceSessionDelegate <NSObject>
+@optional
 -(void)sessionWillStartLoading:(WebserviceSession*)session;
--(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response;
 -(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error;
+@required
+-(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response;
 @end
