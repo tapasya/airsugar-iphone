@@ -18,13 +18,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 @interface SugarCRMMetadataStore ()
 -(id)initPrivate;
--(BOOL)initializeMetadata;
-
+-(void)loadModuleList;
+-(BOOL)loadMetadata;
+-(NSString*)urlStringForParams:(NSMutableDictionary*)params;
 /**only to generate and save config file*/
 -(void)saveConfig:(NSMutableDictionary*)plistDictionary;
--(void)configForModules;
--(NSDictionary*)generateConfig;
--(NSString*)urlStringForParams:(NSMutableDictionary*)params;
+-(NSDictionary*)generateConfiguration;
 /****/
 @property(strong)NSMutableDictionary *moduleList;
 @property(strong)NSDictionary *metadataDictionary;
@@ -80,15 +79,28 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return metadata;
 }
 
--(void)configureMetadata
+-(BOOL)configureMetadata
 {  
-    BOOL hasMetadata = YES;
-    if (!metadataDictionary) {
-        hasMetadata = [self initializeMetadata];
-    }
-    if (hasMetadata) {
-        for(NSString *module in [metadataDictionary allKeys])
+    
+    [self loadModuleList];
+    if (![self loadMetadata]) 
+    {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"];  
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSBundle mainBundle] pathForResource:@"SugarMetadata" ofType:@"plist"]])
+        {  
+            self.metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];  
+        }
+        else
         {
+            NSLog(@"Unable to generate Config file..Returning..");
+        }
+        return false;
+    }
+    
+    for(NSString *module in [metadataDictionary allKeys])
+    {
+        if([[moduleList allKeys] containsObject:module])
+        {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
@@ -99,29 +111,63 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             [self setViewMetaData:detailViewMetadata forKey:[NSString stringWithFormat:@"detail-%@",module]];
         }
     }
+    return true;
 }
+
+
 
 #pragma mark- private methods
 
 
--(BOOL)initializeMetadata
+-(BOOL)loadMetadata
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"];  
-    if (filePath) {  
-        metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];  
-        if (metadataDictionary) {  
-            return YES;
-        }
-      } else {
-        NSLog(@"Config file doesnt exist");
-        [self generateConfig];
-        [self configForModules];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"]])
+    {  NSLog(@"Config file found, loading metadata!");
+        self.metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];
+        NSLog(@"metadata: %@",metadataDictionary);
+        return YES;
     }
-return NO;
+    else
+    {
+        NSLog(@"Config file not found, generating again.");
+        [self generateConfiguration];
+        return NO;
+    }
+}
+
+-(void)loadModuleList 
+{
+    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+    [urlParams setObject:@"get_available_modules" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error = nil;  
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+    if (error) {
+        NSLog(@"Error Parsing Metadata");
+        return;
+    } 
+    NSMutableDictionary *moduleKeyValuePairs=[[NSMutableDictionary alloc] init];
+    id moduleResponse=[adata objectFromJSONData];
+    for(NSDictionary* module in [moduleResponse objectForKey:@"modules"] ){
+        [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
+    }
+    NSLog(@"modules in plist %@",moduleKeyValuePairs);
+    
+    self.moduleList = moduleKeyValuePairs;
 }
 
 
--(NSDictionary*)generateConfig 
+
+-(NSDictionary*)generateConfiguration 
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL success;

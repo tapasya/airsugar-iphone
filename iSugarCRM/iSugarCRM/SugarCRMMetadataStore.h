@@ -16,7 +16,7 @@
 
 +(SugarCRMMetadataStore*)sharedInstance;
 
--(void)configureMetadata;
+-(BOOL)configureMetadata;
 -(NSArray*)modulesSupported;
 -(WebserviceMetadata*)listWebserviceMetadataForModule:(NSString*)moduleId;
 -(WebserviceMetadata*)detailWebserviceMetadataForModule:(NSString*)moduleId;
