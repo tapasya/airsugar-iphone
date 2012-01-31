@@ -19,7 +19,7 @@
 
 
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
--(void)startLoading;
+-(void)startLoading:(NSString*)timestamp;
 @end
 
 

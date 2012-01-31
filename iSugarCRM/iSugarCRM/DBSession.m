@@ -44,7 +44,7 @@
             NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
             NSString *value;
             char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
-          //  NSLog(@"%s",field_value);
+            //  NSLog(@"%s",field_value);
             if (field_value!=NULL) {
                 value = [NSString stringWithFormat:@"%s",field_value];
             }
@@ -63,8 +63,8 @@
 
 -(void)detailsForId:(NSString *)beanId
 {
-
-
+    
+    
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     NSMutableArray *rows = [[NSMutableArray alloc]init];
@@ -103,9 +103,8 @@
     [db closeDatabase];
     [delegate session:self downloadedDetails:rows];
     
-
-
 }
+
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects
 {
     NSError* error = nil;
@@ -117,16 +116,18 @@
     }
     NSMutableString *sql = [NSMutableString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (",metadata.tableName];
     BOOL is_first = YES;
-    for(NSString *column_name in [metadata.columnNames allObjects]){
-        if (is_first) {
+    for(NSString *column_name in [metadata.columnNames allObjects])
+    {
+        if (is_first) 
+        {
             [sql appendString:[NSString stringWithFormat:@"%@ VARCHAR(100)",column_name]];
             is_first = NO;
-        }
-        else {
+        } else {
             [sql appendString:[NSString stringWithFormat:@", %@ VARCHAR(100)",column_name]];
         }
     }
-    [sql appendString:@");"];
+    
+    [sql appendString:@", PRIMARY KEY (id));"];
     
     if(![db executeUpdate:sql error:&error]){
         NSLog(@"error creating database with sql:%@ and error: %@",sql,[error localizedDescription]);
@@ -134,19 +135,24 @@
     }
     //ADD OBJECTS NOW
     for(DataObject *dObj in dataObjects){
-        NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT INTO %@ (",metadata.tableName];
+        NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO %@ (",metadata.tableName];
         NSMutableString *values = [NSMutableString stringWithString:@"VALUES ("];
         BOOL is_first=YES;
         for(NSString *column_name in [[metadata columnNames]allObjects]){
-            if (is_first) {
-                
-                [sql appendString:[NSString stringWithFormat:@"%@",column_name]];
-                [values appendString:[NSString stringWithFormat:@"'%@'",[dObj objectForFieldName:column_name]]];
-                is_first = NO;
+            NSString* value = [dObj objectForFieldName:column_name];
+            if ([column_name isEqualToString:@"date_modified"]) {
+                if(!value){
+                    //TODO add current timestamp;
+                }
             }
-            else{
+            if (is_first) 
+            {
+                [sql appendString:[NSString stringWithFormat:@"%@",column_name]];
+                [values appendString:[NSString stringWithFormat:@"'%@'",value]];
+                is_first = NO;
+            } else {
                 [sql appendString:[NSString stringWithFormat:@", %@",column_name]];
-                [values appendString:[NSString stringWithFormat:@", '%@'",[dObj objectForFieldName:column_name]]];
+                [values appendString:[NSString stringWithFormat:@", '%@'",value]];
             }
         }
         [sql appendString:@")"];
@@ -162,7 +168,34 @@
     [syncDelegate sessionSyncSuccessful:self];
 }    
 
-
+-(NSString*)getLastSyncTimestamp
+{
+    SqliteObj* db = [[SqliteObj alloc] init];
+    NSError* error = nil;
+    NSString *deltaMark;
+    if(![db initializeDatabaseWithError:&error])
+    {
+        NSLog(@"%@",[error localizedDescription]);
+        [delegate session:self listDownloadFailedWithError:error];
+    }
+    //TODO: use mapping b/w fields and column name
+    NSString *sql = [NSString stringWithFormat:@"SELECT date_modified FROM %@ ORDER BY date_modified DESC LIMIT 1;",metadata.tableName];
+    sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
+    if (error) {
+        NSLog(@"error retrieving timestamp from database: %@",[error localizedDescription]);
+    }
+    if(sqlite3_step(stmt)==SQLITE_ROW)
+    {
+        char *field_value = (char*)sqlite3_column_text(stmt, 0);
+        if (field_value!=NULL) 
+        {
+            deltaMark = [NSString stringWithFormat:@"%s",field_value];
+        }
+    }    
+    sqlite3_finalize(stmt);
+    [db closeDatabase];
+    return deltaMark;
+}
 
 
 @end

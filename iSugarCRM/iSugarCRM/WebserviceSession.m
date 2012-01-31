@@ -22,9 +22,9 @@
 }
 
 
--(void)startLoading
+-(void)startLoading:(NSString*)timestamp
 {
-    NSURLRequest *request = [metadata getRequest];
+    NSURLRequest *request = [metadata getRequestWithLastSyncTimestamp:timestamp];
     id completionHandler = ^(NSURLResponse *response, NSData *data, NSError* error){
         if (error) {
             [delegate session:self didFailWithError:error];

@@ -22,6 +22,7 @@
 -(void)startLoading;
 -(void)detailsForId:(NSString*)beanId;
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects;
+-(NSString*)getLastSyncTimestamp;
 @end
 
 
