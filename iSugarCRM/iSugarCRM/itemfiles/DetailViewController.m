@@ -65,17 +65,27 @@
     //        NSLog(@"Details for id: %@ :%@",beanId,row);
     //    }
     NSMutableArray* sections = [[NSMutableArray alloc] init];
-    for(NSString *sectionName in [metadata.sectionItems allKeys] )
+    for(NSDictionary *sectionItem_ in metadata.sections  )
     {   
         DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
-        sectionItem.sectionTitle = sectionName;
+        sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
+        NSLog(@"section name :%@",sectionItem.sectionTitle);
         NSMutableArray *rowItems = [[NSMutableArray alloc] init];
-        NSArray *sectionRowItems = [metadata.sectionItems objectForKey:sectionName];
-        for(DataObjectField *rowField in sectionRowItems)
+        NSArray *rows = [sectionItem_ objectForKey:@"rows"];
+        for(NSDictionary *rowItem_ in rows)
         {
             DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
-            rowItem.label = rowField.label;
-            rowItem.value = [[details objectAtIndex:0] objectForFieldName:rowField.name];
+            rowItem.label = [rowItem_ objectForKey:@"label"];
+            NSMutableArray *fields = [NSMutableArray array];
+            for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
+            {
+                NSString *value = [[details objectAtIndex:0] objectForFieldName:field.name];
+                if (value) 
+                {
+                    [fields addObject:value];    
+                }
+            }
+            rowItem.values = fields;
             [rowItems addObject:rowItem];
         }
         sectionItem.rowItems = rowItems;

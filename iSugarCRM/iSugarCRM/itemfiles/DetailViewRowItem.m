@@ -9,7 +9,7 @@
 #import "DetailViewRowItem.h"
 
 @implementation DetailViewRowItem
-@synthesize label,value;
+@synthesize label,values;
 
 -(CGFloat)heightForCell
 {
@@ -22,13 +22,29 @@
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
-                                                                reuseIdentifier:[self reusableCellIdentifier]];
+                                      reuseIdentifier:[self reusableCellIdentifier]];
     }
-
-    cell.textLabel.text = [NSString stringWithFormat:@"%@: %@",label,value];
+    NSMutableString *displayString = [NSMutableString stringWithFormat:@"%@: ",label];
+    int count = 0;
+    for(NSString *value in values)
+    {
+        count++;
+        if (value == nil || [value isEqualToString:@""]) {
+            continue;
+        }
+        NSLog(@"%d",[values count]);
+        if (count==[values count]) {
+            [displayString appendString:[NSString stringWithFormat:@"%@ ",value]];
+        }
+        else {
+            [displayString appendString:[NSString stringWithFormat:@"%@, ",value]];
+        }
+    }
+    cell.textLabel.numberOfLines = 0;
+    cell.textLabel.text = displayString;
     return cell;
-    
 }
+
 
 -(NSString*)reusableCellIdentifier
 {

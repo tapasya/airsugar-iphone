@@ -1199,7 +1199,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -1339,41 +1339,130 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>phone_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
 				</dict>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
-							<string>Billing Adress</string>
-							<key>name</key>
-							<string>billing_address_street</string>
-							<key>sortable</key>
-							<string>0</string>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
 						</dict>
 					</array>
 					<key>section_name</key>
@@ -2320,1229 +2409,6 @@
 			</array>
 		</dict>
 	</dict>
-	<key>Bugs</key>
-	<dict>
-		<key>DataObjectMetadata</key>
-		<dict>
-			<key>class</key>
-			<string>Bugs</string>
-			<key>fields</key>
-			<array>
-				<dict>
-					<key>label</key>
-					<string>Deleted</string>
-					<key>name</key>
-					<string>deleted</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Resolution:</string>
-					<key>name</key>
-					<string>resolution</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Assigned To:</string>
-					<key>name</key>
-					<string>assigned_user_id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Number:</string>
-					<key>name</key>
-					<string>bug_number</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Subject:</string>
-					<key>name</key>
-					<string>name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Source:</string>
-					<key>name</key>
-					<string>source</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Modified By</string>
-					<key>name</key>
-					<string>modified_by_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Type:</string>
-					<key>name</key>
-					<string>type</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Created By</string>
-					<key>name</key>
-					<string>created_by</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Found in Release:</string>
-					<key>name</key>
-					<string>found_in_release</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Assigned to</string>
-					<key>name</key>
-					<string>assigned_user_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Date Modified:</string>
-					<key>name</key>
-					<string>date_modified</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Fixed in Release:</string>
-					<key>name</key>
-					<string>fixed_in_release</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>ID</string>
-					<key>name</key>
-					<string>id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Created By</string>
-					<key>name</key>
-					<string>created_by_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Work Log:</string>
-					<key>name</key>
-					<string>work_log</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Priority:</string>
-					<key>name</key>
-					<string>priority</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Date Created:</string>
-					<key>name</key>
-					<string>date_entered</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Modified By</string>
-					<key>name</key>
-					<string>modified_user_id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Category:</string>
-					<key>name</key>
-					<string>product_category</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Fixed in Release:</string>
-					<key>name</key>
-					<string>fixed_in_release_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Description:</string>
-					<key>name</key>
-					<string>description</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Status:</string>
-					<key>name</key>
-					<string>status</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Found in Release:</string>
-					<key>name</key>
-					<string>release_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-			</array>
-		</dict>
-		<key>DbMetadata</key>
-		<dict>
-			<key>columnNames</key>
-			<array>
-				<string>resolution</string>
-				<string>deleted</string>
-				<string>source</string>
-				<string>assigned_user_id</string>
-				<string>name</string>
-				<string>bug_number</string>
-				<string>type</string>
-				<string>modified_by_name</string>
-				<string>found_in_release</string>
-				<string>created_by</string>
-				<string>assigned_user_name</string>
-				<string>fixed_in_release</string>
-				<string>date_modified</string>
-				<string>id</string>
-				<string>created_by_name</string>
-				<string>work_log</string>
-				<string>priority</string>
-				<string>date_entered</string>
-				<string>modified_user_id</string>
-				<string>product_category</string>
-				<string>fixed_in_release_name</string>
-				<string>description</string>
-				<string>status</string>
-				<string>release_name</string>
-			</array>
-			<key>column_objectFieldMap</key>
-			<dict>
-				<key>assigned_user_id</key>
-				<string>assigned_user_id</string>
-				<key>assigned_user_name</key>
-				<string>assigned_user_name</string>
-				<key>bug_number</key>
-				<string>bug_number</string>
-				<key>created_by</key>
-				<string>created_by</string>
-				<key>created_by_name</key>
-				<string>created_by_name</string>
-				<key>date_entered</key>
-				<string>date_entered</string>
-				<key>date_modified</key>
-				<string>date_modified</string>
-				<key>deleted</key>
-				<string>deleted</string>
-				<key>description</key>
-				<string>description</string>
-				<key>fixed_in_release</key>
-				<string>fixed_in_release</string>
-				<key>fixed_in_release_name</key>
-				<string>fixed_in_release_name</string>
-				<key>found_in_release</key>
-				<string>found_in_release</string>
-				<key>id</key>
-				<string>id</string>
-				<key>modified_by_name</key>
-				<string>modified_by_name</string>
-				<key>modified_user_id</key>
-				<string>modified_user_id</string>
-				<key>name</key>
-				<string>name</string>
-				<key>priority</key>
-				<string>priority</string>
-				<key>product_category</key>
-				<string>product_category</string>
-				<key>release_name</key>
-				<string>release_name</string>
-				<key>resolution</key>
-				<string>resolution</string>
-				<key>source</key>
-				<string>source</string>
-				<key>status</key>
-				<string>status</string>
-				<key>type</key>
-				<string>type</string>
-				<key>work_log</key>
-				<string>work_log</string>
-			</dict>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Bugs</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>bug_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Source:</string>
-						<key>name</key>
-						<string>source</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type:</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>found_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log:</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Category:</string>
-						<key>name</key>
-						<string>product_category</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>tableName</key>
-			<string>Bugs</string>
-		</dict>
-		<key>DetailViewMetadata</key>
-		<dict>
-			<key>module_name</key>
-			<string>Bugs</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Bugs</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>bug_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>1</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Source:</string>
-						<key>name</key>
-						<string>source</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type:</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>found_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>1</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log:</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Category:</string>
-						<key>name</key>
-						<string>product_category</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>sectionItems</key>
-			<array>
-				<dict>
-					<key>rowItems</key>
-					<array>
-						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-					</array>
-					<key>section_name</key>
-					<string>Basic Info</string>
-				</dict>
-			</array>
-		</dict>
-		<key>ListViewMetadata</key>
-		<dict>
-			<key>module_name</key>
-			<string>Bugs</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Bugs</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>bug_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Source:</string>
-						<key>name</key>
-						<string>source</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type:</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>found_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log:</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Category:</string>
-						<key>name</key>
-						<string>product_category</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>otherFields</key>
-			<array>
-				<dict>
-					<key>label</key>
-					<string>id</string>
-					<key>name</key>
-					<string>id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-			</array>
-			<key>primaryDisplayField</key>
-			<dict>
-				<key>label</key>
-				<string>Name</string>
-				<key>name</key>
-				<string>name</string>
-				<key>sortable</key>
-				<string>0</string>
-			</dict>
-		</dict>
-		<key>WebserviceMetadata</key>
-		<dict>
-			<key>endpoint</key>
-			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
-			<key>headers</key>
-			<dict/>
-			<key>method</key>
-			<integer>0</integer>
-			<key>module_name</key>
-			<string>Bugs</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Bugs</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>bug_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Source:</string>
-						<key>name</key>
-						<string>source</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type:</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>found_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log:</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Category:</string>
-						<key>name</key>
-						<string>product_category</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Fixed in Release:</string>
-						<key>name</key>
-						<string>fixed_in_release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Found in Release:</string>
-						<key>name</key>
-						<string>release_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>pathToObjectsInResponse</key>
-			<string>entry_list</string>
-			<key>postParameters</key>
-			<dict/>
-			<key>responseKeyPathMap</key>
-			<dict>
-				<key>assigned_user_id</key>
-				<string>name_value_list.assigned_user_id.value</string>
-				<key>assigned_user_name</key>
-				<string>name_value_list.assigned_user_name.value</string>
-				<key>bug_number</key>
-				<string>name_value_list.bug_number.value</string>
-				<key>created_by</key>
-				<string>name_value_list.created_by.value</string>
-				<key>created_by_name</key>
-				<string>name_value_list.created_by_name.value</string>
-				<key>date_entered</key>
-				<string>name_value_list.date_entered.value</string>
-				<key>date_modified</key>
-				<string>name_value_list.date_modified.value</string>
-				<key>deleted</key>
-				<string>name_value_list.deleted.value</string>
-				<key>description</key>
-				<string>name_value_list.description.value</string>
-				<key>fixed_in_release</key>
-				<string>name_value_list.fixed_in_release.value</string>
-				<key>fixed_in_release_name</key>
-				<string>name_value_list.fixed_in_release_name.value</string>
-				<key>found_in_release</key>
-				<string>name_value_list.found_in_release.value</string>
-				<key>id</key>
-				<string>name_value_list.id.value</string>
-				<key>modified_by_name</key>
-				<string>name_value_list.modified_by_name.value</string>
-				<key>modified_user_id</key>
-				<string>name_value_list.modified_user_id.value</string>
-				<key>name</key>
-				<string>name_value_list.name.value</string>
-				<key>priority</key>
-				<string>name_value_list.priority.value</string>
-				<key>product_category</key>
-				<string>name_value_list.product_category.value</string>
-				<key>release_name</key>
-				<string>name_value_list.release_name.value</string>
-				<key>resolution</key>
-				<string>name_value_list.resolution.value</string>
-				<key>source</key>
-				<string>name_value_list.source.value</string>
-				<key>status</key>
-				<string>name_value_list.status.value</string>
-				<key>type</key>
-				<string>name_value_list.type.value</string>
-				<key>work_log</key>
-				<string>name_value_list.work_log.value</string>
-			</dict>
-			<key>urlParameters</key>
-			<array>
-				<dict>
-					<key>method</key>
-					<string>get_entry_list</string>
-				</dict>
-				<dict>
-					<key>input_type</key>
-					<string>JSON</string>
-				</dict>
-				<dict>
-					<key>response_type</key>
-					<string>JSON</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
 	<key>Calls</key>
 	<dict>
 		<key>DataObjectMetadata</key>
@@ -3557,7 +2423,7 @@
 					<key>name</key>
 					<string>contact_name</string>
 					<key>sortable</key>
-					<string>1</string>
+					<string>0</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -3565,7 +2431,7 @@
 					<key>name</key>
 					<string>deleted</string>
 					<key>sortable</key>
-					<string>1</string>
+					<string>0</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -3605,7 +2471,7 @@
 					<key>name</key>
 					<string>name</string>
 					<key>sortable</key>
-					<string>1</string>
+					<string>0</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -4149,7 +3015,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -4197,7 +3063,7 @@
 						<key>name</key>
 						<string>date_start</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -4313,30 +3179,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -5537,7 +4507,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -5725,30 +4695,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -6331,1094 +5405,6 @@
 				<string>name_value_list.tracker_key.value</string>
 				<key>tracker_text</key>
 				<string>name_value_list.tracker_text.value</string>
-			</dict>
-			<key>urlParameters</key>
-			<array>
-				<dict>
-					<key>method</key>
-					<string>get_entry_list</string>
-				</dict>
-				<dict>
-					<key>input_type</key>
-					<string>JSON</string>
-				</dict>
-				<dict>
-					<key>response_type</key>
-					<string>JSON</string>
-				</dict>
-			</array>
-		</dict>
-	</dict>
-	<key>Cases</key>
-	<dict>
-		<key>DataObjectMetadata</key>
-		<dict>
-			<key>class</key>
-			<string>Cases</string>
-			<key>fields</key>
-			<array>
-				<dict>
-					<key>label</key>
-					<string>Deleted</string>
-					<key>name</key>
-					<string>deleted</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Resolution:</string>
-					<key>name</key>
-					<string>resolution</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Assigned To:</string>
-					<key>name</key>
-					<string>assigned_user_id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Subject:</string>
-					<key>name</key>
-					<string>name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Modified By</string>
-					<key>name</key>
-					<string>modified_by_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Type</string>
-					<key>name</key>
-					<string>type</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Created By</string>
-					<key>name</key>
-					<string>created_by</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Number:</string>
-					<key>name</key>
-					<string>case_number</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Account Name:</string>
-					<key>name</key>
-					<string>account_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Assigned to</string>
-					<key>name</key>
-					<string>assigned_user_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Date Modified:</string>
-					<key>name</key>
-					<string>date_modified</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>account_name1</string>
-					<key>name</key>
-					<string>account_name1</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Account ID</string>
-					<key>name</key>
-					<string>account_id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>ID</string>
-					<key>name</key>
-					<string>id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Created By</string>
-					<key>name</key>
-					<string>created_by_name</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Work Log</string>
-					<key>name</key>
-					<string>work_log</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Priority:</string>
-					<key>name</key>
-					<string>priority</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Date Created:</string>
-					<key>name</key>
-					<string>date_entered</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Modified By</string>
-					<key>name</key>
-					<string>modified_user_id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Description:</string>
-					<key>name</key>
-					<string>description</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-				<dict>
-					<key>label</key>
-					<string>Status:</string>
-					<key>name</key>
-					<string>status</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-			</array>
-		</dict>
-		<key>DbMetadata</key>
-		<dict>
-			<key>columnNames</key>
-			<array>
-				<string>resolution</string>
-				<string>deleted</string>
-				<string>assigned_user_id</string>
-				<string>name</string>
-				<string>type</string>
-				<string>modified_by_name</string>
-				<string>created_by</string>
-				<string>case_number</string>
-				<string>account_name</string>
-				<string>assigned_user_name</string>
-				<string>account_name1</string>
-				<string>date_modified</string>
-				<string>account_id</string>
-				<string>id</string>
-				<string>created_by_name</string>
-				<string>work_log</string>
-				<string>priority</string>
-				<string>date_entered</string>
-				<string>modified_user_id</string>
-				<string>description</string>
-				<string>status</string>
-			</array>
-			<key>column_objectFieldMap</key>
-			<dict>
-				<key>account_id</key>
-				<string>account_id</string>
-				<key>account_name</key>
-				<string>account_name</string>
-				<key>account_name1</key>
-				<string>account_name1</string>
-				<key>assigned_user_id</key>
-				<string>assigned_user_id</string>
-				<key>assigned_user_name</key>
-				<string>assigned_user_name</string>
-				<key>case_number</key>
-				<string>case_number</string>
-				<key>created_by</key>
-				<string>created_by</string>
-				<key>created_by_name</key>
-				<string>created_by_name</string>
-				<key>date_entered</key>
-				<string>date_entered</string>
-				<key>date_modified</key>
-				<string>date_modified</string>
-				<key>deleted</key>
-				<string>deleted</string>
-				<key>description</key>
-				<string>description</string>
-				<key>id</key>
-				<string>id</string>
-				<key>modified_by_name</key>
-				<string>modified_by_name</string>
-				<key>modified_user_id</key>
-				<string>modified_user_id</string>
-				<key>name</key>
-				<string>name</string>
-				<key>priority</key>
-				<string>priority</string>
-				<key>resolution</key>
-				<string>resolution</string>
-				<key>status</key>
-				<string>status</string>
-				<key>type</key>
-				<string>type</string>
-				<key>work_log</key>
-				<string>work_log</string>
-			</dict>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Cases</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>case_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account Name:</string>
-						<key>name</key>
-						<string>account_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>account_name1</string>
-						<key>name</key>
-						<string>account_name1</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account ID</string>
-						<key>name</key>
-						<string>account_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>tableName</key>
-			<string>Cases</string>
-		</dict>
-		<key>DetailViewMetadata</key>
-		<dict>
-			<key>module_name</key>
-			<string>Cases</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Cases</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>1</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>case_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account Name:</string>
-						<key>name</key>
-						<string>account_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>1</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>account_name1</string>
-						<key>name</key>
-						<string>account_name1</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account ID</string>
-						<key>name</key>
-						<string>account_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>1</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>sectionItems</key>
-			<array>
-				<dict>
-					<key>rowItems</key>
-					<array>
-						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-					</array>
-					<key>section_name</key>
-					<string>Basic Info</string>
-				</dict>
-			</array>
-		</dict>
-		<key>ListViewMetadata</key>
-		<dict>
-			<key>module_name</key>
-			<string>Cases</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Cases</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>case_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account Name:</string>
-						<key>name</key>
-						<string>account_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>account_name1</string>
-						<key>name</key>
-						<string>account_name1</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account ID</string>
-						<key>name</key>
-						<string>account_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>otherFields</key>
-			<array>
-				<dict>
-					<key>label</key>
-					<string>id</string>
-					<key>name</key>
-					<string>id</string>
-					<key>sortable</key>
-					<string>0</string>
-				</dict>
-			</array>
-			<key>primaryDisplayField</key>
-			<dict>
-				<key>label</key>
-				<string>Name</string>
-				<key>name</key>
-				<string>name</string>
-				<key>sortable</key>
-				<string>0</string>
-			</dict>
-		</dict>
-		<key>WebserviceMetadata</key>
-		<dict>
-			<key>endpoint</key>
-			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
-			<key>headers</key>
-			<dict/>
-			<key>method</key>
-			<integer>0</integer>
-			<key>module_name</key>
-			<string>Cases</string>
-			<key>objectMetadata</key>
-			<dict>
-				<key>class</key>
-				<string>Cases</string>
-				<key>fields</key>
-				<array>
-					<dict>
-						<key>label</key>
-						<string>Deleted</string>
-						<key>name</key>
-						<string>deleted</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Resolution:</string>
-						<key>name</key>
-						<string>resolution</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned To:</string>
-						<key>name</key>
-						<string>assigned_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Subject:</string>
-						<key>name</key>
-						<string>name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Type</string>
-						<key>name</key>
-						<string>type</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Number:</string>
-						<key>name</key>
-						<string>case_number</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account Name:</string>
-						<key>name</key>
-						<string>account_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Assigned to</string>
-						<key>name</key>
-						<string>assigned_user_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Modified:</string>
-						<key>name</key>
-						<string>date_modified</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>account_name1</string>
-						<key>name</key>
-						<string>account_name1</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Account ID</string>
-						<key>name</key>
-						<string>account_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>ID</string>
-						<key>name</key>
-						<string>id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Created By</string>
-						<key>name</key>
-						<string>created_by_name</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Work Log</string>
-						<key>name</key>
-						<string>work_log</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Priority:</string>
-						<key>name</key>
-						<string>priority</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Date Created:</string>
-						<key>name</key>
-						<string>date_entered</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Modified By</string>
-						<key>name</key>
-						<string>modified_user_id</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Description:</string>
-						<key>name</key>
-						<string>description</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-					<dict>
-						<key>label</key>
-						<string>Status:</string>
-						<key>name</key>
-						<string>status</string>
-						<key>sortable</key>
-						<string>0</string>
-					</dict>
-				</array>
-			</dict>
-			<key>pathToObjectsInResponse</key>
-			<string>entry_list</string>
-			<key>postParameters</key>
-			<dict/>
-			<key>responseKeyPathMap</key>
-			<dict>
-				<key>account_id</key>
-				<string>name_value_list.account_id.value</string>
-				<key>account_name</key>
-				<string>name_value_list.account_name.value</string>
-				<key>account_name1</key>
-				<string>name_value_list.account_name1.value</string>
-				<key>assigned_user_id</key>
-				<string>name_value_list.assigned_user_id.value</string>
-				<key>assigned_user_name</key>
-				<string>name_value_list.assigned_user_name.value</string>
-				<key>case_number</key>
-				<string>name_value_list.case_number.value</string>
-				<key>created_by</key>
-				<string>name_value_list.created_by.value</string>
-				<key>created_by_name</key>
-				<string>name_value_list.created_by_name.value</string>
-				<key>date_entered</key>
-				<string>name_value_list.date_entered.value</string>
-				<key>date_modified</key>
-				<string>name_value_list.date_modified.value</string>
-				<key>deleted</key>
-				<string>name_value_list.deleted.value</string>
-				<key>description</key>
-				<string>name_value_list.description.value</string>
-				<key>id</key>
-				<string>name_value_list.id.value</string>
-				<key>modified_by_name</key>
-				<string>name_value_list.modified_by_name.value</string>
-				<key>modified_user_id</key>
-				<string>name_value_list.modified_user_id.value</string>
-				<key>name</key>
-				<string>name_value_list.name.value</string>
-				<key>priority</key>
-				<string>name_value_list.priority.value</string>
-				<key>resolution</key>
-				<string>name_value_list.resolution.value</string>
-				<key>status</key>
-				<string>name_value_list.status.value</string>
-				<key>type</key>
-				<string>name_value_list.type.value</string>
-				<key>work_log</key>
-				<string>name_value_list.work_log.value</string>
 			</dict>
 			<key>urlParameters</key>
 			<array>
@@ -9092,7 +7078,7 @@
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -9140,7 +7126,7 @@
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -9152,30 +7138,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -10370,12 +8460,12 @@
 			</array>
 		</dict>
 	</dict>
-	<key>Groups</key>
+	<key>Employees</key>
 	<dict>
 		<key>DataObjectMetadata</key>
 		<dict>
 			<key>class</key>
-			<string>Groups</string>
+			<string>Employees</string>
 			<key>fields</key>
 			<array>
 				<dict>
@@ -10388,7 +8478,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Modified By ID</string>
+					<string>LBL_MODIFIED_BY_ID</string>
 					<key>name</key>
 					<string>modified_by_name</string>
 					<key>sortable</key>
@@ -10412,7 +8502,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Authentication Id</string>
+					<string>LBL_AUTHENTICATE_ID</string>
 					<key>name</key>
 					<string>authenticate_id</string>
 					<key>sortable</key>
@@ -10428,7 +8518,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Address State</string>
+					<string>LBL_ADDRESS_STATE</string>
 					<key>name</key>
 					<string>address_state</string>
 					<key>sortable</key>
@@ -10436,7 +8526,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Accept Status</string>
+					<string>LBL_LIST_ACCEPT_STATUS</string>
 					<key>name</key>
 					<string>accept_status_name</string>
 					<key>sortable</key>
@@ -10444,7 +8534,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Last Name</string>
+					<string>Last Name:</string>
 					<key>name</key>
 					<string>last_name</string>
 					<key>sortable</key>
@@ -10460,7 +8550,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Other Phone</string>
+					<string>Other:</string>
 					<key>name</key>
 					<string>phone_other</string>
 					<key>sortable</key>
@@ -10468,7 +8558,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>IM Name</string>
+					<string>IM Name:</string>
 					<key>name</key>
 					<string>messenger_id</string>
 					<key>sortable</key>
@@ -10476,7 +8566,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>System Generated Password</string>
+					<string>LBL_SYSTEM_GENERATED_PASSWORD</string>
 					<key>name</key>
 					<string>system_generated_password</string>
 					<key>sortable</key>
@@ -10484,7 +8574,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>User Name</string>
+					<string>User Name:</string>
 					<key>name</key>
 					<string>user_name</string>
 					<key>sortable</key>
@@ -10492,7 +8582,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Reports to ID:</string>
+					<string>LBL_REPORTS_TO_ID</string>
 					<key>name</key>
 					<string>reports_to_id</string>
 					<key>sortable</key>
@@ -10500,7 +8590,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>External Authentication</string>
+					<string>LBL_EXT_AUTHENTICATE</string>
 					<key>name</key>
 					<string>external_auth_only</string>
 					<key>sortable</key>
@@ -10516,7 +8606,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Department</string>
+					<string>Department:</string>
 					<key>name</key>
 					<string>department</string>
 					<key>sortable</key>
@@ -10524,7 +8614,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Address Postal Code</string>
+					<string>LBL_ADDRESS_POSTALCODE</string>
 					<key>name</key>
 					<string>address_postalcode</string>
 					<key>sortable</key>
@@ -10532,7 +8622,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Home Phone</string>
+					<string>Home Phone:</string>
 					<key>name</key>
 					<string>phone_home</string>
 					<key>sortable</key>
@@ -10540,7 +8630,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Email Address</string>
+					<string>Email Address:</string>
 					<key>name</key>
 					<string>email1</string>
 					<key>sortable</key>
@@ -10548,7 +8638,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Full Name</string>
+					<string>Name:</string>
 					<key>name</key>
 					<string>name</string>
 					<key>sortable</key>
@@ -10556,7 +8646,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Mobile</string>
+					<string>Mobile:</string>
 					<key>name</key>
 					<string>phone_mobile</string>
 					<key>sortable</key>
@@ -10564,7 +8654,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Address City</string>
+					<string>LBL_ADDRESS_CITY</string>
 					<key>name</key>
 					<string>address_city</string>
 					<key>sortable</key>
@@ -10572,7 +8662,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>password last changed</string>
+					<string>LBL_PSW_MODIFIED</string>
 					<key>name</key>
 					<string>pwd_last_changed</string>
 					<key>sortable</key>
@@ -10580,7 +8670,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Accept Status</string>
+					<string>LBL_LIST_ACCEPT_STATUS</string>
 					<key>name</key>
 					<string>m_accept_status_fields</string>
 					<key>sortable</key>
@@ -10588,7 +8678,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Work Phone</string>
+					<string>Work Phone:</string>
 					<key>name</key>
 					<string>phone_work</string>
 					<key>sortable</key>
@@ -10596,7 +8686,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Accept Status</string>
+					<string>LBL_LIST_ACCEPT_STATUS</string>
 					<key>name</key>
 					<string>accept_status_id</string>
 					<key>sortable</key>
@@ -10604,7 +8694,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Full Name</string>
+					<string>Name:</string>
 					<key>name</key>
 					<string>full_name</string>
 					<key>sortable</key>
@@ -10620,7 +8710,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Password</string>
+					<string>LBL_USER_HASH</string>
 					<key>name</key>
 					<string>user_hash</string>
 					<key>sortable</key>
@@ -10636,7 +8726,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>First Name</string>
+					<string>First Name:</string>
 					<key>name</key>
 					<string>first_name</string>
 					<key>sortable</key>
@@ -10644,7 +8734,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Status</string>
+					<string>Status:</string>
 					<key>name</key>
 					<string>status</string>
 					<key>sortable</key>
@@ -10652,7 +8742,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Address Street</string>
+					<string>LBL_ADDRESS_STREET</string>
 					<key>name</key>
 					<string>address_street</string>
 					<key>sortable</key>
@@ -10660,7 +8750,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Employee Status</string>
+					<string>Employee Status:</string>
 					<key>name</key>
 					<string>employee_status</string>
 					<key>sortable</key>
@@ -10668,7 +8758,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Portal API User</string>
+					<string>LBL_PORTAL_ONLY_USER</string>
 					<key>name</key>
 					<string>portal_only</string>
 					<key>sortable</key>
@@ -10676,7 +8766,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>IM Type</string>
+					<string>IM Type:</string>
 					<key>name</key>
 					<string>messenger_type</string>
 					<key>sortable</key>
@@ -10684,7 +8774,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Accept Status</string>
+					<string>LBL_LIST_ACCEPT_STATUS</string>
 					<key>name</key>
 					<string>c_accept_status_fields</string>
 					<key>sortable</key>
@@ -10700,7 +8790,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Modified By ID</string>
+					<string>LBL_MODIFIED_BY_ID</string>
 					<key>name</key>
 					<string>modified_user_id</string>
 					<key>sortable</key>
@@ -10708,7 +8798,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Title</string>
+					<string>Title:</string>
 					<key>name</key>
 					<string>title</string>
 					<key>sortable</key>
@@ -10732,7 +8822,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Address Country</string>
+					<string>LBL_ADDRESS_COUNTRY</string>
 					<key>name</key>
 					<string>address_country</string>
 					<key>sortable</key>
@@ -10740,7 +8830,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Fax</string>
+					<string>LBL_FAX_PHONE</string>
 					<key>name</key>
 					<string>phone_fax</string>
 					<key>sortable</key>
@@ -10748,7 +8838,7 @@
 				</dict>
 				<dict>
 					<key>label</key>
-					<string>Group User</string>
+					<string>LBL_GROUP_USER</string>
 					<key>name</key>
 					<string>is_group</string>
 					<key>sortable</key>
@@ -10908,7 +8998,7 @@
 			<key>objectMetadata</key>
 			<dict>
 				<key>class</key>
-				<string>Groups</string>
+				<string>Employees</string>
 				<key>fields</key>
 				<array>
 					<dict>
@@ -10921,7 +9011,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_by_name</string>
 						<key>sortable</key>
@@ -10945,7 +9035,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Authentication Id</string>
+						<string>LBL_AUTHENTICATE_ID</string>
 						<key>name</key>
 						<string>authenticate_id</string>
 						<key>sortable</key>
@@ -10961,7 +9051,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address State</string>
+						<string>LBL_ADDRESS_STATE</string>
 						<key>name</key>
 						<string>address_state</string>
 						<key>sortable</key>
@@ -10969,7 +9059,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_name</string>
 						<key>sortable</key>
@@ -10977,7 +9067,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Last Name</string>
+						<string>Last Name:</string>
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
@@ -10993,7 +9083,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Other Phone</string>
+						<string>Other:</string>
 						<key>name</key>
 						<string>phone_other</string>
 						<key>sortable</key>
@@ -11001,7 +9091,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Name</string>
+						<string>IM Name:</string>
 						<key>name</key>
 						<string>messenger_id</string>
 						<key>sortable</key>
@@ -11009,7 +9099,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>System Generated Password</string>
+						<string>LBL_SYSTEM_GENERATED_PASSWORD</string>
 						<key>name</key>
 						<string>system_generated_password</string>
 						<key>sortable</key>
@@ -11017,7 +9107,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>User Name</string>
+						<string>User Name:</string>
 						<key>name</key>
 						<string>user_name</string>
 						<key>sortable</key>
@@ -11025,7 +9115,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Reports to ID:</string>
+						<string>LBL_REPORTS_TO_ID</string>
 						<key>name</key>
 						<string>reports_to_id</string>
 						<key>sortable</key>
@@ -11033,7 +9123,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>External Authentication</string>
+						<string>LBL_EXT_AUTHENTICATE</string>
 						<key>name</key>
 						<string>external_auth_only</string>
 						<key>sortable</key>
@@ -11049,7 +9139,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Department</string>
+						<string>Department:</string>
 						<key>name</key>
 						<string>department</string>
 						<key>sortable</key>
@@ -11057,7 +9147,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Postal Code</string>
+						<string>LBL_ADDRESS_POSTALCODE</string>
 						<key>name</key>
 						<string>address_postalcode</string>
 						<key>sortable</key>
@@ -11065,7 +9155,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Home Phone</string>
+						<string>Home Phone:</string>
 						<key>name</key>
 						<string>phone_home</string>
 						<key>sortable</key>
@@ -11073,7 +9163,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Email Address</string>
+						<string>Email Address:</string>
 						<key>name</key>
 						<string>email1</string>
 						<key>sortable</key>
@@ -11081,7 +9171,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
@@ -11089,7 +9179,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Mobile</string>
+						<string>Mobile:</string>
 						<key>name</key>
 						<string>phone_mobile</string>
 						<key>sortable</key>
@@ -11097,7 +9187,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address City</string>
+						<string>LBL_ADDRESS_CITY</string>
 						<key>name</key>
 						<string>address_city</string>
 						<key>sortable</key>
@@ -11105,7 +9195,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>password last changed</string>
+						<string>LBL_PSW_MODIFIED</string>
 						<key>name</key>
 						<string>pwd_last_changed</string>
 						<key>sortable</key>
@@ -11113,7 +9203,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>m_accept_status_fields</string>
 						<key>sortable</key>
@@ -11121,7 +9211,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Work Phone</string>
+						<string>Work Phone:</string>
 						<key>name</key>
 						<string>phone_work</string>
 						<key>sortable</key>
@@ -11129,7 +9219,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_id</string>
 						<key>sortable</key>
@@ -11137,7 +9227,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>full_name</string>
 						<key>sortable</key>
@@ -11153,7 +9243,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Password</string>
+						<string>LBL_USER_HASH</string>
 						<key>name</key>
 						<string>user_hash</string>
 						<key>sortable</key>
@@ -11169,7 +9259,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>First Name</string>
+						<string>First Name:</string>
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
@@ -11177,7 +9267,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Status</string>
+						<string>Status:</string>
 						<key>name</key>
 						<string>status</string>
 						<key>sortable</key>
@@ -11185,7 +9275,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Street</string>
+						<string>LBL_ADDRESS_STREET</string>
 						<key>name</key>
 						<string>address_street</string>
 						<key>sortable</key>
@@ -11193,7 +9283,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Employee Status</string>
+						<string>Employee Status:</string>
 						<key>name</key>
 						<string>employee_status</string>
 						<key>sortable</key>
@@ -11201,7 +9291,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Portal API User</string>
+						<string>LBL_PORTAL_ONLY_USER</string>
 						<key>name</key>
 						<string>portal_only</string>
 						<key>sortable</key>
@@ -11209,7 +9299,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Type</string>
+						<string>IM Type:</string>
 						<key>name</key>
 						<string>messenger_type</string>
 						<key>sortable</key>
@@ -11217,7 +9307,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>c_accept_status_fields</string>
 						<key>sortable</key>
@@ -11233,7 +9323,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_user_id</string>
 						<key>sortable</key>
@@ -11241,7 +9331,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Title</string>
+						<string>Title:</string>
 						<key>name</key>
 						<string>title</string>
 						<key>sortable</key>
@@ -11265,7 +9355,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Country</string>
+						<string>LBL_ADDRESS_COUNTRY</string>
 						<key>name</key>
 						<string>address_country</string>
 						<key>sortable</key>
@@ -11273,7 +9363,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Fax</string>
+						<string>LBL_FAX_PHONE</string>
 						<key>name</key>
 						<string>phone_fax</string>
 						<key>sortable</key>
@@ -11281,7 +9371,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Group User</string>
+						<string>LBL_GROUP_USER</string>
 						<key>name</key>
 						<string>is_group</string>
 						<key>sortable</key>
@@ -11290,16 +9380,16 @@
 				</array>
 			</dict>
 			<key>tableName</key>
-			<string>Groups</string>
+			<string>Employees</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
 			<key>module_name</key>
-			<string>Groups</string>
+			<string>Employees</string>
 			<key>objectMetadata</key>
 			<dict>
 				<key>class</key>
-				<string>Groups</string>
+				<string>Employees</string>
 				<key>fields</key>
 				<array>
 					<dict>
@@ -11312,7 +9402,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_by_name</string>
 						<key>sortable</key>
@@ -11336,7 +9426,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Authentication Id</string>
+						<string>LBL_AUTHENTICATE_ID</string>
 						<key>name</key>
 						<string>authenticate_id</string>
 						<key>sortable</key>
@@ -11352,7 +9442,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address State</string>
+						<string>LBL_ADDRESS_STATE</string>
 						<key>name</key>
 						<string>address_state</string>
 						<key>sortable</key>
@@ -11360,7 +9450,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_name</string>
 						<key>sortable</key>
@@ -11368,11 +9458,11 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Last Name</string>
+						<string>Last Name:</string>
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -11384,7 +9474,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Other Phone</string>
+						<string>Other:</string>
 						<key>name</key>
 						<string>phone_other</string>
 						<key>sortable</key>
@@ -11392,7 +9482,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Name</string>
+						<string>IM Name:</string>
 						<key>name</key>
 						<string>messenger_id</string>
 						<key>sortable</key>
@@ -11400,7 +9490,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>System Generated Password</string>
+						<string>LBL_SYSTEM_GENERATED_PASSWORD</string>
 						<key>name</key>
 						<string>system_generated_password</string>
 						<key>sortable</key>
@@ -11408,7 +9498,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>User Name</string>
+						<string>User Name:</string>
 						<key>name</key>
 						<string>user_name</string>
 						<key>sortable</key>
@@ -11416,7 +9506,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Reports to ID:</string>
+						<string>LBL_REPORTS_TO_ID</string>
 						<key>name</key>
 						<string>reports_to_id</string>
 						<key>sortable</key>
@@ -11424,7 +9514,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>External Authentication</string>
+						<string>LBL_EXT_AUTHENTICATE</string>
 						<key>name</key>
 						<string>external_auth_only</string>
 						<key>sortable</key>
@@ -11440,7 +9530,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Department</string>
+						<string>Department:</string>
 						<key>name</key>
 						<string>department</string>
 						<key>sortable</key>
@@ -11448,7 +9538,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Postal Code</string>
+						<string>LBL_ADDRESS_POSTALCODE</string>
 						<key>name</key>
 						<string>address_postalcode</string>
 						<key>sortable</key>
@@ -11456,7 +9546,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Home Phone</string>
+						<string>Home Phone:</string>
 						<key>name</key>
 						<string>phone_home</string>
 						<key>sortable</key>
@@ -11464,7 +9554,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Email Address</string>
+						<string>Email Address:</string>
 						<key>name</key>
 						<string>email1</string>
 						<key>sortable</key>
@@ -11472,7 +9562,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
@@ -11480,7 +9570,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Mobile</string>
+						<string>Mobile:</string>
 						<key>name</key>
 						<string>phone_mobile</string>
 						<key>sortable</key>
@@ -11488,7 +9578,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address City</string>
+						<string>LBL_ADDRESS_CITY</string>
 						<key>name</key>
 						<string>address_city</string>
 						<key>sortable</key>
@@ -11496,7 +9586,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>password last changed</string>
+						<string>LBL_PSW_MODIFIED</string>
 						<key>name</key>
 						<string>pwd_last_changed</string>
 						<key>sortable</key>
@@ -11504,7 +9594,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>m_accept_status_fields</string>
 						<key>sortable</key>
@@ -11512,7 +9602,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Work Phone</string>
+						<string>Work Phone:</string>
 						<key>name</key>
 						<string>phone_work</string>
 						<key>sortable</key>
@@ -11520,7 +9610,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_id</string>
 						<key>sortable</key>
@@ -11528,7 +9618,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>full_name</string>
 						<key>sortable</key>
@@ -11544,7 +9634,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Password</string>
+						<string>LBL_USER_HASH</string>
 						<key>name</key>
 						<string>user_hash</string>
 						<key>sortable</key>
@@ -11560,15 +9650,15 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>First Name</string>
+						<string>First Name:</string>
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Status</string>
+						<string>Status:</string>
 						<key>name</key>
 						<string>status</string>
 						<key>sortable</key>
@@ -11576,7 +9666,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Street</string>
+						<string>LBL_ADDRESS_STREET</string>
 						<key>name</key>
 						<string>address_street</string>
 						<key>sortable</key>
@@ -11584,7 +9674,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Employee Status</string>
+						<string>Employee Status:</string>
 						<key>name</key>
 						<string>employee_status</string>
 						<key>sortable</key>
@@ -11592,7 +9682,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Portal API User</string>
+						<string>LBL_PORTAL_ONLY_USER</string>
 						<key>name</key>
 						<string>portal_only</string>
 						<key>sortable</key>
@@ -11600,7 +9690,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Type</string>
+						<string>IM Type:</string>
 						<key>name</key>
 						<string>messenger_type</string>
 						<key>sortable</key>
@@ -11608,7 +9698,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>c_accept_status_fields</string>
 						<key>sortable</key>
@@ -11624,7 +9714,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_user_id</string>
 						<key>sortable</key>
@@ -11632,7 +9722,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Title</string>
+						<string>Title:</string>
 						<key>name</key>
 						<string>title</string>
 						<key>sortable</key>
@@ -11656,7 +9746,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Country</string>
+						<string>LBL_ADDRESS_COUNTRY</string>
 						<key>name</key>
 						<string>address_country</string>
 						<key>sortable</key>
@@ -11664,7 +9754,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Fax</string>
+						<string>LBL_FAX_PHONE</string>
 						<key>name</key>
 						<string>phone_fax</string>
 						<key>sortable</key>
@@ -11672,7 +9762,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Group User</string>
+						<string>LBL_GROUP_USER</string>
 						<key>name</key>
 						<string>is_group</string>
 						<key>sortable</key>
@@ -11680,41 +9770,145 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
 		<key>ListViewMetadata</key>
 		<dict>
 			<key>module_name</key>
-			<string>Groups</string>
+			<string>Employees</string>
 			<key>objectMetadata</key>
 			<dict>
 				<key>class</key>
-				<string>Groups</string>
+				<string>Employees</string>
 				<key>fields</key>
 				<array>
 					<dict>
@@ -11727,7 +9921,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_by_name</string>
 						<key>sortable</key>
@@ -11751,7 +9945,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Authentication Id</string>
+						<string>LBL_AUTHENTICATE_ID</string>
 						<key>name</key>
 						<string>authenticate_id</string>
 						<key>sortable</key>
@@ -11767,7 +9961,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address State</string>
+						<string>LBL_ADDRESS_STATE</string>
 						<key>name</key>
 						<string>address_state</string>
 						<key>sortable</key>
@@ -11775,7 +9969,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_name</string>
 						<key>sortable</key>
@@ -11783,7 +9977,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Last Name</string>
+						<string>Last Name:</string>
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
@@ -11799,7 +9993,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Other Phone</string>
+						<string>Other:</string>
 						<key>name</key>
 						<string>phone_other</string>
 						<key>sortable</key>
@@ -11807,7 +10001,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Name</string>
+						<string>IM Name:</string>
 						<key>name</key>
 						<string>messenger_id</string>
 						<key>sortable</key>
@@ -11815,7 +10009,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>System Generated Password</string>
+						<string>LBL_SYSTEM_GENERATED_PASSWORD</string>
 						<key>name</key>
 						<string>system_generated_password</string>
 						<key>sortable</key>
@@ -11823,7 +10017,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>User Name</string>
+						<string>User Name:</string>
 						<key>name</key>
 						<string>user_name</string>
 						<key>sortable</key>
@@ -11831,7 +10025,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Reports to ID:</string>
+						<string>LBL_REPORTS_TO_ID</string>
 						<key>name</key>
 						<string>reports_to_id</string>
 						<key>sortable</key>
@@ -11839,7 +10033,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>External Authentication</string>
+						<string>LBL_EXT_AUTHENTICATE</string>
 						<key>name</key>
 						<string>external_auth_only</string>
 						<key>sortable</key>
@@ -11855,7 +10049,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Department</string>
+						<string>Department:</string>
 						<key>name</key>
 						<string>department</string>
 						<key>sortable</key>
@@ -11863,7 +10057,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Postal Code</string>
+						<string>LBL_ADDRESS_POSTALCODE</string>
 						<key>name</key>
 						<string>address_postalcode</string>
 						<key>sortable</key>
@@ -11871,7 +10065,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Home Phone</string>
+						<string>Home Phone:</string>
 						<key>name</key>
 						<string>phone_home</string>
 						<key>sortable</key>
@@ -11879,7 +10073,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Email Address</string>
+						<string>Email Address:</string>
 						<key>name</key>
 						<string>email1</string>
 						<key>sortable</key>
@@ -11887,7 +10081,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
@@ -11895,7 +10089,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Mobile</string>
+						<string>Mobile:</string>
 						<key>name</key>
 						<string>phone_mobile</string>
 						<key>sortable</key>
@@ -11903,7 +10097,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address City</string>
+						<string>LBL_ADDRESS_CITY</string>
 						<key>name</key>
 						<string>address_city</string>
 						<key>sortable</key>
@@ -11911,7 +10105,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>password last changed</string>
+						<string>LBL_PSW_MODIFIED</string>
 						<key>name</key>
 						<string>pwd_last_changed</string>
 						<key>sortable</key>
@@ -11919,7 +10113,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>m_accept_status_fields</string>
 						<key>sortable</key>
@@ -11927,7 +10121,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Work Phone</string>
+						<string>Work Phone:</string>
 						<key>name</key>
 						<string>phone_work</string>
 						<key>sortable</key>
@@ -11935,7 +10129,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_id</string>
 						<key>sortable</key>
@@ -11943,7 +10137,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>full_name</string>
 						<key>sortable</key>
@@ -11959,7 +10153,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Password</string>
+						<string>LBL_USER_HASH</string>
 						<key>name</key>
 						<string>user_hash</string>
 						<key>sortable</key>
@@ -11975,7 +10169,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>First Name</string>
+						<string>First Name:</string>
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
@@ -11983,7 +10177,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Status</string>
+						<string>Status:</string>
 						<key>name</key>
 						<string>status</string>
 						<key>sortable</key>
@@ -11991,7 +10185,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Street</string>
+						<string>LBL_ADDRESS_STREET</string>
 						<key>name</key>
 						<string>address_street</string>
 						<key>sortable</key>
@@ -11999,7 +10193,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Employee Status</string>
+						<string>Employee Status:</string>
 						<key>name</key>
 						<string>employee_status</string>
 						<key>sortable</key>
@@ -12007,7 +10201,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Portal API User</string>
+						<string>LBL_PORTAL_ONLY_USER</string>
 						<key>name</key>
 						<string>portal_only</string>
 						<key>sortable</key>
@@ -12015,7 +10209,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Type</string>
+						<string>IM Type:</string>
 						<key>name</key>
 						<string>messenger_type</string>
 						<key>sortable</key>
@@ -12023,7 +10217,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>c_accept_status_fields</string>
 						<key>sortable</key>
@@ -12039,7 +10233,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_user_id</string>
 						<key>sortable</key>
@@ -12047,7 +10241,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Title</string>
+						<string>Title:</string>
 						<key>name</key>
 						<string>title</string>
 						<key>sortable</key>
@@ -12071,7 +10265,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Country</string>
+						<string>LBL_ADDRESS_COUNTRY</string>
 						<key>name</key>
 						<string>address_country</string>
 						<key>sortable</key>
@@ -12079,7 +10273,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Fax</string>
+						<string>LBL_FAX_PHONE</string>
 						<key>name</key>
 						<string>phone_fax</string>
 						<key>sortable</key>
@@ -12087,7 +10281,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Group User</string>
+						<string>LBL_GROUP_USER</string>
 						<key>name</key>
 						<string>is_group</string>
 						<key>sortable</key>
@@ -12125,11 +10319,11 @@
 			<key>method</key>
 			<integer>0</integer>
 			<key>module_name</key>
-			<string>Groups</string>
+			<string>Employees</string>
 			<key>objectMetadata</key>
 			<dict>
 				<key>class</key>
-				<string>Groups</string>
+				<string>Employees</string>
 				<key>fields</key>
 				<array>
 					<dict>
@@ -12142,7 +10336,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_by_name</string>
 						<key>sortable</key>
@@ -12166,7 +10360,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Authentication Id</string>
+						<string>LBL_AUTHENTICATE_ID</string>
 						<key>name</key>
 						<string>authenticate_id</string>
 						<key>sortable</key>
@@ -12182,7 +10376,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address State</string>
+						<string>LBL_ADDRESS_STATE</string>
 						<key>name</key>
 						<string>address_state</string>
 						<key>sortable</key>
@@ -12190,7 +10384,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_name</string>
 						<key>sortable</key>
@@ -12198,7 +10392,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Last Name</string>
+						<string>Last Name:</string>
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
@@ -12214,7 +10408,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Other Phone</string>
+						<string>Other:</string>
 						<key>name</key>
 						<string>phone_other</string>
 						<key>sortable</key>
@@ -12222,7 +10416,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Name</string>
+						<string>IM Name:</string>
 						<key>name</key>
 						<string>messenger_id</string>
 						<key>sortable</key>
@@ -12230,7 +10424,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>System Generated Password</string>
+						<string>LBL_SYSTEM_GENERATED_PASSWORD</string>
 						<key>name</key>
 						<string>system_generated_password</string>
 						<key>sortable</key>
@@ -12238,7 +10432,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>User Name</string>
+						<string>User Name:</string>
 						<key>name</key>
 						<string>user_name</string>
 						<key>sortable</key>
@@ -12246,7 +10440,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Reports to ID:</string>
+						<string>LBL_REPORTS_TO_ID</string>
 						<key>name</key>
 						<string>reports_to_id</string>
 						<key>sortable</key>
@@ -12254,7 +10448,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>External Authentication</string>
+						<string>LBL_EXT_AUTHENTICATE</string>
 						<key>name</key>
 						<string>external_auth_only</string>
 						<key>sortable</key>
@@ -12270,7 +10464,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Department</string>
+						<string>Department:</string>
 						<key>name</key>
 						<string>department</string>
 						<key>sortable</key>
@@ -12278,7 +10472,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Postal Code</string>
+						<string>LBL_ADDRESS_POSTALCODE</string>
 						<key>name</key>
 						<string>address_postalcode</string>
 						<key>sortable</key>
@@ -12286,7 +10480,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Home Phone</string>
+						<string>Home Phone:</string>
 						<key>name</key>
 						<string>phone_home</string>
 						<key>sortable</key>
@@ -12294,7 +10488,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Email Address</string>
+						<string>Email Address:</string>
 						<key>name</key>
 						<string>email1</string>
 						<key>sortable</key>
@@ -12302,7 +10496,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
@@ -12310,7 +10504,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Mobile</string>
+						<string>Mobile:</string>
 						<key>name</key>
 						<string>phone_mobile</string>
 						<key>sortable</key>
@@ -12318,7 +10512,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address City</string>
+						<string>LBL_ADDRESS_CITY</string>
 						<key>name</key>
 						<string>address_city</string>
 						<key>sortable</key>
@@ -12326,7 +10520,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>password last changed</string>
+						<string>LBL_PSW_MODIFIED</string>
 						<key>name</key>
 						<string>pwd_last_changed</string>
 						<key>sortable</key>
@@ -12334,7 +10528,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>m_accept_status_fields</string>
 						<key>sortable</key>
@@ -12342,7 +10536,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Work Phone</string>
+						<string>Work Phone:</string>
 						<key>name</key>
 						<string>phone_work</string>
 						<key>sortable</key>
@@ -12350,7 +10544,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>accept_status_id</string>
 						<key>sortable</key>
@@ -12358,7 +10552,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Full Name</string>
+						<string>Name:</string>
 						<key>name</key>
 						<string>full_name</string>
 						<key>sortable</key>
@@ -12374,7 +10568,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Password</string>
+						<string>LBL_USER_HASH</string>
 						<key>name</key>
 						<string>user_hash</string>
 						<key>sortable</key>
@@ -12390,7 +10584,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>First Name</string>
+						<string>First Name:</string>
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
@@ -12398,7 +10592,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Status</string>
+						<string>Status:</string>
 						<key>name</key>
 						<string>status</string>
 						<key>sortable</key>
@@ -12406,7 +10600,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Street</string>
+						<string>LBL_ADDRESS_STREET</string>
 						<key>name</key>
 						<string>address_street</string>
 						<key>sortable</key>
@@ -12414,7 +10608,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Employee Status</string>
+						<string>Employee Status:</string>
 						<key>name</key>
 						<string>employee_status</string>
 						<key>sortable</key>
@@ -12422,7 +10616,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Portal API User</string>
+						<string>LBL_PORTAL_ONLY_USER</string>
 						<key>name</key>
 						<string>portal_only</string>
 						<key>sortable</key>
@@ -12430,7 +10624,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>IM Type</string>
+						<string>IM Type:</string>
 						<key>name</key>
 						<string>messenger_type</string>
 						<key>sortable</key>
@@ -12438,7 +10632,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Accept Status</string>
+						<string>LBL_LIST_ACCEPT_STATUS</string>
 						<key>name</key>
 						<string>c_accept_status_fields</string>
 						<key>sortable</key>
@@ -12454,7 +10648,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Modified By ID</string>
+						<string>LBL_MODIFIED_BY_ID</string>
 						<key>name</key>
 						<string>modified_user_id</string>
 						<key>sortable</key>
@@ -12462,7 +10656,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Title</string>
+						<string>Title:</string>
 						<key>name</key>
 						<string>title</string>
 						<key>sortable</key>
@@ -12486,7 +10680,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Address Country</string>
+						<string>LBL_ADDRESS_COUNTRY</string>
 						<key>name</key>
 						<string>address_country</string>
 						<key>sortable</key>
@@ -12494,7 +10688,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Fax</string>
+						<string>LBL_FAX_PHONE</string>
 						<key>name</key>
 						<string>phone_fax</string>
 						<key>sortable</key>
@@ -12502,7 +10696,7 @@
 					</dict>
 					<dict>
 						<key>label</key>
-						<string>Group User</string>
+						<string>LBL_GROUP_USER</string>
 						<key>name</key>
 						<string>is_group</string>
 						<key>sortable</key>
@@ -14591,7 +12785,7 @@
 						<key>name</key>
 						<string>first_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -14639,7 +12833,7 @@
 						<key>name</key>
 						<string>last_name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -14667,30 +12861,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -16699,7 +14997,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -16871,30 +15169,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -18662,7 +17064,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -18850,30 +17252,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -19906,7 +18412,7 @@
 					<key>name</key>
 					<string>name</string>
 					<key>sortable</key>
-					<string>1</string>
+					<string>0</string>
 				</dict>
 				<dict>
 					<key>label</key>
@@ -20146,7 +18652,7 @@
 						<key>name</key>
 						<string>name</string>
 						<key>sortable</key>
-						<string>1</string>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>label</key>
@@ -20190,30 +18696,134 @@
 					</dict>
 				</array>
 			</dict>
-			<key>sectionItems</key>
+			<key>sections</key>
 			<array>
 				<dict>
-					<key>rowItems</key>
+					<key>rows</key>
 					<array>
 						<dict>
-							<key>label</key>
-							<string>Phone</string>
-							<key>name</key>
-							<string>mobile_office</string>
-							<key>sortable</key>
-							<string>0</string>
-						</dict>
-						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
 							<key>label</key>
 							<string>Name</string>
-							<key>name</key>
-							<string>name</string>
-							<key>sortable</key>
-							<string>0</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
 						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
 				</dict>
 			</array>
 		</dict>
@@ -20472,6 +19082,1423 @@
 				<string>name_value_list.modules.value</string>
 				<key>name</key>
 				<string>name_value_list.name.value</string>
+			</dict>
+			<key>urlParameters</key>
+			<array>
+				<dict>
+					<key>method</key>
+					<string>get_entry_list</string>
+				</dict>
+				<dict>
+					<key>input_type</key>
+					<string>JSON</string>
+				</dict>
+				<dict>
+					<key>response_type</key>
+					<string>JSON</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>Tasks</key>
+	<dict>
+		<key>DataObjectMetadata</key>
+		<dict>
+			<key>class</key>
+			<string>Tasks</string>
+			<key>fields</key>
+			<array>
+				<dict>
+					<key>label</key>
+					<string>Contact Name </string>
+					<key>name</key>
+					<string>contact_name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Deleted</string>
+					<key>name</key>
+					<string>deleted</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Related to</string>
+					<key>name</key>
+					<string>parent_name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Assigned User Id</string>
+					<key>name</key>
+					<string>assigned_user_id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Due Date:</string>
+					<key>name</key>
+					<string>date_due</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Subject:</string>
+					<key>name</key>
+					<string>name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Due Time:</string>
+					<key>name</key>
+					<string>time_due</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Modified By</string>
+					<key>name</key>
+					<string>modified_by_name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Created By</string>
+					<key>name</key>
+					<string>created_by</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Assigned to:</string>
+					<key>name</key>
+					<string>assigned_user_name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Date Modified</string>
+					<key>name</key>
+					<string>date_modified</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Start Date:</string>
+					<key>name</key>
+					<string>date_start</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Contact ID:</string>
+					<key>name</key>
+					<string>contact_id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>ID</string>
+					<key>name</key>
+					<string>id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Created By</string>
+					<key>name</key>
+					<string>created_by_name</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Parent Type:</string>
+					<key>name</key>
+					<string>parent_type</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>No Due Date</string>
+					<key>name</key>
+					<string>date_due_flag</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Date Created</string>
+					<key>name</key>
+					<string>date_entered</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Modified By</string>
+					<key>name</key>
+					<string>modified_user_id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>No Start Date</string>
+					<key>name</key>
+					<string>date_start_flag</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Email Address:</string>
+					<key>name</key>
+					<string>contact_email</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Priority:</string>
+					<key>name</key>
+					<string>priority</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Contact Phone:</string>
+					<key>name</key>
+					<string>contact_phone</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Description:</string>
+					<key>name</key>
+					<string>description</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Status:</string>
+					<key>name</key>
+					<string>status</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+				<dict>
+					<key>label</key>
+					<string>Parent ID:</string>
+					<key>name</key>
+					<string>parent_id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+			</array>
+		</dict>
+		<key>DbMetadata</key>
+		<dict>
+			<key>columnNames</key>
+			<array>
+				<string>contact_name</string>
+				<string>deleted</string>
+				<string>parent_name</string>
+				<string>date_due</string>
+				<string>assigned_user_id</string>
+				<string>name</string>
+				<string>time_due</string>
+				<string>modified_by_name</string>
+				<string>created_by</string>
+				<string>contact_id</string>
+				<string>assigned_user_name</string>
+				<string>date_start</string>
+				<string>date_modified</string>
+				<string>id</string>
+				<string>created_by_name</string>
+				<string>parent_type</string>
+				<string>date_due_flag</string>
+				<string>date_entered</string>
+				<string>modified_user_id</string>
+				<string>date_start_flag</string>
+				<string>contact_email</string>
+				<string>priority</string>
+				<string>contact_phone</string>
+				<string>description</string>
+				<string>status</string>
+				<string>parent_id</string>
+			</array>
+			<key>column_objectFieldMap</key>
+			<dict>
+				<key>assigned_user_id</key>
+				<string>assigned_user_id</string>
+				<key>assigned_user_name</key>
+				<string>assigned_user_name</string>
+				<key>contact_email</key>
+				<string>contact_email</string>
+				<key>contact_id</key>
+				<string>contact_id</string>
+				<key>contact_name</key>
+				<string>contact_name</string>
+				<key>contact_phone</key>
+				<string>contact_phone</string>
+				<key>created_by</key>
+				<string>created_by</string>
+				<key>created_by_name</key>
+				<string>created_by_name</string>
+				<key>date_due</key>
+				<string>date_due</string>
+				<key>date_due_flag</key>
+				<string>date_due_flag</string>
+				<key>date_entered</key>
+				<string>date_entered</string>
+				<key>date_modified</key>
+				<string>date_modified</string>
+				<key>date_start</key>
+				<string>date_start</string>
+				<key>date_start_flag</key>
+				<string>date_start_flag</string>
+				<key>deleted</key>
+				<string>deleted</string>
+				<key>description</key>
+				<string>description</string>
+				<key>id</key>
+				<string>id</string>
+				<key>modified_by_name</key>
+				<string>modified_by_name</string>
+				<key>modified_user_id</key>
+				<string>modified_user_id</string>
+				<key>name</key>
+				<string>name</string>
+				<key>parent_id</key>
+				<string>parent_id</string>
+				<key>parent_name</key>
+				<string>parent_name</string>
+				<key>parent_type</key>
+				<string>parent_type</string>
+				<key>priority</key>
+				<string>priority</string>
+				<key>status</key>
+				<string>status</string>
+				<key>time_due</key>
+				<string>time_due</string>
+			</dict>
+			<key>objectMetadata</key>
+			<dict>
+				<key>class</key>
+				<string>Tasks</string>
+				<key>fields</key>
+				<array>
+					<dict>
+						<key>label</key>
+						<string>Contact Name </string>
+						<key>name</key>
+						<string>contact_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Deleted</string>
+						<key>name</key>
+						<string>deleted</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Related to</string>
+						<key>name</key>
+						<string>parent_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned User Id</string>
+						<key>name</key>
+						<string>assigned_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Date:</string>
+						<key>name</key>
+						<string>date_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Subject:</string>
+						<key>name</key>
+						<string>name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Time:</string>
+						<key>name</key>
+						<string>time_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned to:</string>
+						<key>name</key>
+						<string>assigned_user_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Modified</string>
+						<key>name</key>
+						<string>date_modified</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Start Date:</string>
+						<key>name</key>
+						<string>date_start</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact ID:</string>
+						<key>name</key>
+						<string>contact_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>ID</string>
+						<key>name</key>
+						<string>id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent Type:</string>
+						<key>name</key>
+						<string>parent_type</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Due Date</string>
+						<key>name</key>
+						<string>date_due_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Created</string>
+						<key>name</key>
+						<string>date_entered</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Start Date</string>
+						<key>name</key>
+						<string>date_start_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Email Address:</string>
+						<key>name</key>
+						<string>contact_email</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Priority:</string>
+						<key>name</key>
+						<string>priority</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact Phone:</string>
+						<key>name</key>
+						<string>contact_phone</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Description:</string>
+						<key>name</key>
+						<string>description</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Status:</string>
+						<key>name</key>
+						<string>status</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent ID:</string>
+						<key>name</key>
+						<string>parent_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+				</array>
+			</dict>
+			<key>tableName</key>
+			<string>Tasks</string>
+		</dict>
+		<key>DetailViewMetadata</key>
+		<dict>
+			<key>module_name</key>
+			<string>Tasks</string>
+			<key>objectMetadata</key>
+			<dict>
+				<key>class</key>
+				<string>Tasks</string>
+				<key>fields</key>
+				<array>
+					<dict>
+						<key>label</key>
+						<string>Contact Name </string>
+						<key>name</key>
+						<string>contact_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Deleted</string>
+						<key>name</key>
+						<string>deleted</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Related to</string>
+						<key>name</key>
+						<string>parent_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned User Id</string>
+						<key>name</key>
+						<string>assigned_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Date:</string>
+						<key>name</key>
+						<string>date_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Subject:</string>
+						<key>name</key>
+						<string>name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Time:</string>
+						<key>name</key>
+						<string>time_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned to:</string>
+						<key>name</key>
+						<string>assigned_user_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Modified</string>
+						<key>name</key>
+						<string>date_modified</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Start Date:</string>
+						<key>name</key>
+						<string>date_start</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact ID:</string>
+						<key>name</key>
+						<string>contact_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>ID</string>
+						<key>name</key>
+						<string>id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent Type:</string>
+						<key>name</key>
+						<string>parent_type</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Due Date</string>
+						<key>name</key>
+						<string>date_due_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Created</string>
+						<key>name</key>
+						<string>date_entered</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Start Date</string>
+						<key>name</key>
+						<string>date_start_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Email Address:</string>
+						<key>name</key>
+						<string>contact_email</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Priority:</string>
+						<key>name</key>
+						<string>priority</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact Phone:</string>
+						<key>name</key>
+						<string>contact_phone</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Description:</string>
+						<key>name</key>
+						<string>description</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Status:</string>
+						<key>name</key>
+						<string>status</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent ID:</string>
+						<key>name</key>
+						<string>parent_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+				</array>
+			</dict>
+			<key>sections</key>
+			<array>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>name</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Name</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>mobile_office</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>phone_alternate</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Phone</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Basic Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_2</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_3</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_street_4</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_city</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_state</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_postalcode</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+								<dict>
+									<key>name</key>
+									<string>billing_address_country</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Billing Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>email</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Email</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>name</key>
+									<string>date_entered</string>
+									<key>sortable</key>
+									<string>0</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Additional Info</string>
+				</dict>
+			</array>
+		</dict>
+		<key>ListViewMetadata</key>
+		<dict>
+			<key>module_name</key>
+			<string>Tasks</string>
+			<key>objectMetadata</key>
+			<dict>
+				<key>class</key>
+				<string>Tasks</string>
+				<key>fields</key>
+				<array>
+					<dict>
+						<key>label</key>
+						<string>Contact Name </string>
+						<key>name</key>
+						<string>contact_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Deleted</string>
+						<key>name</key>
+						<string>deleted</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Related to</string>
+						<key>name</key>
+						<string>parent_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned User Id</string>
+						<key>name</key>
+						<string>assigned_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Date:</string>
+						<key>name</key>
+						<string>date_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Subject:</string>
+						<key>name</key>
+						<string>name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Time:</string>
+						<key>name</key>
+						<string>time_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned to:</string>
+						<key>name</key>
+						<string>assigned_user_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Modified</string>
+						<key>name</key>
+						<string>date_modified</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Start Date:</string>
+						<key>name</key>
+						<string>date_start</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact ID:</string>
+						<key>name</key>
+						<string>contact_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>ID</string>
+						<key>name</key>
+						<string>id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent Type:</string>
+						<key>name</key>
+						<string>parent_type</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Due Date</string>
+						<key>name</key>
+						<string>date_due_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Created</string>
+						<key>name</key>
+						<string>date_entered</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Start Date</string>
+						<key>name</key>
+						<string>date_start_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Email Address:</string>
+						<key>name</key>
+						<string>contact_email</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Priority:</string>
+						<key>name</key>
+						<string>priority</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact Phone:</string>
+						<key>name</key>
+						<string>contact_phone</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Description:</string>
+						<key>name</key>
+						<string>description</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Status:</string>
+						<key>name</key>
+						<string>status</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent ID:</string>
+						<key>name</key>
+						<string>parent_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+				</array>
+			</dict>
+			<key>otherFields</key>
+			<array>
+				<dict>
+					<key>label</key>
+					<string>id</string>
+					<key>name</key>
+					<string>id</string>
+					<key>sortable</key>
+					<string>0</string>
+				</dict>
+			</array>
+			<key>primaryDisplayField</key>
+			<dict>
+				<key>label</key>
+				<string>Name</string>
+				<key>name</key>
+				<string>name</string>
+				<key>sortable</key>
+				<string>0</string>
+			</dict>
+		</dict>
+		<key>WebserviceMetadata</key>
+		<dict>
+			<key>endpoint</key>
+			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
+			<key>headers</key>
+			<dict/>
+			<key>method</key>
+			<integer>0</integer>
+			<key>module_name</key>
+			<string>Tasks</string>
+			<key>objectMetadata</key>
+			<dict>
+				<key>class</key>
+				<string>Tasks</string>
+				<key>fields</key>
+				<array>
+					<dict>
+						<key>label</key>
+						<string>Contact Name </string>
+						<key>name</key>
+						<string>contact_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Deleted</string>
+						<key>name</key>
+						<string>deleted</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Related to</string>
+						<key>name</key>
+						<string>parent_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned User Id</string>
+						<key>name</key>
+						<string>assigned_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Date:</string>
+						<key>name</key>
+						<string>date_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Subject:</string>
+						<key>name</key>
+						<string>name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Due Time:</string>
+						<key>name</key>
+						<string>time_due</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Assigned to:</string>
+						<key>name</key>
+						<string>assigned_user_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Modified</string>
+						<key>name</key>
+						<string>date_modified</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Start Date:</string>
+						<key>name</key>
+						<string>date_start</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact ID:</string>
+						<key>name</key>
+						<string>contact_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>ID</string>
+						<key>name</key>
+						<string>id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Created By</string>
+						<key>name</key>
+						<string>created_by_name</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent Type:</string>
+						<key>name</key>
+						<string>parent_type</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Due Date</string>
+						<key>name</key>
+						<string>date_due_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Date Created</string>
+						<key>name</key>
+						<string>date_entered</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Modified By</string>
+						<key>name</key>
+						<string>modified_user_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>No Start Date</string>
+						<key>name</key>
+						<string>date_start_flag</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Email Address:</string>
+						<key>name</key>
+						<string>contact_email</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Priority:</string>
+						<key>name</key>
+						<string>priority</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Contact Phone:</string>
+						<key>name</key>
+						<string>contact_phone</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Description:</string>
+						<key>name</key>
+						<string>description</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Status:</string>
+						<key>name</key>
+						<string>status</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>label</key>
+						<string>Parent ID:</string>
+						<key>name</key>
+						<string>parent_id</string>
+						<key>sortable</key>
+						<string>0</string>
+					</dict>
+				</array>
+			</dict>
+			<key>pathToObjectsInResponse</key>
+			<string>entry_list</string>
+			<key>postParameters</key>
+			<dict/>
+			<key>responseKeyPathMap</key>
+			<dict>
+				<key>assigned_user_id</key>
+				<string>name_value_list.assigned_user_id.value</string>
+				<key>assigned_user_name</key>
+				<string>name_value_list.assigned_user_name.value</string>
+				<key>contact_email</key>
+				<string>name_value_list.contact_email.value</string>
+				<key>contact_id</key>
+				<string>name_value_list.contact_id.value</string>
+				<key>contact_name</key>
+				<string>name_value_list.contact_name.value</string>
+				<key>contact_phone</key>
+				<string>name_value_list.contact_phone.value</string>
+				<key>created_by</key>
+				<string>name_value_list.created_by.value</string>
+				<key>created_by_name</key>
+				<string>name_value_list.created_by_name.value</string>
+				<key>date_due</key>
+				<string>name_value_list.date_due.value</string>
+				<key>date_due_flag</key>
+				<string>name_value_list.date_due_flag.value</string>
+				<key>date_entered</key>
+				<string>name_value_list.date_entered.value</string>
+				<key>date_modified</key>
+				<string>name_value_list.date_modified.value</string>
+				<key>date_start</key>
+				<string>name_value_list.date_start.value</string>
+				<key>date_start_flag</key>
+				<string>name_value_list.date_start_flag.value</string>
+				<key>deleted</key>
+				<string>name_value_list.deleted.value</string>
+				<key>description</key>
+				<string>name_value_list.description.value</string>
+				<key>id</key>
+				<string>name_value_list.id.value</string>
+				<key>modified_by_name</key>
+				<string>name_value_list.modified_by_name.value</string>
+				<key>modified_user_id</key>
+				<string>name_value_list.modified_user_id.value</string>
+				<key>name</key>
+				<string>name_value_list.name.value</string>
+				<key>parent_id</key>
+				<string>name_value_list.parent_id.value</string>
+				<key>parent_name</key>
+				<string>name_value_list.parent_name.value</string>
+				<key>parent_type</key>
+				<string>name_value_list.parent_type.value</string>
+				<key>priority</key>
+				<string>name_value_list.priority.value</string>
+				<key>status</key>
+				<string>name_value_list.status.value</string>
+				<key>time_due</key>
+				<string>name_value_list.time_due.value</string>
 			</dict>
 			<key>urlParameters</key>
 			<array>
