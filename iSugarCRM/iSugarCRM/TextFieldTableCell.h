@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SettingsTextField.h"
 
 @interface TextFieldTableCell : UITableViewCell
 {
