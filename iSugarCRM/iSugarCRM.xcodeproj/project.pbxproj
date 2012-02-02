@@ -23,6 +23,9 @@
 		0FB7DAF014BC36EB00E9F794 /* SettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */; };
 		0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
 		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
+		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
+		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
+		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */; };
@@ -101,6 +104,11 @@
 		0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsDataStore.m; sourceTree = "<group>"; };
 		0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsObject.h; sourceTree = "<group>"; };
 		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
+		0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingsViewController.h; sourceTree = "<group>"; };
+		0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingsViewController.m; sourceTree = "<group>"; };
+		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
+		0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldTableCell.h; sourceTree = "<group>"; };
+		0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldTableCell.m; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -274,6 +282,9 @@
 		3B3E6277148E3288002BAE48 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */,
+				0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */,
+				0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */,
 				2FCB48EE14A21328009079A1 /* DetailViewController.h */,
 				2FCB48EF14A21328009079A1 /* DetailViewController.m */,
 				3B3E6278148E32AE002BAE48 /* ListViewController.h */,
@@ -284,6 +295,8 @@
 				0FB17C2A14B5B38E004F0C80 /* DashboardController.h */,
 				0FB17C2B14B5B38E004F0C80 /* DashboardController.m */,
 				0FB17A0F14B5B02F004F0C80 /* Launcher */,
+				0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */,
+				0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -521,6 +534,7 @@
 				0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */,
 				0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */,
 				2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */,
+				0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +606,8 @@
 				0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */,
 				0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */,
 				0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */,
+				0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */,
+				0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
