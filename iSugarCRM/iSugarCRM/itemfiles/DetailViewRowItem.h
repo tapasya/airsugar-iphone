@@ -13,5 +13,5 @@
 
 
 @property (nonatomic, copy) NSString *label;
-@property (nonatomic, copy) NSString *value;
+@property (nonatomic, copy) NSArray *values;
 @end

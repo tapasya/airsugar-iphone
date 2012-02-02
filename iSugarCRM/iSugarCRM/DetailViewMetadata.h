@@ -11,7 +11,7 @@
 @interface DetailViewMetadata : NSObject
 @property(strong)DataObjectMetadata *objectMetadata;
 @property(strong)NSString *moduleName;
-@property(strong)NSDictionary *sectionItems;
+@property(strong)NSArray *sections;
 
 -(NSDictionary*)toDictionary;
 +(DetailViewMetadata*)objectFromDictionary:(NSDictionary*)dictionary;

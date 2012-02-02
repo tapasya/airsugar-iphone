@@ -18,13 +18,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 @interface SugarCRMMetadataStore ()
 -(id)initPrivate;
--(BOOL)initializeMetadata;
-
+-(void)loadModuleList;
+-(BOOL)loadMetadata;
+-(NSString*)urlStringForParams:(NSMutableDictionary*)params;
 /**only to generate and save config file*/
 -(void)saveConfig:(NSMutableDictionary*)plistDictionary;
--(void)configForModules;
--(NSDictionary*)generateConfig;
--(NSString*)urlStringForParams:(NSMutableDictionary*)params;
+-(NSDictionary*)generateConfiguration;
 /****/
 @property(strong)NSMutableDictionary *moduleList;
 @property(strong)NSDictionary *metadataDictionary;
@@ -80,15 +79,28 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return metadata;
 }
 
--(void)configureMetadata
+-(BOOL)configureMetadata
 {  
-    BOOL hasMetadata = YES;
-    if (!metadataDictionary) {
-        hasMetadata = [self initializeMetadata];
-    }
-    if (hasMetadata) {
-        for(NSString *module in [metadataDictionary allKeys])
+    
+    [self loadModuleList];
+    if (![self loadMetadata]) 
+    {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"];  
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSBundle mainBundle] pathForResource:@"SugarMetadata" ofType:@"plist"]])
+        {  
+            self.metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];  
+        }
+        else
         {
+            NSLog(@"Unable to generate Config file..Returning..");
+        }
+        return false;
+    }
+    
+    for(NSString *module in [metadataDictionary allKeys])
+    {
+        if([[moduleList allKeys] containsObject:module])
+        {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
@@ -99,29 +111,63 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             [self setViewMetaData:detailViewMetadata forKey:[NSString stringWithFormat:@"detail-%@",module]];
         }
     }
+    return true;
 }
+
+
 
 #pragma mark- private methods
 
 
--(BOOL)initializeMetadata
+-(BOOL)loadMetadata
 {
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SugarMetadata" ofType:@"plist"];  
-    if (filePath) {  
-        metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];  
-        if (metadataDictionary) {  
-            return YES;
-        }
-      } else {
-        NSLog(@"Config file doesnt exist");
-        [self generateConfig];
-        [self configForModules];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"];  
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"]])
+    {  NSLog(@"Config file found, loading metadata!");
+        self.metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];
+        NSLog(@"metadata: %@",metadataDictionary);
+        return YES;
     }
-return NO;
+    else
+    {
+        NSLog(@"Config file not found, generating again.");
+        [self generateConfiguration];
+        return NO;
+    }
+}
+
+-(void)loadModuleList 
+{
+    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+    [urlParams setObject:@"get_available_modules" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error = nil;  
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+    if (error) {
+        NSLog(@"Error Parsing Metadata");
+        return;
+    } 
+    NSMutableDictionary *moduleKeyValuePairs=[[NSMutableDictionary alloc] init];
+    id moduleResponse=[adata objectFromJSONData];
+    for(NSDictionary* module in [moduleResponse objectForKey:@"modules"] ){
+        [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
+    }
+    NSLog(@"modules in plist %@",moduleKeyValuePairs);
+    
+    self.moduleList = moduleKeyValuePairs;
 }
 
 
--(NSDictionary*)generateConfig 
+
+-(NSDictionary*)generateConfiguration 
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL success;
@@ -253,14 +299,27 @@ return NO;
             lViewMetadata.objectMetadata = daoMetadata;
             lViewMetadata.moduleName = module;
             
+            //DetailviewMetadata
             DetailViewMetadata *detailViewMetadata = [[DetailViewMetadata alloc] init];
-            NSMutableDictionary *sectionItems = [[NSMutableDictionary alloc] init];
-            DataObjectField *field = [DataObjectField fieldWithName:@"mobile_office" dataType:0];
-            field.label = @"Phone";
-            DataObjectField *field1 = [DataObjectField fieldWithName:@"name" dataType:0];
-            field1.label = @"Name";
-            [sectionItems setObject:[NSArray arrayWithObjects:field,field1, nil] forKey:@"Basic Info"];
-            detailViewMetadata.sectionItems = sectionItems;
+            NSMutableArray *sections  = [NSMutableArray array];
+            NSMutableDictionary *sectionItem = [NSMutableDictionary dictionary];
+            [sectionItem setObject:@"Basic Info" forKey:@"section_name"];
+            NSMutableArray *rows = [NSMutableArray array];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"name" dataType:0], nil],@"Name",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"mobile_office" dataType:0], [DataObjectField fieldWithName:@"phone_alternate" dataType:0], nil],@"Phone",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [sectionItem setObject:rows forKey:@"rows"];
+            [sections addObject:sectionItem];
+            
+            sectionItem = [NSMutableDictionary dictionary];
+            [sectionItem setObject:@"Additional Info" forKey:@"section_name"];
+            rows = [NSMutableArray array];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"billing_address_street" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_2" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_3" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_4" dataType:0],[DataObjectField fieldWithName:@"billing_address_city" dataType:0],[DataObjectField fieldWithName:@"billing_address_state" dataType:0],[DataObjectField fieldWithName:@"billing_address_postalcode" dataType:0],[DataObjectField fieldWithName:@"billing_address_country" dataType:0], nil],@"Billing Address",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"email" dataType:0], nil],@"Email",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"date_entered" dataType:0], nil],@"Date Created",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [sectionItem setObject:rows forKey:@"rows"];
+            [sections addObject:sectionItem];
+            
+            detailViewMetadata.sections = sections;
             detailViewMetadata.objectMetadata = daoMetadata;
             detailViewMetadata.moduleName = module;
             

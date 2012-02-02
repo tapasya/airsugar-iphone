@@ -21,6 +21,9 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
             break;
     }
 };
+@interface WebserviceMetadata ()
+-(NSURLRequest*)formatRequest;
+@end
 
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method,moduleName;
@@ -56,17 +59,42 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [urlParameters addObject:dictionary];
 }
 
+
 -(NSURLRequest*)getRequest
 {
     //append url parameters
-    NSMutableString *urlWithParams = [[NSMutableString alloc] init];
-    [urlWithParams appendString:endpoint];
-    int index = 0;
     NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
     [restDataDictionary setObject:session forKey:@"session"];
     [restDataDictionary  setObject:moduleName forKey:@"module_name"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
+    return [self formatRequest];
+}
+
+
+-(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString*)timestamp;
+{
+    if (timestamp==nil) {
+        return [self getRequest];
+    }
+    //append url parameters
+    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
+    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],timestamp] forKey:@"query"];
+    [restDataDictionary  setObject:@"" forKey:@"order_by"];
+    [restDataDictionary  setObject:@"" forKey:@"offset"];
+    // [restDataDictionary  setObject: forKey:@"select_fields"];
+    NSString *restDataString = [restDataDictionary JSONString];
+    [self setUrlParam:restDataString forKey:@"rest_data"];
+    return [self formatRequest];
+}
+
+-(NSURLRequest*)formatRequest
+{
+    NSMutableString *urlWithParams = [[NSMutableString alloc] init];
+    [urlWithParams appendString:endpoint];
+    int index = 0;
     for(NSDictionary *urlParam in urlParameters)
     {
         NSString *key = [[urlParam allKeys] objectAtIndex:0];
@@ -113,9 +141,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     }
     
     return request;
-    
 }
-
 -(id)copy
 {
     WebserviceMetadata *copy = [[WebserviceMetadata alloc] init];

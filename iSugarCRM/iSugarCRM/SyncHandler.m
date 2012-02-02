@@ -16,10 +16,13 @@ NSInteger moduleCount = 1;
 -(void)syncForModule:(NSString*)module
 {
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+    NSString* deltaMark = [dbSession getLastSyncTimestamp];
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:module]];
     session.delegate=self;
-    [session startLoading];
+    [session startLoading:deltaMark];
 }
+
 
 -(void)syncAllModules
 {   
@@ -73,4 +76,5 @@ NSInteger moduleCount = 1;
         moduleCount--;
     }
 }
+
 @end
