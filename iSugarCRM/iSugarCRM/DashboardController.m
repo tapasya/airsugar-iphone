@@ -10,6 +10,7 @@
 #import "SugarCRMMetadataStore.h"
 #import "MyLauncherItem.h"
 #import "ListViewController.h"
+#import "AppSettingsViewController.h"
 
 @interface DashboardController ()
 -(void) loadModuleViews;
@@ -78,6 +79,12 @@
     return YES;
 }
 
+-(IBAction)showSettings:(id)sender
+{
+    AppSettingsViewController* svc = [[AppSettingsViewController alloc] init];
+    [self.navigationController pushViewController:svc animated:YES];
+}
+
 -(void) loadModuleViews
 {
     [self loadView];
@@ -102,6 +109,9 @@
             }
         }
         [self.launcherView setPages:pageItems];
+        
+        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)];
+        self.navigationItem.rightBarButtonItem = settingsButton;
     }
 }
 
