@@ -9,6 +9,7 @@
 #import "AppSettingsViewController.h"
 #import "TextFieldTableCell.h"
 #import "SettingsStore.h"
+#import "ApplicationKeyStore.h"
 
 @implementation AppSettingsViewController
 @synthesize settingsArray=_settingsArray;
@@ -16,6 +17,9 @@
 @synthesize dateFormatter;
 @synthesize saveButton;
 @synthesize actionSheet;
+@synthesize username,password,urlString,startDate,endDate;
+
+ApplicationKeyStore *keyChain;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -102,6 +106,8 @@
     
     self.navigationItem.rightBarButtonItem = self.saveButton;
     self.title = @"Settings";
+    keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    NSLog(@"viewdidload");
 }
 
 - (void)viewDidUnload
@@ -112,6 +118,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSLog(@"viewwillappear");
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -169,27 +176,39 @@
         if([cellIdentifier isEqualToString:kRestUrlIdentifier])
         {
             [((TextFieldTableCell*)cell).label setText:@"Url"];
+            NSString *url = [SettingsStore objectForKey:@"sugarEndpoint"];
             if(!value){
-                value = sugarEndpoint;
+                if([url length] == 0)
+                    value = sugarEndpoint;
+                else
+                    value = url;
             }
             [((TextFieldTableCell*)cell).textField setText:value];
+            ((TextFieldTableCell*)cell).textField.tag = kURLTag;
+            [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         }
         else if([cellIdentifier isEqualToString:kUsernameIdentifier])
         {
             [((TextFieldTableCell*)cell).label setText:@"Username"];
             if(!value){
-                value = @"will";
+                //value = @"will";
+                value = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
             }
             [((TextFieldTableCell*)cell).textField setText:value];
+            ((TextFieldTableCell*)cell).textField.tag = kUsernameTag;
+            [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         }
         else if([cellIdentifier isEqualToString:kPasswordIdentifier])
         {
             [((TextFieldTableCell*)cell).label setText:@"Password"];
             [((TextFieldTableCell*)cell).textField setSecureTextEntry:YES];
             if(!value){
-                value = @"18218139eec55d83cf82679934e5cd75";
+                //value = @"18218139eec55d83cf82679934e5cd75";
+                value = [keyChain objectForKey:(__bridge id)kSecValueData];//kSecValueData is to encrypt password
             }
             [((TextFieldTableCell*)cell).textField setText:value];
+            ((TextFieldTableCell*)cell).textField.tag = kPasswordTag;
+            [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         }
     }
     else
@@ -201,20 +220,32 @@
         }
         if([cellIdentifier isEqualToString:kStartDateIdentifier])
         {
+           startDate = [SettingsStore objectForKey:kStartDateIdentifier];
             [[cell textLabel] setText:@"Start Date"];
             if(!value){
-                value = [self.dateFormatter stringFromDate:[NSDate date]];
+                if(startDate == nil){
+                    value = [self.dateFormatter stringFromDate:[NSDate date]];
+                }else{
+                    value = startDate;
+                }
             }
             [[cell detailTextLabel] setText:value];
+            [cell detailTextLabel].tag = kStartDateTag;
             
         }
         else if( [cellIdentifier isEqualToString:kEndDateIdentifier])
         {
+            endDate = [SettingsStore objectForKey:kEndDateIdentifier];
             [[cell textLabel] setText:@"End Date"];
             if(!value){
-                value = [self.dateFormatter stringFromDate:[NSDate date]];
+                if(endDate == nil){
+                    value = [self.dateFormatter stringFromDate:[NSDate date]];
+                }else{
+                    value = endDate;
+                }
             }
             [[cell detailTextLabel] setText:value];
+            [cell detailTextLabel].tag = kEndDateTag;
         }
     }
     return cell;
@@ -245,17 +276,30 @@
 }
 
 - (void) textChanged:(id)sender {
+    UITextField *textField = (UITextField *)sender;
+    if(textField.tag == kUsernameTag){
+        username = textField.text;
+    }else if(textField.tag == kPasswordTag){
+        password = textField.text;
+    }else if(textField.tag ==  kURLTag){
+        urlString = textField.text;
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	[textField resignFirstResponder];
+    [textField resignFirstResponder];
 	return YES;
 }
 
 -(IBAction)saveSettings:(id)sender
 {
-    //TODO should save settings
+
+    [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
+    [keyChain addObject:password forKey:(__bridge id)kSecValueData];
+    [SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
+    [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
+    [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -264,6 +308,11 @@
 	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
+    if (cell.detailTextLabel.tag == kStartDateTag) {
+        startDate = cell.detailTextLabel.text;
+    }else if(cell.detailTextLabel.tag == kEndDateTag){
+        endDate = cell.detailTextLabel.text;
+    }
 }
 
 - (IBAction)dateSelectionDone:(id)sender

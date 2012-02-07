@@ -9,11 +9,14 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "LoginUtils.h"
+#import "ApplicationKeyStore.h"
 
 @implementation LoginViewController
 @synthesize spinner;
 @synthesize usernameField;
 @synthesize passwordField;
+
+ApplicationKeyStore *keyChain;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -78,7 +81,12 @@
 -(void) showDashboard
 {
     [spinner setHidden:YES];
-    AppDelegate *appDelegate = (AppDelegate* ) [UIApplication sharedApplication].delegate;
+    keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
+    [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
+    [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+    NSLog(@"added username and password");
+    AppDelegate *appDelegate = (AppDelegate* ) [UIApplication sharedApplication].delegate;	
     [appDelegate showDashboard];
 }
 

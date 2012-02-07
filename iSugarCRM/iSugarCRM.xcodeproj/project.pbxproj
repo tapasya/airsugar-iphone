@@ -21,6 +21,8 @@
 		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
 		0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
 		0FB7DAF014BC36EB00E9F794 /* SettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */; };
+		0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB9F83914DC17050084BF7E /* ApplicationKeyStore.m */; };
+		0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB9F83F14DC20380084BF7E /* Security.framework */; };
 		0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
 		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
@@ -100,6 +102,9 @@
 		0FB17C3114B5BF81004F0C80 /* itemImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemImage.png; sourceTree = "<group>"; };
 		0FB7DAEE14BC36EA00E9F794 /* SettingsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsStore.h; sourceTree = "<group>"; };
 		0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsStore.m; sourceTree = "<group>"; };
+		0FB9F83814DC17050084BF7E /* ApplicationKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationKeyStore.h; sourceTree = "<group>"; };
+		0FB9F83914DC17050084BF7E /* ApplicationKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationKeyStore.m; sourceTree = "<group>"; };
+		0FB9F83F14DC20380084BF7E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0FCE1ADC14D2678B00CE04FB /* ModuleSettingsDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsDataStore.h; sourceTree = "<group>"; };
 		0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsDataStore.m; sourceTree = "<group>"; };
 		0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsObject.h; sourceTree = "<group>"; };
@@ -181,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */,
 				0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */,
 				2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */,
 				3B5C97D1147CF7BC007EF770 /* UIKit.framework in Frameworks */,
@@ -215,6 +221,15 @@
 				0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		0FAC5DF614DC135F009FEC5F /* keychainstore */ = {
+			isa = PBXGroup;
+			children = (
+				0FB9F83814DC17050084BF7E /* ApplicationKeyStore.h */,
+				0FB9F83914DC17050084BF7E /* ApplicationKeyStore.m */,
+			);
+			name = keychainstore;
 			sourceTree = "<group>";
 		};
 		0FB17A0F14B5B02F004F0C80 /* Launcher */ = {
@@ -382,6 +397,7 @@
 		3B5C97CF147CF7BC007EF770 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FB9F83F14DC20380084BF7E /* Security.framework */,
 				0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */,
 				2FD9F491148D0A8900446A5F /* libsqlite3.dylib */,
 				3B5C97D0147CF7BC007EF770 /* UIKit.framework */,
@@ -445,6 +461,7 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				0FAC5DF614DC135F009FEC5F /* keychainstore */,
 				2FCB48E914A21328009079A1 /* itemfiles */,
 				3B3E6277148E3288002BAE48 /* UI */,
 				3B3E6272148E1B98002BAE48 /* sugar */,
@@ -608,6 +625,7 @@
 				0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */,
 				0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */,
 				0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */,
+				0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
