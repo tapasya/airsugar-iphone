@@ -133,9 +133,11 @@
     
     for(DataObjectField *otherField in metadata.otherFields)
     {
-    NSLog(@"field key %@",otherField.name);
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
-          NSLog(@"other display field %@ label:%@",[dataObjectForRow objectForFieldName:otherField.name],otherField.label);
+          if ([dataObjectForRow objectForFieldName:otherField.name]) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
+        }
+          else{
+          cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];}
     }
     return cell;
 }

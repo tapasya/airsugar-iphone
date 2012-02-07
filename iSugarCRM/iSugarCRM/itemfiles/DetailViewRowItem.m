@@ -26,19 +26,26 @@
     }
     NSMutableString *displayString = [NSMutableString stringWithFormat:@"%@: ",label];
     int count = 0;
-    for(NSString *value in values)
-    {
-        count++;
-        if (value == nil || [value isEqualToString:@""]) {
-            continue;
+        NSMutableString *valueString = [NSMutableString stringWithString:@""];
+        for(NSString *value in values)
+        {
+            count++;
+            if (value == nil || [value isEqualToString:@""]) {
+                continue;
+            }
+            NSLog(@"%d",[values count]);
+            if (count==[values count]) {
+                [valueString appendString:[NSString stringWithFormat:@"%@ ",value]];
+            }
+            else {
+                [valueString appendString:[NSString stringWithFormat:@"%@, ",value]];
+            }
         }
-        NSLog(@"%d",[values count]);
-        if (count==[values count]) {
-            [displayString appendString:[NSString stringWithFormat:@"%@ ",value]];
-        }
-        else {
-            [displayString appendString:[NSString stringWithFormat:@"%@, ",value]];
-        }
+    if ([valueString isEqualToString:@""]) {
+        [displayString appendString:@"NA"];
+    }
+    else{
+        [displayString appendString:valueString];
     }
     cell.textLabel.numberOfLines = 0;
     cell.textLabel.text = displayString;

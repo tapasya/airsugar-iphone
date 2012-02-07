@@ -709,22 +709,38 @@
 		<dict>
 			<key>primaryDisplayField</key>
 			<dict>
-				<key>sortable</key>
-				<string>0</string>
 				<key>label</key>
 				<string>Name</string>
+				<key>action</key>
+				<string></string>
+				<key>editable</key>
+				<false/>
+				<key>filterable</key>
+				<false/>
+				<key>sortable</key>
+				<true/>
+				<key>type</key>
+				<string>0</string>
 				<key>name</key>
 				<string>name</string>
 			</dict>
 			<key>otherFields</key>
 			<array>
 				<dict>
-					<key>sortable</key>
-					<string>0</string>
 					<key>label</key>
-					<string>id</string>
+					<string>Office Phone</string>
+					<key>action</key>
+					<string></string>
+					<key>editable</key>
+					<false/>
+					<key>filterable</key>
+					<false/>
+					<key>sortable</key>
+					<false/>
+					<key>type</key>
+					<string>0</string>
 					<key>name</key>
-					<string>id</string>
+					<string>phone_office</string>
 				</dict>
 			</array>
 			<key>objectMetadata</key>
@@ -1165,7 +1181,7 @@
 					</dict>
 					<dict>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 						<key>label</key>
 						<string>First Name:</string>
 						<key>name</key>
@@ -1213,7 +1229,7 @@
 					</dict>
 					<dict>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 						<key>label</key>
 						<string>Last Name:</string>
 						<key>name</key>
@@ -1252,7 +1268,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -1387,6 +1403,27 @@
 							</array>
 							<key>label</key>
 							<string>Date Created</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>created_by</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Created By</string>
 						</dict>
 					</array>
 					<key>section_name</key>
@@ -1831,7 +1868,7 @@
 					</dict>
 					<dict>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 						<key>label</key>
 						<string>First Name:</string>
 						<key>name</key>
@@ -1879,7 +1916,7 @@
 					</dict>
 					<dict>
 						<key>sortable</key>
-						<string>0</string>
+						<string>1</string>
 						<key>label</key>
 						<string>Last Name:</string>
 						<key>name</key>
@@ -2338,7 +2375,7 @@
 				</dict>
 				<dict>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 					<key>label</key>
 					<string>First Name:</string>
 					<key>name</key>
@@ -2386,7 +2423,7 @@
 				</dict>
 				<dict>
 					<key>sortable</key>
-					<string>0</string>
+					<string>1</string>
 					<key>label</key>
 					<string>Last Name:</string>
 					<key>name</key>
@@ -7347,22 +7384,38 @@
 		<dict>
 			<key>primaryDisplayField</key>
 			<dict>
-				<key>sortable</key>
-				<string>0</string>
 				<key>label</key>
-				<string>Name</string>
+				<string>Subject</string>
+				<key>action</key>
+				<string></string>
+				<key>editable</key>
+				<false/>
+				<key>filterable</key>
+				<false/>
+				<key>sortable</key>
+				<true/>
+				<key>type</key>
+				<string>1</string>
 				<key>name</key>
 				<string>name</string>
 			</dict>
 			<key>otherFields</key>
 			<array>
 				<dict>
-					<key>sortable</key>
-					<string>0</string>
 					<key>label</key>
-					<string>id</string>
+					<string>Related To</string>
+					<key>action</key>
+					<string></string>
+					<key>editable</key>
+					<false/>
+					<key>filterable</key>
+					<false/>
+					<key>sortable</key>
+					<false/>
+					<key>type</key>
+					<string>0</string>
 					<key>name</key>
-					<string>id</string>
+					<string>parent_name</string>
 				</dict>
 			</array>
 			<key>objectMetadata</key>
@@ -7610,7 +7663,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -7652,7 +7705,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -7661,6 +7714,48 @@
 							</array>
 							<key>label</key>
 							<string>Start Date</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<true/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>duration_hours</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Duration Hours</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<true/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>duration_minutes</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Duration Minutes</string>
 						</dict>
 						<dict>
 							<key>fields</key>
@@ -7690,6 +7785,27 @@
 				<dict>
 					<key>rows</key>
 					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>created_by</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Created By</string>
+						</dict>
 						<dict>
 							<key>fields</key>
 							<array>
@@ -14789,6 +14905,8 @@
 		<dict>
 			<key>primaryDisplayField</key>
 			<dict>
+				<key>label</key>
+				<string>Name</string>
 				<key>action</key>
 				<string></string>
 				<key>editable</key>
@@ -14805,12 +14923,20 @@
 			<key>otherFields</key>
 			<array>
 				<dict>
-					<key>sortable</key>
-					<string>0</string>
 					<key>label</key>
-					<string>id</string>
+					<string>Office Phone</string>
+					<key>action</key>
+					<string></string>
+					<key>editable</key>
+					<false/>
+					<key>filterable</key>
+					<false/>
+					<key>sortable</key>
+					<false/>
+					<key>type</key>
+					<string>0</string>
 					<key>name</key>
-					<string>id</string>
+					<string>phone_office</string>
 				</dict>
 			</array>
 			<key>objectMetadata</key>
@@ -15226,7 +15352,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -15692,11 +15818,11 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>date_entered</string>
+									<string>created_by</string>
 								</dict>
 							</array>
 							<key>label</key>
-							<string>Date Created</string>
+							<string>Created By</string>
 						</dict>
 						<dict>
 							<key>fields</key>
@@ -15718,6 +15844,27 @@
 							</array>
 							<key>label</key>
 							<string>Assigned To</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>date_entered</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Date Created</string>
 						</dict>
 					</array>
 					<key>section_name</key>
