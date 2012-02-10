@@ -69,6 +69,10 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return [self dbMetaDataForKey:moduleId];
 }
 
+-(DataObjectMetadata*)objectMetadataForModule:(NSString*)moduleId
+{
+    return [self objectMetadataForKey:moduleId];
+}
 -(ListViewMetadata*)listViewMetadataForModule:(NSString*)moduleName
 {
     return [self viewMetaDataForKey:[NSString stringWithFormat:@"list-%@",moduleName]];
@@ -103,9 +107,11 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
+                DataObjectMetadata *objectMetadata = [DataObjectMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DataObjectMetadata"]]; 
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
             DetailViewMetadata *detailViewMetadata = [DetailViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DetailViewMetadata"]];
             [self setWebMetaData:webserviceMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
+            [self setObjectMetaData:objectMetadata forKey:module];
             [self setDBMetaData:dbMetadata forKey:module];
             [self setViewMetaData:listViewMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
             [self setViewMetaData:detailViewMetadata forKey:[NSString stringWithFormat:@"detail-%@",module]];
@@ -269,12 +275,10 @@ static SugarCRMMetadataStore *sharedInstance = nil;
                 [responseKeyPathMap setObject:[NSString stringWithFormat:@"name_value_list.%@.value",field.name] forKey:field.name];
             }
             wsMap.responseKeyPathMap = responseKeyPathMap;
-            wsMap.objectMetadata = daoMetadata;
             wsMap.moduleName = module;
        
             //DbMetadata 
             DBMetadata* dbMetadata = [[DBMetadata alloc] init];
-            dbMetadata.objectMetadata = daoMetadata;
             dbMetadata.tableName = module;
             NSMutableSet *fieldsName=[[NSMutableSet alloc] init];
             NSMutableDictionary *col_fieldMap = [[NSMutableDictionary alloc] init];
@@ -296,7 +300,6 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             otherField.label = @"id";
             lViewMetadata.otherFields = [NSArray arrayWithObject:otherField];
             lViewMetadata.iconImageName = nil;
-            lViewMetadata.objectMetadata = daoMetadata;
             lViewMetadata.moduleName = module;
             
             //DetailviewMetadata
@@ -320,7 +323,6 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             [sections addObject:sectionItem];
             
             detailViewMetadata.sections = sections;
-            detailViewMetadata.objectMetadata = daoMetadata;
             detailViewMetadata.moduleName = module;
             
             NSMutableDictionary *moduleMetadataDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:[daoMetadata toDictionary],@"DataObjectMetadata",[wsMap toDictionary],@"WebserviceMetadata",[dbMetadata toDictionary],@"DbMetadata",[lViewMetadata toDictionary],@"ListViewMetadata",[detailViewMetadata toDictionary],@"DetailViewMetadata",nil];

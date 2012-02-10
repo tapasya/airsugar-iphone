@@ -26,7 +26,7 @@
     self = [super init];
     if(self){
         self.moduleName = moduelName;
-        self.settingsDataObject = [[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:moduelName] objectMetadata];
+        self.settingsDataObject = [[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:moduelName];
     }
     return self;
 }

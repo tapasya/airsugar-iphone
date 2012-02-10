@@ -10,13 +10,12 @@
 #import "DetailViewSectionItem.h"
 #import "DataObjectField.h"
 @implementation DetailViewMetadata
-@synthesize objectMetadata,moduleName,sections;
+@synthesize moduleName,sections;
 
 -(NSDictionary*)toDictionary
 {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     [dictionary setObject:moduleName forKey:@"module_name"];
-    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
     NSMutableArray *sectionsArray = [NSMutableArray array];
     for(NSDictionary *sectionItem in sections)
     {
@@ -70,7 +69,6 @@
     }    
     detailViewMetadata.sections = sections;
     detailViewMetadata.moduleName = [dictionary objectForKey:@"module_name"];
-    detailViewMetadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     return detailViewMetadata ;
 }
 
@@ -78,7 +76,6 @@
 {
     DetailViewMetadata *copy = [[DetailViewMetadata alloc] init];
     copy.sections = sections;
-    copy.objectMetadata = objectMetadata;
     copy.moduleName = moduleName;
     return copy;
 }

@@ -14,6 +14,7 @@
     NSDictionary *keyedWebMetadata;
     NSDictionary *keyedDbMetadata;
     NSDictionary *keyedViewMetadata;
+    NSDictionary *keyedObjectMetadata;
 }
 
 
@@ -26,4 +27,6 @@
 -(void)setViewMetaData:(id)metadata forKey:(NSString*)key;
 -(id)viewMetaDataForKey:(NSString*)key;
 
+-(id)objectMetadataForKey:(NSString*)key;
+-(void)setObjectMetaData:(id)metadata forKey:(NSString*)key;
 @end

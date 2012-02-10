@@ -27,7 +27,6 @@
 
 -(id)init{
     self = [super init];
-    //[self addObserver:self forKeyPath:@"datasource" options:NSKeyValueObservingOptionNew context:nil];
     return self;
 }
 - (id)initWithStyle:(UITableViewStyle)style
@@ -40,14 +39,6 @@
 }
 
 #pragma mark - KVO
-- (void)didChangeValueForKey:(NSString *)key
-{
-    if(key == @"datasource")
-    {
-        [self.tableView reloadData];
-    }
-}
-
 
 
 - (void)didReceiveMemoryWarning

@@ -9,7 +9,7 @@
 #import "DBMetadata.h"
 
 @implementation DBMetadata
-@synthesize tableName,columnNames,column_objectFieldMap,objectMetadata;
+@synthesize tableName,columnNames,column_objectFieldMap;
 
 
 - (id)copyWithZone:(NSZone *)zone{
@@ -17,7 +17,6 @@
     [copy setTableName:[self tableName]];
     [copy setColumnNames:[self columnNames]];
     [copy setColumn_objectFieldMap:[self column_objectFieldMap]];
-    [copy setObjectMetadata:[self objectMetadata]];
     return copy;
 }
 -(NSDictionary*)toDictionary
@@ -32,7 +31,6 @@
     [dictionary setObject:arrayOfColumnNames forKey:@"columnNames"];
     [dictionary setObject:column_objectFieldMap forKey:@"column_objectFieldMap"];
     [dictionary setObject:tableName forKey:@"tableName"];
-    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
     return dictionary;
 }
 
@@ -42,7 +40,6 @@
     metadata.tableName = [dictionary objectForKey:@"tableName"];
     metadata.columnNames = [dictionary objectForKey:@"columnNames"];
     metadata.column_objectFieldMap = [dictionary objectForKey:@"column_objectFieldMap"];
-    metadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     return metadata;
 }
 
@@ -52,7 +49,6 @@
     copy.tableName = tableName;
     copy.column_objectFieldMap = column_objectFieldMap;
     copy.columnNames = columnNames;
-    copy.objectMetadata = objectMetadata;
     return copy;
 }
 

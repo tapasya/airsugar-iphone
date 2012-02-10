@@ -40,10 +40,10 @@
             NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
             for(NSDictionary *responseObject in responseObjects)
             {
-                NSLog(@"data object %@",metadata.objectMetadata);
-                DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
+                DataObjectMetadata *objectMetadata = [[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.moduleName];
+                DataObject *dataObject = [[DataObject alloc] initWithMetadata:objectMetadata];
                 //dataobjectfields set from dataobjectmetadata in webservice metadata
-                for(DataObjectField *field in [[metadata.objectMetadata fields] allObjects]) 
+                for(DataObjectField *field in [[objectMetadata fields] allObjects]) 
                 {
                    // NSLog([metadata.responseKeyPathMap objectForKey:field])
                     id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field.name]];

@@ -17,7 +17,6 @@ typedef enum HTTPMethod{
 
 @interface WebserviceMetadata : NSObject
 @property(strong)NSString *moduleName;
-@property(strong)DataObjectMetadata *objectMetadata;
 @property(nonatomic)HTTPMethod method;
 @property(strong)NSString *endpoint;
 @property(strong)NSMutableArray *urlParameters;

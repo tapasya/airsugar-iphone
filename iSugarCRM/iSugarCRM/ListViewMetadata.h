@@ -14,7 +14,6 @@
 @property(strong)DataObjectField *primaryDisplayField;
 @property(strong)NSArray *otherFields;
 @property(strong)NSString *iconImageName;
-@property(strong)DataObjectMetadata *objectMetadata;
 -(NSDictionary*)toDictionary;
 +(ListViewMetadata*)objectFromDictionary:(NSDictionary*)dictionary;
 @end

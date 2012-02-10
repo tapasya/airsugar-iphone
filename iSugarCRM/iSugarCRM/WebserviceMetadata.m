@@ -27,7 +27,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method,moduleName;
-@synthesize pathToObjectsInResponse,responseKeyPathMap,objectMetadata;
+@synthesize pathToObjectsInResponse,responseKeyPathMap;
 -(id)init{
     if (self=[super init]) {
         headers=[[OrderedDictionary alloc]init];
@@ -151,7 +151,6 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     copy.postParameters = postParameters;
     copy.pathToObjectsInResponse = pathToObjectsInResponse;
     copy.responseKeyPathMap=responseKeyPathMap;
-    copy.objectMetadata=objectMetadata;
     copy.method=method;
     copy.moduleName=moduleName;
     return copy;
@@ -165,7 +164,6 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [dictionary setObject:pathToObjectsInResponse forKey:@"pathToObjectsInResponse"];
     [dictionary setObject:[NSNumber numberWithInt:method] forKey:@"method"];
     [dictionary setObject:moduleName forKey:@"module_name"];
-    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
     [dictionary setObject:responseKeyPathMap forKey:@"responseKeyPathMap"];
     if (postParameters) {
         [dictionary setObject:postParameters forKey:@"postParameters"];
@@ -186,7 +184,6 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     metadata.urlParameters = [dictionary objectForKey:@"urlParameters"];
     metadata.responseKeyPathMap = [dictionary objectForKey:@"responseKeyPathMap"];
     metadata.method = [[dictionary objectForKey:@"method"] intValue];
-    metadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     metadata.moduleName = [dictionary objectForKey:@"module_name"];
     return metadata;
 }

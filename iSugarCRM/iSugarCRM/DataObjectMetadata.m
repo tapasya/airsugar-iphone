@@ -46,4 +46,12 @@
     daoMetadata.fields = fields;
     return daoMetadata;
 }
+-(id)copyWithZone:(NSZone*)zone
+{
+    DataObjectMetadata *copy = [[[self class] allocWithZone:zone] init];
+    copy.fields = self.fields;
+    copy.objectClassIdentifier = self.objectClassIdentifier;
+    return copy;
+}
+
 @end

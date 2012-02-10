@@ -9,7 +9,7 @@
 #import "ListViewMetadata.h"
 
 @implementation ListViewMetadata
-@synthesize primaryDisplayField,otherFields,iconImageName,objectMetadata,moduleName;
+@synthesize primaryDisplayField,otherFields,iconImageName,moduleName;
 
 
 -(NSDictionary*)toDictionary
@@ -24,7 +24,6 @@
         }
         [dictionary setObject:arrayOfOtherFieldDictionaries forKey:@"otherFields"];
     }
-    [dictionary setObject:[objectMetadata toDictionary] forKey:@"objectMetadata"];
     [dictionary setObject:moduleName forKey:@"module_name"];
     if(iconImageName != nil)
     {
@@ -47,7 +46,6 @@
         lViewMetadata.otherFields = otherFields;
     }
     lViewMetadata.moduleName = [dictionary objectForKey:@"module_name"];
-    lViewMetadata.objectMetadata = [DataObjectMetadata objectFromDictionary:[dictionary objectForKey:@"objectMetadata"]];
     NSString *iconImageName = [dictionary valueForKey:@"icon"];
     if (iconImageName != nil) {
         lViewMetadata.iconImageName = iconImageName;
@@ -61,7 +59,6 @@
     copy.primaryDisplayField = primaryDisplayField;
     copy.otherFields = otherFields;
     copy.iconImageName = iconImageName;
-    copy.objectMetadata = objectMetadata;
     copy.moduleName = moduleName;
     return copy;
 }

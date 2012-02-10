@@ -36,7 +36,7 @@
         [delegate session:self listDownloadFailedWithError:error];
     }
     while(sqlite3_step(stmt)==SQLITE_ROW){
-        DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
+        DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
         int columnCount = sqlite3_column_count(stmt);
         int columnIdx=0;
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
@@ -79,7 +79,7 @@
         [delegate session:self detailDownloadFailedWithError:error];
     }
     while(sqlite3_step(stmt)==SQLITE_ROW){
-        DataObject *dataObject = [[DataObject alloc] initWithMetadata:metadata.objectMetadata];
+        DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
         int columnCount = sqlite3_column_count(stmt);
         int columnIdx=0;
         for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
