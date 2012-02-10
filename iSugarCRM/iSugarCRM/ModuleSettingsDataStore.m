@@ -55,11 +55,24 @@
 -(NSArray*) sortableFields
 {
     NSMutableArray *fields = [[NSMutableArray alloc] init];
-    for(DataObjectField* field in [self.settingsDataObject fields]){
-       // NSLog(@"%@ %@ %@", field.name, field.label, field.sortable);
-        if(field.sortable)
+    NSArray *sections = [[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:self.moduleName] sections];
+    for(NSDictionary *sectionItem in sections)
+    {
+        NSArray* rows = [sectionItem objectForKey:@"rows"];
+        for (NSDictionary *rowItem in rows)
         {
-            [fields addObject:field.label];
+            NSArray* fieldItems = [rowItem objectForKey:@"fields"];
+            for(DataObjectField *field in fieldItems)
+            {
+                if(field.sortable)
+                {
+                    NSString* label = [rowItem objectForKey:@"label"];
+                    if([fields indexOfObject:label] == NSNotFound)
+                    {
+                     [fields addObject:label];   
+                    }
+                }
+            }
         }
     }
     return fields;
@@ -68,12 +81,12 @@
 
 -(NSArray*) sortOrderOptions
 {
-   return [[NSArray alloc] initWithObjects:kOptionAscending, kOptionDescending ,nil];
+    return [[NSArray alloc] initWithObjects:kOptionAscending, kOptionDescending ,nil];
 }
 
 -(NSString*) keyForSetting:(NSString *)settingTitle
 {
-    return [[NSString alloc] initWithFormat:@"key_%@%@%@" , self.moduleName, @"_", settingTitle];
+    return [[NSString alloc] initWithFormat:@"key_%@_%@" , self.moduleName, settingTitle];
 }
 
 @end
