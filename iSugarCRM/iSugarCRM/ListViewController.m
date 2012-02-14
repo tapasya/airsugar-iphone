@@ -13,7 +13,7 @@
 #import "DataObject.h"
 #import "DetailViewController.h"
 @implementation ListViewController
-@synthesize moduleName,datasource,metadata;
+@synthesize moduleName,datasource,metadata, tableData;
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
 {
     ListViewController *lViewController = [[ListViewController alloc] init];
@@ -33,11 +33,31 @@
 -(id)init{
     if (self=[super init]) {
         myTableView = [[UITableView alloc] init];
+        tableData = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 #pragma mark - View lifecycle
+
+- (void)loadView {
+    [super loadView];
+    CGRect mainFrame = [[UIScreen mainScreen] applicationFrame];
+    UIApplication *application = [UIApplication sharedApplication];
+    CGFloat width = mainFrame.size.width;
+    if (UIInterfaceOrientationIsLandscape(application.statusBarOrientation))
+    {
+        width = mainFrame.size.height;
+    }
+    sBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,width,30)];
+    sBar.delegate = self;
+    [sBar setAutoresizesSubviews:YES];
+    [self.view addSubview:sBar];
+    myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 31,width, mainFrame.size.height-30)];
+    [sBar setAutoresizesSubviews:YES];
+    [self.view addSubview:myTableView];
+    [self.view setAutoresizesSubviews:YES];
+}
 
 - (void)viewDidLoad
 {
@@ -46,13 +66,13 @@
     if (!metadata) {
       self.metadata = [[SugarCRMMetadataStore sharedInstance]listViewMetadataForModule:moduleName];
     }
-    myTableView = [[UITableView alloc] init];
+    //myTableView = [[UITableView alloc] init];
     myTableView.delegate = self;
     myTableView.dataSource = self;
-    myTableView.frame = [[UIScreen mainScreen] applicationFrame];
+    //myTableView.frame = [[UIScreen mainScreen] applicationFrame];
     CGFloat rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
-    self.view = myTableView;
+    //self.view = myTableView;
     
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
@@ -60,15 +80,26 @@
     dbSession.delegate = self;
     [dbSession startLoading];
 }
+
 #pragma mark DBLoadSession Delegate;
 -(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
 {   
     datasource = moduleList;
+    [tableData addObjectsFromArray:datasource];
     [myTableView reloadData];
 }
+
 -(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error
 {
     NSLog(@"Error: %@",[error localizedDescription]);
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect mainFrame = self.view.bounds;
+    sBar.frame = CGRectMake(0,0,mainFrame.size.width,30);
+    myTableView.frame = CGRectMake(0, 31, mainFrame.size.width, mainFrame.size.height-30);
+    [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
 }
 
 - (void)viewDidUnload
@@ -101,7 +132,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -116,7 +147,7 @@
 {
 
     // Return the number of rows in the section.
-    return [datasource count];
+    return [tableData count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -127,7 +158,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    id dataObjectForRow = [datasource objectAtIndex:indexPath.row];
+    id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
   
     cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
     
@@ -153,4 +184,59 @@
     DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
      [self.navigationController pushViewController:detailViewController animated:YES];
    }
+
+#pragma mark UISearchBarDelegate
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    // only show the status bar’s cancel button while in edit mode
+    sBar.showsCancelButton = YES;
+    sBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    // flush the previous search content
+    //[tableData removeAllObjects];
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    sBar.showsCancelButton = NO;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [tableData removeAllObjects];// remove all data that belongs to previous search
+    if(searchText==nil || [searchText isEqualToString:@""]){
+        [tableData addObjectsFromArray:datasource];
+        [myTableView reloadData];
+        return;
+    }
+    for(int i=0; i < [datasource count]; i++)
+    {
+        id dataObjectRow = [datasource objectAtIndex:i];
+        NSString* name = [dataObjectRow objectForFieldName:metadata.primaryDisplayField.name];
+        NSRange r = [[name lowercaseString] rangeOfString:[searchText lowercaseString]];
+        if(r.location != NSNotFound)
+        {
+            [tableData addObject:dataObjectRow];
+        }
+    }
+    [myTableView reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // if a valid search was entered but the user wanted to cancel, bring back the main list content
+    [tableData removeAllObjects];
+    [tableData addObjectsFromArray:datasource];
+    @try{
+        [myTableView reloadData];
+    }
+    @catch(NSException *e){
+    }
+    [sBar resignFirstResponder];
+    sBar.text = @"";
+}
+// called when Search (in our case “Done”) button pressed
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 @end
