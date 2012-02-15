@@ -153,7 +153,7 @@
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     NSString *modulename = [item title];
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];
-    NSLog(@"metadata module name %@",metadata.moduleName);
+    NSLog(@"metadata module name %@",metadata.moduleName); //remove debug logs
     ListViewController *listViewController = [ListViewController listViewControllerWithMetadata:metadata];
     listViewController.title = metadata.moduleName;
     [self.navigationController pushViewController:listViewController animated:YES];

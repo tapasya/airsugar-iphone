@@ -30,8 +30,14 @@
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
 		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
 		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
+		2F1222E814E8401700896C98 /* gif-pict-telephone-2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F1222E714E8401700896C98 /* gif-pict-telephone-2.gif */; };
+		2F1222EA14E8401D00896C98 /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F1222E914E8401D00896C98 /* phone.png */; };
+		2F1222EC14E8402400896C98 /* telephone_receiver.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F1222EB14E8402400896C98 /* telephone_receiver.png */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2F98C40D14E98DEE00D10DD1 /* icon_email.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F98C40C14E98DEE00D10DD1 /* icon_email.gif */; };
+		2F98C41014E98DFA00D10DD1 /* icon_calendar.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F98C40F14E98DFA00D10DD1 /* icon_calendar.gif */; };
+		2F98C41214E98E0000D10DD1 /* icon_calendar (1).gif in Resources */ = {isa = PBXBuildFile; fileRef = 2F98C41114E98E0000D10DD1 /* icon_calendar (1).gif */; };
 		2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */; };
 		2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
 		2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC7149644B5000CFB80 /* SyncHandler.m */; };
@@ -118,10 +124,16 @@
 		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
 		0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldTableCell.h; sourceTree = "<group>"; };
 		0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldTableCell.m; sourceTree = "<group>"; };
+		2F1222E714E8401700896C98 /* gif-pict-telephone-2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "gif-pict-telephone-2.gif"; sourceTree = "<group>"; };
+		2F1222E914E8401D00896C98 /* phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone.png; sourceTree = "<group>"; };
+		2F1222EB14E8402400896C98 /* telephone_receiver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = telephone_receiver.png; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		2F6C469F148676A300865C25 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		2F98C40C14E98DEE00D10DD1 /* icon_email.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = icon_email.gif; sourceTree = "<group>"; };
+		2F98C40F14E98DFA00D10DD1 /* icon_calendar.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = icon_calendar.gif; sourceTree = "<group>"; };
+		2F98C41114E98E0000D10DD1 /* icon_calendar (1).gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "icon_calendar (1).gif"; sourceTree = "<group>"; };
 		2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CRMMetadata.plist; sourceTree = "<group>"; };
 		2FBBDFC21495DDF0000CFB80 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		2FBBDFC31495DDF0000CFB80 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -260,7 +272,13 @@
 			children = (
 				0F7810F914ECD38500ED61AF /* sync.png */,
 				0F3CAE9814EAA71300288F58 /* settings.png */,
+				2F1222EB14E8402400896C98 /* telephone_receiver.png */,
+				2F98C41114E98E0000D10DD1 /* icon_calendar (1).gif */,
+				2F1222E714E8401700896C98 /* gif-pict-telephone-2.gif */,
+				2F1222E914E8401D00896C98 /* phone.png */,
+				2F98C40F14E98DFA00D10DD1 /* icon_calendar.gif */,
 				0FB17C3114B5BF81004F0C80 /* itemImage.png */,
+				2F98C40C14E98DEE00D10DD1 /* icon_email.gif */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -560,6 +578,12 @@
 				0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */,
 				0F3CAE9914EAA71300288F58 /* settings.png in Resources */,
 				0F7810FA14ECD38500ED61AF /* sync.png in Resources */,
+				2F1222E814E8401700896C98 /* gif-pict-telephone-2.gif in Resources */,
+				2F1222EA14E8401D00896C98 /* phone.png in Resources */,
+				2F1222EC14E8402400896C98 /* telephone_receiver.png in Resources */,
+				2F98C40D14E98DEE00D10DD1 /* icon_email.gif in Resources */,
+				2F98C41014E98DFA00D10DD1 /* icon_calendar.gif in Resources */,
+				2F98C41214E98E0000D10DD1 /* icon_calendar (1).gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

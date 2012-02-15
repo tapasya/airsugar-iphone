@@ -124,7 +124,7 @@
         }
     
         // Configure the cell...
-    NSLog(@"Setting name is :%@  ,String is : %@", settingsObject.title, settingsObject.value);
+    NSLog(@"Setting name is :%@  ,String is : %@", settingsObject.title, settingsObject.value); //remove debug log
     [cell.textLabel setText:[settingsObject.multipleTitles objectAtIndex:indexPath.row]];
     return cell;
 }

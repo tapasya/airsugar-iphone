@@ -17,7 +17,6 @@
 {
     WebserviceSession *session = [[WebserviceSession alloc] init];
     session.metadata = metadata;
-   NSLog(@"module name: %@",metadata.moduleName);
     return session;
 }
 
@@ -45,7 +44,6 @@
                 //dataobjectfields set from dataobjectmetadata in webservice metadata
                 for(DataObjectField *field in [[objectMetadata fields] allObjects]) 
                 {
-                   // NSLog([metadata.responseKeyPathMap objectForKey:field])
                     id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field.name]];
                     if (value == nil) {
                         [dataObject setObject:@" " forFieldName:field.name];

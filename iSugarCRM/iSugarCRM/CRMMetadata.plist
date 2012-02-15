@@ -5731,7 +5731,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>url</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -5739,7 +5739,7 @@
 									<key>sortable</key>
 									<false/>
 									<key>type</key>
-									<string>0</string>
+									<string>url</string>
 									<key>name</key>
 									<string>website</string>
 								</dict>
@@ -5752,7 +5752,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>email</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -5760,7 +5760,7 @@
 									<key>sortable</key>
 									<false/>
 									<key>type</key>
-									<string>0</string>
+									<string>email</string>
 									<key>name</key>
 									<string>email</string>
 								</dict>
@@ -5773,7 +5773,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>number</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -5781,7 +5781,7 @@
 									<key>sortable</key>
 									<false/>
 									<key>type</key>
-									<string>0</string>
+									<string>number</string>
 									<key>name</key>
 									<string>phone_office</string>
 								</dict>

@@ -108,7 +108,7 @@ UIView *footerView;
     self.navigationItem.rightBarButtonItem = self.saveButton;
     self.title = @"Settings";
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
-    NSLog(@"viewdidload");
+    NSLog(@"viewdidload"); //remove debug logs
 }
 
 - (void)viewDidUnload

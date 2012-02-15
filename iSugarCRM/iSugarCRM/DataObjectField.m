@@ -17,11 +17,12 @@ static inline BOOL boolValue(NSString *s){
 @implementation DataObjectField
 @synthesize name,dataType;
 @synthesize sortable,filterable,editable;
-@synthesize label;
-+(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type
+@synthesize label,action;
++(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type andAction:(NSString*)action
 {
     DataObjectField *field = [[DataObjectField alloc] init];
     field.name = name;
+    field.action = action;
     field.dataType = type;
     return field;
 }
@@ -52,6 +53,7 @@ static inline BOOL boolValue(NSString *s){
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     [dictionary setValue:name   forKey:@"name"];
     [dictionary setValue:label forKey:@"label"];
+    [dictionary setValue:action forKey:@"action"];
     [dictionary setValue:toString(sortable) forKey:@"sortable"];
     return dictionary;
 }
@@ -61,12 +63,14 @@ static inline BOOL boolValue(NSString *s){
     daoField.name = [dictionary valueForKey:@"name"];
     daoField.label = [dictionary valueForKey:@"label"];
     daoField.sortable =[[dictionary valueForKey:@"sortable"] boolValue];
+    daoField.action = [dictionary valueForKey:@"action"];
     return daoField;
 }
 - (id)copyWithZone:(NSZone *)zone{
-    id copy = [[[self class] allocWithZone:zone] init];
+    DataObjectField *copy = [[[self class] allocWithZone:zone] init];
     [copy setName:[self name]];
     [copy setLabel:[self label]];
+    copy.action = self.action;
     [copy setDataType:[self dataType]];
     return copy;
 }

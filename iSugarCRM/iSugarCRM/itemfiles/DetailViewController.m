@@ -19,7 +19,7 @@
 {
     DetailViewController *detailViewController = [[DetailViewController alloc] init];
     detailViewController.metadata = metadata;
-    NSLog(@"module name %@",metadata.moduleName);
+    NSLog(@"module name %@",metadata.moduleName); //remove
     detailViewController.beanId = beanId;
     detailViewController.beanTitle = beanTitle;
     return detailViewController;
@@ -52,21 +52,19 @@
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {   
-    //    for(DataObject * row in details){
-    //        NSLog(@"Details for id: %@ :%@",beanId,row);
-    //    }
+    
     NSMutableArray* sections = [[NSMutableArray alloc] init];
     for(NSDictionary *sectionItem_ in metadata.sections  )
     {   
         DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
         sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
-        NSLog(@"section name :%@",sectionItem.sectionTitle);
         NSMutableArray *rowItems = [[NSMutableArray alloc] init];
         NSArray *rows = [sectionItem_ objectForKey:@"rows"];
         for(NSDictionary *rowItem_ in rows)
         {
             DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
             rowItem.label = [rowItem_ objectForKey:@"label"];
+            rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
             NSMutableArray *fields = [NSMutableArray array];
             for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
             {
@@ -181,13 +179,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];   
 }
 
 @end

@@ -251,7 +251,6 @@
 {    // Navigation logic may go here. Create and push another view controller.
     id beanTitle = [[datasource objectAtIndex:indexPath.row] objectForFieldName:@"name"];
     id beanId =[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"];
-    NSLog(@"beanId %@, beantitle %@",beanId,beanTitle);
                 
     DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
      [self.navigationController pushViewController:detailViewController animated:YES];

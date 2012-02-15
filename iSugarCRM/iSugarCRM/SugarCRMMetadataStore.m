@@ -308,17 +308,17 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             NSMutableDictionary *sectionItem = [NSMutableDictionary dictionary];
             [sectionItem setObject:@"Basic Info" forKey:@"section_name"];
             NSMutableArray *rows = [NSMutableArray array];
-            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"name" dataType:0], nil],@"Name",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
-            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"mobile_office" dataType:0], [DataObjectField fieldWithName:@"phone_alternate" dataType:0], nil],@"Phone",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"name" dataType:0 andAction:@""], nil],@"Name",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"mobile_office" dataType:0 andAction:@"number"], [DataObjectField fieldWithName:@"phone_alternate" dataType:0 andAction:@"number"], nil],@"Phone",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
             [sectionItem setObject:rows forKey:@"rows"];
             [sections addObject:sectionItem];
             
             sectionItem = [NSMutableDictionary dictionary];
             [sectionItem setObject:@"Additional Info" forKey:@"section_name"];
-            rows = [NSMutableArray array];
-            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"billing_address_street" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_2" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_3" dataType:0],[DataObjectField fieldWithName:@"billing_address_street_4" dataType:0],[DataObjectField fieldWithName:@"billing_address_city" dataType:0],[DataObjectField fieldWithName:@"billing_address_state" dataType:0],[DataObjectField fieldWithName:@"billing_address_postalcode" dataType:0],[DataObjectField fieldWithName:@"billing_address_country" dataType:0], nil],@"Billing Address",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
-            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"email" dataType:0], nil],@"Email",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
-            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"date_entered" dataType:0], nil],@"Date Created",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            rows = [NSMutableArray array]; 
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"billing_address_street" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_street_2" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_street_3" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_street_4" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_city" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_state" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_postalcode" dataType:0 andAction:@""],[DataObjectField fieldWithName:@"billing_address_country" dataType:0 andAction:@""], nil],@"Billing Address",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"email" dataType:0 andAction:@"email"], nil],@"Email",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
+            [rows addObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSArray arrayWithObjects:[DataObjectField fieldWithName:@"date_entered" dataType:0 andAction:@"date"], nil],@"Date Created",nil] forKeys:[NSArray arrayWithObjects:@"fields",@"label",nil]]];
             [sectionItem setObject:rows forKey:@"rows"];
             [sections addObject:sectionItem];
             
@@ -330,7 +330,6 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             [metadata setObject:moduleMetadataDictionary forKey:module];
         }
     }
-    NSLog(@"metadata : %@",metadata);
     [self saveConfig:metadata];
 }
 
