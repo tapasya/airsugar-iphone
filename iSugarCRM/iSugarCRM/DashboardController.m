@@ -11,6 +11,9 @@
 #import "MyLauncherItem.h"
 #import "ListViewController.h"
 #import "AppSettingsViewController.h"
+#import "SyncHandler.h"
+#import "LoginUtils.h"
+#import "AppDelegate.h"
 
 @interface DashboardController ()
 -(void) loadModuleViews;
@@ -19,7 +22,7 @@
 @end
 
 @implementation DashboardController
-@synthesize moduleList, spinner, loadingLabel;
+@synthesize moduleList, spinner, loadingLabel,login;
 - (id)init
 {
     self = [super init];
@@ -62,7 +65,19 @@
     spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
     [self.view addSubview:spinner];
     [spinner startAnimating];
+    if(session == nil){
+        NSLog(@"LOGIN SUCCESS BUT ENTERED");
+        if ([LoginUtils keyChainHasUserData]) {       
+            //[self performSelectorInBackground:@selector(performLoginAction) withObject:nil];
+            [self performLoginAction];
+        }
+    }
+    //[self startModuleSynchronization];
     [self clearSavedLauncherItems];
+    if(session != nil){
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate synch];
+    }
 }
 
 
@@ -85,9 +100,43 @@
     [self.navigationController pushViewController:svc animated:YES];
 }
 
+-(void)performLoginAction{
+    id response = [LoginUtils login];
+    if([[response objectForKey:@"response"]objectForKey:@"id"]){
+        session = [[response objectForKey:@"response"]objectForKey:@"id"];
+    }else{
+        [LoginUtils displayLoginError:response];
+    }
+}
+
+
+-(void) startModuleSynchronization
+{
+    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    [sugarMetaDataStore configureMetadata];
+    SyncHandler *syncHandler = [[SyncHandler alloc] init];
+    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    syncHandler.delegate = sharedDelegate;
+    [syncHandler syncAllModules];
+    moduleList = [sugarMetaDataStore modulesSupported];
+    self.title = @"Modules";
+    //RootViewController *rvc = [[RootViewController alloc] init];
+}
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
+{
+    
+}
+-(void)syncComplete:(SyncHandler*)syncHandler
+{
+    
+}
+
 -(void) loadModuleViews
 {
     [self loadView];
+    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    moduleList = [sugarMetaDataStore modulesSupported];
     self.title = @"Modules";
 	if(![self hasSavedLauncherItems]){
         NSInteger pageCount = moduleList.count / self.launcherView.maxItemsPerPage;

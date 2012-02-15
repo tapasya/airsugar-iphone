@@ -14,5 +14,6 @@
 @property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
--(void) showDashboard;
+-(void)synch;
+-(void)showDashboardController;
 @end

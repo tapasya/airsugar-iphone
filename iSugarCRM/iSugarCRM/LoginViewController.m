@@ -10,6 +10,9 @@
 #import "AppDelegate.h"
 #import "LoginUtils.h"
 #import "ApplicationKeyStore.h"
+#import "SyncHandler.h"
+#import "DashboardController.h"
+#import "SugarCRMMetadataStore.h"
 
 @implementation LoginViewController
 @synthesize spinner;
@@ -40,16 +43,40 @@ ApplicationKeyStore *keyChain;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [spinner setHidden:YES];
+    //[spinner setHidden:YES];
     usernameField.delegate = self;
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
     
+    NSLog(@"Viewdidload");
     // TODO should fetch the details from Account Manager
-    usernameField.text = @"will";
-    passwordField.text = @"18218139eec55d83cf82679934e5cd75";
+    keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    int usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
+    int passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
+    if(usernameLength != 0){
+        usernameField.text = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
+    }else{
+        usernameField.text = @"";
+    }
+    if(passwordLength != 0){
+        passwordField.text = [keyChain objectForKey:(__bridge id)kSecValueData];
+    }else{
+        passwordField.text = @"";
+    }
+    
+    if(usernameLength ==0 && passwordLength==0){
+        [spinner setHidden:YES];
+        [spinner startAnimating];
+    }else{
+        [self performSelectorInBackground:@selector(authenicate) withObject:nil];
+        [spinner setHidden:NO];
+    }
+    // TODO should fetch the details from Account Manager
+    //usernameField.text = @"will";
+    //passwordField.text = @"18218139eec55d83cf82679934e5cd75";
     // Do any additional setup after loading the view from its nib.
 }
+
 
 - (void)viewDidUnload
 {
@@ -67,16 +94,7 @@ ApplicationKeyStore *keyChain;
     return YES;
 }
 
--(void) showError:(NSError *)error
-{
-    [spinner setHidden:YES];
-    
-    NSString *messageString = [error localizedDescription];//customize this message with error.code;
-    NSLog(@"Code-->%d",[error code]);
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:messageString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
-}
+
 
 -(void) showDashboard
 {
@@ -86,22 +104,32 @@ ApplicationKeyStore *keyChain;
     [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     NSLog(@"added username and password");
-    AppDelegate *appDelegate = (AppDelegate* ) [UIApplication sharedApplication].delegate;	
-    [appDelegate showDashboard];
+    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedDelegate showDashboardController];
 }
 
 -(void) authenicate
 {
     // TODO should fetch the details from Account Manager
-    NSString *userName = usernameField.text;
-    NSString *password = passwordField.text;
-    id response = [LoginUtils login:userName :password];
-    if ([response  objectForKey:@"Error"]) {
-        [self performSelectorOnMainThread:@selector(showError:) withObject:(NSError *)[response  objectForKey:@"Error"] waitUntilDone:NO];
-    } else{
+    
+    int userNameLen = [usernameField.text length];
+    int passwordLen = [passwordField.text length];
+    
+    if (userNameLen==0 || passwordLen==0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your Username and Password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+        [spinner setHidden:YES];
+        return;
+    }
+    
+    id response = [LoginUtils login:usernameField.text :passwordField.text];
+    if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
         [self performSelectorOnMainThread:@selector(showDashboard) withObject:nil waitUntilDone:NO];
+    }else{
+        [LoginUtils displayLoginError:response];
     }
+    
 }
 
 - (IBAction)onLoginClicked:(id)sender 

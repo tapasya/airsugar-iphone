@@ -10,5 +10,9 @@
 
 @interface LoginUtils : NSObject
 +(id) login:(NSString*) username:(NSString*) password;
++(id) login;
 +(NSString*)urlStringForParams:(NSMutableDictionary*)params;
++(BOOL)keyChainHasUserData;
++(void)displayLoginError:(id)response;
++(void) showError:(NSError *)error;
 @end

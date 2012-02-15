@@ -55,9 +55,6 @@
     
     self.title = [NSString stringWithFormat:@"%@ Settings", self.moduleName];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAnimated:)];
-    self.navigationItem.rightBarButtonItem = doneButton;
-
     [super viewWillAppear:animated];
 }
 
@@ -146,7 +143,7 @@
     if (indexPath.row == selecedRow) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
-    }        
+    }       
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSIndexPath* checkedItem = [NSIndexPath indexPathForRow:selecedRow inSection:indexPath.section];
     [self deselectCell:[tableView cellForRowAtIndexPath:checkedItem]];

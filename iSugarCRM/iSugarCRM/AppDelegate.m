@@ -21,6 +21,7 @@
 #import "SyncHandler.h"
 #import "LoginViewController.h"
 #import "DashboardController.h"
+#import "ApplicationKeyStore.h"
 
 NSString * session=nil;
 
@@ -32,31 +33,52 @@ NSString * session=nil;
 @synthesize nvc;
 @synthesize syncHandler;
 
+int usernameLength,passwordLength;
+
 
 #pragma mark UIApplicationDelegate methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
+    passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
     LoginViewController *lvc = [[LoginViewController alloc] init];
-    self.window.rootViewController = lvc;
-    [self.window makeKeyAndVisible];
-    return YES;   
+    if(usernameLength ==0 && passwordLength ==0){
+        self.window.rootViewController = lvc;
+        [self.window makeKeyAndVisible];
+        return YES;
+    }else{
+//        DashboardController *dc = [[DashboardController alloc] init];
+//        dc.title = @"Modules";
+//        dc.login = FALSE;
+////        syncHandler = [[SyncHandler alloc] init];
+////        syncHandler.delegate = dc;
+//        nvc = [[UINavigationController alloc] initWithRootViewController:dc];
+//        self.window.rootViewController = nvc;
+//        [self.window makeKeyAndVisible];
+//        //[lvc performSelectorOnMainThread:@selector(authenicate) withObject:nil waitUntilDone:NO];
+        [self showDashboardController];
+        return YES;
+    }
 }
-
--(void) showDashboard
-{
+-(void)showDashboardController{
+    DashboardController *dc = [[DashboardController alloc] init];
+    dc.title = @"Modules";
+    //        syncHandler = [[SyncHandler alloc] init];
+    //        syncHandler.delegate = dc;
+    nvc = [[UINavigationController alloc] initWithRootViewController:dc];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+}
+-(void)synch{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     syncHandler = [[SyncHandler alloc] init];
-    syncHandler.delegate = self;
+    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    syncHandler.delegate = sharedDelegate;
     [syncHandler syncAllModules];
-    //RootViewController *rvc = [[RootViewController alloc] init];
-    DashboardController *rvc = [[DashboardController alloc] init];
-    rvc.moduleList = [sugarMetaDataStore modulesSupported];   
-    rvc.title = @"Modules";
-    nvc = [[UINavigationController alloc] initWithRootViewController:rvc];  
-    self.window.rootViewController = nvc ;
 }
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
@@ -67,6 +89,7 @@ NSString * session=nil;
 {
     
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

@@ -10,6 +10,8 @@
 		0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
 		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
 		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
+		0F3CAE9714EA838400288F58 /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9614EA838400288F58 /* sync.png */; };
+		0F3CAE9914EAA71300288F58 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
 		0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
 		0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
 		0F8225F814B724AD00DCC4A5 /* MyLauncherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */; };
@@ -82,6 +84,8 @@
 		0F02AAE414B3027300AABAA9 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		0F02AAE714B305D200AABAA9 /* LoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtils.h; sourceTree = "<group>"; };
 		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
+		0F3CAE9614EA838400288F58 /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
+		0F3CAE9814EAA71300288F58 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsViewController.h; sourceTree = "<group>"; };
 		0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsViewController.m; sourceTree = "<group>"; };
 		0F8225EB14B724AD00DCC4A5 /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
@@ -254,6 +258,8 @@
 		0FB17C3014B5BF72004F0C80 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0F3CAE9814EAA71300288F58 /* settings.png */,
+				0F3CAE9614EA838400288F58 /* sync.png */,
 				0FB17C3114B5BF81004F0C80 /* itemImage.png */,
 			);
 			name = images;
@@ -552,6 +558,8 @@
 				0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */,
 				2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */,
 				0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */,
+				0F3CAE9714EA838400288F58 /* sync.png in Resources */,
+				0F3CAE9914EAA71300288F58 /* settings.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

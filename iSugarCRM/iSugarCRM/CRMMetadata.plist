@@ -8479,7 +8479,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -8542,7 +8542,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -8633,7 +8633,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -8675,7 +8675,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -9080,7 +9080,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
@@ -9101,7 +9101,7 @@
 									<key>filterable</key>
 									<false/>
 									<key>sortable</key>
-									<false/>
+									<true/>
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>

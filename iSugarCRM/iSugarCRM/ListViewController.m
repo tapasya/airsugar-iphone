@@ -12,8 +12,14 @@
 #import "DBSession.h"
 #import "DataObject.h"
 #import "DetailViewController.h"
+#import "ModuleSettingsViewController.h"
+
 @implementation ListViewController
 @synthesize moduleName,datasource,metadata, tableData;
+@synthesize settingsButton;
+@synthesize synchButton;
+
+
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
 {
     ListViewController *lViewController = [[ListViewController alloc] init];
@@ -36,6 +42,37 @@
         tableData = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+-(UIBarButtonItem*) settingsButton
+{
+    if(!settingsButton){
+        settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(displayModuleSetting)];
+        //settingsButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(displayModuleSetting)];
+    }
+    settingsButton.style = UIBarButtonItemStyleBordered;
+    return settingsButton;
+}
+
+-(void)displayModuleSetting{
+    ModuleSettingsViewController *msvc = [[ModuleSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    msvc.moduleName = self.title;
+    [self.navigationController pushViewController:msvc animated:NO];
+}
+
+-(UIBarButtonItem*) synchButton
+{
+    if(!synchButton){
+        //synchButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"synch.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(synchModule)];
+        synchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(synchModule)];
+    }
+    synchButton.style = UIBarButtonItemStyleBordered;
+    return synchButton;
+}
+
+-(void)synchModule{
+    //TODO module synch code;
+    NSLog(@"SYNCH MODULES");
 }
 
 #pragma mark - View lifecycle
@@ -73,6 +110,9 @@
     CGFloat rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
     //self.view = myTableView;
+    
+    NSArray *buttons = [NSArray arrayWithObjects:self.settingsButton,self.synchButton, nil];
+    self.navigationItem.rightBarButtonItems = buttons;
     
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];

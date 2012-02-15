@@ -8,6 +8,7 @@
 
 #import "LoginUtils.h"
 #import "JSONKit.h"
+#import "ApplicationKeyStore.h"
 
 @implementation LoginUtils
 
@@ -45,6 +46,54 @@
     return result;
 }
 
++(BOOL)keyChainHasUserData{
+    
+    int userNameLen;
+    int passwordLen;
+    
+    ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    userNameLen = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
+    passwordLen = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
+    
+    if(userNameLen == 0 || passwordLen == 0){
+        return FALSE;
+    }else{
+        return TRUE;
+    }
+}
+
++(id)login{
+    NSString *username,*password;
+    ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
+    username = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
+    password = [keyChain objectForKey:(__bridge id)kSecValueData];
+    return [self login:username :password];
+}
++(void)displayLoginError:(id)response{
+    
+           
+        if([response objectForKey:@"Error"]){
+            [self showError:[response objectForKey:@"Error"]];
+        }else{
+            NSString  *errorDescription,*errorName;
+            if([[[response objectForKey:@"response"]objectForKey:@"name"] length]!=0){
+                errorName = [[response objectForKey:@"response"]objectForKey:@"name"];
+            }else{
+                errorName = @"Invalid Login";
+            }
+            
+            if([[[response objectForKey:@"response"]objectForKey:@"description"] length]!=0){
+                errorDescription = [[response objectForKey:@"response"]objectForKey:@"description"];
+            }else{
+                errorDescription = @"Login attempt failed please check the username and password";
+            }
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorName message:errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alertView show];
+            //[spinner setHidden:YES];
+        }
+    
+}
 +(NSString*)urlStringForParams:(NSMutableDictionary*)params{
     NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
     
@@ -75,4 +124,17 @@
     NSLog(@"%@",urlString);
     return urlString;
 }
+
++(void) showError:(NSError *)error
+{
+    //[spinner setHidden:YES];
+    //    UIWindow *appWindow = (UIWindow* ) [UIApplication sharedApplication].keyWindow;
+    //    appWindow.rootViewController = self;
+    NSString *messageString = [error localizedDescription];//customize this message with network error.code;
+    NSLog(@"Code-->%d",[error code]);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:messageString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 @end

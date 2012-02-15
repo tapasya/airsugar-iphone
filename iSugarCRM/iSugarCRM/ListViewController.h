@@ -22,4 +22,7 @@
 @property(strong)NSArray *datasource;
 @property(strong) NSMutableArray *tableData;
 @property(strong)ListViewMetadata *metadata;
+@property(nonatomic, retain) UIBarButtonItem *settingsButton;
+@property(nonatomic, retain) UIBarButtonItem *synchButton;
+-(void)displayModuleSetting;
 @end
