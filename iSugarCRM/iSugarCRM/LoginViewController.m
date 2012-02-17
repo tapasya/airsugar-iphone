@@ -69,7 +69,7 @@ ApplicationKeyStore *keyChain;
     if(urlString){
         urlField.text = urlString;
     }else{
-        urlField.text = sugarEndpoint;
+        //urlField.text = sugarEndpoint;
     }
     
     // TODO should fetch the details from Account Manager
@@ -151,10 +151,9 @@ ApplicationKeyStore *keyChain;
     [self performSelectorInBackground:@selector(authenicate) withObject:nil];
 }
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    return NO;
+    return YES;
 }
 
 @end
