@@ -133,12 +133,12 @@
             NSInteger limit = MIN(moduleList.count, (i+1)*self.launcherView.maxItemsPerPage);
             for(int j=i*self.launcherView.maxItemsPerPage; j< limit; j++){
                 NSString *moduleName = [moduleList objectAtIndex:j];
-                [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName
-                                                                                 iPhoneImage:@"itemImage" 
-                                                                                   iPadImage:@"account-iPad"
-                                                                                      target:moduleName 
-                                                                                 targetTitle:moduleName
-                                                                                   deletable:NO]];
+                NSString *imagename = [[sugarMetaDataStore listViewMetadataForModule:moduleName] iconImageName];
+                if(!imagename || [imagename isEqualToString:@""])
+                {
+                    imagename = @"itemImage";
+                }
+                [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName image:imagename target:nil deletable:NO]];
             }
         }
         [self.launcherView setPages:pageItems];

@@ -241,6 +241,8 @@
 			</array>
 			<key>module_name</key>
 			<string>Contacts</string>
+			<key>icon</key>
+			<string>Contacts</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
@@ -1204,6 +1206,8 @@
 				</dict>
 			</array>
 			<key>module_name</key>
+			<string>Opportunities</string>
+			<key>icon</key>
 			<string>Opportunities</string>
 		</dict>
 		<key>DetailViewMetadata</key>
@@ -2791,6 +2795,8 @@
 			</array>
 			<key>module_name</key>
 			<string>Calls</string>
+			<key>icon</key>
+			<string>Calls</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
@@ -3573,6 +3579,8 @@
 				</dict>
 			</array>
 			<key>module_name</key>
+			<string>Leads</string>
+			<key>icon</key>
 			<string>Leads</string>
 		</dict>
 		<key>DetailViewMetadata</key>
@@ -5905,6 +5913,8 @@
 			</array>
 			<key>module_name</key>
 			<string>Accounts</string>
+			<key>icon</key>
+			<string>Accounts</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
@@ -7958,6 +7968,8 @@
 			</array>
 			<key>module_name</key>
 			<string>Campaigns</string>
+			<key>icon</key>
+			<string>Campaigns</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
@@ -8708,6 +8720,8 @@
 			</array>
 			<key>module_name</key>
 			<string>Cases</string>
+			<key>icon</key>
+			<string>Cases</string>
 		</dict>
 		<key>DetailViewMetadata</key>
 		<dict>
@@ -9252,6 +9266,8 @@
 				</dict>
 			</array>
 			<key>module_name</key>
+			<string>Meetings</string>
+			<key>icon</key>
 			<string>Meetings</string>
 		</dict>
 		<key>DetailViewMetadata</key>
