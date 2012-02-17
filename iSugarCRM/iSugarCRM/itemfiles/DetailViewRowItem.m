@@ -4,19 +4,21 @@
 //
 
 #import "DetailViewRowItem.h"
-#define kCellMargin 8.0
+#define kSideMargin 8.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
+#define kHeightlMargin 30.0
 @interface DetailViewRowItem ()
 -(NSString*)valueStringWithFormat:(NSString*)format;
 @end
 @implementation DetailViewRowItem
 @synthesize label,values,action,type;
 
--(CGFloat)heightForCell
+-(CGFloat)heightForCell:(UITableView*)tableView
 {
-    CGFloat height = [[self valueStringWithFormat:nil] sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(250 - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width, 10000) lineBreakMode:UILineBreakModeWordWrap].height;
-    return KCellHeight>height?KCellHeight:height;
+    NSLog(@"%@",self.label);
+    CGFloat height = [[self valueStringWithFormat:nil] sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(tableView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18] constrainedToSize:CGSizeMake(170,1000) lineBreakMode:UILineBreakModeWordWrap].width, 10000) lineBreakMode:UILineBreakModeWordWrap].height;
+    return KCellHeight>height?KCellHeight:(height+kHeightlMargin);
 }
 
 //TODO use OHALabel and NSAttributedString
@@ -29,9 +31,8 @@
         [label_ setFont:[UIFont boldSystemFontOfSize:18]];
         label_.tag = 1000;
         [cell.contentView addSubview:label_];
-        label_.autoresizingMask = UIViewAutoresizingFlexibleHeight/*|UIViewAutoresizingFlexibleWidth|*/|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         UILabel* textLabel = [[UILabel alloc] init];
-        textLabel.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;//|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+        textLabel.autoresizingMask =  UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         textLabel.numberOfLines = 0;
         [textLabel setFont:[UIFont boldSystemFontOfSize:18]];
         textLabel.tag = 1001;
@@ -71,32 +72,33 @@
     }
     
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:1000];
+    
     [textLabel setFont:[UIFont boldSystemFontOfSize:18]];
     textLabel.text = [NSString stringWithFormat:@"%@: ",[self label]];
-    textLabel.frame = CGRectMake(kCellMargin, 0,[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width + 2*kCellMargin, cell.contentView.frame.size.height);
+    textLabel.frame = CGRectMake(kSideMargin, 0,[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width + 2*kSideMargin,50);
     textLabel = (UILabel*)[cell.contentView viewWithTag:1001];
     [textLabel setFont:[UIFont systemFontOfSize:18]];
-//    textLabel.frame = CGRectMake([self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+2*kCellMargin, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height);
-    textLabel.frame = CGRectMake([self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+2*kCellMargin, 0, cell.contentView.frame.size.width- ([self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+2*kCellMargin) , cell.contentView.frame.size.height);    
+    
+    textLabel.frame = CGRectMake([self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+2*kSideMargin, 0, cell.contentView.frame.size.width- ([self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+2*kSideMargin) , cell.contentView.frame.size.height);    
     
     if (![[self valueStringWithFormat:nil] isEqualToString:@"NA"]) {
         
         if ([[self reusableCellIdentifier] isEqualToString:@"phone"]) {
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kCellMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width +kCellMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kCellMargin, cell.contentView.frame.size.height);
+            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width +kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"url"]) {
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kCellMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kCellMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kCellMargin, cell.contentView.frame.size.height);
+            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"email"]) {
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kCellMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kCellMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kCellMargin, cell.contentView.frame.size.height);
+            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kCellMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kCellMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kCellMargin, cell.contentView.frame.size.height);
+            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else {
             textLabel.text = [self valueStringWithFormat:nil];
         }
@@ -177,7 +179,8 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@",[self valueStringWithFormat:nil]]]];  
     } 
     else if ([action isEqualToString:@"url"]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[self valueStringWithFormat:nil]]];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@",[[self valueStringWithFormat:nil]stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
     }
     else if ([action isEqualToString:@"map"]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"url:%@",[self valueStringWithFormat:nil]]]];

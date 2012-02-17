@@ -72,11 +72,11 @@ ApplicationKeyStore *keyChain;
     }else{
         //urlField.text = sugarEndpoint;
     }
-    
-    // TODO should fetch the details from Account Manager
-    //usernameField.text = @"will";
-    //passwordField.text = @"18218139eec55d83cf82679934e5cd75";
-    //urlField.text = sugarEndpoint;
+    //TODO: md5 hash for password
+    // TODO: should fetch the details from Account Manager
+    usernameField.text = @"will";
+    passwordField.text = @"18218139eec55d83cf82679934e5cd75";
+    urlField.text = sugarEndpoint;
     // Do any additional setup after loading the view from its nib.
     if([LoginUtils keyChainHasUserData]){
         [spinner setHidden:NO];

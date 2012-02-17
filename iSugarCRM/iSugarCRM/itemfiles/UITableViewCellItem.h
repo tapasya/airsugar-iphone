@@ -23,7 +23,7 @@
  @details	tableView:heightForRowAtIndexPath: calls the item's heightForCell method to get the height for the 
  UITableViewCell
  */
--(CGFloat)heightForCell;
+-(CGFloat)heightForCell:(UITableView*)tableView;
 
 /*!
  @brief         Use this method to get a reusable UITableViewCell

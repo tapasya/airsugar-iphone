@@ -94,7 +94,9 @@
     sBar.delegate = self;
     [sBar setAutoresizesSubviews:YES];
     [self.view addSubview:sBar];
-    myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 31,width, mainFrame.size.height-30)];
+    myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 30,width, mainFrame.size.height-30)];
+    myTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleBottomMargin;
+    sBar.autoresizingMask =  UIViewAutoresizingFlexibleWidth;
     [sBar setAutoresizesSubviews:YES];
     [self.view addSubview:myTableView];
     [self.view setAutoresizesSubviews:YES];
@@ -107,14 +109,10 @@
     if (!metadata) {
       self.metadata = [[SugarCRMMetadataStore sharedInstance]listViewMetadataForModule:moduleName];
     }
-    //myTableView = [[UITableView alloc] init];
     myTableView.delegate = self;
     myTableView.dataSource = self;
-    //myTableView.frame = [[UIScreen mainScreen] applicationFrame];
     CGFloat rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
-    //self.view = myTableView;
-    
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     self.navigationItem.rightBarButtonItem = barButtonItem;
@@ -168,7 +166,7 @@
         name = nil;
     
     
-    self.tableData =(NSMutableArray *) [tableData sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    self.tableData = [[tableData sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSString *str1,*str2;
         if (name != nil) {
             str1 = [obj1 objectForFieldName:name];
@@ -178,10 +176,10 @@
             str2 = [obj2 objectForFieldName:metadata.primaryDisplayField.name];
         }
         if([sortOrderValue isEqualToString:@"Descending"])
-            return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
+            return[str2 compare:str1 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
         else
             return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
-    }];
+    }] mutableCopy];
     [myTableView reloadData];
 
 }

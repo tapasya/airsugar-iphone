@@ -163,7 +163,7 @@
 {
     id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:indexPath.section];
     id<UITableViewCellRowItem> rowItem  = [[sectionItem rowItems] objectAtIndex:indexPath.row];
-    return [rowItem heightForCell];
+    return [rowItem heightForCell:(UITableView*)tableView];
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
