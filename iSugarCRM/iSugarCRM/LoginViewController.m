@@ -45,9 +45,10 @@ ApplicationKeyStore *keyChain;
 {
     [super viewDidLoad];
     //[spinner setHidden:YES];
-    //usernameField.delegate = self;
-    //passwordField.delegate = self;
-    //passwordField.secureTextEntry = YES;
+    urlField.delegate = self;
+    usernameField.delegate = self;
+    passwordField.delegate = self;
+    passwordField.secureTextEntry = YES;
     
     NSLog(@"Viewdidload");
     // TODO should fetch the details from Account Manager
