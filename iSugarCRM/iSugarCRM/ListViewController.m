@@ -70,7 +70,7 @@
 -(void)displayModuleSetting{
     ModuleSettingsViewController *msvc = [[ModuleSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     msvc.moduleName = self.title;
-    [self.navigationController pushViewController:msvc animated:NO];
+    [self.navigationController pushViewController:msvc animated:YES];
 }
 
 
