@@ -22,6 +22,7 @@
 #import "LoginViewController.h"
 #import "DashboardController.h"
 #import "ApplicationKeyStore.h"
+#import "LoginUtils.h"
 
 NSString * session=nil;
 
@@ -41,24 +42,12 @@ int usernameLength,passwordLength;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
-    usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
-    passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
     LoginViewController *lvc = [[LoginViewController alloc] init];
-    if(usernameLength ==0 && passwordLength ==0){
+    if(![LoginUtils keyChainHasUserData]){
         self.window.rootViewController = lvc;
         [self.window makeKeyAndVisible];
         return YES;
     }else{
-//        DashboardController *dc = [[DashboardController alloc] init];
-//        dc.title = @"Modules";
-//        dc.login = FALSE;
-////        syncHandler = [[SyncHandler alloc] init];
-////        syncHandler.delegate = dc;
-//        nvc = [[UINavigationController alloc] initWithRootViewController:dc];
-//        self.window.rootViewController = nvc;
-//        [self.window makeKeyAndVisible];
-//        //[lvc performSelectorOnMainThread:@selector(authenicate) withObject:nil waitUntilDone:NO];
         [self showDashboardController];
         return YES;
     }
@@ -66,8 +55,6 @@ int usernameLength,passwordLength;
 -(void)showDashboardController{
     DashboardController *dc = [[DashboardController alloc] init];
     dc.title = @"Modules";
-    //        syncHandler = [[SyncHandler alloc] init];
-    //        syncHandler.delegate = dc;
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
     self.window.rootViewController = nvc;
     [self.window makeKeyAndVisible];
@@ -76,8 +63,7 @@ int usernameLength,passwordLength;
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     syncHandler = [[SyncHandler alloc] init];
-    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    syncHandler.delegate = sharedDelegate;
+    syncHandler.delegate = self;
     [syncHandler syncAllModules];
 }
 

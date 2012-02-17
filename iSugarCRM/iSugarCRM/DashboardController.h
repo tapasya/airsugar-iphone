@@ -10,9 +10,7 @@
 #import "MyLauncherViewController.h"
 #import "SyncHandler.h"
 
-@interface DashboardController : MyLauncherViewController <SyncHandlerDelegate>
+@interface DashboardController : MyLauncherViewController
 @property (strong) NSArray *moduleList;
-@property BOOL login;
--(void) startModuleSynchronization;
 -(void) performLoginAction;
 @end

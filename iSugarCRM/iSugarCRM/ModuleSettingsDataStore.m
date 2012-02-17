@@ -55,6 +55,7 @@
 -(NSArray*) sortableFields
 {
     NSMutableArray *fields = [[NSMutableArray alloc] init];
+    NSMutableDictionary *labelnameDict = [[NSMutableDictionary alloc] init];
     NSArray *sections = [[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:self.moduleName] sections];
     for(NSDictionary *sectionItem in sections)
     {
@@ -67,6 +68,7 @@
                 if(field.sortable)
                 {
                     NSString* label = [rowItem objectForKey:@"label"];
+                    [labelnameDict setObject:field.name forKey:label];
                     if([fields indexOfObject:label] == NSNotFound)
                     {
                      [fields addObject:label];   
@@ -75,6 +77,7 @@
             }
         }
     }
+    [[NSUserDefaults standardUserDefaults] setObject:labelnameDict forKey:[[NSString alloc] initWithFormat:@"%@_%@" , self.moduleName, @"labelnameDict"]];
     return fields;
 }
 

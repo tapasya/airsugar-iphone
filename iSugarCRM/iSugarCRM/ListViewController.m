@@ -13,11 +13,11 @@
 #import "DataObject.h"
 #import "DetailViewController.h"
 #import "ModuleSettingsViewController.h"
+#import "ModuleSettingsDataStore.h"
 
 @implementation ListViewController
 @synthesize moduleName,datasource,metadata, tableData;
-@synthesize settingsButton;
-@synthesize synchButton;
+@synthesize segmentedControl;
 
 
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
@@ -44,15 +44,28 @@
     return self;
 }
 
--(UIBarButtonItem*) settingsButton
-{
-    if(!settingsButton){
-        settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(displayModuleSetting)];
-        //settingsButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(displayModuleSetting)];
+-(UISegmentedControl *) segmentedControl{
+    if (!segmentedControl) {
+        segmentedControl = [[UISegmentedControl alloc] initWithItems:nil];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"settings.png"] atIndex:0 animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:1 animated:YES];
     }
-    settingsButton.style = UIBarButtonItemStyleBordered;
-    return settingsButton;
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+    segmentedControl.momentary = YES;
+    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    return segmentedControl;
 }
+
+-(void)segmentAction:(id)sender{
+    UISegmentedControl *segControl = (UISegmentedControl *)sender;
+    if (segControl.selectedSegmentIndex == 0) {
+        [self displayModuleSetting];
+    }else if(segControl.selectedSegmentIndex == 1){
+        [self synchModule];
+    }
+}
+
 
 -(void)displayModuleSetting{
     ModuleSettingsViewController *msvc = [[ModuleSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -60,15 +73,6 @@
     [self.navigationController pushViewController:msvc animated:NO];
 }
 
--(UIBarButtonItem*) synchButton
-{
-    if(!synchButton){
-        //synchButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"synch.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(synchModule)];
-        synchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(synchModule)];
-    }
-    synchButton.style = UIBarButtonItemStyleBordered;
-    return synchButton;
-}
 
 -(void)synchModule{
     //TODO module synch code;
@@ -111,8 +115,9 @@
     myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
     //self.view = myTableView;
     
-    NSArray *buttons = [NSArray arrayWithObjects:self.settingsButton,self.synchButton, nil];
-    self.navigationItem.rightBarButtonItems = buttons;
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
+    self.navigationItem.rightBarButtonItem = barButtonItem;
     
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
@@ -125,8 +130,8 @@
 -(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
 {   
     datasource = moduleList;
+    [tableData removeAllObjects];
     [tableData addObjectsFromArray:datasource];
-    [myTableView reloadData];
 }
 
 -(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error
@@ -152,6 +157,33 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSString *name,*sortFieldLabel,*sortOrderValue;
+    sortFieldLabel = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortField]];
+    sortOrderValue = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortorder]];
+    NSDictionary *lablenameDict = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@_labelnameDict",moduleName]];
+    
+    if(sortFieldLabel != nil)
+        name = [lablenameDict objectForKey:sortFieldLabel];
+    else
+        name = nil;
+    
+    
+    self.tableData =(NSMutableArray *) [tableData sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSString *str1,*str2;
+        if (name != nil) {
+            str1 = [obj1 objectForFieldName:name];
+            str2 = [obj2 objectForFieldName:name];
+        }else{
+            str1 = [obj1 objectForFieldName:metadata.primaryDisplayField.name];
+            str2 = [obj2 objectForFieldName:metadata.primaryDisplayField.name];
+        }
+        if([sortOrderValue isEqualToString:@"Descending"])
+            return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
+        else
+            return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
+    }];
+    [myTableView reloadData];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated

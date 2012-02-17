@@ -14,6 +14,7 @@
 #import "SyncHandler.h"
 #import "LoginUtils.h"
 #import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface DashboardController ()
 -(void) loadModuleViews;
@@ -22,7 +23,7 @@
 @end
 
 @implementation DashboardController
-@synthesize moduleList, spinner, loadingLabel,login;
+@synthesize moduleList, spinner, loadingLabel;
 - (id)init
 {
     self = [super init];
@@ -72,7 +73,6 @@
             [self performLoginAction];
         }
     }
-    //[self startModuleSynchronization];
     [self clearSavedLauncherItems];
     if(session != nil){
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -105,32 +105,16 @@
     if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
     }else{
+        session = nil;
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
+        appKeyWindow.rootViewController=lvc;
+        [lvc.spinner setHidden:YES];
         [LoginUtils displayLoginError:response];
     }
 }
 
 
--(void) startModuleSynchronization
-{
-    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
-    [sugarMetaDataStore configureMetadata];
-    SyncHandler *syncHandler = [[SyncHandler alloc] init];
-    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    syncHandler.delegate = sharedDelegate;
-    [syncHandler syncAllModules];
-    moduleList = [sugarMetaDataStore modulesSupported];
-    self.title = @"Modules";
-    //RootViewController *rvc = [[RootViewController alloc] init];
-}
-
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
-{
-    
-}
--(void)syncComplete:(SyncHandler*)syncHandler
-{
-    
-}
 
 -(void) loadModuleViews
 {

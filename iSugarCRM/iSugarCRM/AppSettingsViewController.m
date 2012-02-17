@@ -20,6 +20,7 @@
 @synthesize username,password,urlString,startDate,endDate;
 
 ApplicationKeyStore *keyChain;
+UIView *footerView;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -270,6 +271,47 @@ ApplicationKeyStore *keyChain;
     }  
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    if(footerView == nil) {
+        //allocate the view if it doesn't exist yet
+        footerView  = [[UIView alloc] init];
+        
+        //we would like to show a gloosy red button, so get the image first
+        //UIImage *image = [[UIImage imageNamed:@"button_red.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+        
+        //create the button
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button setBackgroundColor:[UIColor clearColor]];
+        
+        //the button should be as big as a table view cell
+        [button setFrame:CGRectMake(10, 3, 300, 44)];
+        
+        //set title, font size and font color
+        [button setTitle:@"Synch Data" forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+        //[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        //set action of the button
+        [button addTarget:self action:@selector(synchModules:)
+         forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlStateSelected];
+        
+        //add the button to the view
+        [footerView addSubview:button];
+    }
+    
+    //return the view for the footer
+    return footerView;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    CGFloat height;
+    if(section == 1)
+        height = 50.0f;
+    return height;
+}
+-(void)synchModules:(id)sender{
+    NSLog(@"SynchAll Modules");
+}
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField 
 {
 	return YES;

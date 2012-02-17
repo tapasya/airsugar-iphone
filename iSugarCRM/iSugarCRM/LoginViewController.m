@@ -18,6 +18,7 @@
 @synthesize spinner;
 @synthesize usernameField;
 @synthesize passwordField;
+@synthesize urlField;
 
 ApplicationKeyStore *keyChain;
 
@@ -44,15 +45,16 @@ ApplicationKeyStore *keyChain;
 {
     [super viewDidLoad];
     //[spinner setHidden:YES];
-    usernameField.delegate = self;
-    passwordField.delegate = self;
-    passwordField.secureTextEntry = YES;
+    //usernameField.delegate = self;
+    //passwordField.delegate = self;
+    //passwordField.secureTextEntry = YES;
     
     NSLog(@"Viewdidload");
     // TODO should fetch the details from Account Manager
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     int usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
     int passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
+    NSString *urlString = [[NSUserDefaults standardUserDefaults]objectForKey:@"endpointURL"];
     if(usernameLength != 0){
         usernameField.text = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
     }else{
@@ -64,17 +66,23 @@ ApplicationKeyStore *keyChain;
         passwordField.text = @"";
     }
     
-    if(usernameLength ==0 && passwordLength==0){
-        [spinner setHidden:YES];
-        [spinner startAnimating];
+    if(urlString){
+        urlField.text = urlString;
     }else{
-        [self performSelectorInBackground:@selector(authenicate) withObject:nil];
-        [spinner setHidden:NO];
+        urlField.text = sugarEndpoint;
     }
+    
     // TODO should fetch the details from Account Manager
     //usernameField.text = @"will";
     //passwordField.text = @"18218139eec55d83cf82679934e5cd75";
+    //urlField.text = sugarEndpoint;
     // Do any additional setup after loading the view from its nib.
+    if([LoginUtils keyChainHasUserData]){
+        [spinner setHidden:NO];
+        [spinner startAnimating];
+    }else{
+        [spinner setHidden:YES];
+    }
 }
 
 
@@ -102,6 +110,7 @@ ApplicationKeyStore *keyChain;
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
+    [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     NSLog(@"added username and password");
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -114,19 +123,22 @@ ApplicationKeyStore *keyChain;
     
     int userNameLen = [usernameField.text length];
     int passwordLen = [passwordField.text length];
+    int urlLen = [urlField.text length];
     
-    if (userNameLen==0 || passwordLen==0) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your Username and Password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    if (userNameLen==0 || passwordLen==0 || urlLen == 0) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your details and relogin" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
         [spinner setHidden:YES];
         return;
     }
     
     id response = [LoginUtils login:usernameField.text :passwordField.text];
+    NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
     if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
         [self performSelectorOnMainThread:@selector(showDashboard) withObject:nil waitUntilDone:NO];
     }else{
+        [spinner setHidden:YES];
         [LoginUtils displayLoginError:response];
     }
     

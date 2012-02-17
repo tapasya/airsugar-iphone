@@ -71,7 +71,6 @@
 }
 +(void)displayLoginError:(id)response{
     
-           
         if([response objectForKey:@"Error"]){
             [self showError:[response objectForKey:@"Error"]];
         }else{
@@ -90,7 +89,6 @@
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorName message:errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
             [alertView show];
-            //[spinner setHidden:YES];
         }
     
 }

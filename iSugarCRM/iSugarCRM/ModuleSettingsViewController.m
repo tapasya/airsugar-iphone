@@ -117,6 +117,7 @@
     ModuleSettingsObject* settingsObject = [self.moduleSettingsStore.settingsArray objectAtIndex:indexPath.section];
     NSInteger selecedRow = [settingsObject.multipleTitles indexOfObject:settingsObject.value];
         if (indexPath.row == selecedRow) {
+            [SettingsStore setObject:settingsObject.value forKey:settingsObject.key];
             [self selectCell:cell];
         } else {
             [self deselectCell:cell];
