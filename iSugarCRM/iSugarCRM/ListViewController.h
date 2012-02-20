@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ListViewMetadata.h"
 #import "DBSession.h"
-@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate>
+#import "SyncHandler.h"
+@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate, SyncHandlerDelegate>
 {
     @private
     UITableView *myTableView;

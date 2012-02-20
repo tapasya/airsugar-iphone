@@ -67,6 +67,14 @@ int usernameLength,passwordLength;
     [syncHandler syncAllModules];
 }
 
+-(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate
+{
+    syncHandler = [[SyncHandler alloc] init];
+    syncHandler.delegate = delegate;
+    [syncHandler syncForModule:moduleName];
+
+}
+
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
 {
     

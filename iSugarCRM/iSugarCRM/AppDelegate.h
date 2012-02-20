@@ -15,5 +15,6 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
 -(void)synch;
+-(void)syncForModule:(NSString*) moduleName : (id<SyncHandlerDelegate>) delegate;
 -(void)showDashboardController;
 @end

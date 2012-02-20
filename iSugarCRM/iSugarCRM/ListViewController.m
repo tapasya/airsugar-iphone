@@ -14,6 +14,12 @@
 #import "DetailViewController.h"
 #import "ModuleSettingsViewController.h"
 #import "ModuleSettingsDataStore.h"
+#import "AppDelegate.h"
+
+@interface ListViewController()
+-(void) loadData;
+-(void) sortData;
+@end
 
 @implementation ListViewController
 @synthesize moduleName,datasource,metadata, tableData;
@@ -77,6 +83,39 @@
 -(void)synchModule{
     //TODO module synch code;
     NSLog(@"SYNCH MODULES");
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    AppDelegate* sharedDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
+    [sharedDelegate syncForModule:moduleName :self];
+}
+
+#pragma mark - Sync handler delegate methods
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
+{
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+}
+
+-(void)syncComplete:(SyncHandler*)syncHandler
+{   
+    [self loadData];
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+}
+
+-(IBAction)showSyncAlert:(id)sender
+{
+    [self.navigationController setToolbarHidden:YES animated:YES];
+    
+    NSError* error = (NSError*) sender;
+    if(error)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -100,6 +139,18 @@
     [sBar setAutoresizesSubviews:YES];
     [self.view addSubview:myTableView];
     [self.view setAutoresizesSubviews:YES];
+    
+    CGRect toolbarFrame = self.navigationController.toolbar.frame;
+    UIActivityIndicatorView *activityIndicator = 
+    [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x + toolbarFrame.size.width/2 -10, 0, 20, 20)];
+    [activityIndicator startAnimating];
+    [self.navigationController.toolbar addSubview:activityIndicator];
+    
+    UILabel* syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x+toolbarFrame.size.width/2 - 50, 20, 100, 20)];
+    [syncLabel setText:@"Sync Started"];
+    [syncLabel setTextColor:[UIColor whiteColor]];
+    [syncLabel setBackgroundColor:[UIColor clearColor]];
+    [self.navigationController.toolbar addSubview:syncLabel];    
 }
 
 - (void)viewDidLoad
@@ -116,13 +167,8 @@
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     self.navigationItem.rightBarButtonItem = barButtonItem;
-    
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    dbSession.delegate = self;
-    [dbSession startLoading];
-}
+    [self loadData];
+  }
 
 #pragma mark DBLoadSession Delegate;
 -(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
@@ -130,6 +176,8 @@
     datasource = moduleList;
     [tableData removeAllObjects];
     [tableData addObjectsFromArray:datasource];
+    [self sortData];
+    [myTableView reloadData];
 }
 
 -(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error
@@ -137,24 +185,17 @@
     NSLog(@"Error: %@",[error localizedDescription]);
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+-(void) loadData
 {
-    CGRect mainFrame = self.view.bounds;
-    sBar.frame = CGRectMake(0,0,mainFrame.size.width,30);
-    myTableView.frame = CGRectMake(0, 31, mainFrame.size.width, mainFrame.size.height-30);
-    [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    dbSession.delegate = self;
+    [dbSession startLoading];
 }
 
-- (void)viewDidUnload
+-(void) sortData
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     NSString *name,*sortFieldLabel,*sortOrderValue;
     sortFieldLabel = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortField]];
     sortOrderValue = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortorder]];
@@ -180,6 +221,27 @@
         else
             return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
     }] mutableCopy];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect mainFrame = self.view.bounds;
+    sBar.frame = CGRectMake(0,0,mainFrame.size.width,30);
+    myTableView.frame = CGRectMake(0, 31, mainFrame.size.width, mainFrame.size.height-30);
+    [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self sortData];
     [myTableView reloadData];
 
 }
@@ -191,6 +253,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewWillDisappear:animated];
 }
 
