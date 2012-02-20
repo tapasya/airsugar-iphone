@@ -48,14 +48,18 @@
 
 +(BOOL)keyChainHasUserData{
     
-    int userNameLen;
     int passwordLen;
-    
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
-    userNameLen = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"AppDeleted"] == nil){
+        [keyChain.keyChainData setObject:@"" forKey:(__bridge id)kSecAttrAccount];
+        [keyChain.keyChainData setObject:(id)@"iSugarCRM-keystore" forKey:(__bridge id)kSecAttrGeneric];
+        [keyChain.keyChainData setObject:(__bridge id)kSecAttrAccessibleAlwaysThisDeviceOnly forKey:(__bridge id)kSecAttrAccessible];
+        [keyChain.keyChainData setObject:@"" forKey:(__bridge id)kSecValueData];
+    }
     passwordLen = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
     
-    if(userNameLen == 0 || passwordLen == 0){
+    if(passwordLen == 0){
         return FALSE;
     }else{
         return TRUE;

@@ -112,6 +112,7 @@ ApplicationKeyStore *keyChain;
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"AppDeleted"];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     NSLog(@"added username and password");
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
