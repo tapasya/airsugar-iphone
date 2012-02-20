@@ -30,7 +30,9 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
-        
+        if(session == nil){
+            [self performSelectorInBackground:@selector(performLoginAction) withObject:nil];
+        }
     }
     return self;
 }
@@ -68,20 +70,8 @@
     spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
     [self.view addSubview:spinner];
     [spinner startAnimating];
-    if(session == nil){
-        NSLog(@"LOGIN SUCCESS BUT ENTERED");
-        if ([LoginUtils keyChainHasUserData]) {       
-            //[self performSelectorInBackground:@selector(performLoginAction) withObject:nil];
-            [self performLoginAction];
-        }
-    }
     [self clearSavedLauncherItems];
-    if(session != nil){
-        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedAppDelegate synch];
-    }
 }
-
 
 - (void)viewDidUnload
 {
@@ -104,8 +94,10 @@
 
 -(void)performLoginAction{
     id response = [LoginUtils login];
-    if([[response objectForKey:@"response"]objectForKey:@"id"]){
-        session = [[response objectForKey:@"response"]objectForKey:@"id"];
+    session = [[response objectForKey:@"response"]objectForKey:@"id"];
+    if(session){
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate synch];
     }else{
         session = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
