@@ -59,12 +59,16 @@ int usernameLength,passwordLength;
     self.window.rootViewController = nvc;
     [self.window makeKeyAndVisible];
 }
--(void)synch{
+
+-(void)synch
+{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     syncHandler = [[SyncHandler alloc] init];
     syncHandler.delegate = self;
-    [syncHandler syncAllModules];
+    
+    // TODO should fetch the dates from the setting and then format the string
+    [syncHandler syncWithDateFilters:@"2011-10-30" :@"2011-12-30"];
 }
 
 -(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate
@@ -72,7 +76,6 @@ int usernameLength,passwordLength;
     syncHandler = [[SyncHandler alloc] init];
     syncHandler.delegate = delegate;
     [syncHandler syncForModule:moduleName];
-
 }
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error

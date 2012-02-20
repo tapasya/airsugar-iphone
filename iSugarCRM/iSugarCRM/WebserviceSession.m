@@ -10,6 +10,11 @@
 #import "DataObject.h"
 #import "DataObjectField.h"
 #import "JSONKit.h"
+
+@interface WebserviceSession()
+-(void) loadUrl:(NSURLRequest*) urlRequest;
+@end
+
 @implementation WebserviceSession
 @synthesize delegate;
 @synthesize metadata;
@@ -24,6 +29,17 @@
 -(void)startLoading:(NSString*)timestamp
 {
     NSURLRequest *request = [metadata getRequestWithLastSyncTimestamp:timestamp];
+    [self loadUrl:request];    
+}
+
+-(void) startLoadingWithFilters:(NSString *)startDate :(NSString *)endDate
+{
+    NSURLRequest *request = [metadata getRequestWithDateFilters:startDate :endDate];
+    [self loadUrl:request];
+}
+
+-(void) loadUrl:(NSURLRequest *)urlRequest
+{
     id completionHandler = ^(NSURLResponse *response, NSData *data, NSError* error){
         if (error) {
             [delegate session:self didFailWithError:error];
@@ -48,19 +64,18 @@
                     if (value == nil) {
                         [dataObject setObject:@" " forFieldName:field.name];
                     } else {
-                    [dataObject setObject:value forFieldName:field.name];
+                        [dataObject setObject:value forFieldName:field.name];
                     }
                 }
                 [arrayOfDataObjects addObject:dataObject];
             }
             if(delegate!= nil){
-             
+                
                 [delegate session:self didCompleteWithResponse:arrayOfDataObjects];
             }
         }
         
     };
-    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc]init] completionHandler:completionHandler];
-    
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:[[NSOperationQueue alloc]init] completionHandler:completionHandler];
 }
 @end

@@ -90,6 +90,25 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     return [self formatRequest];
 }
 
+-(NSURLRequest*) getRequestWithDateFilters:(NSString *)startDate :(NSString *)endDate
+{
+    if (startDate==nil || endDate == nil) {
+        return [self getRequest];
+    }
+    //append url parameters
+    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
+    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],startDate, [moduleName lowercaseString], endDate] forKey:@"query"];
+    [restDataDictionary  setObject:@"" forKey:@"order_by"];
+    [restDataDictionary  setObject:@"" forKey:@"offset"];
+    // [restDataDictionary  setObject: forKey:@"select_fields"];
+    NSString *restDataString = [restDataDictionary JSONString];
+    [self setUrlParam:restDataString forKey:@"rest_data"];
+    return [self formatRequest];
+
+}
+
 -(NSURLRequest*)formatRequest
 {
     NSMutableString *urlWithParams = [[NSMutableString alloc] init];

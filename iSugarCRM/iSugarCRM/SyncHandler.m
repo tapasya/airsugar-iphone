@@ -34,6 +34,24 @@ NSInteger moduleCount = 1;
     }
 }
 
+-(void) syncWithDateFilters:(NSString *)startDate :(NSString *)endDate
+{
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    moduleCount = [metadataStore.modulesSupported count];
+    for(NSString *module in metadataStore.modulesSupported)
+    {
+        [self syncModuleWithDateFilters:module:startDate :endDate];
+    }
+}
+
+-(void) syncModuleWithDateFilters:(NSString *)moduleName :(NSString *)startDate :(NSString *)endDate
+{
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:moduleName]];
+    session.delegate=self;
+    [session startLoadingWithFilters:startDate :endDate];    
+}
+
 #pragma mark Webservice Session delegate methods
 
 -(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response
