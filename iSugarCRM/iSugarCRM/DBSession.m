@@ -197,5 +197,41 @@
     return deltaMark;
 }
 
+-(BOOL) deleteRecord:(NSString *)beanId
+{
+    NSError* error = nil;
+    SqliteObj* db = [[SqliteObj alloc] init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+    }
+    
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %@ WHERE id is '%@'",metadata.tableName, beanId];
+    [db executeUpdate:sql error:&error];
+    if(error)
+    {
+        NSLog(@"error deleting record in table: %@",[error localizedDescription]);
+    }
+    else
+    {
+        NSLog(@"deleted record with beanId: %@" , beanId);
+    }
+    return error == nil ;
+}
 
+-(BOOL) deleteAllRecordsInTable
+{
+    NSError* error = nil;
+    SqliteObj* db = [[SqliteObj alloc] init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+    }
+    
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %@",metadata.tableName];
+    [db executeUpdate:sql error:&error];
+    if(error)
+    {
+        NSLog(@"error deleting records in table: %@",[error localizedDescription]);
+    }
+    return error == nil ;
+}
 @end

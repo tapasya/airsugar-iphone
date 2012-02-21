@@ -23,6 +23,8 @@
 -(void)detailsForId:(NSString*)beanId;
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects;
 -(NSString*)getLastSyncTimestamp;
+-(BOOL) deleteRecord:(NSString *)beanId;
+-(BOOL) deleteAllRecordsInTable;
 @end
 
 
