@@ -13,6 +13,7 @@
 #import "SyncHandler.h"
 #import "DashboardController.h"
 #import "SugarCRMMetadataStore.h"
+#import "SyncSettingsViewController.h"
 
 @implementation LoginViewController
 @synthesize spinner;
@@ -107,6 +108,7 @@ ApplicationKeyStore *keyChain;
 
 -(void) showDashboard
 {
+        
     [spinner setHidden:YES];
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
@@ -115,8 +117,16 @@ ApplicationKeyStore *keyChain;
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"AppDeleted"];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     NSLog(@"added username and password");
-    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedDelegate showDashboardController];
+    NSString *startDate = [[NSUserDefaults standardUserDefaults] objectForKey:kStartDateIdentifier];
+    NSString *endDate = [[NSUserDefaults standardUserDefaults] objectForKey:kEndDateIdentifier];
+    if(!startDate && !endDate){
+        AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedDelegate showSyncSettingViewController];
+        
+    }else{
+        AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedDelegate showDashboardController];
+    }
 }
 
 -(void) authenicate

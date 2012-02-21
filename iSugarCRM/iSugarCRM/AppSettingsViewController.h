@@ -11,14 +11,15 @@
 #define kPasswordIdentifier             @"key_password"
 #define kRestUrlIdentifier              @"key_rest_url"
 
-#define kStartDateIdentifier            @"key_sync_start_date"
-#define kEndDateIdentifier              @"key_sync_end_date"
+
+#define kSyncSettingsIdentifier              @"Sync Settings"
 
 #define kUsernameTag                    1
 #define kPasswordTag                    2
-#define kStartDateTag                   3
-#define kEndDateTag                     4
-#define kURLTag                         5
+#define kURLTag                         3
+//#define kStartDateTag                   4
+//#define kEndDateTag                     5
+
 
 
 @interface AppSettingsViewController : UITableViewController<UITextFieldDelegate, UIActionSheetDelegate>
@@ -31,6 +32,6 @@
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic, retain) NSString *urlString;
-@property (nonatomic, retain) NSString *startDate;
-@property (nonatomic, retain) NSString *endDate;
+//@property (nonatomic, retain) NSString *startDate;
+//@property (nonatomic, retain) NSString *endDate;
 @end

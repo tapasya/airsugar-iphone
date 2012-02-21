@@ -10,6 +10,7 @@
 #import "TextFieldTableCell.h"
 #import "SettingsStore.h"
 #import "ApplicationKeyStore.h"
+#import "SyncSettingsViewController.h"
 
 @implementation AppSettingsViewController
 @synthesize settingsArray=_settingsArray;
@@ -17,7 +18,7 @@
 @synthesize dateFormatter;
 @synthesize saveButton;
 @synthesize actionSheet;
-@synthesize username,password,urlString,startDate,endDate;
+@synthesize username,password,urlString;//startDate,endDate;
 
 ApplicationKeyStore *keyChain;
 UIView *footerView;
@@ -31,17 +32,17 @@ UIView *footerView;
     return self;
 }
 
-- (UIDatePicker*) pickerView
-{
-    if(!pickerView){
-        pickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, 0, 0)];
-        [pickerView setDatePickerMode:UIDatePickerModeDate];
-        [pickerView setBackgroundColor:[UIColor clearColor]];
-        [pickerView addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
-        [pickerView addTarget:self action:@selector(dateSelectionDone:) forControlEvents:UIControlEventTouchUpOutside];
-    }
-    return pickerView;
-}
+//- (UIDatePicker*) pickerView
+//{
+//    if(!pickerView){
+//        pickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, 0, 0)];
+//        [pickerView setDatePickerMode:UIDatePickerModeDate];
+//        [pickerView setBackgroundColor:[UIColor clearColor]];
+//        [pickerView addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+//        [pickerView addTarget:self action:@selector(dateSelectionDone:) forControlEvents:UIControlEventTouchUpOutside];
+//    }
+//    return pickerView;
+//}
 
 -(UIBarButtonItem*) saveButton
 {
@@ -51,38 +52,38 @@ UIView *footerView;
     return saveButton;
 }
 
--(UIActionSheet*) actionSheet
-{
-    if(!actionSheet){
-        actionSheet = [[UIActionSheet alloc] initWithTitle:@"Pick Date" delegate:nil cancelButtonTitle:nil
-                                    destructiveButtonTitle:nil otherButtonTitles:nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-        UIToolbar* pickerDateToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        pickerDateToolbar.barStyle = UIBarStyleBlackOpaque;
-        [pickerDateToolbar sizeToFit];
-        
-        NSMutableArray *barItems = [[NSMutableArray alloc] init];
-        
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-        [barItems addObject:flexSpace];
-        
-        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dateSelectionDone:)];
-        [barItems addObject:doneBtn];
-        
-        [pickerDateToolbar setItems:barItems animated:YES];
-        
-        [actionSheet addSubview:pickerDateToolbar];
-        [actionSheet addSubview:self.pickerView]; 
-    }
-    return actionSheet;
-}
+//-(UIActionSheet*) actionSheet
+//{
+//    if(!actionSheet){
+//        actionSheet = [[UIActionSheet alloc] initWithTitle:@"Pick Date" delegate:nil cancelButtonTitle:nil
+//                                    destructiveButtonTitle:nil otherButtonTitles:nil];
+//        actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
+//        UIToolbar* pickerDateToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+//        pickerDateToolbar.barStyle = UIBarStyleBlackOpaque;
+//        [pickerDateToolbar sizeToFit];
+//        
+//        NSMutableArray *barItems = [[NSMutableArray alloc] init];
+//        
+//        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//        [barItems addObject:flexSpace];
+//        
+//        UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dateSelectionDone:)];
+//        [barItems addObject:doneBtn];
+//        
+//        [pickerDateToolbar setItems:barItems animated:YES];
+//        
+//        [actionSheet addSubview:pickerDateToolbar];
+//        [actionSheet addSubview:self.pickerView]; 
+//    }
+//    return actionSheet;
+//}
 
 -(NSArray*) settingsArray
 {
     if(!_settingsArray){
         // To add new settings pupulate the array with the appropriate identifiers supply a table cell for that identifier
         NSArray* userSettings = [[NSArray alloc] initWithObjects:kRestUrlIdentifier,kUsernameIdentifier,kPasswordIdentifier, nil];
-        NSArray* syncSettings = [[NSArray alloc] initWithObjects:kStartDateIdentifier, kEndDateIdentifier, nil];
+        NSArray* syncSettings = [[NSArray alloc] initWithObjects:kSyncSettingsIdentifier, nil];
         _settingsArray = [[NSArray alloc] initWithObjects:userSettings, syncSettings, nil];        
     }
     return _settingsArray;
@@ -217,36 +218,12 @@ UIView *footerView;
         static NSString *CellIdentifier = @"Cell";
         cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        if([cellIdentifier isEqualToString:kStartDateIdentifier])
+        if([cellIdentifier isEqualToString:kSyncSettingsIdentifier])
         {
-           startDate = [SettingsStore objectForKey:kStartDateIdentifier];
-            [[cell textLabel] setText:@"Start Date"];
-            if(!value){
-                if(startDate == nil){
-                    value = [self.dateFormatter stringFromDate:[NSDate date]];
-                }else{
-                    value = startDate;
-                }
-            }
-            [[cell detailTextLabel] setText:value];
-            [cell detailTextLabel].tag = kStartDateTag;
-            
-        }
-        else if( [cellIdentifier isEqualToString:kEndDateIdentifier])
-        {
-            endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-            [[cell textLabel] setText:@"End Date"];
-            if(!value){
-                if(endDate == nil){
-                    value = [self.dateFormatter stringFromDate:[NSDate date]];
-                }else{
-                    value = endDate;
-                }
-            }
-            [[cell detailTextLabel] setText:value];
-            [cell detailTextLabel].tag = kEndDateTag;
+            cell.textLabel.text = kSyncSettingsIdentifier;
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
         }
     }
     return cell;
@@ -257,13 +234,11 @@ UIView *footerView;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* identifier = [[self.settingsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    if([identifier isEqualToString:kStartDateIdentifier] || [identifier isEqualToString:kEndDateIdentifier])
+    if([identifier isEqualToString:kSyncSettingsIdentifier])
     {
-        UITableViewCell *targetCell = [tableView cellForRowAtIndexPath:indexPath];
-        self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
-        
-        [self.actionSheet showInView:self.view];
-        [self.actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+        //TODO Action to show syncsettingsviewcontroller
+        SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        [self.navigationController pushViewController:syncSettings animated:YES];
     }
     else
     {
@@ -271,47 +246,45 @@ UIView *footerView;
     }  
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    
-    if(footerView == nil) {
-        //allocate the view if it doesn't exist yet
-        footerView  = [[UIView alloc] init];
-        
-        //we would like to show a gloosy red button, so get the image first
-        //UIImage *image = [[UIImage imageNamed:@"button_red.png"] stretchableImageWithLeftCapWidth:8 topCapHeight:8];
-        
-        //create the button
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button setBackgroundColor:[UIColor clearColor]];
-        
-        //the button should be as big as a table view cell
-        [button setFrame:CGRectMake(10, 3, 300, 44)];
-        
-        //set title, font size and font color
-        [button setTitle:@"Synch Data" forState:UIControlStateNormal];
-        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-        //[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        //set action of the button
-        [button addTarget:self action:@selector(synchModules:)
-         forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlStateSelected];
-        
-        //add the button to the view
-        [footerView addSubview:button];
-    }
-    
-    //return the view for the footer
-    return footerView;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    CGFloat height;
-    if(section == 1)
-        height = 50.0f;
-    return height;
-}
--(void)synchModules:(id)sender{
-    NSLog(@"SynchAll Modules");
-}
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    
+//    if(footerView == nil) {
+//        //allocate the view if it doesn't exist yet
+//        footerView  = [[UIView alloc] init];
+//        
+//        //create the button
+//        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//        [button setBackgroundColor:[UIColor clearColor]];
+//        
+//        //the button should be as big as a table view cell
+//        [button setFrame:CGRectMake(10, 3, 300, 44)];
+//        
+//        //set title, font size and font color
+//        [button setTitle:@"Synch Data" forState:UIControlStateNormal];
+//        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+//        //[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        
+//        //set action of the button
+//        [button addTarget:self action:@selector(synchModules:)
+//         forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlStateSelected];
+//        
+//        //add the button to the view
+//        [footerView addSubview:button];
+//    }
+//    
+//    //return the view for the footer
+//    return footerView;
+//}
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    CGFloat height;
+//    if(section == 1)
+//        height = 50.0f;
+//    return height;
+//}
+
+//-(void)synchModules:(id)sender{
+//    NSLog(@"SynchAll Modules");
+//}
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField 
 {
 	return YES;
@@ -340,28 +313,28 @@ UIView *footerView;
     [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:password forKey:(__bridge id)kSecValueData];
     [SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
-    [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
-    [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)dateChanged:(id)sender
-{
-	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
-    if (cell.detailTextLabel.tag == kStartDateTag) {
-        startDate = cell.detailTextLabel.text;
-    }else if(cell.detailTextLabel.tag == kEndDateTag){
-        endDate = cell.detailTextLabel.text;
-    }
-}
-
-- (IBAction)dateSelectionDone:(id)sender
-{
-    [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+//- (IBAction)dateChanged:(id)sender
+//{
+//	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
+//    NSLog(@"pickerview date %@",self.pickerView.date);
+//    NSLog(@"pickerview date %@",cell.detailTextLabel.text);
+////    if (cell.detailTextLabel.tag == kStartDateTag) {
+////        startDate = cell.detailTextLabel.text;
+////    }else if(cell.detailTextLabel.tag == kEndDateTag){
+////        endDate = cell.detailTextLabel.text;
+////    }
+//}
+//
+//- (IBAction)dateSelectionDone:(id)sender
+//{
+//    [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
+//    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
 @end

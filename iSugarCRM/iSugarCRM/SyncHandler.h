@@ -17,6 +17,7 @@
 -(void)syncAllModules;
 -(void)syncWithDateFilters:(NSString*) startDate:(NSString*) endDate;
 -(void)syncModuleWithDateFilters:(NSString*) moduleName :(NSString*) startDate:(NSString*) endDate;
+-(NSString *) formatStartDate:(NSString *)startDate;
 @end
 
 @protocol SyncHandlerDelegate

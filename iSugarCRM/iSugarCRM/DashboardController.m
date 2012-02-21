@@ -30,9 +30,9 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
-        if(session == nil){
+        //if(session == nil){
             [self performSelectorInBackground:@selector(performLoginAction) withObject:nil];
-        }
+        //}
     }
     return self;
 }
@@ -93,18 +93,27 @@
 }
 
 -(void)performLoginAction{
-    id response = [LoginUtils login];
-    session = [[response objectForKey:@"response"]objectForKey:@"id"];
+//    id response = [LoginUtils login];
+//    session = [[response objectForKey:@"response"]objectForKey:@"id"];
+    id response;
+    
     if(session){
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedAppDelegate synch];
+        [sharedAppDelegate sync];
     }else{
         session = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
-        appKeyWindow.rootViewController=lvc;
-        [lvc.spinner setHidden:YES];
-        [LoginUtils displayLoginError:response];
+        response = [LoginUtils login];
+        session = [[response objectForKey:@"response"]objectForKey:@"id"];
+        if(!session){
+            LoginViewController *lvc = [[LoginViewController alloc] init];
+            UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
+            appKeyWindow.rootViewController=lvc;
+            [lvc.spinner setHidden:YES];
+            [LoginUtils displayLoginError:response];
+        }else{
+            AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [sharedAppDelegate sync];
+        }
     }
 }
 

@@ -36,6 +36,8 @@ NSInteger moduleCount = 1;
 
 -(void) syncWithDateFilters:(NSString *)startDate :(NSString *)endDate
 {
+    startDate = [self formatStartDate:startDate];
+    endDate = [self formatStartDate:endDate];
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     moduleCount = [metadataStore.modulesSupported count];
     for(NSString *module in metadataStore.modulesSupported)
@@ -50,6 +52,23 @@ NSInteger moduleCount = 1;
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:moduleName]];
     session.delegate=self;
     [session startLoadingWithFilters:startDate :endDate];    
+}
+
+-(NSString *) formatStartDate:(NSString *)date
+{    
+    NSDateFormatter *dateFormatter;
+    
+    if(date == nil){
+        date = [[[[NSDate date] description]componentsSeparatedByString:@" "] objectAtIndex:0];
+    }else{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        NSLog(@"datefromString %@",[dateFormatter dateFromString:date]);
+        date = [[[[dateFormatter dateFromString:date] description] componentsSeparatedByString:@" "] objectAtIndex:0];
+    }
+    
+    return date;
 }
 
 #pragma mark Webservice Session delegate methods

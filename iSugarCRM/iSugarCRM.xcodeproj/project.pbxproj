@@ -22,6 +22,7 @@
 		0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
 		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
 		0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
+		0FB7864014F38573004C2CD9 /* SyncSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7863F14F38573004C2CD9 /* SyncSettingsViewController.m */; };
 		0FB7DAF014BC36EB00E9F794 /* SettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */; };
 		0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB9F83914DC17050084BF7E /* ApplicationKeyStore.m */; };
 		0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB9F83F14DC20380084BF7E /* Security.framework */; };
@@ -120,6 +121,8 @@
 		0FB17C2A14B5B38E004F0C80 /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardController.h; sourceTree = "<group>"; };
 		0FB17C2B14B5B38E004F0C80 /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardController.m; sourceTree = "<group>"; };
 		0FB17C3114B5BF81004F0C80 /* itemImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemImage.png; sourceTree = "<group>"; };
+		0FB7863E14F38573004C2CD9 /* SyncSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncSettingsViewController.h; sourceTree = "<group>"; };
+		0FB7863F14F38573004C2CD9 /* SyncSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncSettingsViewController.m; sourceTree = "<group>"; };
 		0FB7DAEE14BC36EA00E9F794 /* SettingsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsStore.h; sourceTree = "<group>"; };
 		0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsStore.m; sourceTree = "<group>"; };
 		0FB9F83814DC17050084BF7E /* ApplicationKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationKeyStore.h; sourceTree = "<group>"; };
@@ -366,6 +369,8 @@
 				0FB17A0F14B5B02F004F0C80 /* Launcher */,
 				0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */,
 				0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */,
+				0FB7863E14F38573004C2CD9 /* SyncSettingsViewController.h */,
+				0FB7863F14F38573004C2CD9 /* SyncSettingsViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -698,6 +703,7 @@
 				0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */,
 				0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */,
 				0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */,
+				0FB7864014F38573004C2CD9 /* SyncSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,11 +8,15 @@
 
 #import "ApplicationKeyStore.h"
 #import <Security/Security.h>
+#import "SyncSettingsViewController.h"
+
+@interface ApplicationKeyStore()
+-(void) deleteDefaults;
+@end
 
 @implementation ApplicationKeyStore
 @synthesize keyChainData;
 @synthesize keyChainQuery;
-
 
 
 -(id)initWithName:(NSString *)name{
@@ -21,6 +25,12 @@
         [self loadKeyChainWithName:name];
     }
     return self;
+}
+
+-(void)deleteDefaults{
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kEndDateIdentifier];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kStartDateIdentifier];
 }
 
 -(void)loadKeyChainWithName:name{
@@ -84,6 +94,7 @@
     NSLog(@"inobject object%@",object);
     if(existingObject != object){
         [keyChainData setObject:object forKey:key];
+        [self deleteDefaults];
     }
     [self updateKeyChain];
 }

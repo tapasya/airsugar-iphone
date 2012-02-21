@@ -14,7 +14,9 @@
 @property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
--(void)synch;
+-(void)sync;
 -(void)syncForModule:(NSString*) moduleName : (id<SyncHandlerDelegate>) delegate;
 -(void)showDashboardController;
+-(void)showSyncSettingViewController;
+-(void)deleteDB;
 @end

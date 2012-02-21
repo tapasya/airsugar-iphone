@@ -23,6 +23,8 @@
 #import "DashboardController.h"
 #import "ApplicationKeyStore.h"
 #import "LoginUtils.h"
+#import "SettingsStore.h"
+#import "SyncSettingsViewController.h"
 
 NSString * session=nil;
 
@@ -60,16 +62,34 @@ int usernameLength,passwordLength;
     [self.window makeKeyAndVisible];
 }
 
--(void)synch
+-(void)showSyncSettingViewController{
+    SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    syncSettings.title = @"SyncSettings";
+    nvc = [[UINavigationController alloc] initWithRootViewController:syncSettings];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+}
+
+-(void)sync
 {
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     syncHandler = [[SyncHandler alloc] init];
     syncHandler.delegate = self;
-    
-    // TODO should fetch the dates from the setting and then format the string
-    [syncHandler syncWithDateFilters:@"2011-10-30" :@"2011-12-30"];
+    NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
+    NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
+    [syncHandler syncWithDateFilters:startDate :endDate];
 }
+
+-(void)deleteAll{
+    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    
+    for(NSString *moduleName in sugarMetaDataStore.modulesSupported){
+        DBSession *dbSession = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:moduleName]];
+        [dbSession deleteAllRecordsInTable];
+    }
+}
+
 
 -(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate
 {
