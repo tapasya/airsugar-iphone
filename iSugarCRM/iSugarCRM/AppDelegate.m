@@ -46,6 +46,11 @@ int usernameLength,passwordLength;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *lvc = [[LoginViewController alloc] init];
     if(![LoginUtils keyChainHasUserData]){
+        NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
+        NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
+        if(!startDate && !endDate){
+            [self performSelectorInBackground:@selector(deleteDBData) withObject:nil];
+        }
         self.window.rootViewController = lvc;
         [self.window makeKeyAndVisible];
         return YES;
@@ -81,13 +86,26 @@ int usernameLength,passwordLength;
     [syncHandler syncWithDateFilters:startDate :endDate];
 }
 
--(void)deleteDB{
+-(void)deleteDBData{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
-    
+    bool deletionFailed = false;
+    UIAlertView *alert;
+    self.window.userInteractionEnabled = NO;
     for(NSString *moduleName in sugarMetaDataStore.modulesSupported){
         DBSession *dbSession = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:moduleName]];
-        [dbSession deleteAllRecordsInTable];
+        if(![dbSession deleteAllRecordsInTable])
+        {
+            deletionFailed=true;
+        }
     }
+    if(deletionFailed){
+        alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to Erase data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }else{
+        alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Succesfully Erased data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    self.window.userInteractionEnabled = YES;
 }
 
 

@@ -285,7 +285,7 @@ BOOL isFirstTime;
 
 -(void)eraseDBData:(id)sender{
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate deleteDB];
+    [sharedAppDelegate deleteDBData];
 
 }
 

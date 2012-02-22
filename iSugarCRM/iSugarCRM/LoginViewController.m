@@ -106,7 +106,7 @@ ApplicationKeyStore *keyChain;
 
 
 
--(void) showDashboard
+-(void) showSyncSettings
 {
         
     [spinner setHidden:YES];
@@ -116,22 +116,13 @@ ApplicationKeyStore *keyChain;
     [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"AppDeleted"];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    NSLog(@"added username and password");
-    NSString *startDate = [[NSUserDefaults standardUserDefaults] objectForKey:kStartDateIdentifier];
-    NSString *endDate = [[NSUserDefaults standardUserDefaults] objectForKey:kEndDateIdentifier];
-    if(!startDate && !endDate){
-        AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedDelegate showSyncSettingViewController];
-        
-    }else{
-        AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedDelegate showDashboardController];
-    }
+    
+    AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedDelegate showSyncSettingViewController];
 }
 
 -(void) authenicate
 {
-    // TODO should fetch the details from Account Manager
     
     int userNameLen = [usernameField.text length];
     int passwordLen = [passwordField.text length];
@@ -148,7 +139,7 @@ ApplicationKeyStore *keyChain;
     NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
     if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
-        [self performSelectorOnMainThread:@selector(showDashboard) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(showSyncSettings) withObject:nil waitUntilDone:NO];
     }else{
         [spinner setHidden:YES];
         [LoginUtils displayLoginError:response];

@@ -18,5 +18,5 @@
 -(void)syncForModule:(NSString*) moduleName : (id<SyncHandlerDelegate>) delegate;
 -(void)showDashboardController;
 -(void)showSyncSettingViewController;
--(void)deleteDB;
+-(void)deleteDBData;
 @end

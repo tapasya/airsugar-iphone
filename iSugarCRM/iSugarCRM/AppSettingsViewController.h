@@ -12,13 +12,11 @@
 #define kRestUrlIdentifier              @"key_rest_url"
 
 
-#define kSyncSettingsIdentifier              @"Sync Settings"
+#define kSyncSettingsIdentifier         @"Sync Settings"
 
 #define kUsernameTag                    1
 #define kPasswordTag                    2
 #define kURLTag                         3
-//#define kStartDateTag                   4
-//#define kEndDateTag                     5
 
 
 
@@ -32,6 +30,4 @@
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic, retain) NSString *urlString;
-//@property (nonatomic, retain) NSString *startDate;
-//@property (nonatomic, retain) NSString *endDate;
 @end
