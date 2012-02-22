@@ -285,8 +285,17 @@ BOOL isFirstTime;
 
 -(void)eraseDBData:(id)sender{
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate deleteDBData];
-
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    UIAlertView *alert;
+    window.userInteractionEnabled=NO;
+    if(![sharedAppDelegate deleteDBData]){
+        alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to Erase data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }else{
+        alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Succesfully Erased data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    window.userInteractionEnabled=YES;
 }
 
 @end

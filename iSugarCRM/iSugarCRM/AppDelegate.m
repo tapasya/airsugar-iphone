@@ -86,11 +86,10 @@ int usernameLength,passwordLength;
     [syncHandler syncWithDateFilters:startDate :endDate];
 }
 
--(void)deleteDBData{
+-(BOOL)deleteDBData{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     bool deletionFailed = false;
-    UIAlertView *alert;
-    self.window.userInteractionEnabled = NO;
+    
     for(NSString *moduleName in sugarMetaDataStore.modulesSupported){
         DBSession *dbSession = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:moduleName]];
         if(![dbSession deleteAllRecordsInTable])
@@ -98,14 +97,7 @@ int usernameLength,passwordLength;
             deletionFailed=true;
         }
     }
-    if(deletionFailed){
-        alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Unable to Erase data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }else{
-        alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Succesfully Erased data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-    self.window.userInteractionEnabled = YES;
+    return !deletionFailed;
 }
 
 
