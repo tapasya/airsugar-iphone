@@ -25,5 +25,5 @@
 @property(strong)ListViewMetadata *metadata;
 @property(nonatomic, retain) UISegmentedControl *segmentedControl;
 -(void)displayModuleSetting;
--(void)synchModule;
+-(void)syncModule;
 @end

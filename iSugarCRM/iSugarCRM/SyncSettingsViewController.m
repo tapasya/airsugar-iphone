@@ -223,12 +223,12 @@ BOOL isFirstTime;
     else if([identifier isEqualToString:kSyncNowCellIdentifier])
     {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self performSelectorInBackground:@selector(syncNow:) withObject:nil];
+        [self performSelectorOnMainThread:@selector(syncNow:) withObject:nil waitUntilDone:NO];
     }
     else if([identifier isEqualToString:kEraseAllCellIdentifier])
     {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self performSelectorInBackground:@selector(eraseDBData:) withObject:nil];
+        [self performSelectorOnMainThread:@selector(eraseDBData:) withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -285,7 +285,7 @@ BOOL isFirstTime;
 
 -(void)eraseDBData:(id)sender{
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate deleteAll];
+    [sharedAppDelegate deleteDB];
 
 }
 

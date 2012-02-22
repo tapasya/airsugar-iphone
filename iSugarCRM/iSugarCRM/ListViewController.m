@@ -68,7 +68,7 @@
     if (segControl.selectedSegmentIndex == 0) {
         [self displayModuleSetting];
     }else if(segControl.selectedSegmentIndex == 1){
-        [self synchModule];
+        [self syncModule];
     }
 }
 
@@ -80,7 +80,7 @@
 }
 
 
--(void)synchModule{
+-(void)syncModule{
     //TODO module synch code;
     NSLog(@"SYNCH MODULES");
     [self.navigationController setToolbarHidden:NO animated:YES];

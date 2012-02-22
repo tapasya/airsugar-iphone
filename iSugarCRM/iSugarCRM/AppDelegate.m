@@ -81,7 +81,7 @@ int usernameLength,passwordLength;
     [syncHandler syncWithDateFilters:startDate :endDate];
 }
 
--(void)deleteAll{
+-(void)deleteDB{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     
     for(NSString *moduleName in sugarMetaDataStore.modulesSupported){
