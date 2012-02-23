@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "ListViewController.h"
 #import "SugarCRMMetadataStore.h"
+#import "AppDelegate.h"
 @interface RootViewController()
 @property(strong)UIActivityIndicatorView *spinner;
 @end
@@ -90,6 +91,5 @@
     myTableView.delegate = self;
     myTableView.dataSource = self;
     [self.view addSubview:myTableView];
-    
 }
 @end

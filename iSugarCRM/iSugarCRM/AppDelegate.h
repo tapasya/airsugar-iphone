@@ -19,4 +19,5 @@
 -(void)showDashboardController;
 -(void)showSyncSettingViewController;
 -(BOOL)deleteDBData;
+-(void)logout;
 @end

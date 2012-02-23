@@ -53,7 +53,14 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 -(NSArray*)modulesSupported
 {
-    return [metadataDictionary allKeys];
+    NSMutableArray *moduleSupported = [NSMutableArray array];
+    for(NSString *module in [metadataDictionary allKeys])
+    {
+        if(![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue]){
+            [moduleSupported addObject:module];
+        }
+    }
+    return moduleSupported;
 }
 
 -(WebserviceMetadata*)listWebserviceMetadataForModule:(NSString*)moduleId{
@@ -103,7 +110,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     
     for(NSString *module in [metadataDictionary allKeys])
     {
-        if([[moduleList allKeys] containsObject:module])
+        if([[moduleList allKeys] containsObject:module]&&![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 

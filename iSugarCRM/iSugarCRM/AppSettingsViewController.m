@@ -11,9 +11,10 @@
 #import "SettingsStore.h"
 #import "ApplicationKeyStore.h"
 #import "SyncSettingsViewController.h"
-
+#import "AppDelegate.h"
+#define kLogoutCell @"login"
 @implementation AppSettingsViewController
-@synthesize settingsArray=_settingsArray;
+@synthesize settingsArray=_settingsArray; //where is _settingsArray defined?
 @synthesize pickerView;
 @synthesize dateFormatter;
 @synthesize saveButton;
@@ -22,7 +23,7 @@
 @synthesize password;
 @synthesize urlString;
 
-ApplicationKeyStore *keyChain;
+ApplicationKeyStore *keyChain;  //Global objects? whats the use?
 UIView *footerView;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -49,7 +50,7 @@ UIView *footerView;
         // To add new settings pupulate the array with the appropriate identifiers supply a table cell for that identifier
         NSArray* userSettings = [[NSArray alloc] initWithObjects:kRestUrlIdentifier,kUsernameIdentifier,kPasswordIdentifier, nil];
         NSArray* syncSettings = [[NSArray alloc] initWithObjects:kSyncSettingsIdentifier, nil];
-        _settingsArray = [[NSArray alloc] initWithObjects:userSettings, syncSettings, nil];        
+        _settingsArray = [[NSArray alloc] initWithObjects:userSettings, syncSettings,[NSArray arrayWithObject:kLogoutCell],nil];        
     }
     return _settingsArray;
 }
@@ -84,7 +85,7 @@ UIView *footerView;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"viewwillappear");
+    NSLog(@"viewwillappear"); //remove log
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -122,15 +123,23 @@ UIView *footerView;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    
     NSString* cellIdentifier = [[self.settingsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
-    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     NSString* value = [SettingsStore objectForKey:cellIdentifier];
-    
+    if ([cellIdentifier isEqualToString:kLogoutCell]) 
+    {
+        if (cell==nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            cell.textLabel.text = @"Logout!";
+        }
+        return cell;
+    }
     if([cellIdentifier isEqualToString:kRestUrlIdentifier] || [cellIdentifier isEqualToString:kUsernameIdentifier] || [cellIdentifier isEqualToString:kPasswordIdentifier])
     {
-        if (!cell) {
+        if (!cell)
+        {
             cell = (TextFieldTableCell*) [[[NSBundle mainBundle] loadNibNamed:@"TextFieldTableCell"  owner:self options:nil] objectAtIndex:0];
             
             ((TextFieldTableCell*)cell).textField.textAlignment = UITextAlignmentRight;
@@ -176,24 +185,23 @@ UIView *footerView;
             ((TextFieldTableCell*)cell).textField.tag = kPasswordTag;
             [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         }
-    }
-    else
-    {
-        static NSString *CellIdentifier = @"Cell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        }
-        if([cellIdentifier isEqualToString:kSyncSettingsIdentifier])
+        else
         {
-            cell.textLabel.text = kSyncSettingsIdentifier;
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            static NSString *CellIdentifier = @"Cell";
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+            }
+            if([cellIdentifier isEqualToString:kSyncSettingsIdentifier])
+            {
+                cell.textLabel.text = kSyncSettingsIdentifier;
+                cell.textLabel.textAlignment = UITextAlignmentCenter;
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
         }
     }
-    return cell;
+            return cell;
 }
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -203,6 +211,10 @@ UIView *footerView;
     {
         SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
         [self.navigationController pushViewController:syncSettings animated:YES];
+    }
+    else if([[[_settingsArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:kLogoutCell])
+    {
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] logout];
     }
     else
     {
@@ -234,7 +246,7 @@ UIView *footerView;
 
 -(IBAction)saveSettings:(id)sender
 {
-
+    
     [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:password forKey:(__bridge id)kSecValueData];
     [SettingsStore setObject:urlString forKey:@"sugarEndpoint"];

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kStartDateIdentifier            @"key_sync_start_date"
+#define kStartDateIdentifier            @"key_sync_start_date" //move constants to implementation file
 #define kEndDateIdentifier              @"key_sync_end_date"
 
 #define kSyncNowCellIdentifier          @"Sync Now"
@@ -18,7 +18,7 @@
 
 @interface SyncSettingsViewController : UITableViewController
 
-@property (nonatomic, strong) NSArray* settingsArray;
+@property (nonatomic, strong) NSArray* settingsArray;       //move these to class extenstion
 @property (nonatomic, retain) UIDatePicker *pickerView; 
 @property (nonatomic, retain) NSDateFormatter *dateFormatter; 
 @property (nonatomic, retain) UIActionSheet *actionSheet;

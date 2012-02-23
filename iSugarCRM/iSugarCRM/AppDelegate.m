@@ -60,6 +60,7 @@ int usernameLength,passwordLength;
     }
 }
 -(void)showDashboardController{
+    [self logout];
     DashboardController *dc = [[DashboardController alloc] init];
     dc.title = @"Modules";
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
@@ -99,7 +100,27 @@ int usernameLength,passwordLength;
     }
     return !deletionFailed;
 }
+-(void)logout{
+    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+    [urlParams setObject:@"logout" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    NSString* urlString=[[NSString stringWithFormat:@"%@",[LoginUtils urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error = nil;  
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+    if (error) {
+        NSLog(@"Error Logging Out!");
+        return;
+    } 
+ id logoutResponse=[adata objectFromJSONData];
 
+}
 
 -(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate
 {

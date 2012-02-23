@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#define kUsernameIdentifier             @"key_user_name"
+#define kUsernameIdentifier             @"key_user_name" //why are these defined in header file? 
 #define kPasswordIdentifier             @"key_password"
 #define kRestUrlIdentifier              @"key_rest_url"
 
 
-#define kSyncSettingsIdentifier         @"Sync Settings"
+#define kSyncSettingsIdentifier         @"Sync Settings" //these too?
 
 #define kUsernameTag                    1
 #define kPasswordTag                    2
@@ -23,7 +23,7 @@
 @interface AppSettingsViewController : UITableViewController<UITextFieldDelegate, UIActionSheetDelegate>
 @property (nonatomic, strong) NSArray* settingsArray;
 
-@property (nonatomic, retain) UIDatePicker *pickerView; 
+@property (nonatomic, retain) UIDatePicker *pickerView;     //why are these defined in header? should be moved to an extension
 @property (nonatomic, retain) NSDateFormatter *dateFormatter; 
 @property (nonatomic, retain) UIBarButtonItem *saveButton;
 @property (nonatomic, retain) UIActionSheet *actionSheet;

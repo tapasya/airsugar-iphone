@@ -4,6 +4,8 @@
 <dict>
 	<key>Contacts</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -1091,6 +1093,8 @@
 	</dict>
 	<key>Opportunities</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -1798,6 +1802,8 @@
 	</dict>
 	<key>Prospects</key>
 	<dict>
+		<key>disabled</key>
+		<true/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -2663,6 +2669,8 @@
 	</dict>
 	<key>Calls</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -3323,6 +3331,8 @@
 	</dict>
 	<key>Leads</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -4599,6 +4609,8 @@
 	</dict>
 	<key>Roles</key>
 	<dict>
+		<key>disabled</key>
+		<true/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -5061,6 +5073,8 @@
 	</dict>
 	<key>Tasks</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -5718,6 +5732,8 @@
 	</dict>
 	<key>Accounts</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -6980,6 +6996,8 @@
 	</dict>
 	<key>Employees</key>
 	<dict>
+		<key>disabled</key>
+		<true/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -7846,6 +7864,8 @@
 	</dict>
 	<key>Campaigns</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -8621,6 +8641,8 @@
 	</dict>
 	<key>Cases</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
@@ -9159,6 +9181,8 @@
 	</dict>
 	<key>Meetings</key>
 	<dict>
+		<key>disabled</key>
+		<false/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
