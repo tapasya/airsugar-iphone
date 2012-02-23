@@ -11,11 +11,10 @@
 #import "SugarCRMMetadataStore.h"
 #import "DBSession.h"
 #import "DataObject.h"
-#import "DetailViewController.h"
 #import "ModuleSettingsViewController.h"
 #import "ModuleSettingsDataStore.h"
 #import "AppDelegate.h"
-
+#import "DetailViewController.h"
 @interface ListViewController()
 -(void) loadData;
 -(void) sortData;

@@ -15,4 +15,5 @@
 +(BOOL)keyChainHasUserData;
 +(void)displayLoginError:(id)response;
 +(void) showError:(NSError *)error;
++ (NSString *)md5Hash:(NSString*)string;
 @end

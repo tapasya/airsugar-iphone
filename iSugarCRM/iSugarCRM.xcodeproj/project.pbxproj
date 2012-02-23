@@ -796,6 +796,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+					"\"$(SRCROOT)/iSugarCRM\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
@@ -808,6 +813,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/lib/system\"",
+					"\"$(SRCROOT)/iSugarCRM\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;

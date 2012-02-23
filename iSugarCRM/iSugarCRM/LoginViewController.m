@@ -71,7 +71,7 @@ ApplicationKeyStore *keyChain;
     }
     //TODO: md5 hash for password
     usernameField.text = @"will";
-    passwordField.text = @"18218139eec55d83cf82679934e5cd75";
+    passwordField.text = @"will";
     urlField.text = sugarEndpoint;
     // Do any additional setup after loading the view from its nib.
     if([LoginUtils keyChainHasUserData]){
@@ -107,7 +107,7 @@ ApplicationKeyStore *keyChain;
     [spinner stopAnimating];;
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
-    [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
+    [keyChain addObject:[LoginUtils md5Hash:passwordField.text] forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:kAppAuthenticationState];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
@@ -130,7 +130,7 @@ ApplicationKeyStore *keyChain;
         return;
     }
     
-    id response = [LoginUtils login:usernameField.text :passwordField.text];
+    id response = [LoginUtils login:usernameField.text :[LoginUtils md5Hash:passwordField.text]];
     NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
     if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];

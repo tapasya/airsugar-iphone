@@ -22,6 +22,7 @@
 }
 
 //TODO use OHALabel and NSAttributedString
+//TODO format fields according to the type
 -(UITableViewCell*)reusableCellForTableView:(UITableView*)tableView{
     UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
     if (cell == nil) 
@@ -96,7 +97,7 @@
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
-            textLabel.text = [self valueStringWithFormat:nil];
+            textLabel.text = [self valueStringWithFormat:nil]; 
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else {
