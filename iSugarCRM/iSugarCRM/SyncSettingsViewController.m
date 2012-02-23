@@ -107,7 +107,6 @@ BOOL isFirstTime;
     self.dateFormatter = [[NSDateFormatter alloc] init];
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    self.title = @"Sync Settings";
     self.navigationItem.rightBarButtonItem = [self addNextButton];
 }
 

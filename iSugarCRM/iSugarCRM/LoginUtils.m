@@ -50,8 +50,8 @@
     
     int passwordLen;
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
-    
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"AppDeleted"] == nil){
+    if([[NSUserDefaults standardUserDefaults] objectForKey:kAppAuthenticationState] == nil)
+    {
         [keyChain.keyChainData setObject:@"" forKey:(__bridge id)kSecAttrAccount];
         [keyChain.keyChainData setObject:(id)@"iSugarCRM-keystore" forKey:(__bridge id)kSecAttrGeneric];
         [keyChain.keyChainData setObject:(__bridge id)kSecAttrAccessibleAlwaysThisDeviceOnly forKey:(__bridge id)kSecAttrAccessible];

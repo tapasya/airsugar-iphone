@@ -30,9 +30,8 @@
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
-        //if(session == nil){
-            [self performSelectorInBackground:@selector(performLoginAction) withObject:nil];
-        //}
+            [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //blocking sync view
+
     }
     return self;
 }

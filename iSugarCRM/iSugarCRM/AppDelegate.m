@@ -29,6 +29,7 @@
 NSString * session=nil;
 
 @interface AppDelegate ()
+-(void)resetApp;
 @end
 
 @implementation AppDelegate
@@ -45,22 +46,18 @@ int usernameLength,passwordLength;
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *lvc = [[LoginViewController alloc] init];
-    if(![LoginUtils keyChainHasUserData]){
-        NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
-        NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-        if(!startDate && !endDate){
-            [self performSelectorInBackground:@selector(deleteDBData) withObject:nil];
-        }
+    if(![LoginUtils keyChainHasUserData])
+    {
         self.window.rootViewController = lvc;
         [self.window makeKeyAndVisible];
         return YES;
-    }else{
+    } else {
         [self showDashboardController];
         return YES;
     }
 }
 -(void)showDashboardController{
-    [self logout];
+    //[self logout];
     DashboardController *dc = [[DashboardController alloc] init];
     dc.title = @"Modules";
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
@@ -70,7 +67,7 @@ int usernameLength,passwordLength;
 
 -(void)showSyncSettingViewController{
     SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    syncSettings.title = @"SyncSettings";
+    syncSettings.title = @"Sync Setup";
     nvc = [[UINavigationController alloc] initWithRootViewController:syncSettings];
     self.window.rootViewController = nvc;
     [self.window makeKeyAndVisible];
@@ -100,7 +97,8 @@ int usernameLength,passwordLength;
     }
     return !deletionFailed;
 }
--(void)logout{
+-(void)logout
+{
     NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
     [restDataDictionary setObject:session forKey:@"session"];
     NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
@@ -113,13 +111,24 @@ int usernameLength,passwordLength;
     [request setHTTPMethod:@"POST"];  
     NSURLResponse* response = [[NSURLResponse alloc] init]; 
     NSError* error = nil;  
-    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+    NSData* logoutResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
     if (error) {
         NSLog(@"Error Logging Out!");
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Failed to Logout" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+        [alertView show];
         return;
     } 
- id logoutResponse=[adata objectFromJSONData];
+    NSLog(@"logout response = %@",[logoutResponseData objectFromJSONData]);
+    session = nil;
+    [self resetApp];
 
+}
+
+-(void)resetApp{
+    [self deleteDBData];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAppAuthenticationState];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    self.window.rootViewController =  lvc;
 }
 
 -(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate

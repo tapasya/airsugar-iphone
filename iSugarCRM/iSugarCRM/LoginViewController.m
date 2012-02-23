@@ -14,7 +14,6 @@
 #import "DashboardController.h"
 #import "SugarCRMMetadataStore.h"
 #import "SyncSettingsViewController.h"
-
 @implementation LoginViewController
 @synthesize spinner;
 @synthesize usernameField;
@@ -45,14 +44,12 @@ ApplicationKeyStore *keyChain;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[spinner setHidden:YES];
+    [spinner setHidesWhenStopped:YES];
+    [spinner stopAnimating];
     urlField.delegate = self;
     usernameField.delegate = self;
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
-    
-    NSLog(@"Viewdidload");
-    // TODO should fetch the details from Account Manager
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     int usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
     int passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
@@ -67,14 +64,12 @@ ApplicationKeyStore *keyChain;
     }else{
         passwordField.text = @"";
     }
-    
     if(urlString){
         urlField.text = urlString;
     }else{
         //urlField.text = sugarEndpoint;
     }
     //TODO: md5 hash for password
-    // TODO: should fetch the details from Account Manager
     usernameField.text = @"will";
     passwordField.text = @"18218139eec55d83cf82679934e5cd75";
     urlField.text = sugarEndpoint;
@@ -83,7 +78,7 @@ ApplicationKeyStore *keyChain;
         [spinner setHidden:NO];
         [spinner startAnimating];
     }else{
-        [spinner setHidden:YES];
+        [spinner stopAnimating];
     }
 }
 
@@ -109,12 +104,12 @@ ApplicationKeyStore *keyChain;
 -(void) showSyncSettings
 {
         
-    [spinner setHidden:YES];
+    [spinner stopAnimating];;
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"AppDeleted"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:kAppAuthenticationState];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -131,7 +126,7 @@ ApplicationKeyStore *keyChain;
     if (userNameLen==0 || passwordLen==0 || urlLen == 0) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your details and relogin" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
-        [spinner setHidden:YES];
+        [spinner stopAnimating];
         return;
     }
     
@@ -141,7 +136,7 @@ ApplicationKeyStore *keyChain;
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
         [self performSelectorOnMainThread:@selector(showSyncSettings) withObject:nil waitUntilDone:NO];
     }else{
-        [spinner setHidden:YES];
+        [spinner stopAnimating];
         [LoginUtils displayLoginError:response];
     }
     
