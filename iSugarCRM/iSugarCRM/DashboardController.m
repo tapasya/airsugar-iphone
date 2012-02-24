@@ -61,7 +61,8 @@
     [super viewDidLoad];  
     [self.view setBackgroundColor:[UIColor whiteColor]];
     loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(40,self.view.frame.size.width/2-50,250,50)];
-    loadingLabel.text = @"Please Wait Loading Data...";
+    loadingLabel.text = @"Please wait loading data...";
+    loadingLabel.textAlignment = UITextAlignmentCenter;
     [self.view addSubview:loadingLabel];
     spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);

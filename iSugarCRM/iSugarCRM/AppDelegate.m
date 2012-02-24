@@ -30,6 +30,7 @@ NSString * session=nil;
 
 @interface AppDelegate ()
 -(void)resetApp;
+- (void) resignFirstResponderRec:(UIView*) view;
 @end
 
 @implementation AppDelegate
@@ -161,6 +162,9 @@ int usernameLength,passwordLength;
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    for (UIView * view in [_window subviews]){
+        [self resignFirstResponderRec:view];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -184,6 +188,16 @@ int usernameLength,passwordLength;
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (void) resignFirstResponderRec:(UIView*) view {
+    if ([view respondsToSelector:@selector(resignFirstResponder)]){
+        [view resignFirstResponder];
+    }
+    
+    for (UIView * subview in [view subviews]){
+        [self resignFirstResponderRec:subview];
+    }
 }
 
 @end

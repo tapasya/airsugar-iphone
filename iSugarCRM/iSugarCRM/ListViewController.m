@@ -15,9 +15,12 @@
 #import "ModuleSettingsDataStore.h"
 #import "AppDelegate.h"
 #import "DetailViewController.h"
+#import "stdlib.h"
+
 @interface ListViewController()
 -(void) loadData;
 -(void) sortData;
+-(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
 @end
 
 @implementation ListViewController
@@ -167,6 +170,7 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     [self loadData];
+    [self intializeTableDataMask];
   }
 
 #pragma mark DBLoadSession Delegate;
@@ -220,6 +224,11 @@
         else
             return[str1 compare:str2 options:NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSLiteralSearch];
     }] mutableCopy];
+}
+
+-(void)intializeTableDataMask{
+    tableDataMask = calloc(tableData.count,sizeof(int));//Values in this array are used change the font color of particular cell
+    //default value is 0
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
@@ -285,13 +294,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
-  
+    if(tableDataMask[indexPath.row] == 0){
+        cell.textLabel.textColor = [UIColor blackColor];//default color is black
+    }else{
+        cell.textLabel.textColor = [UIColor grayColor];
+    }
     cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
     
     for(DataObjectField *otherField in metadata.otherFields)
@@ -309,6 +321,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    // Navigation logic may go here. Create and push another view controller.
+    tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
     id beanTitle = [[datasource objectAtIndex:indexPath.row] objectForFieldName:@"name"];
     id beanId =[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"];
                 
@@ -368,6 +381,10 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+}
+
+-(void)dealloc{
+    free(tableDataMask);
 }
 
 @end
