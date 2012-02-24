@@ -5074,7 +5074,7 @@
 	<key>Tasks</key>
 	<dict>
 		<key>disabled</key>
-		<false/>
+		<true/>
 		<key>DbMetadata</key>
 		<dict>
 			<key>tableName</key>
