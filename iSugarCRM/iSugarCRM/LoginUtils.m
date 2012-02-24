@@ -71,7 +71,7 @@
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     username = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
     password = [keyChain objectForKey:(__bridge id)kSecValueData];
-    return [self login:username :password];
+    return [self login:username :[self md5Hash:password]];
 }
 +(void)displayLoginError:(id)response{
     
