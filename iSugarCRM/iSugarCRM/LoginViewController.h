@@ -16,5 +16,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 - (IBAction)onLoginClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @end

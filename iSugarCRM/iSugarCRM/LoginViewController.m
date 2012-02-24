@@ -14,12 +14,15 @@
 #import "DashboardController.h"
 #import "SugarCRMMetadataStore.h"
 #import "SyncSettingsViewController.h"
+#import <QuartzCore/QuartzCore.h>
+
 @implementation LoginViewController
 @synthesize spinner;
+@synthesize loginButton;
+@synthesize scrollView;
 @synthesize usernameField;
 @synthesize passwordField;
 @synthesize urlField;
-@synthesize loginButton;
 
 ApplicationKeyStore *keyChain;
 
@@ -45,6 +48,39 @@ ApplicationKeyStore *keyChain;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // customizing the button
+    CALayer *layer = loginButton.layer;
+    layer.cornerRadius = 8.0f;
+    layer.masksToBounds = YES;
+    layer.borderWidth = 1.0f;
+    layer.borderColor = [UIColor colorWithWhite:0.4f alpha:0.2f].CGColor;
+    
+    // Create a shiny layer that goes on top of the button
+    CAGradientLayer *shineLayer = [CAGradientLayer layer];
+    shineLayer.frame = loginButton.layer.bounds;
+    // Set the gradient colors
+    shineLayer.colors = [NSArray arrayWithObjects:
+                         (id)[UIColor colorWithWhite:1.0f alpha:0.4f].CGColor,
+                         (id)[UIColor colorWithWhite:1.0f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
+                         (id)[UIColor colorWithWhite:1.0f alpha:0.4f].CGColor,
+                         nil];
+    // Set the relative positions of the gradien stops
+    shineLayer.locations = [NSArray arrayWithObjects:
+                            [NSNumber numberWithFloat:0.0f],
+                            [NSNumber numberWithFloat:0.5f],
+                            [NSNumber numberWithFloat:0.5f],
+                            [NSNumber numberWithFloat:0.8f],
+                            [NSNumber numberWithFloat:1.0f],
+                            nil];
+    
+    // Add the layer to the button
+    [loginButton.layer addSublayer:shineLayer];
+    
+    [loginButton setBackgroundColor:COLOR(0, 120, 255)];
+    
     [spinner setHidesWhenStopped:YES];
     [spinner stopAnimating];
     loginButton.userInteractionEnabled = YES;
@@ -85,12 +121,13 @@ ApplicationKeyStore *keyChain;
     }
 }
 
-
 - (void)viewDidUnload
 {
     [self setUsernameField:nil];
     [self setPasswordField:nil];
     [self setSpinner:nil];
+    [self setScrollView:nil];
+    [self setLoginButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -99,10 +136,26 @@ ApplicationKeyStore *keyChain;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return YES;
+    return YES;    
 }
 
-
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    if(UIInterfaceOrientationIsLandscape(interfaceOrientation))
+    {
+        // adding extra height to display login button
+        CGFloat width = fmaxf(self.view.window.frame.size.width, self.view.window.frame.size.height) ;
+        CGFloat height = fminf(self.view.window.frame.size.width, self.view.window.frame.size.height) ;
+        [scrollView setContentSize:CGSizeMake( width , height + 100)];
+    }
+    else
+    {
+        // remove the extra height used by the status bar
+        CGFloat width = fminf(self.view.window.frame.size.width, self.view.window.frame.size.height) ;
+        CGFloat height = fmaxf(self.view.window.frame.size.width, self.view.window.frame.size.height) ;
+        [scrollView setContentSize:CGSizeMake(width , height - 50)];
+    }
+}
 
 -(void) showSyncSettings
 {
@@ -110,7 +163,7 @@ ApplicationKeyStore *keyChain;
     [spinner stopAnimating];;
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     [keyChain addObject:usernameField.text forKey:(__bridge id)kSecAttrAccount];
-    [keyChain addObject:[LoginUtils md5Hash:passwordField.text] forKey:(__bridge id)kSecValueData];
+    [keyChain addObject:passwordField.text forKey:(__bridge id)kSecValueData];
     [[NSUserDefaults standardUserDefaults]setObject:urlField.text forKey:@"endpointURL"];
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:kAppAuthenticationState];
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];

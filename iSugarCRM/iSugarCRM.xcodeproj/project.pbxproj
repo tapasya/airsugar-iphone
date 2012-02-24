@@ -28,9 +28,14 @@
 		0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB9F83F14DC20380084BF7E /* Security.framework */; };
 		0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
 		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
+		0FE6ADC714F6099A0055EFF8 /* PanCake_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */; };
+		0FE861F114F3B38C0065B585 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
 		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
 		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
+		0FF81BD214F758AD00A3E04A /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BCF14F758AD00A3E04A /* Icon-72.png */; };
+		0FF81BD314F758AD00A3E04A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD014F758AD00A3E04A /* Icon.png */; };
+		0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD114F758AD00A3E04A /* Icon@2x.png */; };
 		0FFE2AB514EE60CB00F90C4E /* Accounts.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAA14EE60CB00F90C4E /* Accounts.png */; };
 		0FFE2AB614EE60CB00F90C4E /* Accounts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAB14EE60CB00F90C4E /* Accounts@2x.png */; };
 		0FFE2AB714EE60CB00F90C4E /* Calls.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAC14EE60CB00F90C4E /* Calls.png */; };
@@ -132,11 +137,16 @@
 		0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsDataStore.m; sourceTree = "<group>"; };
 		0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsObject.h; sourceTree = "<group>"; };
 		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
+		0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanCake_Logo.png; sourceTree = "<group>"; };
+		0FE861F014F3B38C0065B585 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingsViewController.h; sourceTree = "<group>"; };
 		0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingsViewController.m; sourceTree = "<group>"; };
 		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
 		0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldTableCell.h; sourceTree = "<group>"; };
 		0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldTableCell.m; sourceTree = "<group>"; };
+		0FF81BCF14F758AD00A3E04A /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		0FF81BD014F758AD00A3E04A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		0FF81BD114F758AD00A3E04A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		0FFE2AAA14EE60CB00F90C4E /* Accounts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Accounts.png; sourceTree = "<group>"; };
 		0FFE2AAB14EE60CB00F90C4E /* Accounts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Accounts@2x.png"; sourceTree = "<group>"; };
 		0FFE2AAC14EE60CB00F90C4E /* Calls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calls.png; sourceTree = "<group>"; };
@@ -293,6 +303,11 @@
 		0FB17C3014B5BF72004F0C80 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0FF81BCF14F758AD00A3E04A /* Icon-72.png */,
+				0FF81BD014F758AD00A3E04A /* Icon.png */,
+				0FF81BD114F758AD00A3E04A /* Icon@2x.png */,
+				0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */,
+				0FE861F014F3B38C0065B585 /* background.png */,
 				0FFE2AC114EE60E300F90C4E /* Leads@2x.png */,
 				0FFE2AC214EE60E300F90C4E /* Meetings.png */,
 				0FFE2AC314EE60E300F90C4E /* Meetings@2x.png */,
@@ -629,6 +644,11 @@
 				0FFE2AC814EE60E300F90C4E /* Meetings@2x.png in Resources */,
 				0FFE2AC914EE60E300F90C4E /* Opportunities.png in Resources */,
 				0FFE2ACA14EE60E300F90C4E /* Opportunities@2x.png in Resources */,
+				0FE861F114F3B38C0065B585 /* background.png in Resources */,
+				0FE6ADC714F6099A0055EFF8 /* PanCake_Logo.png in Resources */,
+				0FF81BD214F758AD00A3E04A /* Icon-72.png in Resources */,
+				0FF81BD314F758AD00A3E04A /* Icon.png in Resources */,
+				0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,7 +771,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -776,7 +797,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -796,6 +818,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -803,6 +826,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -813,6 +837,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -820,6 +845,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
