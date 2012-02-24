@@ -553,9 +553,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3B5C97CB147CF7BC007EF770 /* iSugarCRM */ = {
+		3B5C97CB147CF7BC007EF770 /* Pancake */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3B5C97FF147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "iSugarCRM" */;
+			buildConfigurationList = 3B5C97FF147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "Pancake" */;
 			buildPhases = (
 				3B5C97C8147CF7BC007EF770 /* Sources */,
 				3B5C97C9147CF7BC007EF770 /* Frameworks */,
@@ -565,14 +565,14 @@
 			);
 			dependencies = (
 			);
-			name = iSugarCRM;
+			name = Pancake;
 			productName = iSugarCRM;
 			productReference = 3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3B5C97EC147CF7BD007EF770 /* iSugarCRMTests */ = {
+		3B5C97EC147CF7BD007EF770 /* PancakeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3B5C9802147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "iSugarCRMTests" */;
+			buildConfigurationList = 3B5C9802147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "PancakeTests" */;
 			buildPhases = (
 				3B5C97E8147CF7BD007EF770 /* Sources */,
 				3B5C97E9147CF7BD007EF770 /* Frameworks */,
@@ -584,7 +584,7 @@
 			dependencies = (
 				3B5C97F3147CF7BD007EF770 /* PBXTargetDependency */,
 			);
-			name = iSugarCRMTests;
+			name = PancakeTests;
 			productName = iSugarCRMTests;
 			productReference = 3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */;
 			productType = "com.apple.product-type.bundle";
@@ -609,8 +609,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3B5C97CB147CF7BC007EF770 /* iSugarCRM */,
-				3B5C97EC147CF7BD007EF770 /* iSugarCRMTests */,
+				3B5C97CB147CF7BC007EF770 /* Pancake */,
+				3B5C97EC147CF7BD007EF770 /* PancakeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -740,7 +740,7 @@
 /* Begin PBXTargetDependency section */
 		3B5C97F3147CF7BD007EF770 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3B5C97CB147CF7BC007EF770 /* iSugarCRM */;
+			target = 3B5C97CB147CF7BC007EF770 /* Pancake */;
 			targetProxy = 3B5C97F2147CF7BD007EF770 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -896,7 +896,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		3B5C97FF147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "iSugarCRM" */ = {
+		3B5C97FF147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "Pancake" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3B5C9800147CF7BD007EF770 /* Debug */,
@@ -905,7 +905,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		3B5C9802147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "iSugarCRMTests" */ = {
+		3B5C9802147CF7BD007EF770 /* Build configuration list for PBXNativeTarget "PancakeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3B5C9803147CF7BD007EF770 /* Debug */,
