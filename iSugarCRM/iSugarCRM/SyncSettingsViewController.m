@@ -108,6 +108,18 @@ BOOL isFirstTime;
 	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.navigationItem.rightBarButtonItem = [self addNextButton];
+    
+    self.tableView.tableFooterView.autoresizesSubviews = YES;
+    //self.tableView.tableFooterView.frame = CGRectMake(10, 10, 70, 50);//(10, 10, 274, 144)
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 10, 20, 50)];//(230, 120, 270, 140)
+    label.textAlignment = UITextAlignmentLeft;
+    label.text = @"Sync Data by selecting startdate and enddate";
+    label.font = [UIFont systemFontOfSize:15.0f];
+    //label.adjustsFontSizeToFitWidth = NO;
+    label.numberOfLines = 0;
+    label.autoresizingMask = UIViewAutoresizingFlexibleHeight |  UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
+    [label setBackgroundColor:[UIColor clearColor]];
+    self.tableView.tableFooterView = label;
 }
 
 - (void)viewDidUnload

@@ -19,6 +19,7 @@
 @synthesize usernameField;
 @synthesize passwordField;
 @synthesize urlField;
+@synthesize loginButton;
 
 ApplicationKeyStore *keyChain;
 
@@ -46,6 +47,7 @@ ApplicationKeyStore *keyChain;
     [super viewDidLoad];
     [spinner setHidesWhenStopped:YES];
     [spinner stopAnimating];
+    loginButton.userInteractionEnabled = YES;
     urlField.delegate = self;
     usernameField.delegate = self;
     passwordField.delegate = self;
@@ -74,6 +76,7 @@ ApplicationKeyStore *keyChain;
     passwordField.text = @"will";
     urlField.text = sugarEndpoint;
     // Do any additional setup after loading the view from its nib.
+    //[passwordField addTarget:<#(id)#> action:<#(SEL)#> forControlEvents:UIControlEvent]
     if([LoginUtils keyChainHasUserData]){
         [spinner setHidden:NO];
         [spinner startAnimating];
@@ -137,6 +140,7 @@ ApplicationKeyStore *keyChain;
         [self performSelectorOnMainThread:@selector(showSyncSettings) withObject:nil waitUntilDone:NO];
     }else{
         [spinner stopAnimating];
+        loginButton.userInteractionEnabled = YES;
         [LoginUtils displayLoginError:response];
     }
     
@@ -146,11 +150,19 @@ ApplicationKeyStore *keyChain;
 {
     [spinner setHidden:NO];
     [spinner startAnimating];
+    loginButton.userInteractionEnabled = NO;
     [self performSelectorInBackground:@selector(authenicate) withObject:nil];
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
+    if(textField == urlField)
+        [usernameField becomeFirstResponder];
+    else if(textField == usernameField){
+        [passwordField becomeFirstResponder];
+    }else if(textField == passwordField){
+        [textField resignFirstResponder];
+        [self performSelectorOnMainThread:@selector(onLoginClicked:) withObject:nil waitUntilDone:NO];
+    }
     return YES;
 }
 

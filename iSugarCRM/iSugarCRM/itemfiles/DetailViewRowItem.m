@@ -97,7 +97,15 @@
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
-            textLabel.text = [self valueStringWithFormat:nil]; 
+            NSString *dateString = [self valueStringWithFormat:nil];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *date = [dateFormatter dateFromString:dateString];
+            NSLog(@"date object from string is %@",date);
+            [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
+            dateString = [dateFormatter stringFromDate:date];
+            
+            textLabel.text = dateString;
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else {
