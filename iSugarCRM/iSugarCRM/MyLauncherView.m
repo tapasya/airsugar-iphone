@@ -189,8 +189,8 @@ static const CGFloat iPadLandscapeYPadding = 30;
 }
 
 - (UIDeviceOrientation)currentLayoutOrientation {
-    UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
-    [self setCurrentOrientation:(UIInterfaceOrientation)deviceOrientation];
+    //UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
+    [self setCurrentOrientation:(UIInterfaceOrientation)[UIApplication sharedApplication].statusBarOrientation];
     return currentOrientation;
 }
 
