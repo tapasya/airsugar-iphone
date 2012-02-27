@@ -222,7 +222,10 @@
 }
 
 -(void)intializeTableDataMask{
-    tableDataMask = calloc(tableData.count,sizeof(int));//Values in this array are used change the font color of particular cell
+    tableDataMask = malloc(tableData.count*sizeof(int));//Values in this array are used change the font color of particular cell
+    for(int i=0;i<tableData.count;i++){
+        tableDataMask[i]=0;
+    }
     //default value is 0
 }
 
@@ -345,6 +348,7 @@
     if(searchText==nil || [searchText isEqualToString:@""]){
         [tableData addObjectsFromArray:datasource];
         [myTableView reloadData];
+        [self intializeTableDataMask];
         return;
     }
     for(int i=0; i < [datasource count]; i++)
@@ -358,6 +362,7 @@
         }
     }
     [myTableView reloadData];
+    [self intializeTableDataMask];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -366,7 +371,9 @@
     [tableData removeAllObjects];
     [tableData addObjectsFromArray:datasource];
     @try{
+        [self sortData];
         [myTableView reloadData];
+        [self intializeTableDataMask];
     }
     @catch(NSException *e){
     }

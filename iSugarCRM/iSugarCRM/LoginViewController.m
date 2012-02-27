@@ -16,6 +16,12 @@
 #import "SyncSettingsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define kOFFSET_FOR_KEYBOARD 60.0
+@interface LoginViewController()
+-(void)registerForKeyboardNotifications;
+-(void)unRegisterForKeyboardNotifications;
+-(void)setViewMovedUp:(BOOL)movedUp;
+@end
 @implementation LoginViewController
 @synthesize spinner;
 @synthesize loginButton;
@@ -88,6 +94,11 @@ ApplicationKeyStore *keyChain;
     usernameField.delegate = self;
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
+    passwordField.returnKeyType = UIReturnKeyDefault;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissKeyboard:)];
+    
+    [self.view addGestureRecognizer:tap];
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     int usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
     int passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
@@ -111,14 +122,30 @@ ApplicationKeyStore *keyChain;
     usernameField.text = @"will";
     passwordField.text = @"will";
     urlField.text = sugarEndpoint;
-    // Do any additional setup after loading the view from its nib.
-    //[passwordField addTarget:<#(id)#> action:<#(SEL)#> forControlEvents:UIControlEvent]
+
     if([LoginUtils keyChainHasUserData]){
         [spinner setHidden:NO];
         [spinner startAnimating];
     }else{
         [spinner stopAnimating];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewDidLoad];
+    
+    // register for keyboard notifications
+    [self registerForKeyboardNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    
+    // unregister for keyboard notifications while not visible.
+    [self unRegisterForKeyboardNotifications];
 }
 
 - (void)viewDidUnload
@@ -131,6 +158,13 @@ ApplicationKeyStore *keyChain;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [urlField resignFirstResponder];
+    [usernameField resignFirstResponder];
+    [passwordField resignFirstResponder];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -207,16 +241,126 @@ ApplicationKeyStore *keyChain;
     [self performSelectorInBackground:@selector(authenicate) withObject:nil];
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)sender
+{   
+    activeField = sender;
+}
+-(void)textFieldDidEndEditing:(UITextField *)sender
+{   
+    activeField = nil;
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    if(textField == urlField)
-        [usernameField becomeFirstResponder];
-    else if(textField == usernameField){
-        [passwordField becomeFirstResponder];
-    }else if(textField == passwordField){
+    if(textField == urlField || textField == usernameField)
+    {
         [textField resignFirstResponder];
-        [self performSelectorOnMainThread:@selector(onLoginClicked:) withObject:nil waitUntilDone:NO];
+    }
+    else if(textField == passwordField){
+        [textField resignFirstResponder];
+        //[self performSelectorOnMainThread:@selector(onLoginClicked:) withObject:nil waitUntilDone:NO];
     }
     return YES;
 }
 
+-(void)dismissKeyboard:(id)sender
+{
+    if([urlField respondsToSelector:@selector(resignFirstResponder)]){
+        [urlField resignFirstResponder];
+    }
+    if([usernameField respondsToSelector:@selector(resignFirstResponder)])
+    {
+        [usernameField resignFirstResponder];
+    }
+    if([passwordField respondsToSelector:@selector(resignFirstResponder)]){
+        [passwordField resignFirstResponder];
+    }
+}
+
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShown:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)unRegisterForKeyboardNotifications{
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:UIKeyboardWillShowNotification 
+                                                  object:nil]; 
+    // unregister for keyboard notifications while not visible.
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:UIKeyboardWillHideNotification 
+                                                  object:nil];
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWillShown:(NSNotification *)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    UIDeviceOrientation currentDeviceOrientation = [currentDevice orientation];
+    if(UIDeviceOrientationIsLandscape(currentDeviceOrientation))
+    {
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+        scrollView.contentInset = contentInsets;
+        scrollView.scrollIndicatorInsets = contentInsets;
+        
+        // If active text field is hidden by keyboard, scroll it so it's visible
+        // Your application might not need or want this behavior.
+        CGRect aRect = self.view.frame;
+        aRect.size.height -= kbSize.height;
+        CGPoint origin = activeField.frame.origin;
+        origin.y -= scrollView.contentOffset.y;
+        if (!CGRectContainsPoint(aRect, origin) )
+        {
+            CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-(aRect.size.height)); 
+            [scrollView setContentOffset:scrollPoint animated:YES];
+        }
+    }else{
+        [self setViewMovedUp:YES];
+    }
+}
+
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification *)aNotification
+{
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    UIDeviceOrientation currentDeviceOrientation = [currentDevice orientation];
+    if(UIDeviceOrientationIsLandscape(currentDeviceOrientation))
+    {
+        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+        scrollView.contentInset = contentInsets;
+        scrollView.scrollIndicatorInsets = contentInsets;
+    }else{
+        [self setViewMovedUp:NO];
+    }
+}
+
+-(void)setViewMovedUp:(BOOL)movedUp
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];
+    
+    CGRect rect = self.view.frame;
+    if (movedUp)
+    {
+        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
+        rect.size.height += kOFFSET_FOR_KEYBOARD;
+    }
+    else
+    {
+        rect.origin.y += kOFFSET_FOR_KEYBOARD;
+        rect.size.height -= kOFFSET_FOR_KEYBOARD;
+    }
+    self.view.frame = rect;
+    
+    [UIView commitAnimations];
+}
 @end

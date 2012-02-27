@@ -120,6 +120,8 @@ BOOL isFirstTime;
     label.autoresizingMask = UIViewAutoresizingFlexibleHeight |  UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
     [label setBackgroundColor:[UIColor clearColor]];
     self.tableView.tableFooterView = label;
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 - (void)viewDidUnload
@@ -174,6 +176,7 @@ BOOL isFirstTime;
         if(!value){
             if(startDate == nil){
                 value = [self.dateFormatter stringFromDate:[NSDate date]];
+                startDate = value;
             }else{
                 value = startDate;
             }
@@ -191,6 +194,7 @@ BOOL isFirstTime;
         if(!value){
             if(endDate == nil){
                 value = [self.dateFormatter stringFromDate:[NSDate date]];
+                endDate = value;
             }else{
                 value = endDate;
             }
@@ -253,6 +257,12 @@ BOOL isFirstTime;
         startDate = cell.detailTextLabel.text;
     }else if(cell.detailTextLabel.tag == kEndDateTag){
         endDate = cell.detailTextLabel.text;
+    }
+    
+    if(![startDate isEqualToString:endDate]){
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }else{
+        self.navigationItem.rightBarButtonItem.enabled = NO;
     }
 }
 
