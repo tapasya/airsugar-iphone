@@ -125,12 +125,7 @@
 - (void)loadView {
     [super loadView];
     CGRect mainFrame = [[UIScreen mainScreen] applicationFrame];
-    UIApplication *application = [UIApplication sharedApplication];
     CGFloat width = mainFrame.size.width;
-    if (UIInterfaceOrientationIsLandscape(application.statusBarOrientation))
-    {
-        width = mainFrame.size.height;
-    }
     sBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,width,30)];
     sBar.delegate = self;
     [sBar setAutoresizesSubviews:YES];
@@ -308,11 +303,12 @@
     
     for(DataObjectField *otherField in metadata.otherFields)
     {
-          if ([dataObjectForRow objectForFieldName:otherField.name]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
-        }
-          else{
-          cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];}
+      if ([dataObjectForRow objectForFieldName:otherField.name]) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
+      }
+      else{
+          cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
+      }
     }
     return cell;
 }
@@ -322,8 +318,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    // Navigation logic may go here. Create and push another view controller.
     tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
-    id beanTitle = [[datasource objectAtIndex:indexPath.row] objectForFieldName:@"name"];
-    id beanId =[[datasource objectAtIndex:indexPath.row]objectForFieldName:@"id"];
+    id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+    id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
                 
     DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
      [self.navigationController pushViewController:detailViewController animated:YES];
