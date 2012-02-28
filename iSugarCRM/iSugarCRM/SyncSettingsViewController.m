@@ -258,7 +258,7 @@ BOOL isFirstTime;
     }
     NSDate *dateStart = [self.dateFormatter dateFromString:self.startDate];
     NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
-    if([dateStart compare:dateEnd] == NSOrderedDescending ){
+    if([dateStart compare:dateEnd] == NSOrderedDescending || [dateEnd compare:[NSDate date]] == NSOrderedDescending){
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }else{
         self.navigationItem.rightBarButtonItem.enabled = YES;
