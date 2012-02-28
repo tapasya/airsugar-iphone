@@ -176,6 +176,7 @@
     [tableData addObjectsFromArray:datasource];
     [self sortData];
     [myTableView reloadData];
+    [self intializeTableDataMask];
 }
 
 -(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error

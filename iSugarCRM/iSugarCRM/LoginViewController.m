@@ -170,6 +170,9 @@ ApplicationKeyStore *keyChain;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
+    if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        return NO;
+    }
     return YES;    
 }
 
@@ -303,9 +306,11 @@ ApplicationKeyStore *keyChain;
 {
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    UIDevice *currentDevice = [UIDevice currentDevice];
-    UIDeviceOrientation currentDeviceOrientation = [currentDevice orientation];
-    if(UIDeviceOrientationIsLandscape(currentDeviceOrientation))
+    
+    UIInterfaceOrientation orientation =
+    [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationLandscapeLeft ||
+        orientation == UIInterfaceOrientationLandscapeRight)
     {
         UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
         scrollView.contentInset = contentInsets;
@@ -322,7 +327,8 @@ ApplicationKeyStore *keyChain;
             CGPoint scrollPoint = CGPointMake(0.0, activeField.frame.origin.y-(aRect.size.height)); 
             [scrollView setContentOffset:scrollPoint animated:YES];
         }
-    }else{
+    }else //if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
         [self setViewMovedUp:YES];
     }
 }
@@ -331,14 +337,16 @@ ApplicationKeyStore *keyChain;
 // Called when the UIKeyboardWillHideNotification is sent
 - (void)keyboardWillBeHidden:(NSNotification *)aNotification
 {
-    UIDevice *currentDevice = [UIDevice currentDevice];
-    UIDeviceOrientation currentDeviceOrientation = [currentDevice orientation];
-    if(UIDeviceOrientationIsLandscape(currentDeviceOrientation))
+    UIInterfaceOrientation orientation =
+    [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationLandscapeLeft ||
+        orientation == UIInterfaceOrientationLandscapeRight)
     {
         UIEdgeInsets contentInsets = UIEdgeInsetsZero;
         scrollView.contentInset = contentInsets;
         scrollView.scrollIndicatorInsets = contentInsets;
-    }else{
+    }else if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
         [self setViewMovedUp:NO];
     }
 }
@@ -349,8 +357,12 @@ ApplicationKeyStore *keyChain;
     [UIView setAnimationDuration:0.5];
     
     CGRect rect = self.view.frame;
+    CGRect rect1 = self.view.bounds;
     if (movedUp)
     {
+        NSLog(@"y origin of rect view frame %f",rect.origin.y);
+        NSLog(@"y origin of rect view bound %f",rect1.origin.y);
+        NSLog(@"height of rect view frame %f",rect.size.height);
         rect.origin.y -= kOFFSET_FOR_KEYBOARD;
         rect.size.height += kOFFSET_FOR_KEYBOARD;
     }
@@ -360,7 +372,7 @@ ApplicationKeyStore *keyChain;
         rect.size.height -= kOFFSET_FOR_KEYBOARD;
     }
     self.view.frame = rect;
-    
+    NSLog(@"y origin of view %f",self.view.frame.origin.y);
     [UIView commitAnimations];
 }
 @end
