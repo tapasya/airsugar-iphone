@@ -120,8 +120,6 @@ BOOL isFirstTime;
     label.autoresizingMask = UIViewAutoresizingFlexibleHeight |  UIViewAutoresizingFlexibleTopMargin |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
     [label setBackgroundColor:[UIColor clearColor]];
     self.tableView.tableFooterView = label;
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 - (void)viewDidUnload
@@ -258,11 +256,12 @@ BOOL isFirstTime;
     }else if(cell.detailTextLabel.tag == kEndDateTag){
         endDate = cell.detailTextLabel.text;
     }
-    
-    if(![startDate isEqualToString:endDate]){
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    }else{
+    NSDate *dateStart = [self.dateFormatter dateFromString:self.startDate];
+    NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
+    if([dateStart compare:dateEnd] == NSOrderedDescending ){
         self.navigationItem.rightBarButtonItem.enabled = NO;
+    }else{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
     }
 }
 
