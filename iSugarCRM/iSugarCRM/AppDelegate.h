@@ -20,4 +20,6 @@
 -(void)showSyncSettingViewController;
 -(BOOL)deleteDBData;
 -(void)logout;
+-(void)showWaitingAlertWithMessage:(NSString *)message;
+-(void)dismissWaitingAlert;
 @end

@@ -89,35 +89,12 @@ ApplicationKeyStore *keyChain;
     
     [spinner setHidesWhenStopped:YES];
     [spinner stopAnimating];
-    loginButton.userInteractionEnabled = YES;
     urlField.delegate = self;
     usernameField.delegate = self;
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
     passwordField.returnKeyType = UIReturnKeyDefault;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                          action:@selector(dismissKeyboard:)];
     
-    [self.view addGestureRecognizer:tap];
-    keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
-    int usernameLength = [[keyChain objectForKey:(__bridge id)kSecAttrAccount] length];
-    int passwordLength = [[keyChain objectForKey:(__bridge id)kSecValueData] length];
-    NSString *urlString = [[NSUserDefaults standardUserDefaults]objectForKey:@"endpointURL"];
-    if(usernameLength != 0){
-        usernameField.text = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
-    }else{
-        usernameField.text = @"";
-    }
-    if(passwordLength != 0){
-        passwordField.text = [keyChain objectForKey:(__bridge id)kSecValueData];
-    }else{
-        passwordField.text = @"";
-    }
-    if(urlString){
-        urlField.text = urlString;
-    }else{
-        //urlField.text = sugarEndpoint;
-    }
     //TODO: md5 hash for password
     usernameField.text = @"will";
     passwordField.text = @"will";
@@ -206,6 +183,7 @@ ApplicationKeyStore *keyChain;
     [keyChain addObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
     
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedDelegate dismissWaitingAlert];
     [sharedDelegate showSyncSettingViewController];
 }
 
@@ -230,7 +208,7 @@ ApplicationKeyStore *keyChain;
         [self performSelectorOnMainThread:@selector(showSyncSettings) withObject:nil waitUntilDone:NO];
     }else{
         [spinner stopAnimating];
-        loginButton.userInteractionEnabled = YES;
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] dismissWaitingAlert];
         [LoginUtils displayLoginError:response];
     }
     
@@ -238,9 +216,8 @@ ApplicationKeyStore *keyChain;
 
 - (IBAction)onLoginClicked:(id)sender 
 {
-    [spinner setHidden:NO];
-    [spinner startAnimating];
-    loginButton.userInteractionEnabled = NO;
+    [spinner stopAnimating];
+    [(AppDelegate*)[[UIApplication sharedApplication] delegate] showWaitingAlertWithMessage:nil];
     [self performSelectorInBackground:@selector(authenicate) withObject:nil];
 }
 

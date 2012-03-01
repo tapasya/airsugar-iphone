@@ -29,14 +29,16 @@
 NSString * session=nil;
 
 @interface AppDelegate ()
--(void)resetApp;
-- (void) resignFirstResponderRec:(UIView*) view;
+    -(void)resetApp;
+    - (void) resignFirstResponderRec:(UIView*) view;
+    @property(strong) UIAlertView *waitAlertView;
 @end
 
 @implementation AppDelegate
 @synthesize window = _window;
 @synthesize nvc;
 @synthesize syncHandler;
+@synthesize waitAlertView;
 
 int usernameLength,passwordLength;
 
@@ -52,7 +54,10 @@ int usernameLength,passwordLength;
         self.window.rootViewController = lvc;
         [self.window makeKeyAndVisible];
         return YES;
-    } else {
+    } else if([SettingsStore objectForKey:@"hasDates"] == nil){
+        [self showSyncSettingViewController];
+        return YES;
+    }else {
         [self showDashboardController];
         return YES;
     }
@@ -120,15 +125,16 @@ int usernameLength,passwordLength;
         return;
     } 
     NSLog(@"logout response = %@",[logoutResponseData objectFromJSONData]);
-    session = nil;
     [self resetApp];
 
 }
 
 -(void)resetApp{
     [self deleteDBData];
+    session = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAppAuthenticationState];
     LoginViewController *lvc = [[LoginViewController alloc] init];
+    [[NSUserDefaults standardUserDefaults]removeObjectForKey:@"hasDates"];
     self.window.rootViewController =  lvc;
 }
 
@@ -141,11 +147,11 @@ int usernameLength,passwordLength;
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
 {
-    
+    [self dismissWaitingAlert];
 }
 -(void)syncComplete:(SyncHandler*)syncHandler
 {
-    
+    [self dismissWaitingAlert];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -197,6 +203,31 @@ int usernameLength,passwordLength;
     
     for (UIView * subview in [view subviews]){
         [self resignFirstResponderRec:subview];
+    }
+}
+
+-(void)showWaitingAlertWithMessage:(NSString *)message
+{
+    if(message == nil){
+        message = @"Please Wait...";
+    }
+    waitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    [waitAlertView show];
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    // Adjust the indicator so it is up a few pixels from the bottom of the alert
+    indicator.center = CGPointMake(waitAlertView.bounds.size.width / 2, waitAlertView.bounds.size.height - 50);
+    [indicator startAnimating];
+    [waitAlertView addSubview:indicator];
+}
+
+-(void)dismissWaitingAlert
+{
+    if(waitAlertView)
+    {
+        [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
+        waitAlertView = nil;
     }
 }
 

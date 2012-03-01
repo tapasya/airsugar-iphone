@@ -16,9 +16,6 @@
 #define kTextFieldCell @"textFieldCell"
 
 @interface AppSettingsViewController ()
-{
-    UIAlertView *waitAlertView;
-}
 @property (strong) NSArray* cellIdentifierArray;
 @property (strong)UIDatePicker *pickerView;    
 @property (strong) NSDateFormatter *dateFormatter; 
@@ -94,11 +91,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if(waitAlertView)
-    {
-        [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
-        waitAlertView = nil;
-    }
+    [(AppDelegate*)[[UIApplication sharedApplication] delegate] dismissWaitingAlert];
     [super viewWillDisappear:animated];
 }
 
@@ -208,15 +201,7 @@ return cell;
     }
     else if([[[cellIdentifierArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:kLogoutCell])
     {
-        waitAlertView = [[UIAlertView alloc] initWithTitle:@"Please Wait..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
-        [waitAlertView show];
-        
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        
-        // Adjust the indicator so it is up a few pixels from the bottom of the alert
-        indicator.center = CGPointMake(waitAlertView.bounds.size.width / 2, waitAlertView.bounds.size.height - 50);
-        [indicator startAnimating];
-        [waitAlertView addSubview:indicator];        
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] showWaitingAlertWithMessage:nil];
         [self performSelectorInBackground:@selector(logout) withObject:nil];
         //[(AppDelegate*)[[UIApplication sharedApplication] delegate] logout];
     }

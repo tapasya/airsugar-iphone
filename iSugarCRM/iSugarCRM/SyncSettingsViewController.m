@@ -284,6 +284,7 @@ BOOL isFirstTime;
     
     [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
     [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
+    [SettingsStore setObject:@"YES" forKey:@"hasDates"];
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedDelegate showDashboardController];
 }
@@ -297,10 +298,26 @@ BOOL isFirstTime;
     if(!endDate){
         endDate = [self.dateFormatter stringFromDate:[NSDate date]];
     }
+    NSDate *dateStart = [self.dateFormatter dateFromString:self.startDate];
+    NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
+    UIAlertView *dateAlert;
+    if([dateStart compare:[NSDate date]] == NSOrderedDescending || [dateEnd compare:[NSDate date]] == NSOrderedDescending){
+        dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"StartDate or EndDate should not be a FutureDate" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [dateAlert show];
+        return;
+    }else{
+        if([dateStart compare:dateEnd] == NSOrderedDescending){
+            dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"StartDate should not be earlier than EndDate" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [dateAlert show];
+            return;
+        }
+    }
     [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
     [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     [sharedAppDelegate sync];
+    //[sharedAppDelegate dismissWaitingAlert];
 }
 
 -(void)eraseDBData:(id)sender{
