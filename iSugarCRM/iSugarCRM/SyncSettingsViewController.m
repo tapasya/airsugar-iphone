@@ -81,7 +81,6 @@ BOOL isFirstTime;
         actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
         UIToolbar* pickerDateToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
         pickerDateToolbar.barStyle = UIBarStyleBlackOpaque;
-        [pickerDateToolbar sizeToFit];
         
         NSMutableArray *barItems = [[NSMutableArray alloc] init];
         
@@ -231,7 +230,8 @@ BOOL isFirstTime;
         self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
         
         [self.actionSheet showInView:self.view];
-        [self.actionSheet setBounds:CGRectMake(0, 0, 320, 485)];
+        [self.pickerView setFrame:CGRectMake(0, 44, 320, 0)];
+        [self.actionSheet setBounds:CGRectMake(0, 0, 320, 480)];
     }
     else if([identifier isEqualToString:kSyncNowCellIdentifier])
     {
