@@ -32,6 +32,19 @@
     return NO;
 }
 
+-(NSDictionary*) getNameValueDictionary
+{
+    NSMutableDictionary *nameValueList = [[OrderedDictionary alloc] init];
+    for(DataObjectField* field in self.metadata.fields)
+    {
+        NSMutableDictionary* nameValuePair = [[NSMutableDictionary alloc] init];
+        [nameValuePair setObject:field.name forKey:@"name"];
+        [nameValuePair setObject:[self objectForFieldName:field.name] forKey:@"value"];
+        [nameValueList setObject:nameValuePair forKey:field.name];
+    }
+    return nameValueList;
+}
+
 -(NSString*)description
 {
     NSMutableString *description = [[NSMutableString alloc] init];
