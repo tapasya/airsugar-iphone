@@ -37,7 +37,11 @@
     NSURLRequest *request = [metadata getRequestWithDateFilters:startDate :endDate];
     [self loadUrl:request];
 }
-
+-(void)startLoadingWithData:(NSDictionary*)data
+{
+    NSURLRequest *request = [metadata getWriteRequestWithDataDictionary:data];
+    [self loadUrl:request];    
+}
 -(void) loadUrl:(NSURLRequest *)urlRequest
 {
     id completionHandler = ^(NSURLResponse *response, NSData *data, NSError* error){
@@ -54,7 +58,8 @@
             }
             NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
             for(NSDictionary *responseObject in responseObjects)
-            {
+            { 
+                //TODO: Error handling
                 DataObjectMetadata *objectMetadata = [[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.moduleName];
                 DataObject *dataObject = [[DataObject alloc] initWithMetadata:objectMetadata];
                 //dataobjectfields set from dataobjectmetadata in webservice metadata

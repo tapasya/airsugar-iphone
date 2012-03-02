@@ -21,6 +21,7 @@
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
 -(void)startLoading:(NSString*)timestamp;
 -(void)startLoadingWithFilters:(NSString*) startDate: (NSString*) endDate;
+-(void)startLoadingWithData:(NSDictionary*)data;
 @end
 
 

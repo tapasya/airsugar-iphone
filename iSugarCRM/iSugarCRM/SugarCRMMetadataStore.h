@@ -20,9 +20,10 @@
 -(BOOL)configureMetadata;
 -(NSArray*)modulesSupported;
 -(DataObjectMetadata*)objectMetadataForModule:(NSString*)moduleId;
--(WebserviceMetadata*)listWebserviceMetadataForModule:(NSString*)moduleId;
--(WebserviceMetadata*)detailWebserviceMetadataForModule:(NSString*)moduleId;
+-(WebserviceMetadata*)webservice_ReadMetadataForModule:(NSString*)moduleId;
+-(WebserviceMetadata*)webservice_WriteMetadataForModule:(NSString*)moduleId;
 -(DBMetadata*)dbMetadataForModule:(NSString*)moduleId;
 -(ListViewMetadata*)listViewMetadataForModule:(NSString*)moduleName;
 -(DetailViewMetadata*)detailViewMetadataForModule:(NSString*)moduleName;
+-(DetailViewMetadata*)editViewMetadataForModule:(NSString*)moduleName;
 @end

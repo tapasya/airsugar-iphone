@@ -24,7 +24,7 @@ typedef enum HTTPMethod{
 @property(strong)NSDictionary *headers;
 @property(strong)NSString *pathToObjectsInResponse;
 @property(strong)NSDictionary *responseKeyPathMap;
-
+@property(strong)NSString *data_key;
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key;
 -(void)setPostParam:(NSString*)postParam forKey:(NSString*)key;
 -(void)setUrlParam:(NSString*)urlParam forKey:(NSString*)key;
@@ -33,4 +33,5 @@ typedef enum HTTPMethod{
 -(NSURLRequest*)getRequest;
 -(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString*)timestamp;
 -(NSURLRequest*)getRequestWithDateFilters:(NSString*)startDate: (NSString*) endDate;
+-(NSURLRequest*) getWriteRequestWithDataDictionary:(NSDictionary*)data;
 @end

@@ -18,7 +18,7 @@ NSInteger moduleCount = 1;
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:module]];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_ReadMetadataForModule:module]];
     session.delegate=self;
     [session startLoading:deltaMark];
 }
@@ -34,7 +34,7 @@ NSInteger moduleCount = 1;
     }
 }
 
--(void) syncWithDateFilters:(NSString *)startDate :(NSString *)endDate
+-(void)syncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
 {
     startDate = [self formatStartDate:startDate];
     endDate = [self formatStartDate:endDate];
@@ -42,14 +42,15 @@ NSInteger moduleCount = 1;
     moduleCount = [metadataStore.modulesSupported count];
     for(NSString *module in metadataStore.modulesSupported)
     {
-        [self syncModuleWithDateFilters:module:startDate :endDate];
+        [self syncModule:module startDate:startDate endDate:endDate];
+        
     }
 }
 
--(void) syncModuleWithDateFilters:(NSString *)moduleName :(NSString *)startDate :(NSString *)endDate
+-(void)syncModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate;
 {
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore listWebserviceMetadataForModule:moduleName]];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_ReadMetadataForModule:moduleName]];
     session.delegate=self;
     [session startLoadingWithFilters:startDate :endDate];    
 }

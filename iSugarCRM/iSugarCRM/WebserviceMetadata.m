@@ -27,7 +27,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method,moduleName;
-@synthesize pathToObjectsInResponse,responseKeyPathMap;
+@synthesize pathToObjectsInResponse,responseKeyPathMap,data_key;
 -(id)init{
     if (self=[super init]) {
         headers=[[OrderedDictionary alloc]init];
@@ -108,6 +108,19 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     return [self formatRequest];
 
 }
+-(NSURLRequest*) getWriteRequestWithDataDictionary:(NSDictionary*)dataDicitonary
+{
+    //append url parameters
+    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
+    if (dataDicitonary && data_key) {
+    [restDataDictionary  setObject:dataDicitonary forKey:data_key];
+    }
+    NSString *restDataString = [restDataDictionary JSONString];
+    [self setUrlParam:restDataString forKey:@"rest_data"];
+    return [self formatRequest];
+}
 
 -(NSURLRequest*)formatRequest
 {
@@ -172,6 +185,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     copy.responseKeyPathMap=responseKeyPathMap;
     copy.method=method;
     copy.moduleName=moduleName;
+    copy.data_key = data_key;
     return copy;
 }
 
@@ -183,6 +197,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [dictionary setObject:pathToObjectsInResponse forKey:@"pathToObjectsInResponse"];
     [dictionary setObject:[NSNumber numberWithInt:method] forKey:@"method"];
     [dictionary setObject:moduleName forKey:@"module_name"];
+    [dictionary setObject:data_key forKey:@"data_key"];
     [dictionary setObject:responseKeyPathMap forKey:@"responseKeyPathMap"];
     if (postParameters) {
         [dictionary setObject:postParameters forKey:@"postParameters"];
@@ -204,6 +219,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     metadata.responseKeyPathMap = [dictionary objectForKey:@"responseKeyPathMap"];
     metadata.method = [[dictionary objectForKey:@"method"] intValue];
     metadata.moduleName = [dictionary objectForKey:@"module_name"];
+    metadata.data_key = [dictionary objectForKey:@"data_key"];
     return metadata;
 }
 

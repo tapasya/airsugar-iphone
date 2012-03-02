@@ -63,12 +63,12 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return moduleSupported;
 }
 
--(WebserviceMetadata*)listWebserviceMetadataForModule:(NSString*)moduleId{
-    return [self webMetaDataForKey:[NSString stringWithFormat:@"list-%@",moduleId]];    
+-(WebserviceMetadata*)webservice_ReadMetadataForModule:(NSString*)moduleId{
+    return [self webMetaDataForKey:[NSString stringWithFormat:@"read-%@",moduleId]];    
 }
 
--(WebserviceMetadata*)detailWebserviceMetadataForModule:(NSString*)moduleId{
-    return [self webMetaDataForKey:[NSString stringWithFormat:@"detail-%@",moduleId]];
+-(WebserviceMetadata*)webservice_WriteMetadataForModule:(NSString*)moduleId{
+    return [self webMetaDataForKey:[NSString stringWithFormat:@"write-%@",moduleId]];
 }
 
 -(DBMetadata*)dbMetadataForModule:(NSString*)moduleId
@@ -87,6 +87,10 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 -(DetailViewMetadata*)detailViewMetadataForModule:(NSString *)moduleName{
     id metadata = [self viewMetaDataForKey:[NSString stringWithFormat:@"detail-%@",moduleName]];
+    return metadata;
+}
+-(DetailViewMetadata*)editViewMetadataForModule:(NSString *)moduleName{
+    id metadata = [self viewMetaDataForKey:[NSString stringWithFormat:@"edit-%@",moduleName]];
     return metadata;
 }
 
@@ -113,11 +117,13 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         if([[moduleList allKeys] containsObject:module]&&![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
+              WebserviceMetadata *write_webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WriteWebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
                 DataObjectMetadata *objectMetadata = [DataObjectMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DataObjectMetadata"]]; 
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
             DetailViewMetadata *detailViewMetadata = [DetailViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DetailViewMetadata"]];
-            [self setWebMetaData:webserviceMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
+            [self setWebMetaData:webserviceMetadata forKey:[NSString stringWithFormat:@"read-%@",module]];
+            [self setWebMetaData:write_webserviceMetadata forKey:[NSString stringWithFormat:@"write-%@",module]];
             [self setObjectMetaData:objectMetadata forKey:module];
             [self setDBMetaData:dbMetadata forKey:module];
             [self setViewMetaData:listViewMetadata forKey:[NSString stringWithFormat:@"list-%@",module]];
@@ -269,21 +275,21 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             WebserviceMetadata *wsMap = [[WebserviceMetadata alloc] init];
             wsMap.pathToObjectsInResponse = @"entry_list";
             wsMap.endpoint = sugarEndpoint;
-            //NSMutableDictionary *restDataDictionary=[[OrderedDictionary alloc] init];
-            //[restDataDictionary setObject:session forKey:@"session"];
-            //[restDataDictionary setObject:module forKey:@"module"];
-          //  NSString* restDataString=[restDataDictionary JSONString];
             [wsMap setUrlParam:@"get_entry_list" forKey:@"method"];
             [wsMap setUrlParam:@"JSON" forKey:@"input_type"];
             [wsMap setUrlParam:@"JSON" forKey:@"response_type"];
-          //  [wsMap setUrlParam:restDataString forKey:@"rest_data"];
             NSMutableDictionary *responseKeyPathMap = [[NSMutableDictionary alloc] init];
             for(DataObjectField *field in [daoMetadata.fields allObjects]){
                 [responseKeyPathMap setObject:[NSString stringWithFormat:@"name_value_list.%@.value",field.name] forKey:field.name];
             }
             wsMap.responseKeyPathMap = responseKeyPathMap;
             wsMap.moduleName = module;
-       
+            //WriteWebserviceMetadata
+            
+            //TODO:...
+            
+            
+
             //DbMetadata 
             DBMetadata* dbMetadata = [[DBMetadata alloc] init];
             dbMetadata.tableName = module;

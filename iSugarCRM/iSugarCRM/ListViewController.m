@@ -87,7 +87,7 @@
     NSLog(@"SYNCH MODULES");
     [self.navigationController setToolbarHidden:NO animated:YES];
     AppDelegate* sharedDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
-    [sharedDelegate syncForModule:moduleName :self];
+    [sharedDelegate syncForModule:moduleName delegate:self];
 }
 
 #pragma mark - Sync handler delegate methods

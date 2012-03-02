@@ -15,8 +15,8 @@
 @property(weak)id <SyncHandlerDelegate>delegate;
 -(void)syncForModule:(NSString*)module;
 -(void)syncAllModules;
--(void)syncWithDateFilters:(NSString*) startDate:(NSString*) endDate;
--(void)syncModuleWithDateFilters:(NSString*) moduleName :(NSString*) startDate:(NSString*) endDate;
+-(void)syncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
+-(void)syncModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate;
 -(NSString *) formatStartDate:(NSString *)startDate;
 @end
 

@@ -87,7 +87,7 @@ int usernameLength,passwordLength;
     syncHandler.delegate = self;
     NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
     NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-    [syncHandler syncWithDateFilters:startDate :endDate];
+    [syncHandler syncWithStartDate:startDate endDate:endDate];
 }
 
 -(BOOL)deleteDBData{
@@ -138,7 +138,7 @@ int usernameLength,passwordLength;
     self.window.rootViewController =  lvc;
 }
 
--(void) syncForModule:(NSString *)moduleName :(id<SyncHandlerDelegate>)delegate
+-(void) syncForModule:(NSString *)moduleName delegate:(id<SyncHandlerDelegate>)delegate
 {
     syncHandler = [[SyncHandler alloc] init];
     syncHandler.delegate = delegate;
