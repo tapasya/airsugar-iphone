@@ -175,6 +175,14 @@
     [self.loadingLabel setHidden:YES];
     [self performSelectorOnMainThread:@selector(loadModuleViews) withObject:nil waitUntilDone:NO];
     //[self loadModuleViews];
+    
+    /*
+     This peace of code needs to be handled in different way in appropriate place
+     
+     This peace of code is to dismiss the alert shown while syncing the app in sync settings
+     */
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
 }
 
 @end
