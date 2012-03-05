@@ -147,11 +147,11 @@ int usernameLength,passwordLength;
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
 {
-    [self dismissWaitingAlert];
+    [self performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
 }
 -(void)syncComplete:(SyncHandler*)syncHandler
 {
-    [self dismissWaitingAlert];
+    //[self dismissWaitingAlert];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
