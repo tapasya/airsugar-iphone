@@ -316,7 +316,8 @@ BOOL isFirstTime;
     [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [sharedAppDelegate sync];
+    //[sharedAppDelegate sync];
+    [sharedAppDelegate performSelectorInBackground:@selector(sync) withObject:nil];
     //[sharedAppDelegate dismissWaitingAlert];
 }
 
