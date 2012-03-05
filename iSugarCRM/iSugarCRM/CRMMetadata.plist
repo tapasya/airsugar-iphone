@@ -6972,11 +6972,11 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>industry</string>
+									<string>employees</string>
 								</dict>
 							</array>
 							<key>label</key>
-							<string>employees</string>
+							<string>Employees</string>
 						</dict>
 					</array>
 					<key>section_name</key>
@@ -9461,6 +9461,7 @@
 				<string>description</string>
 				<string>deleted</string>
 				<string>assigned_user_id</string>
+				<string>assigned_user_name</string>
 				<string>case_number</string>
 				<string>type</string>
 				<string>status</string>
@@ -9489,6 +9490,8 @@
 				<string>deleted</string>
 				<key>assigned_user_id</key>
 				<string>assigned_user_id</string>
+				<key>assigned_user_name</key>
+				<string>assigned_user_name</string>
 				<key>case_number</key>
 				<string>case_number</string>
 				<key>type</key>
@@ -9860,6 +9863,14 @@
 					<key>sortable</key>
 					<string>0</string>
 					<key>label</key>
+					<string>Assigned To</string>
+					<key>name</key>
+					<string>assigned_user_name</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
 					<string>Case Number</string>
 					<key>name</key>
 					<string>case_number</string>
@@ -9957,6 +9968,8 @@
 				<string>name_value_list.deleted.value</string>
 				<key>assigned_user_id</key>
 				<string>name_value_list.assigned_user_id.value</string>
+				<key>assigned_user_name</key>
+				<string>name_value_list.assigned_user_name.value</string>
 				<key>case_number</key>
 				<string>name_value_list.case_number.value</string>
 				<key>type</key>
@@ -10023,6 +10036,8 @@
 				<string>name_value_list.description.value</string>
 				<key>assigned_user_id</key>
 				<string>name_value_list.assigned_user_id.value</string>
+				<key>assigned_user_name</key>
+				<string>name_value_list.assigned_user_name.value</string>
 				<key>location</key>
 				<string>name_value_list.location.value</string>
 				<key>deleted</key>
@@ -10072,6 +10087,7 @@
 				<string>description</string>
 				<string>deleted</string>
 				<string>assigned_user_id</string>
+				<string>assigned_user_name</string>
 				<string>location</string>
 				<string>duration_hours</string>
 				<string>duration_minutes</string>
@@ -10101,6 +10117,8 @@
 				<string>description</string>
 				<key>assigned_user_id</key>
 				<string>assigned_user_id</string>
+				<key>assigned_user_name</key>
+				<string>assigned_user_name</string>
 				<key>location</key>
 				<string>location</string>
 				<key>duration_hours</key>
@@ -10491,6 +10509,14 @@
 					<string>Assigned UserID</string>
 					<key>name</key>
 					<string>assigned_user_id</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Assigned To</string>
+					<key>name</key>
+					<string>assigned_user_name</string>
 				</dict>
 				<dict>
 					<key>sortable</key>
