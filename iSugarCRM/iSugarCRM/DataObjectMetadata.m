@@ -40,7 +40,7 @@
     NSSet *fieldDictionaries = [dictionary objectForKey:@"fields"];
     NSMutableSet *fields = [[NSMutableSet alloc] init];
     for(NSDictionary *field in fieldDictionaries)
-    {
+    {//TODO exception handling for duplicate fields
         [fields addObject:[DataObjectField objectFromDictionary:field]];
     }
     daoMetadata.fields = fields;

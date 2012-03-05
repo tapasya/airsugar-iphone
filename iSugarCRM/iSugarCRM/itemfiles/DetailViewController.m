@@ -5,7 +5,7 @@
 //  Created by Ved Surtani on 06/12/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
-
+#import "EditViewController.h"
 #import "DetailViewController.h"
 #import "UITableViewCellSectionItem.h"
 #import "UITableViewCellItem.h"
@@ -96,12 +96,19 @@
 {
     [super viewDidLoad];
     self.title = self.beanTitle;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
     DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
     dbSession.delegate = self;
     [dbSession detailsForId:self.beanId];
 
+}
+-(void)editDetails{
+    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
+    editViewController.title = @"Edit Data";
+    [self.navigationController pushViewController:[EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]] animated:YES];
 }
 - (void)viewDidUnload
 {

@@ -10,6 +10,7 @@
 		0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
 		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
 		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
+		0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
 		0F3CAE9914EAA71300288F58 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
 		0F7810FA14ECD38500ED61AF /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7810F914ECD38500ED61AF /* sync.png */; };
 		0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
@@ -106,6 +107,8 @@
 		0F02AAE414B3027300AABAA9 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		0F02AAE714B305D200AABAA9 /* LoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtils.h; sourceTree = "<group>"; };
 		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
+		0F19C2781500EAE700BE2110 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
+		0F19C2791500EAE700BE2110 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		0F3CAE9814EAA71300288F58 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		0F7810F914ECD38500ED61AF /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
 		0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsViewController.h; sourceTree = "<group>"; };
@@ -192,7 +195,7 @@
 		3B3E627D148E35D9002BAE48 /* DetailViewMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewMetadata.m; sourceTree = "<group>"; };
 		3B504E5514862E410037D75E /* DBMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBMetadata.h; sourceTree = "<group>"; };
 		3B504E5614862E410037D75E /* DBMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBMetadata.m; sourceTree = "<group>"; };
-		3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iSugarCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B5C97CC147CF7BC007EF770 /* Pancake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pancake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5C97D0147CF7BC007EF770 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3B5C97D2147CF7BC007EF770 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B5C97D4147CF7BC007EF770 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -202,7 +205,7 @@
 		3B5C97DE147CF7BD007EF770 /* iSugarCRM-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iSugarCRM-Prefix.pch"; sourceTree = "<group>"; };
 		3B5C97DF147CF7BD007EF770 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3B5C97E0147CF7BD007EF770 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iSugarCRMTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = iSugarCRMTests.octest; path = PancakeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5C97EE147CF7BD007EF770 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		3B5C97F6147CF7BD007EF770 /* iSugarCRMTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iSugarCRMTests-Info.plist"; sourceTree = "<group>"; };
 		3B5C97F8147CF7BD007EF770 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -381,11 +384,13 @@
 				0F02AAE414B3027300AABAA9 /* LoginViewController.xib */,
 				0FB17C2A14B5B38E004F0C80 /* DashboardController.h */,
 				0FB17C2B14B5B38E004F0C80 /* DashboardController.m */,
-				0FB17A0F14B5B02F004F0C80 /* Launcher */,
 				0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */,
 				0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */,
 				0FB7863E14F38573004C2CD9 /* SyncSettingsViewController.h */,
 				0FB7863F14F38573004C2CD9 /* SyncSettingsViewController.m */,
+				0F19C2781500EAE700BE2110 /* EditViewController.h */,
+				0F19C2791500EAE700BE2110 /* EditViewController.m */,
+				0FB17A0F14B5B02F004F0C80 /* Launcher */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -462,7 +467,7 @@
 		3B5C97CD147CF7BC007EF770 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */,
+				3B5C97CC147CF7BC007EF770 /* Pancake.app */,
 				3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */,
 			);
 			name = Products;
@@ -567,7 +572,7 @@
 			);
 			name = Pancake;
 			productName = iSugarCRM;
-			productReference = 3B5C97CC147CF7BC007EF770 /* iSugarCRM.app */;
+			productReference = 3B5C97CC147CF7BC007EF770 /* Pancake.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3B5C97EC147CF7BD007EF770 /* PancakeTests */ = {
@@ -724,6 +729,7 @@
 				0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */,
 				0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */,
 				0FB7864014F38573004C2CD9 /* SyncSettingsViewController.m in Sources */,
+				0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,6 +821,8 @@
 		3B5C9800147CF7BD007EF770 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
@@ -825,6 +833,8 @@
 					"\"$(SRCROOT)/iSugarCRM\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -834,6 +844,8 @@
 		3B5C9801147CF7BD007EF770 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
@@ -844,6 +856,8 @@
 					"\"$(SRCROOT)/iSugarCRM\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

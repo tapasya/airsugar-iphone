@@ -117,7 +117,6 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         if([[moduleList allKeys] containsObject:module]&&![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
-
             WebserviceMetadata *write_webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WriteWebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
             DataObjectMetadata *objectMetadata = [DataObjectMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DataObjectMetadata"]];
