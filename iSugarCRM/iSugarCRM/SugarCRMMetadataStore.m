@@ -117,9 +117,10 @@ static SugarCRMMetadataStore *sharedInstance = nil;
         if([[moduleList allKeys] containsObject:module]&&![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
-              WebserviceMetadata *write_webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WriteWebserviceMetadata"]];
+
+            WebserviceMetadata *write_webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WriteWebserviceMetadata"]];
             DBMetadata *dbMetadata = [DBMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DbMetadata"]]; 
-                DataObjectMetadata *objectMetadata = [DataObjectMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DataObjectMetadata"]]; 
+            DataObjectMetadata *objectMetadata = [DataObjectMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DataObjectMetadata"]];
             ListViewMetadata *listViewMetadata = [ListViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"ListViewMetadata"]];
             DetailViewMetadata *detailViewMetadata = [DetailViewMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"DetailViewMetadata"]];
             [self setWebMetaData:webserviceMetadata forKey:[NSString stringWithFormat:@"read-%@",module]];
