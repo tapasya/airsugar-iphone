@@ -15,6 +15,9 @@
 #import "LoginUtils.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "DetailViewController.h"
+#import "ListViewController_pad.h"
+#import "SplitViewController.h"
 
 @interface DashboardController ()
 -(void) loadModuleViews;
@@ -24,14 +27,27 @@
 
 @implementation DashboardController
 @synthesize moduleList, spinner, loadingLabel;
+bool isSyncEnabled ;
+
 - (id)init
 {
     self = [super init];
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
-            [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //blocking sync view
+        isSyncEnabled = false;
+    }
+    return self;
+}
 
+-(id) initAndSync
+{
+    self = [super init];
+    if (self) {
+        // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
+        isSyncEnabled = true;
+        [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //blocking sync view
     }
     return self;
 }
@@ -59,18 +75,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];  
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(40,self.view.frame.size.width/2-50,250,50)];
-    loadingLabel.text = @"Please wait loading data...";
-    loadingLabel.textAlignment = UITextAlignmentCenter;
-    [self.view addSubview:loadingLabel];
-    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
-    loadingLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
-    spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
-    [self clearSavedLauncherItems];
+    if(isSyncEnabled){
+        [self.view setBackgroundColor:[UIColor whiteColor]];
+        loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(40,self.view.frame.size.width/2-50,250,50)];
+        loadingLabel.text = @"Please wait loading data...";
+        loadingLabel.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview:loadingLabel];
+        spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
+        loadingLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+        spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+        [self.view addSubview:spinner];
+        [spinner startAnimating];
+        [self clearSavedLauncherItems];
+    }
+    else{
+        [self clearSavedLauncherItems];
+        [self loadModuleViews];
+    }
 }
 
 - (void)viewDidUnload
@@ -149,7 +171,7 @@
                 [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName image:imagename target:nil deletable:NO]];
             }
         }
-        [self.launcherView setPages:pageItems];
+        [self.launcherView setPages:pageItems animated:(BOOL) isSyncEnabled];
         
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)];
         self.navigationItem.rightBarButtonItem = settingsButton;
@@ -162,9 +184,28 @@
     NSString *modulename = [item title];
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];
     NSLog(@"metadata module name %@",metadata.moduleName); //remove debug logs
-    ListViewController *listViewController = [ListViewController listViewControllerWithMetadata:metadata];
-    listViewController.title = metadata.moduleName;
-    [self.navigationController pushViewController:listViewController animated:YES];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        ListViewController_pad* lvc_pad = [ListViewController_pad listViewControllerWithMetadata:metadata];
+        lvc_pad.title = metadata.moduleName;
+        
+        DetailViewController_pad* dvc_pad = [[DetailViewController_pad alloc] init];
+        dvc_pad.metadata = [sharedInstance detailViewMetadataForModule:lvc_pad.metadata.moduleName];
+        
+        SplitViewController* spvc = [[SplitViewController alloc] init];
+        spvc.master = lvc_pad;
+        spvc.detail = dvc_pad;
+        spvc.viewControllers = [NSArray arrayWithObjects:[[UINavigationController alloc] initWithRootViewController:lvc_pad],[[UINavigationController alloc] initWithRootViewController:dvc_pad], nil];
+        
+        AppDelegate* delegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
+        delegate.window.rootViewController = spvc ;
+    }
+    else
+    {
+        ListViewController *listViewController = [ListViewController listViewControllerWithMetadata:metadata];
+        listViewController.title = metadata.moduleName;
+        [self.navigationController pushViewController:listViewController animated:YES];   
+    }
 }
 
 -(void)didCompleteSync

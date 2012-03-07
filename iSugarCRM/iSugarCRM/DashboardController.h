@@ -13,4 +13,5 @@
 @interface DashboardController : MyLauncherViewController
 @property (strong) NSArray *moduleList;
 -(void) performLoginAction;
+-(id) initAndSync;
 @end
