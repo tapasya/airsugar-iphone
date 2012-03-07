@@ -13,8 +13,13 @@
 #import "DataObject.h"
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
+@interface DetailViewController()
+    @property(strong) NSArray *detailsArray;
+@end
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
+@synthesize detailsArray;
+
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
 {
     DetailViewController *detailViewController = [[DetailViewController alloc] init];
@@ -52,7 +57,7 @@
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {   
-    
+    self.detailsArray = details;
     NSMutableArray* sections = [[NSMutableArray alloc] init];
     for(NSDictionary *sectionItem_ in metadata.sections  )
     {   
@@ -112,9 +117,10 @@
 -(void)editDetails
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
-    editViewController.title = @"Edit Data";
-    [self.navigationController pushViewController:[EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]] animated:YES];
+    //EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
+    editViewController.title = @"Edit Record";
+    [self.navigationController pushViewController:editViewController animated:YES];
 }
 
 - (void)viewDidUnload

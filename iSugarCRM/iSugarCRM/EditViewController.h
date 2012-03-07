@@ -11,4 +11,5 @@
 @interface EditViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property(strong) DataObjectMetadata* metadata;
 +(EditViewController*)editViewControllerWithMetadata:(DataObjectMetadata*)metadata;
++(EditViewController*)editViewControllerWithMetadata:(DataObjectMetadata*)metadata andDetailedData:(NSArray *)detailedData;
 @end

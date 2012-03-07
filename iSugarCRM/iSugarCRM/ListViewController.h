@@ -10,7 +10,7 @@
 #import "ListViewMetadata.h"
 #import "DBSession.h"
 #import "SyncHandler.h"
-@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate, SyncHandlerDelegate>
+@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate, SyncHandlerDelegate,UIActionSheetDelegate>
 {
     @private
     UITableView *myTableView;
@@ -24,7 +24,6 @@
 @property(strong)NSArray *datasource;
 @property(strong) NSMutableArray *tableData;
 @property(strong)ListViewMetadata *metadata;
-@property(nonatomic, retain) UISegmentedControl *segmentedControl;
 -(void)displayModuleSetting;
 -(void)syncModule;
 @end

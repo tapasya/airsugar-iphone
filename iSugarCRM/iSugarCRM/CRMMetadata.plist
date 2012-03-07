@@ -10434,6 +10434,174 @@
 			<key>module_name</key>
 			<string>Meetings</string>
 		</dict>
+		<key>EditViewMetadata</key>
+		<dict>
+			<key>fields</key>
+			<array>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>ID</string>
+					<key>name</key>
+					<string>id</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Name</string>
+					<key>name</key>
+					<string>name</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Date Entered:</string>
+					<key>name</key>
+					<string>date_entered</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Date Modified:</string>
+					<key>name</key>
+					<string>date_modified</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Modified By</string>
+					<key>name</key>
+					<string>modified_user_id</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Created By</string>
+					<key>name</key>
+					<string>created_by</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Description</string>
+					<key>name</key>
+					<string>description</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Deleted:</string>
+					<key>name</key>
+					<string>deleted</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Assigned UserID</string>
+					<key>name</key>
+					<string>assigned_user_id</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Assigned To</string>
+					<key>name</key>
+					<string>assigned_user_name</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Location:</string>
+					<key>name</key>
+					<string>location</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Hours Duration:</string>
+					<key>name</key>
+					<string>duration_hours</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Minutes Duration:</string>
+					<key>name</key>
+					<string>duration_minutes</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Start Date:</string>
+					<key>name</key>
+					<string>date_start</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>End Date:</string>
+					<key>name</key>
+					<string>date_end</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Parent Type:</string>
+					<key>name</key>
+					<string>parent_type</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Status:</string>
+					<key>name</key>
+					<string>status</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Parent Account ID</string>
+					<key>name</key>
+					<string>parent_id</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Reminder Time:</string>
+					<key>name</key>
+					<string>reminder_time</string>
+				</dict>
+				<dict>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Outlook ID</string>
+					<key>name</key>
+					<string>outlook_id</string>
+				</dict>
+			</array>
+			<key>class</key>
+			<string>Meetings</string>
+		</dict>
 		<key>DataObjectMetadata</key>
 		<dict>
 			<key>fields</key>
@@ -10639,6 +10807,8 @@
 				<string>name_value_list.description.value</string>
 				<key>assigned_user_id</key>
 				<string>name_value_list.assigned_user_id.value</string>
+				<key>assigned_user_name</key>
+				<string>name_value_list.assigned_user_name.value</string>
 				<key>location</key>
 				<string>name_value_list.location.value</string>
 				<key>deleted</key>

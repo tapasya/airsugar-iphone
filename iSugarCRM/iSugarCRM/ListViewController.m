@@ -16,16 +16,22 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "stdlib.h"
+#import "EditViewController.h"
 
 @interface ListViewController()
 -(void) loadData;
 -(void) sortData;
+-(void) showActionSheet;
+-(void) markItemAsDelete;
 -(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
+@property (strong) UIActionSheet *_actionSheet;
+@property(nonatomic, retain) UISegmentedControl *segmentedControl;
 @end
 
 @implementation ListViewController
 @synthesize moduleName,datasource,metadata, tableData;
 @synthesize segmentedControl;
+@synthesize _actionSheet;
 
 
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
@@ -57,6 +63,7 @@
         segmentedControl = [[UISegmentedControl alloc] initWithItems:nil];
         [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"settings.png"] atIndex:0 animated:YES];
         [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:1 animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:2 animated:YES];
     }
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     segmentedControl.frame = CGRectMake(0, 0, 90, 30);
@@ -71,6 +78,8 @@
         [self displayModuleSetting];
     }else if(segControl.selectedSegmentIndex == 1){
         [self syncModule];
+    }else if(segControl.selectedSegmentIndex == 2){
+        [self showActionSheet];
     }
 }
 
@@ -90,6 +99,31 @@
     [sharedDelegate syncForModule:moduleName delegate:self];
 }
 
+-(void)showActionSheet{
+    //[self.actionSheet showInView:self.view];
+    _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+    [_actionSheet addButtonWithTitle:@"Add"];
+    [_actionSheet addButtonWithTitle:@"Delete"];
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    _actionSheet.delegate = self;
+    _actionSheet.destructiveButtonIndex = 1;
+    [_actionSheet showFromRect:self.view.bounds inView:self.view animated:YES];
+}
+
+#pragma mark UIActionSheet Delegate;
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+        EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
+        editViewController.title = @"Add Record";
+        [self.navigationController pushViewController:editViewController animated:YES];
+    }else if(buttonIndex == 1){
+        [self markItemAsDelete];
+    }else if(buttonIndex == 2){
+        //
+    }
+}
 #pragma mark - Sync handler delegate methods
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
@@ -317,6 +351,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete){
+        [tableData removeObjectAtIndex:indexPath.row];
+        [myTableView reloadData];
+        //TODO also delete from deviceDB and merge if there is a connection
+    }
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -327,7 +370,39 @@
                 
     DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
      [self.navigationController pushViewController:detailViewController animated:YES];
-   }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    //if (self.editing == NO || !indexPath) return UITableViewCellEditingStyleNone;
+    if (self.editing && indexPath.row == ([tableData count])){
+        return UITableViewCellEditingStyleNone;
+    }else{
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    return UITableViewCellEditingStyleNone;
+}
+
+- (void)markItemAsDelete{
+    
+    UIBarButtonItem *barButtonItem = nil;
+    if(!self.editing){
+        [super setEditing:YES animated:YES];
+        [myTableView setEditing:YES animated:YES];
+        [myTableView reloadData];
+        self.navigationItem.rightBarButtonItem = nil;
+        barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(markItemAsDelete)];
+        self.navigationItem.rightBarButtonItem = barButtonItem;
+    }else{
+        [super setEditing:NO animated:YES];
+        [myTableView setEditing:NO animated:YES];
+        [myTableView reloadData];
+        self.navigationItem.rightBarButtonItem = nil;
+        barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
+        self.navigationItem.rightBarButtonItem = barButtonItem;
+    }
+}
 
 #pragma mark UISearchBarDelegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
