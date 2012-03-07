@@ -64,7 +64,7 @@ int usernameLength,passwordLength;
 }
 -(void)showDashboardController{
     //[self logout];
-    DashboardController *dc = [[DashboardController alloc] init];
+    DashboardController *dc = [[DashboardController alloc] initAndSync];
     dc.title = @"Modules";
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
     self.window.rootViewController = nvc;

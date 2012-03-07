@@ -11,7 +11,9 @@
 		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
 		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
 		0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
+		0F0AABCB1505D4C4008ABEF7 /* ListViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */; };
 		0F3CAE9914EAA71300288F58 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
+		0F48CD7C150657A300D36640 /* DetailViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48CD7B150657A300D36640 /* DetailViewController_pad.m */; };
 		0F7810FA14ECD38500ED61AF /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7810F914ECD38500ED61AF /* sync.png */; };
 		0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
 		0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
@@ -31,6 +33,7 @@
 		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
 		0FE6ADC714F6099A0055EFF8 /* PanCake_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */; };
 		0FE861F114F3B38C0065B585 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
+		0FEA45511507257300390F2A /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA45501507257300390F2A /* SplitViewController.m */; };
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
 		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
 		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
@@ -109,7 +112,11 @@
 		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
 		0F19C2781500EAE700BE2110 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
 		0F19C2791500EAE700BE2110 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
+		0F0AABC91505D4C4008ABEF7 /* ListViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController_pad.h; sourceTree = "<group>"; };
+		0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController_pad.m; sourceTree = "<group>"; };
 		0F3CAE9814EAA71300288F58 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		0F48CD7A150657A300D36640 /* DetailViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController_pad.h; sourceTree = "<group>"; };
+		0F48CD7B150657A300D36640 /* DetailViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController_pad.m; sourceTree = "<group>"; };
 		0F7810F914ECD38500ED61AF /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
 		0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsViewController.h; sourceTree = "<group>"; };
 		0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsViewController.m; sourceTree = "<group>"; };
@@ -142,6 +149,8 @@
 		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
 		0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanCake_Logo.png; sourceTree = "<group>"; };
 		0FE861F014F3B38C0065B585 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		0FEA454F1507257300390F2A /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SplitViewController.h; sourceTree = "<group>"; };
+		0FEA45501507257300390F2A /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingsViewController.h; sourceTree = "<group>"; };
 		0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingsViewController.m; sourceTree = "<group>"; };
 		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
@@ -260,6 +269,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F0AABC71505D378008ABEF7 /* UI_Ipad */ = {
+			isa = PBXGroup;
+			children = (
+				0F0AABC91505D4C4008ABEF7 /* ListViewController_pad.h */,
+				0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */,
+				0F48CD7A150657A300D36640 /* DetailViewController_pad.h */,
+				0F48CD7B150657A300D36640 /* DetailViewController_pad.m */,
+				0FEA454F1507257300390F2A /* SplitViewController.h */,
+				0FEA45501507257300390F2A /* SplitViewController.m */,
+			);
+			name = UI_Ipad;
+			sourceTree = "<group>";
+		};
 		0F4EE03A14BAFE1500F43692 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,6 +564,7 @@
 			children = (
 				0FAC5DF614DC135F009FEC5F /* keychainstore */,
 				2FCB48E914A21328009079A1 /* itemfiles */,
+				0F0AABC71505D378008ABEF7 /* UI_Ipad */,
 				3B3E6277148E3288002BAE48 /* UI */,
 				3B3E6272148E1B98002BAE48 /* sugar */,
 				2F6C46A3148676A700865C25 /* Utitlity */,
@@ -730,6 +753,9 @@
 				0FB9F83A14DC17050084BF7E /* ApplicationKeyStore.m in Sources */,
 				0FB7864014F38573004C2CD9 /* SyncSettingsViewController.m in Sources */,
 				0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */,
+				0F0AABCB1505D4C4008ABEF7 /* ListViewController_pad.m in Sources */,
+				0F48CD7C150657A300D36640 /* DetailViewController_pad.m in Sources */,
+				0FEA45511507257300390F2A /* SplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,7 +862,7 @@
 				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -859,7 +885,7 @@
 				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
