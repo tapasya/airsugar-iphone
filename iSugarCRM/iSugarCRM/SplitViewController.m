@@ -7,6 +7,7 @@
 //
 
 #import "SplitViewController.h"
+#import "AppDelegate.h"
 
 @implementation SplitViewController
 @synthesize master=_mvc;
@@ -61,6 +62,17 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if(UIInterfaceOrientationIsPortrait((UIInterfaceOrientation)[UIApplication sharedApplication].statusBarOrientation))
+    {
+        if (self.detail.popoverController != nil) {
+            [self.detail.popoverController presentPopoverFromBarButtonItem:self.detail.navigationItem.leftBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+    }
 }
 
 -(void) viewWillDisappear:(BOOL)animated
