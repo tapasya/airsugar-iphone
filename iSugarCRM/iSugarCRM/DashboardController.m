@@ -19,6 +19,12 @@
 #import "ListViewController_pad.h"
 #import "SplitViewController.h"
 
+#define kIpadLabelWidth         400
+#define kIphoneLabelWidth       250
+#define kLabelHeight             50
+#define kIpadSpinnerSize         80
+#define kIphoneSpinnerSize       20
+
 @interface DashboardController ()
 -(void) loadModuleViews;
 @property(strong)UIActivityIndicatorView *spinner;
@@ -77,14 +83,25 @@ bool isSyncEnabled ;
     [super viewDidLoad];  
     if(isSyncEnabled){
         [self.view setBackgroundColor:[UIColor whiteColor]];
-        loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(40,self.view.frame.size.width/2-50,250,50)];
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - kIpadLabelWidth/2 ,self.view.frame.size.height/2-kLabelHeight,kIpadLabelWidth ,kLabelHeight)];
+            loadingLabel.font = [UIFont systemFontOfSize:32];
+            spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            spinner.color = [UIColor grayColor];
+            spinner.frame = CGRectMake(self.view.frame.size.width/2-kIpadSpinnerSize/2, self.view.frame.size.height/2+10, kIpadSpinnerSize, kIpadSpinnerSize);
+        }
+        else
+        {
+            loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - kIphoneLabelWidth/2,self.view.frame.size.height/2-kLabelHeight,kIphoneLabelWidth,kLabelHeight)];
+            spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.frame = CGRectMake(self.view.frame.size.width/2-kIphoneSpinnerSize/2, self.view.frame.size.height/2, kIphoneSpinnerSize, kIphoneSpinnerSize);
+        }
         loadingLabel.text = @"Please wait loading data...";
         loadingLabel.textAlignment = UITextAlignmentCenter;
-        [self.view addSubview:loadingLabel];
-        spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        spinner.frame = CGRectMake(self.view.frame.size.width/2-10, self.view.frame.size.height/2-10, 20, 20);
         loadingLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
         spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
+        [self.view addSubview:loadingLabel];
         [self.view addSubview:spinner];
         [spinner startAnimating];
         [self clearSavedLauncherItems];
