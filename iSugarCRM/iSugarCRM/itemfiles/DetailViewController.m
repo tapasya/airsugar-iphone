@@ -86,6 +86,7 @@
         [sections addObject:sectionItem];
     }
     self.datasource = sections;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     [self.tableView reloadData];
 }
 -(void)session:(DBSession *)session detailDownloadFailedWithError:(NSError *)error
@@ -99,7 +100,6 @@
 {
     [super viewDidLoad];
     self.title = self.beanTitle;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     [self loadDataFromDb];
 }
 
