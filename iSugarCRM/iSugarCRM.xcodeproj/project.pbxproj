@@ -10,8 +10,8 @@
 		0F02AAE514B3027300AABAA9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
 		0F02AAE614B3027300AABAA9 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
 		0F02AAE914B305D200AABAA9 /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
-		0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
 		0F0AABCB1505D4C4008ABEF7 /* ListViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */; };
+		0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
 		0F3CAE9914EAA71300288F58 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
 		0F48CD7C150657A300D36640 /* DetailViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48CD7B150657A300D36640 /* DetailViewController_pad.m */; };
 		0F7810FA14ECD38500ED61AF /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7810F914ECD38500ED61AF /* sync.png */; };
@@ -34,6 +34,7 @@
 		0FE6ADC714F6099A0055EFF8 /* PanCake_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */; };
 		0FE861F114F3B38C0065B585 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
 		0FEA45511507257300390F2A /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA45501507257300390F2A /* SplitViewController.m */; };
+		0FEA4577150753EE00390F2A /* LoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */; };
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
 		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
 		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
@@ -110,10 +111,10 @@
 		0F02AAE414B3027300AABAA9 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		0F02AAE714B305D200AABAA9 /* LoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUtils.h; sourceTree = "<group>"; };
 		0F02AAE814B305D200AABAA9 /* LoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUtils.m; sourceTree = "<group>"; };
-		0F19C2781500EAE700BE2110 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
-		0F19C2791500EAE700BE2110 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		0F0AABC91505D4C4008ABEF7 /* ListViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController_pad.h; sourceTree = "<group>"; };
 		0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController_pad.m; sourceTree = "<group>"; };
+		0F19C2781500EAE700BE2110 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
+		0F19C2791500EAE700BE2110 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		0F3CAE9814EAA71300288F58 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		0F48CD7A150657A300D36640 /* DetailViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController_pad.h; sourceTree = "<group>"; };
 		0F48CD7B150657A300D36640 /* DetailViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController_pad.m; sourceTree = "<group>"; };
@@ -149,8 +150,9 @@
 		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
 		0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanCake_Logo.png; sourceTree = "<group>"; };
 		0FE861F014F3B38C0065B585 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
-		0FEA454F1507257300390F2A /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SplitViewController.h; sourceTree = "<group>"; };
+		0FEA454F1507257300390F2A /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		0FEA45501507257300390F2A /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
+		0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "LoginViewController~ipad.xib"; sourceTree = "<group>"; };
 		0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingsViewController.h; sourceTree = "<group>"; };
 		0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingsViewController.m; sourceTree = "<group>"; };
 		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				0F48CD7B150657A300D36640 /* DetailViewController_pad.m */,
 				0FEA454F1507257300390F2A /* SplitViewController.h */,
 				0FEA45501507257300390F2A /* SplitViewController.m */,
+				0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */,
 			);
 			name = UI_Ipad;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				0FF81BD214F758AD00A3E04A /* Icon-72.png in Resources */,
 				0FF81BD314F758AD00A3E04A /* Icon.png in Resources */,
 				0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */,
+				0FEA4577150753EE00390F2A /* LoginViewController~ipad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
