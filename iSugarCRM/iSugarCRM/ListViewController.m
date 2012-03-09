@@ -18,6 +18,14 @@
 #import "stdlib.h"
 #import "EditViewController.h"
 
+#define kActionSheetAddButtonIndex            0
+#define kActionSheetDeleteButtonIndex         1
+#define kActionSheetCancelButtonIndex         2
+
+#define kSegementedControlSettingsButtonIndex     0
+#define kSegementedControlSyncButtonIndex         1
+#define kSegementedControlTempButtonIndex         2
+
 @interface ListViewController()
 -(void) loadData;
 -(void) sortData;
@@ -61,9 +69,9 @@
 -(UISegmentedControl *) segmentedControl{
     if (!segmentedControl) {
         segmentedControl = [[UISegmentedControl alloc] initWithItems:nil];
-        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"settings.png"] atIndex:0 animated:YES];
-        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:1 animated:YES];
-        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:2 animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"settings.png"] atIndex:kSegementedControlSettingsButtonIndex animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:kSegementedControlSyncButtonIndex animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:kSegementedControlTempButtonIndex animated:YES];
     }
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     segmentedControl.frame = CGRectMake(0, 0, 90, 30);
@@ -113,14 +121,14 @@
 #pragma mark UIActionSheet Delegate;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
+    if (buttonIndex == kActionSheetAddButtonIndex) {
         SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
         EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
         editViewController.title = @"Add Record";
         [self.navigationController pushViewController:editViewController animated:YES];
-    }else if(buttonIndex == 1){
+    }else if(buttonIndex == kActionSheetDeleteButtonIndex){
         [self markItemAsDelete];
-    }else if(buttonIndex == 2){
+    }else if(buttonIndex == kActionSheetCancelButtonIndex){
         //
     }
 }
