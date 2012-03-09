@@ -234,7 +234,7 @@ BOOL isFirstTime;
     {
         UITableViewCell *targetCell = [tableView cellForRowAtIndexPath:indexPath];
         self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if(IS_IPAD)
         {
             [self showDatePickerPopoverAtFrame:targetCell.frame];
             //[tableView deselectRowAtIndexPath:indexPath animated:YES];

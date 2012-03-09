@@ -27,7 +27,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGSize labelSize = [label sizeThatFits:CGSizeZero];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if(IS_IPAD)
     {
         CGRect labelFrame = label.frame;
         labelFrame.origin.x += kiPadLableMargin ;

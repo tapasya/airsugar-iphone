@@ -83,7 +83,7 @@ bool isSyncEnabled ;
     [super viewDidLoad];  
     if(isSyncEnabled){
         [self.view setBackgroundColor:[UIColor whiteColor]];
-        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if(IS_IPAD)
         {
             loadingLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - kIpadLabelWidth/2 ,self.view.frame.size.height/2-kLabelHeight,kIpadLabelWidth ,kLabelHeight)];
             loadingLabel.font = [UIFont systemFontOfSize:32];
@@ -201,7 +201,7 @@ bool isSyncEnabled ;
     NSString *modulename = [item title];
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];
     NSLog(@"metadata module name %@",metadata.moduleName); //remove debug logs
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if(IS_IPAD)
     {
         ListViewController_pad* lvc_pad = [ListViewController_pad listViewControllerWithMetadata:metadata];
         lvc_pad.title = metadata.moduleName;
