@@ -10,6 +10,11 @@
 #import "SettingsStore.h"
 #import "AppDelegate.h"
 
+@interface SyncSettingsViewController()
+-(void) showDatePickerPopoverAtFrame:(CGRect) frame;
+@property (nonatomic, retain) UIPopoverController* popoverController;
+@end
+
 @implementation SyncSettingsViewController
 
 @synthesize settingsArray;
@@ -18,6 +23,7 @@
 @synthesize actionSheet;
 @synthesize startDate;
 @synthesize endDate;
+@synthesize popoverController;
 
 BOOL isFirstTime;
 
@@ -228,10 +234,18 @@ BOOL isFirstTime;
     {
         UITableViewCell *targetCell = [tableView cellForRowAtIndexPath:indexPath];
         self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
-        
-        [self.actionSheet showInView:self.view];
-        [self.pickerView setFrame:CGRectMake(0, 44, 320, 0)];
-        [self.actionSheet setBounds:CGRectMake(0, 0, 320, 480)];
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            [self showDatePickerPopoverAtFrame:targetCell.frame];
+            //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+        else
+        {
+            [self.actionSheet showInView:self.view];
+            [self.pickerView setFrame:CGRectMake(0, 44, 320, 0)];
+            [self.actionSheet setBounds:CGRectMake(0, 0, 320, 480)];
+        }
+
     }
     else if([identifier isEqualToString:kSyncNowCellIdentifier])
     {
@@ -243,6 +257,19 @@ BOOL isFirstTime;
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self performSelectorOnMainThread:@selector(eraseDBData:) withObject:nil waitUntilDone:NO];
     }
+}
+
+-(void) showDatePickerPopoverAtFrame:(CGRect)frame
+{
+    UIViewController* popoverContent = [[UIViewController alloc] init];
+    UIView* popoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 344)];
+    popoverView.backgroundColor = [UIColor whiteColor];
+    self.pickerView.frame = CGRectMake(0, 0, 320, 344);
+    [popoverView addSubview:self.pickerView];
+    popoverContent.view = popoverView;
+    popoverContent.contentSizeForViewInPopover = CGSizeMake(320, 200);
+    popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
+    [popoverController presentPopoverFromRect:frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void)dateChanged:(id)sender
