@@ -14,6 +14,7 @@
 @implementation ModuleSettingsViewController
 @synthesize moduleName=_moduleName;
 @synthesize moduleSettingsStore= _moduleSetting;
+@synthesize delegate=_delegate;
 
 -(ModuleSettingsDataStore*) moduleSettingsStore
 {
@@ -150,6 +151,11 @@
     [self selectCell:[tableView cellForRowAtIndexPath:indexPath]];
     [SettingsStore setObject:[settingsObject.multipleTitles objectAtIndex:indexPath.row] forKey:settingsObject.key];
     NSLog(@"Setting name is :%@  ,String is : %@", settingsObject.title, settingsObject.value);
+    
+    if(self.delegate)
+    {
+        [self.delegate sortSelectionChanged];
+    }
 }
 
 @end

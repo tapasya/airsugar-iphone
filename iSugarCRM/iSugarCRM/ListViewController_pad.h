@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ListViewController.h"
+#import "ModuleSettingsViewController.h"
 
 @protocol DetailViewDelegate;
-@interface ListViewController_pad : ListViewController
+@interface ListViewController_pad : ListViewController<SortDelegate>
 +(ListViewController_pad*)listViewControllerWithMetadata:(ListViewMetadata*)metadata;
 +(ListViewController_pad*)listViewControllerWithModuleName:(NSString*)module;
 @property (weak) id<DetailViewDelegate> detailViewDelegate;

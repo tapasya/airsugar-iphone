@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "ModuleSettingsDataStore.h"
 
+@protocol SortDelegate
+-(void) sortSelectionChanged;
+@end
+
 @interface ModuleSettingsViewController : UITableViewController
 {
     NSMutableArray* _moduleSettings;
 }
 @property (nonatomic, retain) NSString* moduleName;
 @property (nonatomic, retain) ModuleSettingsDataStore *moduleSettingsStore;
+@property (strong) id<SortDelegate> delegate;
 @end

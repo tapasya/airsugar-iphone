@@ -11,7 +11,14 @@
 #import "DataObject.h"
 #import "AppDelegate.h"
 #import "DashboardController.h"
+#import "ModuleSettingsViewController.h"
 
+@interface ListViewController_pad()
+{
+    @private
+    UIPopoverController *popOver;
+}
+@end
 @implementation ListViewController_pad
 @synthesize detailViewDelegate=_delegate;
 
@@ -76,13 +83,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {   
-    //tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
-    id beanTitle = [[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
-    id beanId =[[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"id"];
-    if(self.detailViewDelegate)
+    if(!myTableView.editing)
     {
-        [self.detailViewDelegate loadDetailViewWithBeanId:beanId :beanTitle];
+        //tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
+        id beanTitle = [[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+        id beanId =[[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"id"];
+        if(self.detailViewDelegate)
+        {
+            [self.detailViewDelegate loadDetailViewWithBeanId:beanId :beanTitle];
+        }
     }
- }
+}
 
+-(void)showActionSheet{
+    //[self.actionSheet showInView:self.view];
+    UIActionSheet *_actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+    [_actionSheet addButtonWithTitle:@"Add"];
+    [_actionSheet addButtonWithTitle:@"Delete"];
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    _actionSheet.delegate = self;
+    _actionSheet.destructiveButtonIndex = 1;
+    [_actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+}
+
+-(void) displayModuleSetting
+{
+    ModuleSettingsViewController *msvc = [[ModuleSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    msvc.moduleName = self.title;
+    msvc.delegate = self;
+    popOver = [[UIPopoverController alloc] initWithContentViewController:msvc];
+    [popOver presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+-(void) sortSelectionChanged
+{
+    [super sortData];
+    [myTableView reloadData];
+}
 @end
