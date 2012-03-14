@@ -117,10 +117,11 @@
 -(void)editDetails
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    //EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
     EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
     editViewController.title = @"Edit Record";
-    [self.navigationController pushViewController:editViewController animated:YES];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentModalViewController:navController animated:YES];
 }
 
 - (void)viewDidUnload
