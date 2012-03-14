@@ -26,7 +26,15 @@
 #define kSegementedControlSyncButtonIndex         1
 #define kSegementedControlTempButtonIndex         2
 
+#define kEditToolbarTag                        1001
+
 @interface ListViewController()
+{
+    UIActivityIndicatorView* activityIndicator;
+    UILabel* syncLabel;
+}
+-(void) showProgress;
+-(void) hideProgress;
 -(void) loadData;
 -(void) sortData;
 -(void) showActionSheet;
@@ -102,7 +110,8 @@
 -(void)syncModule{
     //TODO module synch code;
     NSLog(@"SYNCH MODULES");
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    //[self.navigationController setToolbarHidden:NO animated:YES];
+    [self showProgress];
     AppDelegate* sharedDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
     [sharedDelegate syncForModule:moduleName delegate:self];
 }
@@ -125,13 +134,16 @@
         SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
         EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
         editViewController.title = @"Add Record";
-        [self.navigationController pushViewController:editViewController animated:YES];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+        navController.modalPresentationStyle = UIModalPresentationPageSheet;
+        [self presentModalViewController:navController animated:YES];        
     }else if(buttonIndex == kActionSheetDeleteButtonIndex){
         [self markItemAsDelete];
     }else if(buttonIndex == kActionSheetCancelButtonIndex){
         //
     }
 }
+
 #pragma mark - Sync handler delegate methods
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
@@ -147,7 +159,8 @@
 
 -(IBAction)showSyncAlert:(id)sender
 {
-    [self.navigationController setToolbarHidden:YES animated:YES];
+    //[self.navigationController setToolbarHidden:YES animated:YES];
+    [self hideProgress];
     
     NSError* error = (NSError*) sender;
     if(error)
@@ -178,18 +191,6 @@
     [sBar setAutoresizesSubviews:YES];
     [self.view addSubview:myTableView];
     [self.view setAutoresizesSubviews:YES];
-    
-    CGRect toolbarFrame = self.navigationController.toolbar.frame;
-    UIActivityIndicatorView *activityIndicator = 
-    [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x + toolbarFrame.size.width/2 -10, 0, 20, 20)];
-    [activityIndicator startAnimating];
-    [self.navigationController.toolbar addSubview:activityIndicator];
-    
-    UILabel* syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x+toolbarFrame.size.width/2 - 50, 20, 100, 20)];
-    [syncLabel setText:@"Sync Started"];
-    [syncLabel setTextColor:[UIColor whiteColor]];
-    [syncLabel setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController.toolbar addSubview:syncLabel];    
 }
 
 - (void)viewDidLoad
@@ -203,12 +204,47 @@
     myTableView.dataSource = self;
     CGFloat rowHeight = 20.f + [[metadata otherFields] count] *15 + 10;
     myTableView.rowHeight = rowHeight>51.0?rowHeight:51.0f;
+    myTableView.allowsMultipleSelectionDuringEditing = YES;
+    //myTableView.allowsSelectionDuringEditing = NO;
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     [self loadData];
     [self intializeTableDataMask];
   }
+
+-(void) showProgress
+{
+    CGRect toolbarFrame = self.navigationController.toolbar.frame;
+    activityIndicator = 
+    [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x + toolbarFrame.size.width/2 -10, 0, 20, 20)];
+    [activityIndicator startAnimating];
+    [self.navigationController.toolbar addSubview:activityIndicator];
+    
+    syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x+toolbarFrame.size.width/2 - 50, 20, 100, 20)];
+    [syncLabel setText:@"Sync Started"];
+    if(IS_IPAD)
+    {
+        [syncLabel setTextColor:[UIColor grayColor]];
+         activityIndicator.color = [UIColor grayColor];
+    }
+    else
+    {
+        [syncLabel setTextColor:[UIColor whiteColor]];
+    }
+    [syncLabel setBackgroundColor:[UIColor clearColor]];
+    [self.navigationController.toolbar addSubview:syncLabel];  
+    [self.navigationController setToolbarHidden:NO animated:YES];
+}
+
+-(void) hideProgress
+{
+    [self.navigationController setToolbarHidden:YES animated:YES];
+    [activityIndicator removeFromSuperview];
+    activityIndicator = nil;
+    [syncLabel removeFromSuperview];
+    syncLabel = nil;
+}
 
 #pragma mark DBLoadSession Delegate;
 -(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
@@ -317,6 +353,22 @@
     return YES;
 }
 
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+}
+
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    for(UIView *view in self.view.subviews)
+    {
+        if(view.tag == kEditToolbarTag)
+        {
+            view.frame = CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44);
+        }
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -372,12 +424,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    // Navigation logic may go here. Create and push another view controller.
-    tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
-    id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
-    id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
-                
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
-     [self.navigationController pushViewController:detailViewController animated:YES];
+    if(!self.editing)
+    {        
+        tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
+        id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+        id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
+                    
+        DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
+         [self.navigationController pushViewController:detailViewController animated:YES];
+    }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -392,6 +447,27 @@
     return UITableViewCellEditingStyleNone;
 }
 
+-(void) deleteButtonPressed
+{
+    NSArray *selectedRows = [[NSArray alloc] initWithArray: [myTableView indexPathsForSelectedRows]];
+    
+    NSMutableIndexSet *indexSetToDelete = [[NSMutableIndexSet alloc] init];
+    NSMutableIndexSet *dsIndexSetToDelete = [[NSMutableIndexSet alloc] init];
+    NSMutableArray* copy = [self.datasource mutableCopy];
+    for (NSIndexPath *indexPath in selectedRows)
+    {
+        [indexSetToDelete addIndex:indexPath.row];
+        [dsIndexSetToDelete addIndex:[self.datasource indexOfObject:[self.tableData objectAtIndex:indexPath.row]]];
+    }
+    [self.tableData removeObjectsAtIndexes:indexSetToDelete];
+    [copy removeObjectsAtIndexes:dsIndexSetToDelete];
+    self.datasource = [[NSArray alloc] initWithArray:copy];
+    [myTableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];    
+    // TODO should update the db for the deleted flag and sync
+    [myTableView reloadData];
+
+}
+
 - (void)markItemAsDelete{
     
     UIBarButtonItem *barButtonItem = nil;
@@ -401,7 +477,19 @@
         [myTableView reloadData];
         self.navigationItem.rightBarButtonItem = nil;
         barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(markItemAsDelete)];
-        self.navigationItem.rightBarButtonItem = barButtonItem;
+       // self.navigationItem.rightBarButtonItem = barButtonItem;
+        
+        UIToolbar *bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
+        bottomToolbar.tag = kEditToolbarTag;
+        
+        UIBarButtonItem *delButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(deleteButtonPressed)];
+        [delButtonItem setTintColor:[UIColor redColor]];
+        
+        UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        
+        [self.view addSubview:bottomToolbar];
+        NSArray *items = [NSArray arrayWithObjects:flexButton, delButtonItem, barButtonItem, flexButton, nil];
+        [bottomToolbar setItems:items];
     }else{
         [super setEditing:NO animated:YES];
         [myTableView setEditing:NO animated:YES];
@@ -409,6 +497,12 @@
         self.navigationItem.rightBarButtonItem = nil;
         barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
         self.navigationItem.rightBarButtonItem = barButtonItem;
+        
+        for(UIView *view in self.view.subviews)
+        {
+            if(view.tag == kEditToolbarTag)
+                [view removeFromSuperview];
+        }
     }
 }
 
@@ -461,8 +555,8 @@
     }
     @catch(NSException *e){
     }
-    [sBar resignFirstResponder];
     sBar.text = @"";
+    [sBar resignFirstResponder];
 }
 // called when Search (in our case “Done”) button pressed
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

@@ -10,9 +10,10 @@
 #import "ListViewMetadata.h"
 #import "DBSession.h"
 #import "SyncHandler.h"
+
 @interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate, SyncHandlerDelegate,UIActionSheetDelegate>
 {
-    @private
+    @protected
     UITableView *myTableView;
     UISearchBar *sBar;
     int *tableDataMask;
@@ -26,4 +27,5 @@
 @property(strong)ListViewMetadata *metadata;
 -(void)displayModuleSetting;
 -(void)syncModule;
+-(void) sortData;
 @end
