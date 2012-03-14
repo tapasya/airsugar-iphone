@@ -99,6 +99,11 @@
     if (self.detail.popoverController != nil) {
         [self.detail.popoverController dismissPopoverAnimated:YES];
     }
+    
+    if([self.detail.navigationController visibleViewController] != self.detail)
+    {
+        [self.detail.navigationController popToRootViewControllerAnimated:YES];
+    }
 
     self.detail.beanId = beanId;
     self.detail.beanTitle = beanTitle;

@@ -11,4 +11,7 @@
 
 @interface DetailViewController_pad : DetailViewController<UISplitViewControllerDelegate>
 @property (nonatomic, retain) UIPopoverController *popoverController;
+@property (weak, nonatomic) IBOutlet UIView *defaultView;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @end

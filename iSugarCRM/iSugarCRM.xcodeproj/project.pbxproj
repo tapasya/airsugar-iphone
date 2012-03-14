@@ -35,6 +35,7 @@
 		0FE861F114F3B38C0065B585 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
 		0FEA45511507257300390F2A /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA45501507257300390F2A /* SplitViewController.m */; };
 		0FEA4577150753EE00390F2A /* LoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */; };
+		0FF14D6B151092E300BB6969 /* DefaultDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF14D6A151092E300BB6969 /* DefaultDetailView.xib */; };
 		0FF27E9014DA622B002169D7 /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
 		0FF27E9314DA63F6002169D7 /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
 		0FF27E9614DA6422002169D7 /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
@@ -153,6 +154,7 @@
 		0FEA454F1507257300390F2A /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		0FEA45501507257300390F2A /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "LoginViewController~ipad.xib"; sourceTree = "<group>"; };
+		0FF14D6A151092E300BB6969 /* DefaultDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultDetailView.xib; sourceTree = "<group>"; };
 		0FF27E8E14DA622B002169D7 /* AppSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettingsViewController.h; sourceTree = "<group>"; };
 		0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettingsViewController.m; sourceTree = "<group>"; };
 		0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableCell.xib; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				0FEA454F1507257300390F2A /* SplitViewController.h */,
 				0FEA45501507257300390F2A /* SplitViewController.m */,
 				0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */,
+				0FF14D6A151092E300BB6969 /* DefaultDetailView.xib */,
 			);
 			name = UI_Ipad;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				0FF81BD314F758AD00A3E04A /* Icon.png in Resources */,
 				0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */,
 				0FEA4577150753EE00390F2A /* LoginViewController~ipad.xib in Resources */,
+				0FF14D6B151092E300BB6969 /* DefaultDetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,8 +811,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -823,6 +827,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
