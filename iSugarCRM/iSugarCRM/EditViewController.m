@@ -65,6 +65,10 @@
     [super viewDidLoad];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveRecord)];
     self.navigationItem.rightBarButtonItem = barButtonItem;
+    
+    UIBarButtonItem *discardButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleDone target:self action:@selector(discard)];
+    self.navigationItem.leftBarButtonItem = discardButtonItem;
+
 }
 
 - (void)viewDidUnload
@@ -82,6 +86,12 @@
 
 -(void)saveRecord{
     //TODO save data into DB and update the same on server
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
+-(void) discard
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - TableView DataSource methods
