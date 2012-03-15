@@ -65,6 +65,8 @@
 		2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */; };
 		2FBBDFC41495DDF0000CFB80 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
 		2FBBDFC8149644B5000CFB80 /* SyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC7149644B5000CFB80 /* SyncHandler.m */; };
+		2FBFC5AA150DEDB800A4831B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBFC5A9150DEDB700A4831B /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2FBFC5AD150DF1EE00A4831B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */; };
 		2FCB48F214A21328009079A1 /* DetailViewRowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */; };
 		2FCB48F314A21328009079A1 /* DetailViewSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */; };
 		2FCB48F414A21328009079A1 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EF14A21328009079A1 /* DetailViewController.m */; };
@@ -194,6 +196,9 @@
 		2FBBDFC31495DDF0000CFB80 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		2FBBDFC6149644B5000CFB80 /* SyncHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncHandler.h; sourceTree = "<group>"; };
 		2FBBDFC7149644B5000CFB80 /* SyncHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncHandler.m; sourceTree = "<group>"; };
+		2FBFC5A8150DEDB700A4831B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		2FBFC5A9150DEDB700A4831B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		2FCB48EA14A21328009079A1 /* DetailViewRowItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewRowItem.h; sourceTree = "<group>"; };
 		2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewRowItem.m; sourceTree = "<group>"; };
 		2FCB48EC14A21328009079A1 /* DetailViewSectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewSectionItem.h; sourceTree = "<group>"; };
@@ -257,6 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FBFC5AD150DF1EE00A4831B /* SystemConfiguration.framework in Frameworks */,
 				0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */,
 				0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */,
 				2FD9F492148D0A8900446A5F /* libsqlite3.dylib in Frameworks */,
@@ -440,6 +446,8 @@
 				3B5C9810147CF83E007EF770 /* WebserviceSession.m */,
 				3B5C981C1484BE25007EF770 /* WebserviceMetadata.h */,
 				3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */,
+				2FBFC5A8150DEDB700A4831B /* Reachability.h */,
+				2FBFC5A9150DEDB700A4831B /* Reachability.m */,
 			);
 			name = webservice;
 			sourceTree = "<group>";
@@ -495,6 +503,7 @@
 		3B5C97C1147CF7BC007EF770 = {
 			isa = PBXGroup;
 			children = (
+				2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */,
 				3B5C97D6147CF7BC007EF770 /* iSugarCRM */,
 				3B5C97F4147CF7BD007EF770 /* iSugarCRMTests */,
 				3B5C97CF147CF7BC007EF770 /* Frameworks */,
@@ -776,6 +785,7 @@
 				0FEA45511507257300390F2A /* SplitViewController.m in Sources */,
 				0F630929150F52ED0029C18A /* EditViewRowItem.m in Sources */,
 				0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */,
+				2FBFC5AA150DEDB800A4831B /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

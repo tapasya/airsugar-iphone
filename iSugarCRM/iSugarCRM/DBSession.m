@@ -11,7 +11,7 @@
 #import "DataObject.h"
 
 @implementation DBSession
-@synthesize delegate,metadata,syncDelegate;
+@synthesize delegate,metadata,syncDelegate,parent;
 
 +(DBSession*)sessionWithMetadata:(DBMetadata*)metadata
 {
@@ -104,11 +104,10 @@
     [delegate session:self downloadedDetails:rows];
     
 }
+-(BOOL)checkAndCreateTable:(SqliteObj*)db{
 
--(void)updateDBWithDataObjects:(NSArray*)dataObjects
-{
     NSError* error = nil;
-    SqliteObj* db = [[SqliteObj alloc] init];
+   // SqliteObj* db = [[SqliteObj alloc] init];
     if(![db initializeDatabaseWithError:&error])
     {
         NSLog(@"%@",[error localizedDescription]);
@@ -126,13 +125,21 @@
             [sql appendString:[NSString stringWithFormat:@", %@ VARCHAR(100)",column_name]];
         }
     }
-    
+    [sql appendString:@", dirty INTEGER"];
     [sql appendString:@", PRIMARY KEY (id));"];
     
     if(![db executeUpdate:sql error:&error]){
         NSLog(@"error creating database with sql:%@ and error: %@",sql,[error localizedDescription]);
         [syncDelegate session:self syncFailedWithError:error];
+        return NO;
     }
+    return YES;
+}
+-(void)insertWithDataObjects:(NSArray*)dataObjects
+{
+    NSError* error = nil;
+    SqliteObj* db = [[SqliteObj alloc] init];
+    if ([self checkAndCreateTable:db]){
     //ADD OBJECTS NOW
     for(DataObject *dObj in dataObjects){
         NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO %@ (",metadata.tableName];
@@ -166,6 +173,7 @@
     }
     [db closeDatabase];
     [syncDelegate sessionSyncSuccessful:self];
+    }
 }    
 
 -(NSString*)getLastSyncTimestamp

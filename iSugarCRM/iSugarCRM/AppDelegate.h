@@ -14,12 +14,16 @@
 @property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
--(void)sync;
--(void)syncForModule:(NSString*) moduleName delegate:(id<SyncHandlerDelegate>) delegate;
+
+-(void)completeSyncWithDateFilters;
+-(void)logout;
+-(BOOL)wipeDatabase;
+-(void)resetApp;
+
 -(void)showDashboardController;
 -(void)showSyncSettingViewController;
--(BOOL)deleteDBData;
--(void)logout;
+
+//what are these for?
 -(void)showWaitingAlertWithMessage:(NSString *)message;
 -(void)dismissWaitingAlert;
 @end

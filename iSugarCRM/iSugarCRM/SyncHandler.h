@@ -11,13 +11,30 @@
 #import "DBSession.h"
 
 @protocol SyncHandlerDelegate;
-@interface SyncHandler : NSObject <WebserviceSessionDelegate,DBSyncSessionDelegate>
-@property(weak)id <SyncHandlerDelegate>delegate;
--(void)syncForModule:(NSString*)module;
--(void)syncAllModules;
--(void)syncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
--(void)syncModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate;
--(NSString *) formatStartDate:(NSString *)startDate;
+@interface SyncHandler : NSObject<WebserviceSessionDelegate,DBSyncSessionDelegate> {
+@private
+    NSOperationQueue        *mRequestQueue;
+}
+@property (assign) id<SyncHandlerDelegate>delegate;
+@property (assign) BOOL isCancelled;
+@property (assign) BOOL hadError;
+
++ (SyncHandler*)sharedInstance;
+- (void)addSyncSession:(WebserviceSession*)session;
+/*
+ Complete app sync methods
+ */
+-(void)runCompleteSync;
+-(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
+-(void)runCompleteSyncWithTimestamp;
+-(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate;
+/*
+ Per module sync methods
+ */
+-(void)runSyncForModule:(NSString*)module parent:(id)parent;
+-(void)runSyncForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
+-(void)runSyncWithTimestampForModule:(NSString*)moduleName parent:(id)parentl;
+-(void)runSyncWithTimestampForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
 @end
 
 @protocol SyncHandlerDelegate

@@ -353,7 +353,7 @@ BOOL isFirstTime;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     UIAlertView *alert;
     window.userInteractionEnabled=NO;
-    if(![sharedAppDelegate deleteDBData]){
+    if(![sharedAppDelegate wipeDatabase]){
         alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to Erase data" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }else{

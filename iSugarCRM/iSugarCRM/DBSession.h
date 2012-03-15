@@ -8,19 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "DBMetadata.h"
+
 @protocol DBLoadSessionDelegate;
 @protocol DBSyncSessionDelegate;
 @interface DBSession : NSObject
 {
 }
 
-
+@property(weak)id parent;
 @property(weak)id<DBLoadSessionDelegate> delegate;
 @property(weak)id<DBSyncSessionDelegate> syncDelegate;
 @property(strong)DBMetadata *metadata;
 +(DBSession*)sessionWithMetadata:(DBMetadata*)metadata;
 -(void)startLoading;
 -(void)detailsForId:(NSString*)beanId;
+-(void)insertDataObjectsInDb:(NSArray*)dataObjects;
 -(void)updateDBWithDataObjects:(NSArray*)dataObjects;
 -(NSString*)getLastSyncTimestamp;
 -(BOOL) deleteRecord:(NSString *)beanId;
