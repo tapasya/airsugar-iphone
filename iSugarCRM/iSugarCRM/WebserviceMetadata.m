@@ -90,7 +90,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     return [self formatRequest];
 }
 
--(NSURLRequest*) getRequestWithDateFilters:(NSString *)startDate :(NSString *)endDate
+-(NSURLRequest*)getRequestWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
 {
     if (startDate==nil || endDate == nil) {
         return [self getRequest];

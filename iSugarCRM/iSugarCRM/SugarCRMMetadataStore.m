@@ -63,11 +63,11 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     return moduleSupported;
 }
 
--(WebserviceMetadata*)webservice_ReadMetadataForModule:(NSString*)moduleId{
+-(WebserviceMetadata*)webservice_readMetadataForModule:(NSString*)moduleId{
     return [self webMetaDataForKey:[NSString stringWithFormat:@"read-%@",moduleId]];    
 }
 
--(WebserviceMetadata*)webservice_WriteMetadataForModule:(NSString*)moduleId{
+-(WebserviceMetadata*)webservice_writeMetadataForModule:(NSString*)moduleId{
     return [self webMetaDataForKey:[NSString stringWithFormat:@"write-%@",moduleId]];
 }
 

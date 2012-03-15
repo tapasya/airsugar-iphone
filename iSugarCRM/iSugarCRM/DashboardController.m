@@ -98,13 +98,11 @@
 }
 
 -(void)performLoginAction{
-//    id response = [LoginUtils login];
-//    session = [[response objectForKey:@"response"]objectForKey:@"id"];
+
     id response;
-    
     if(session){
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedAppDelegate sync];
+        [sharedAppDelegate completeSyncWithDateFilters];
     }else{
         session = nil;
         response = [LoginUtils login];
@@ -117,7 +115,7 @@
             [LoginUtils displayLoginError:response];
         }else{
             AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [sharedAppDelegate sync];
+            [sharedAppDelegate completeSyncWithDateFilters];
         }
     }
 }
