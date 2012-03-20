@@ -29,9 +29,10 @@
 NSString * session=nil;
 
 @interface AppDelegate ()
-    -(void)resetApp;
-    - (void) resignFirstResponderRec:(UIView*) view;
-    @property(strong) UIAlertView *waitAlertView;
+-(void) showDashboardController;
+-(void) showSyncSettingViewController;
+-(void) resignFirstResponderRec:(UIView*) view;
+@property(strong) UIAlertView *waitAlertView;
 @end
 
 @implementation AppDelegate
@@ -39,31 +40,12 @@ NSString * session=nil;
 @synthesize nvc;
 @synthesize syncHandler;
 @synthesize waitAlertView;
-
 int usernameLength,passwordLength;
+//to be removed
 
-
-#pragma mark UIApplicationDelegate methods
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    LoginViewController *lvc = [[LoginViewController alloc] init];
-    if(![LoginUtils keyChainHasUserData])
-    {
-        self.window.rootViewController = lvc;
-        [self.window makeKeyAndVisible];
-        return YES;
-    } else if([SettingsStore objectForKey:@"hasDates"] == nil){
-        [self showSyncSettingViewController];
-        return YES;
-    }else {
-        [self showDashboardController];
-        return YES;
-    }
-}
+#pragma mark UI methods
 -(void)showDashboardController{
-    //[self logout];
+
     DashboardController *dc = [[DashboardController alloc] initAndSync];
     dc.title = @"Modules";
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
@@ -79,18 +61,35 @@ int usernameLength,passwordLength;
     [self.window makeKeyAndVisible];
 }
 
--(void)sync
+-(void)showWaitingAlertWithMessage:(NSString *)message
 {
-    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
-    [sugarMetaDataStore configureMetadata];
-    syncHandler = [[SyncHandler alloc] init];
-    syncHandler.delegate = self;
-    NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
-    NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-    [syncHandler syncWithStartDate:startDate endDate:endDate];
+    if(message == nil){
+        message = @"Please Wait...";
+    }
+    waitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    [waitAlertView show];
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    // Adjust the indicator so it is up a few pixels from the bottom of the alert
+    indicator.center = CGPointMake(waitAlertView.bounds.size.width / 2, waitAlertView.bounds.size.height - 50);
+    [indicator startAnimating];
+    [waitAlertView addSubview:indicator];
 }
 
--(BOOL)deleteDBData{
+-(void)dismissWaitingAlert
+{
+    if(waitAlertView)
+    {
+        [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
+        waitAlertView = nil;
+    }
+}
+
+#pragma mark Logout Utils
+
+-(BOOL)wipeDatabase
+{
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     bool deletionFailed = false;
     
@@ -98,7 +97,7 @@ int usernameLength,passwordLength;
         DBSession *dbSession = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:moduleName]];
         if(![dbSession deleteAllRecordsInTable])
         {
-            deletionFailed=true;
+            deletionFailed = true;
         }
     }
     return !deletionFailed;
@@ -126,11 +125,11 @@ int usernameLength,passwordLength;
     } 
     NSLog(@"logout response = %@",[logoutResponseData objectFromJSONData]);
     [self resetApp];
-
 }
 
--(void)resetApp{
-    [self deleteDBData];
+-(void)resetApp
+{
+    [self wipeDatabase];
     session = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAppAuthenticationState];
     LoginViewController *lvc = [[LoginViewController alloc] init];
@@ -138,12 +137,28 @@ int usernameLength,passwordLength;
     self.window.rootViewController =  lvc;
 }
 
--(void) syncForModule:(NSString *)moduleName delegate:(id<SyncHandlerDelegate>)delegate
+#pragma mark Sync Methods
+-(void)completeSyncWithDateFilters
 {
-    syncHandler = [[SyncHandler alloc] init];
-    syncHandler.delegate = delegate;
-    [syncHandler syncForModule:moduleName];
+    SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+    [sugarMetaDataStore configureMetadata];
+    self.syncHandler = [SyncHandler sharedInstance];
+    syncHandler.delegate = self;
+    NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
+    NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
+    [syncHandler runCompleteSyncWithStartDate:startDate endDate:endDate];
 }
+- (void) resignFirstResponderRec:(UIView*) view {
+    if ([view respondsToSelector:@selector(resignFirstResponder)]){
+        [view resignFirstResponder];
+    }
+    
+    for (UIView * subview in [view subviews]){
+        [self resignFirstResponderRec:subview];
+    }
+}
+
+#pragma mark SyncHandler Delegate methods
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
 {
@@ -153,6 +168,28 @@ int usernameLength,passwordLength;
 {
     //[self dismissWaitingAlert];
 }
+
+
+#pragma mark UIApplicationDelegate methods
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    if(![LoginUtils keyChainHasUserData])
+    {
+        self.window.rootViewController = lvc;
+        [self.window makeKeyAndVisible];
+        return YES;
+    } else if([SettingsStore objectForKey:@"hasDates"] == nil){
+        [self showSyncSettingViewController];
+        return YES;
+    }else {
+        [self showDashboardController];
+        return YES;
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -196,39 +233,6 @@ int usernameLength,passwordLength;
      */
 }
 
-- (void) resignFirstResponderRec:(UIView*) view {
-    if ([view respondsToSelector:@selector(resignFirstResponder)]){
-        [view resignFirstResponder];
-    }
-    
-    for (UIView * subview in [view subviews]){
-        [self resignFirstResponderRec:subview];
-    }
-}
 
--(void)showWaitingAlertWithMessage:(NSString *)message
-{
-    if(message == nil){
-        message = @"Please Wait...";
-    }
-    waitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
-    [waitAlertView show];
-    
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    
-    // Adjust the indicator so it is up a few pixels from the bottom of the alert
-    indicator.center = CGPointMake(waitAlertView.bounds.size.width / 2, waitAlertView.bounds.size.height - 50);
-    [indicator startAnimating];
-    [waitAlertView addSubview:indicator];
-}
-
--(void)dismissWaitingAlert
-{
-    if(waitAlertView)
-    {
-        [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
-        waitAlertView = nil;
-    }
-}
 
 @end

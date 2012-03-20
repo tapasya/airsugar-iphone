@@ -5,57 +5,202 @@
 //  Created by satyavrat-mac on 12/12/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
+/*
+ 1. Create operations with all dirty records in the db
+ 1. Upload the data in the queue
+ 2. Download the data
+ */
 
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
-//static SyncHandler *sharedInstance;
-NSInteger moduleCount = 1;
-@implementation SyncHandler
-@synthesize delegate;
+#import "Reachability.h"
+NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
+static SyncHandler *sharedInstance;
+@interface SyncHandler ()
+@property (strong) NSOperationQueue *requestQueue;
+-(id)initPrivate;
+-(NSString*)formatDate:(NSString*)date;
+@property (assign) NSInteger requestCount;
+@end
 
--(void)syncForModule:(NSString*)module
+@implementation SyncHandler
+@synthesize requestQueue = mRequestQueue;
+@synthesize isCancelled;
+@synthesize hadError;
+@synthesize requestCount;
+@synthesize delegate;
+#pragma mark Singleton methods
+
+-(id)init{
+    NSAssert(NO, @"Cannot instantiate this directly, use sharedInstance");
+    return nil;
+}
++(SyncHandler*)sharedInstance{
+    @synchronized(self){
+        if(sharedInstance == nil){
+            sharedInstance = [[SyncHandler alloc] initPrivate];
+        }
+        return sharedInstance;
+    }
+}
+
+- (id)copyWithZone:(NSZone *)zone 
+{ 
+    return self; 
+}
+
+-(id)initPrivate{
+    self = [super init];
+    self.requestQueue = [[NSOperationQueue alloc] init];
+    return self;
+}
+
+
+
+#pragma mark Complete Sync Methods
+
+//for all complete syn methods: create add functionality to take all the dirty records in db and sync
+-(void)runCompleteSync
+{   
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    for(NSString *module in metadataStore.modulesSupported)
+    {
+        [self runSyncForModule:module parent:nil];
+    }
+}
+
+-(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
 {
+    startDate = [self formatDate:startDate];
+    endDate = [self formatDate:endDate];
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    for(NSString *module in metadataStore.modulesSupported){
+        [self runSyncForModule:module startDate:startDate endDate:endDate parent:nil];
+    }
+}
+-(void)runCompleteSyncWithTimestamp{
+    
+    //TODO:
+    
+}
+-(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate{
+    
+    //TODO:
+}
+#pragma mark Module Sync Methods
+-(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent{
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
+    session.delegate = self;
+    session.parent = parent;
+    session.syncAction = kWrite;
+    session.uploadDataObjects = uploadData;
+    [session startUploading];
+    
+}
+-(void)runSyncForModule:(NSString*)module parent:(id)parent
+{
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
+    session.delegate = self;
+    session.parent = parent;
+    [session startLoading:nil];
+}
+
+
+-(void)runSyncForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent
+{
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
+    session.syncAction = kRead;
+    session.delegate = self;
+    session.parent = parent;
+    [session startLoadingWithStartDate:startDate endDate:endDate];    
+}
+
+
+-(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent{
+    //TODO:
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_ReadMetadataForModule:module]];
-    session.delegate=self;
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
+    session.delegate = self;
+    session.parent = parent;
     [session startLoading:deltaMark];
 }
 
+-(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
+    //TODO:
+}
 
--(void)syncAllModules
-{   
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    moduleCount = [metadataStore.modulesSupported count];
-    for(NSString *module in metadataStore.modulesSupported)
-    {
-        [self syncForModule:module];
+-(void)addSyncSession:(WebserviceSession *)session{
+    NSLog(@"operation count = %d",[self.requestQueue operationCount]);
+    [self.requestQueue addOperation:session];
+}
+
+#pragma mark Db Sync Session delegate methods
+-(void)session:(DBSession*)session syncFailedWithError:(NSError*)error
+{
+    @synchronized([self class]){
+        if ([self.requestQueue operationCount]== 1) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
+            [delegate syncHandler:self failedWithError:error];
+        }
+        
+        [session.parent syncHandler:self failedWithError:error];
     }
 }
 
--(void)syncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
-{
-    startDate = [self formatStartDate:startDate];
-    endDate = [self formatStartDate:endDate];
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    moduleCount = [metadataStore.modulesSupported count];
-    for(NSString *module in metadataStore.modulesSupported)
-    {
-        [self syncModule:module startDate:startDate endDate:endDate];
+-(void)sessionSyncSuccessful:(DBSession*)session;
+{   
+    @synchronized([self class]){
+        if ([self.requestQueue operationCount]== 1) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
+            [delegate syncComplete:self];
+        }
+        //TODO:Add notification for each module.
+        [session.parent syncComplete:self];
+    }
+}
+
+#pragma mark Webservice Session delegate methods
+
+-(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
+{  
+    @synchronized([self class])
+    {   
+        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
+        dbSession.syncDelegate = self;
+        dbSession.parent = session.parent;
+        [dbSession insertDataObjectsInDb:response dirty:NO];
+    }
+}
+
+-(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
+{ @synchronized([self class]){
+    NSLog(@"Error syncing data: %@",[error localizedDescription]);
+    if (session.syncAction == kRead) {
         
     }
+    else {
+        //write to local db with dirty flag
+        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
+        dbSession.syncDelegate = self;
+        dbSession.parent = session.parent;
+        [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:YES];
+        }
+    }
 }
 
--(void)syncModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate;
-{
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_ReadMetadataForModule:moduleName]];
-    session.delegate=self;
-    [session startLoadingWithFilters:startDate :endDate];    
-}
+#pragma mark Utility
 
--(NSString *) formatStartDate:(NSString *)date
+//move this method to utils
+-(NSString *) formatDate:(NSString *)date
 {    
     NSDateFormatter *dateFormatter;
     
@@ -71,48 +216,27 @@ NSInteger moduleCount = 1;
     
     return date;
 }
-
-#pragma mark Webservice Session delegate methods
-
--(void)session:(WebserviceSession*)session didCompleteWithResponse:(id)response
-{  
-    @synchronized([self class])
-    {   
-        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
-        dbSession.syncDelegate = self;
-        [dbSession updateDBWithDataObjects:response];
-    }
+- (BOOL)reachabilityCheck:(NSError**)error {
+    
+	BOOL reachable = YES;
+	NSError* localError = nil;
+    if ( NULL == error )
+		*error = localError;
+	/** Check first line of reachability **/
+    NSString *hostName = [[NSUserDefaults standardUserDefaults] objectForKey:@"sugarEndPoint"];
+	Reachability *internetReach = [Reachability reachabilityWithHostName:hostName];
+    [internetReach startNotifier];
+    NetworkStatus netStatus = [internetReach currentReachabilityStatus];
+    
+	// No internet connection, die right away
+	if ( netStatus == kNotReachable ) {
+		*error = [NSError errorWithDomain:NetworkRequestErrorDomain 
+                                     code:kNotReachable 
+                                 userInfo:[NSDictionary 
+                                           dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
+		reachable = NO;
+	}
+    
+	return reachable;
 }
-
--(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
-{
-    NSLog(@"Error syncing data: %@",[error localizedDescription]);
-    moduleCount--;
-}
-
-#pragma mark Db Sync Session delegate methods
--(void)session:(DBSession*)session syncFailedWithError:(NSError*)error
-{
-    @synchronized([self class]){
-        NSLog(@"Sync failed for module: %@ with error: %@",session.metadata.tableName,[error localizedDescription]);
-        moduleCount--;
-        [delegate syncHandler:self failedWithError:error];
-    }
-}
-
--(void)sessionSyncSuccessful:(DBSession*)session;
-{   
-    @synchronized([self class]){
-        NSLog(@"Sync succesfull for module: %@",session.metadata.tableName);
-        [delegate syncComplete:self];
-        NSLog(@"module count is %d",moduleCount);
-        if (moduleCount==1) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
-        }
-        moduleCount--;
-    }
-}
-
 @end

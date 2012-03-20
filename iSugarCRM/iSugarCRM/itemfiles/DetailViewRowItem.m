@@ -16,7 +16,7 @@
 
 -(CGFloat)heightForCell:(UITableView*)tableView
 {
-    NSLog(@"%@",self.label);
+  //  NSLog(@"%@",self.label);
     CGFloat height = [[self valueStringWithFormat:nil] sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(tableView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18] constrainedToSize:CGSizeMake(170,1000) lineBreakMode:UILineBreakModeWordWrap].width, 10000) lineBreakMode:UILineBreakModeWordWrap].height;
     return KCellHeight>height?KCellHeight:(height+kHeightlMargin);
 }
@@ -101,7 +101,6 @@
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             NSDate *date = [dateFormatter dateFromString:dateString];
-            NSLog(@"date object from string is %@",date);
             [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
             dateString = [dateFormatter stringFromDate:date];
             

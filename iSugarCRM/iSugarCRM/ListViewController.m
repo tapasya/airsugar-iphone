@@ -109,11 +109,10 @@
 
 -(void)syncModule{
     //TODO module synch code;
-    NSLog(@"SYNCH MODULES");
-    //[self.navigationController setToolbarHidden:NO animated:YES];
     [self showProgress];
-    AppDelegate* sharedDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
-    [sharedDelegate syncForModule:moduleName delegate:self];
+  //  [self.navigationController setToolbarHidden:NO animated:YES];
+    SyncHandler* syncHandler = [SyncHandler sharedInstance];
+    [syncHandler runSyncForModule:moduleName parent:self];
 }
 
 -(void)showActionSheet{

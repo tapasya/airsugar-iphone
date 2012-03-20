@@ -14,11 +14,13 @@
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
 @interface DetailViewController()
-    @property(strong) NSArray *detailsArray;
+@property(strong) NSArray *detailsArray;
 @end
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
-@synthesize detailsArray;
+@synthesize detailsArray; 
+
+#pragma mark init methods
 
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
 {
@@ -43,9 +45,6 @@
     return self;
 }
 
-#pragma mark - KVO
-
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -69,7 +68,9 @@
         {
             DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
             rowItem.label = [rowItem_ objectForKey:@"label"];
+            //workaround for deteremining action type. pls resolve.
             rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
+        
             NSMutableArray *fields = [NSMutableArray array];
             for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
             {
@@ -94,13 +95,16 @@
     NSLog(@"Error: %@",[error localizedDescription]);
 }
 
-#pragma mark - View lifecycle
 
-- (void)viewDidLoad
+#pragma mark --
+-(void)editDetails
 {
-    [super viewDidLoad];
-    self.title = self.beanTitle;
-    [self loadDataFromDb];
+    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
+    editViewController.title = @"Edit Record";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentModalViewController:navController animated:YES];
 }
 
 -(void) loadDataFromDb
@@ -110,18 +114,18 @@
         DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
         DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
         dbSession.delegate = self;
-        [dbSession detailsForId:self.beanId];
+        [dbSession loadDetailsForId:self.beanId];
     }
 }
 
--(void)editDetails
+#pragma mark - View lifecycle
+
+- (void)viewDidLoad
 {
-    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
-    editViewController.title = @"Edit Record";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self presentModalViewController:navController animated:YES];
+    [super viewDidLoad];
+    self.title = self.beanTitle;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
+    [self loadDataFromDb];
 }
 
 - (void)viewDidUnload
@@ -161,14 +165,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
+    
     // Return the number of sections.
     return [datasource count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
+    
     // Return the number of rows in the section.
     id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:section];
     return [[sectionItem rowItems] count];

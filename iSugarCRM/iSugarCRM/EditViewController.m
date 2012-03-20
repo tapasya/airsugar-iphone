@@ -97,7 +97,7 @@
 #pragma mark - TableView DataSource methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"NUMBER OF FIELDS IN EDIT/ADD %i",[[metadata.fields allObjects] count]);
+    NSLog(@"NUMBER OF FIELDS IN EDIT/ADD %i",[[metadata.fields allObjects] count]); //remove
     return [[metadata.fields allObjects] count];
 }
 

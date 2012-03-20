@@ -32,6 +32,6 @@ typedef enum HTTPMethod{
 +(WebserviceMetadata*)objectFromDictionary:(NSDictionary*)dictionary;
 -(NSURLRequest*)getRequest;
 -(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString*)timestamp;
--(NSURLRequest*)getRequestWithDateFilters:(NSString*)startDate: (NSString*) endDate;
--(NSURLRequest*) getWriteRequestWithDataDictionary:(NSDictionary*)data;
+-(NSURLRequest*)getRequestWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
+-(NSURLRequest*) getWriteRequestWithData:(NSArray*)data;
 @end
