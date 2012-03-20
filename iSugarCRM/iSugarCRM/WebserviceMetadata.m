@@ -108,14 +108,14 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     return [self formatRequest];
 
 }
--(NSURLRequest*) getWriteRequestWithDataDictionary:(NSDictionary*)dataDicitonary
+-(NSURLRequest*) getWriteRequestWithData:(NSArray*)data
 {
     //append url parameters
     NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
     [restDataDictionary setObject:session forKey:@"session"];
     [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    if (dataDicitonary && data_key) {
-    [restDataDictionary  setObject:dataDicitonary forKey:data_key];
+    if (data && data_key) {
+    [restDataDictionary  setObject:data forKey:data_key];
     }
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];

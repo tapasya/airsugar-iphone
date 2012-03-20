@@ -15,6 +15,8 @@
 #import "DetailViewSectionItem.h"
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
+#pragma mark init methods
+
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
 {
     DetailViewController *detailViewController = [[DetailViewController alloc] init];
@@ -37,9 +39,6 @@
     }
     return self;
 }
-
-#pragma mark - KVO
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -88,7 +87,13 @@
     NSLog(@"Error: %@",[error localizedDescription]);
 }
 
-
+#pragma mark --
+-(void)editDetails{
+    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
+    editViewController.title = @"Edit Data";
+    [self.navigationController pushViewController:[EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]] animated:YES];
+}
 
 #pragma mark - View lifecycle
 
@@ -101,15 +106,9 @@
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
     DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
     dbSession.delegate = self;
-    [dbSession detailsForId:self.beanId];
+    [dbSession loadDetailsForId:self.beanId];
+}
 
-}
--(void)editDetails{
-    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
-    editViewController.title = @"Edit Data";
-    [self.navigationController pushViewController:[EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]] animated:YES];
-}
 - (void)viewDidUnload
 {
     [super viewDidUnload];

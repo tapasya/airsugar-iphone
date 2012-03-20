@@ -25,7 +25,7 @@ enum SyncAction{
 @property(strong)WebserviceMetadata *metadata;
 @property(assign)NSInteger syncAction;
 @property(assign)id parent;
-@property(strong)NSDictionary* uploadData;
+@property(strong)NSArray* uploadDataObjects;
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
 -(void)startLoading:(NSString*)timestamp;
 -(void)startLoadingWithStartDate:(NSString *)startDate endDate:(NSString *)endDate;

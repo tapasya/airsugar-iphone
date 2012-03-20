@@ -23,7 +23,7 @@
 @end
 
 @implementation WebserviceSession
-@synthesize uploadData;
+@synthesize uploadDataObjects;
 @synthesize delegate,conn,req,responseData,done;
 @synthesize metadata,syncAction,parent;
 @synthesize executing = _isExecuting;
@@ -47,11 +47,14 @@
     NSURLRequest *request = [metadata getRequestWithStartDate:startDate endDate:endDate];
     [self loadUrl:request];
 }
+-(NSArray*)geUploadData{
 
+    return nil;
+}
 -(void)startUploading
 { 
-    if(self.uploadData != nil){
-    NSURLRequest *request = [metadata getWriteRequestWithDataDictionary:uploadData];
+    if(self.uploadDataObjects != nil){
+    NSURLRequest *request = [metadata getWriteRequestWithData:[self geUploadData]];
     [self loadUrl:request]; 
     }
 }
@@ -115,14 +118,9 @@
             }
         }
     } else {
-        if(syncAction == kWrite){
-            //write to database with dirty flag if fail in upload
-            
-        }else if (syncAction == kRead){
             if (delegate != nil && [delegate respondsToSelector:@selector(session:didFailWithError:)]){
                 [self.delegate session:self didFailWithError:[NSError errorWithDomain:@"HTTP ERROR" code:errorCode userInfo:nil]];
-            }
-        }
+           }
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

@@ -52,7 +52,6 @@ static SyncHandler *sharedInstance;
 -(id)initPrivate{
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
-    //self.requestQueue.maxConcurrentOperationCount = 8;
     return self;
 }
 
@@ -72,14 +71,11 @@ static SyncHandler *sharedInstance;
 
 -(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
 {
-    
     startDate = [self formatDate:startDate];
     endDate = [self formatDate:endDate];
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    for(NSString *module in metadataStore.modulesSupported)
-    {
+    for(NSString *module in metadataStore.modulesSupported){
         [self runSyncForModule:module startDate:startDate endDate:endDate parent:nil];
-        
     }
 }
 -(void)runCompleteSyncWithTimestamp{
@@ -92,13 +88,13 @@ static SyncHandler *sharedInstance;
     //TODO:
 }
 #pragma mark Module Sync Methods
--(void)uploadData:(NSDictionary*)uploadData forModule:(NSString*)module parent:(id)parent{
+-(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent{
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
     session.delegate = self;
     session.parent = parent;
     session.syncAction = kWrite;
-    session.uploadData = uploadData;
+    session.uploadDataObjects = uploadData;
     [session startUploading];
     
 }
@@ -163,7 +159,7 @@ static SyncHandler *sharedInstance;
             [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
             [delegate syncComplete:self];
         }
-        //ADD notification for each module.
+        //TODO:Add notification for each module.
         [session.parent syncComplete:self];
     }
 }
@@ -179,7 +175,7 @@ static SyncHandler *sharedInstance;
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;
-        [dbSession insertDataObjects:response];
+        [dbSession insertDataObjectsInDb:response dirty:NO];
     }
 }
 
@@ -190,12 +186,13 @@ static SyncHandler *sharedInstance;
         
     }
     else {
+        //write to local db with dirty flag
         SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
         DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;
-        [dbSession insertDataObjects:nil];
+        [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:YES];
         }
     }
 }

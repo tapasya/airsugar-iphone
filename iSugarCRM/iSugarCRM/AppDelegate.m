@@ -42,6 +42,24 @@ NSString * session=nil;
 @synthesize waitAlertView;
 int usernameLength,passwordLength;
 //to be removed
+
+#pragma mark UI methods
+-(void)showDashboardController{
+    DashboardController *dc = [[DashboardController alloc] init];
+    dc.title = @"Modules";
+    nvc = [[UINavigationController alloc] initWithRootViewController:dc];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+}
+
+-(void)showSyncSettingViewController{
+    SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    syncSettings.title = @"Sync Setup";
+    nvc = [[UINavigationController alloc] initWithRootViewController:syncSettings];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+}
+
 -(void)showWaitingAlertWithMessage:(NSString *)message
 {
     if(message == nil){
@@ -65,17 +83,6 @@ int usernameLength,passwordLength;
         [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
         waitAlertView = nil;
     }
-}
-
-#pragma mark SyncHandler Delegate methods
-
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
-{
-    [self performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
-}
--(void)syncComplete:(SyncHandler*)syncHandler
-{
-    //[self dismissWaitingAlert];
 }
 
 #pragma mark Logout Utils
@@ -150,21 +157,17 @@ int usernameLength,passwordLength;
     }
 }
 
--(void)showDashboardController{
-    DashboardController *dc = [[DashboardController alloc] init];
-    dc.title = @"Modules";
-    nvc = [[UINavigationController alloc] initWithRootViewController:dc];
-    self.window.rootViewController = nvc;
-    [self.window makeKeyAndVisible];
+#pragma mark SyncHandler Delegate methods
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
+{
+    [self performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
+}
+-(void)syncComplete:(SyncHandler*)syncHandler
+{
+    //[self dismissWaitingAlert];
 }
 
--(void)showSyncSettingViewController{
-    SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    syncSettings.title = @"Sync Setup";
-    nvc = [[UINavigationController alloc] initWithRootViewController:syncSettings];
-    self.window.rootViewController = nvc;
-    [self.window makeKeyAndVisible];
-}
 
 #pragma mark UIApplicationDelegate methods
 
