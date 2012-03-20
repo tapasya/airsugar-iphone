@@ -19,6 +19,7 @@
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
 @synthesize detailsArray;
+#pragma mark init methods
 
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
 {
@@ -42,9 +43,6 @@
     }
     return self;
 }
-
-#pragma mark - KVO
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -106,11 +104,12 @@
 -(void) loadDataFromDb
 {
     if(self.beanId){
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
         SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
         DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
         DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
         dbSession.delegate = self;
-        [dbSession detailsForId:self.beanId];
+        [dbSession loadDetailsForId:self.beanId];
     }
 }
 

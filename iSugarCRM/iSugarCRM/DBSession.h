@@ -20,10 +20,12 @@
 @property(weak)id<DBSyncSessionDelegate> syncDelegate;
 @property(strong)DBMetadata *metadata;
 +(DBSession*)sessionWithMetadata:(DBMetadata*)metadata;
+//reading
 -(void)startLoading;
--(void)detailsForId:(NSString*)beanId;
--(void)insertDataObjectsInDb:(NSArray*)dataObjects;
--(void)updateDBWithDataObjects:(NSArray*)dataObjects;
+-(void)loadDetailsForId:(NSString*)beanId;
+//writing
+-(void)insertDataObjectsInDb:(NSArray *)dataObjects dirty:(BOOL)dirty;
+
 -(NSString*)getLastSyncTimestamp;
 -(BOOL) deleteRecord:(NSString *)beanId;
 -(BOOL) deleteAllRecordsInTable;
