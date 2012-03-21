@@ -32,7 +32,7 @@
     return NO;
 }
 
--(NSDictionary*) getNameValueDictionary
+-(NSDictionary*)nameValueDictionary
 {
     NSMutableDictionary *nameValueList = [[OrderedDictionary alloc] init];
     for(DataObjectField* field in self.metadata.fields)

@@ -18,5 +18,5 @@
 -(id)initWithMetadata:(DataObjectMetadata*)objectMetadata;
 -(id)objectForFieldName:(NSString*)fieldName;
 -(BOOL)setObject:(id)anObject forFieldName:(NSString *)fieldName;
--(NSDictionary*) getNameValueDictionary;
+-(NSDictionary*)nameValueDictionary;
 @end

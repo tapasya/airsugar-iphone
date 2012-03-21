@@ -73,7 +73,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Contacts</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -1851,7 +1851,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Opportunities</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -2901,7 +2901,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Prospects</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -3816,7 +3816,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Calls</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -6902,7 +6902,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Roles</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -7439,7 +7439,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Tasks</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -8171,7 +8171,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Accounts</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -9988,7 +9988,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Employees</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -10929,7 +10929,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Campaigns</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -12071,7 +12071,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Cases</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
