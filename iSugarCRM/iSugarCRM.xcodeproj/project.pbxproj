@@ -13,7 +13,9 @@
 		0F0AABCB1505D4C4008ABEF7 /* ListViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */; };
 		0F19C27A1500EAE700BE2110 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
 		0F3CAE9914EAA71300288F58 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
+		0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4723B815185A5B00DFF926 /* EditViewSectionItem.m */; };
 		0F48CD7C150657A300D36640 /* DetailViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48CD7B150657A300D36640 /* DetailViewController_pad.m */; };
+		0F630929150F52ED0029C18A /* EditViewRowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F630928150F52ED0029C18A /* EditViewRowItem.m */; };
 		0F7810FA14ECD38500ED61AF /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7810F914ECD38500ED61AF /* sync.png */; };
 		0F81708114BEB1EE0061EF4D /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
 		0F8225F714B724AD00DCC4A5 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
@@ -117,8 +119,12 @@
 		0F19C2781500EAE700BE2110 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
 		0F19C2791500EAE700BE2110 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		0F3CAE9814EAA71300288F58 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		0F4723B715185A5B00DFF926 /* EditViewSectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewSectionItem.h; sourceTree = "<group>"; };
+		0F4723B815185A5B00DFF926 /* EditViewSectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewSectionItem.m; sourceTree = "<group>"; };
 		0F48CD7A150657A300D36640 /* DetailViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController_pad.h; sourceTree = "<group>"; };
 		0F48CD7B150657A300D36640 /* DetailViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController_pad.m; sourceTree = "<group>"; };
+		0F630927150F52ED0029C18A /* EditViewRowItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewRowItem.h; sourceTree = "<group>"; };
+		0F630928150F52ED0029C18A /* EditViewRowItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewRowItem.m; sourceTree = "<group>"; };
 		0F7810F914ECD38500ED61AF /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
 		0F81707F14BEB1EE0061EF4D /* ModuleSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsViewController.h; sourceTree = "<group>"; };
 		0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsViewController.m; sourceTree = "<group>"; };
@@ -386,6 +392,10 @@
 				2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */,
 				2FCB48F014A21328009079A1 /* UITableViewCellItem.h */,
 				2FCB48F114A21328009079A1 /* UITableViewCellSectionItem.h */,
+				0F630927150F52ED0029C18A /* EditViewRowItem.h */,
+				0F630928150F52ED0029C18A /* EditViewRowItem.m */,
+				0F4723B715185A5B00DFF926 /* EditViewSectionItem.h */,
+				0F4723B815185A5B00DFF926 /* EditViewSectionItem.m */,
 			);
 			path = itemfiles;
 			sourceTree = "<group>";
@@ -764,6 +774,8 @@
 				0F0AABCB1505D4C4008ABEF7 /* ListViewController_pad.m in Sources */,
 				0F48CD7C150657A300D36640 /* DetailViewController_pad.m in Sources */,
 				0FEA45511507257300390F2A /* SplitViewController.m in Sources */,
+				0F630929150F52ED0029C18A /* EditViewRowItem.m in Sources */,
+				0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

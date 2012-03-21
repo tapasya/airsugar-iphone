@@ -14,7 +14,7 @@
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
 @interface DetailViewController()
-    @property(strong) NSArray *detailsArray;
+    @property(strong) NSMutableArray *detailsArray;
 @end
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
@@ -57,7 +57,7 @@
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {   
-    self.detailsArray = details;
+    self.detailsArray = [details mutableCopy];
     NSMutableArray* sections = [[NSMutableArray alloc] init];
     for(NSDictionary *sectionItem_ in metadata.sections  )
     {   
@@ -117,7 +117,7 @@
 -(void)editDetails
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:self.detailsArray];
     editViewController.title = @"Edit Record";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
