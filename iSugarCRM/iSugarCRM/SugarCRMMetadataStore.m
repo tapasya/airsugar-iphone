@@ -68,7 +68,9 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 }
 
 -(WebserviceMetadata*)webservice_writeMetadataForModule:(NSString*)moduleId{
-    return [self webMetaDataForKey:[NSString stringWithFormat:@"write-%@",moduleId]];
+    WebserviceMetadata *metadata = [self webMetaDataForKey:[NSString stringWithFormat:@"write-%@",moduleId]];
+    NSLog(@"module name = %@",metadata.moduleName);
+    return metadata ;
 }
 
 -(DBMetadata*)dbMetadataForModule:(NSString*)moduleId

@@ -48,8 +48,7 @@
     [self loadUrl:request];
 }
 -(NSArray*)geUploadData{
-
-    return nil;
+return nil;
 }
 -(void)startUploading
 { 
@@ -171,7 +170,6 @@
         }
         [delegate session:self didCompleteDownloadWithResponse:arrayOfDataObjects];
     }
-    
     self.done = YES;
 }
 

@@ -124,6 +124,7 @@ static SyncHandler *sharedInstance;
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
+    NSLog(@"module name: %@", module);
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.delegate = self;
     session.parent = parent;
@@ -166,12 +167,20 @@ static SyncHandler *sharedInstance;
 
 #pragma mark Webservice Session delegate methods
 
+//write method, once the write is successfull run sync for the module
+-(void)sessionDidCompleteUploadSuccessfully:(WebserviceSession*)session{
+
+    //parent getting released..
+    [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
+}
+
 -(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
 {  
     @synchronized([self class])
     {   
         SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
         DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+        NSLog(@"db session module name: %@", session.metadata.moduleName);
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;

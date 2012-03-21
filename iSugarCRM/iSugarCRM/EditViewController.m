@@ -9,7 +9,7 @@
 #import "EditViewController.h"
 #import "DataObjectMetadata.h"
 #import "DataObject.h"
-
+#import "SyncHandler.h"
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
@@ -17,14 +17,14 @@
 @interface EditViewController()
 @property(strong) UITableView *_tableView;
 @property(strong) NSArray *dataSource;
-@property(strong) NSArray *_detailedData;
+@property(strong) NSArray *detailedData;
 @end
 
 @implementation EditViewController
 @synthesize _tableView;
 @synthesize dataSource;
 @synthesize metadata;
-@synthesize _detailedData;
+@synthesize detailedData;
 
 
 #pragma mark - View lifecycle
@@ -41,7 +41,7 @@
     
     EditViewController *editViewController = [[EditViewController alloc] init];
     editViewController.metadata = metadata;
-    editViewController._detailedData = detailedData;
+    editViewController.detailedData = detailedData;
     return editViewController;
 }
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -54,7 +54,6 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     self.view = _tableView;
-    //[self.view addSubview:_tableView];
 }
 
 
@@ -66,7 +65,7 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveRecord)];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     
-    UIBarButtonItem *discardButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleDone target:self action:@selector(discard)];
+    UIBarButtonItem *discardButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStylePlain target:self action:@selector(discard)];
     self.navigationItem.leftBarButtonItem = discardButtonItem;
 
 }
@@ -86,7 +85,10 @@
 
 -(void)saveRecord{
     //TODO save data into DB and update the same on server
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    SyncHandler * syncHandler = [SyncHandler sharedInstance];
+    NSLog(@"module name = %@", self.metadata.objectClassIdentifier);
+    [syncHandler uploadData:[NSArray arrayWithObject:[[self.detailedData objectAtIndex:0] nameValueDictionary]] forModule:self.metadata.objectClassIdentifier parent:self];
+    //[self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 -(void) discard
@@ -130,8 +132,8 @@
     
     
     UITextField *valueField = (UITextField*)[cell.contentView viewWithTag:1002];
-    if(_detailedData != nil){
-        NSString *value = [(DataObject *)[_detailedData objectAtIndex:0] objectForFieldName:field.name];
+    if(detailedData != nil){
+        NSString *value = [(DataObject *)[detailedData objectAtIndex:0] objectForFieldName:field.name];
         valueField.text = value;
     }else{
         valueField.text = @"";
@@ -152,5 +154,12 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
+}
+#pragma mark SyncHandler Delegate{
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
+}
+-(void)syncComplete:(SyncHandler*)syncHandler{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 @end

@@ -100,6 +100,7 @@
 -(void)editDetails
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+    NSLog(@"module name %@, metadata = %@",self.metadata.moduleName,[metadataStore objectMetadataForModule:self.metadata.moduleName]);
     EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:(NSArray *)self.detailsArray];
     editViewController.title = @"Edit Record";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];

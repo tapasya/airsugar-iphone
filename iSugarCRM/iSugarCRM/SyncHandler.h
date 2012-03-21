@@ -22,6 +22,10 @@
 + (SyncHandler*)sharedInstance;
 - (void)addSyncSession:(WebserviceSession*)session;
 /*
+write methods
+ */
+ -(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent;
+/*
  Complete app sync methods
  */
 -(void)runCompleteSync;
