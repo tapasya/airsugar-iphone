@@ -45,7 +45,6 @@ int usernameLength,passwordLength;
 
 #pragma mark UI methods
 -(void)showDashboardController{
-
     DashboardController *dc = [[DashboardController alloc] initAndSync];
     dc.title = @"Modules";
     nvc = [[UINavigationController alloc] initWithRootViewController:dc];
