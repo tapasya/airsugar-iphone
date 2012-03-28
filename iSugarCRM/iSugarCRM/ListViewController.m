@@ -112,7 +112,8 @@
     NSLog(@"SYNC MODULES");
     [self.navigationController setToolbarHidden:NO animated:YES];
     SyncHandler* syncHandler = [SyncHandler sharedInstance];
-    [syncHandler runSyncForModule:moduleName parent:self];
+  //  [syncHandler runSyncForModule:moduleName parent:self];
+    [syncHandler runSyncWithTimestampForModule:moduleName parent:self];
 }
 
 -(void)showActionSheet{
@@ -261,7 +262,7 @@
     NSLog(@"Error: %@",[error localizedDescription]);
 }
 
--(void) loadData
+-(void)loadData
 {
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
@@ -270,7 +271,7 @@
     [dbSession startLoading];
 }
 
--(void) sortData
+-(void)sortData
 {
     NSString *name,*sortFieldLabel,*sortOrderValue;
     sortFieldLabel = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortField]];

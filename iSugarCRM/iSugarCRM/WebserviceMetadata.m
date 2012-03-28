@@ -84,7 +84,14 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],timestamp] forKey:@"query"];
     [restDataDictionary  setObject:@"" forKey:@"order_by"];
     [restDataDictionary  setObject:@"" forKey:@"offset"];
-    // [restDataDictionary  setObject: forKey:@"select_fields"];
+    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
+    NSMutableArray *relationshipList = [NSMutableArray array];
+    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+    for(NSString *module in moduleList){
+      [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+    }
+    
+    [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
     return [self formatRequest];
@@ -102,12 +109,59 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],startDate, [moduleName lowercaseString], endDate] forKey:@"query"];
     [restDataDictionary  setObject:@"" forKey:@"order_by"];
     [restDataDictionary  setObject:@"" forKey:@"offset"];
-    // [restDataDictionary  setObject: forKey:@"select_fields"];
+    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
+    NSMutableArray *relationshipList = [NSMutableArray array];
+    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+    for(NSString *module in moduleList){
+    [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+    }
+    
+    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
+    
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
     return [self formatRequest];
 
 }
+
+-(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString *)timestamp startDate:(NSString*)startDate endDate:(NSString*)endDate{
+    
+    if ((startDate == nil||[startDate length]==0)&&(endDate == nil||[endDate length]==0)&&(timestamp == nil||[timestamp length]==0)) {
+        return [self getRequest];
+    }
+    
+    if ((startDate==nil||[startDate length]==0) && (endDate == nil||[endDate length]==0)) {
+        return [self getRequestWithLastSyncTimestamp:timestamp];
+    }
+    if (timestamp == nil ||!([timestamp length]>0)) {
+        return [self getRequestWithStartDate:startDate endDate:endDate];
+    }
+  
+    //append url parameters
+    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
+    //TODO: check for min b/w start date and timestamp
+    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],timestamp, [moduleName lowercaseString], endDate] forKey:@"query"];
+    
+    [restDataDictionary  setObject:@"" forKey:@"order_by"];
+    [restDataDictionary  setObject:@"" forKey:@"offset"];
+    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
+    NSMutableArray *relationshipList = [NSMutableArray array];
+    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+    for(NSString *module in moduleList){
+        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+    }
+    
+    [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
+
+    NSString *restDataString = [restDataDictionary JSONString];
+    [self setUrlParam:restDataString forKey:@"rest_data"];
+    return [self formatRequest];
+
+
+}
+
 -(NSURLRequest*) getWriteRequestWithData:(NSArray*)data
 {
     //append url parameters

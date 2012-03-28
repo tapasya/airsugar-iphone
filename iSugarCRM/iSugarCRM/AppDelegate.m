@@ -44,6 +44,13 @@ int usernameLength,passwordLength;
 //to be removed
 
 #pragma mark UI methods
+-(void)showDashboardController{
+    DashboardController *dc = [[DashboardController alloc] initAndSync];
+    dc.title = @"Modules";
+    nvc = [[UINavigationController alloc] initWithRootViewController:dc];
+    self.window.rootViewController = nvc;
+    [self.window makeKeyAndVisible];
+}
 
 -(void)showSyncSettingViewController{
     SyncSettingsViewController *syncSettings = [[SyncSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -76,14 +83,6 @@ int usernameLength,passwordLength;
         [waitAlertView dismissWithClickedButtonIndex:0 animated:NO];
         waitAlertView = nil;
     }
-}
--(void)showDashboardController{
-    //[self logout];
-    DashboardController *dc = [[DashboardController alloc] initAndSync];
-    dc.title = @"Modules";
-    nvc = [[UINavigationController alloc] initWithRootViewController:dc];
-    self.window.rootViewController = nvc;
-    [self.window makeKeyAndVisible];
 }
 
 #pragma mark Logout Utils
