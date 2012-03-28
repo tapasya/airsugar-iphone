@@ -16,6 +16,14 @@ typedef enum ObjectFieldDataType
     ObjectFieldDataTypeBool
 }ObjectFieldDataType;
 
+typedef enum ObjectFieldAction
+{
+    Phone,
+    Date,
+    Number,
+    Bool
+}ObjectFieldActionType;
+
 @interface DataObjectField : NSObject
 
 +(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type andAction:(NSString*)action;
@@ -27,6 +35,7 @@ typedef enum ObjectFieldDataType
 @property(nonatomic)BOOL sortable;//to go in crm specific model
 @property(nonatomic)BOOL filterable;
 @property(nonatomic)BOOL editable;
+@property(nonatomic)BOOL mandatory;
 @property(strong)NSString *action;
 @property(strong)NSString *label;
 

@@ -47,8 +47,20 @@
     NSURLRequest *request = [metadata getRequestWithStartDate:startDate endDate:endDate];
     [self loadUrl:request];
 }
--(NSArray*)geUploadData{
-return nil;
+
+-(void) startLoadingWithTimestamp:(NSString *)timestamp startDate:(NSString*)startDate endDate:(NSString*)endDate{
+    NSURLRequest *request = [metadata getRequestWithLastSyncTimestamp:timestamp startDate:startDate endDate:endDate];
+    [self loadUrl:request];
+
+}
+
+-(NSArray*)geUploadData
+{
+    NSMutableArray *nameValueListArray = [NSMutableArray array]; 
+    for(DataObject * dObj in uploadDataObjects){
+        [nameValueListArray addObject:[dObj nameValueDictionary]];
+    }
+    return nameValueListArray;
 }
 -(void)startUploading
 { 

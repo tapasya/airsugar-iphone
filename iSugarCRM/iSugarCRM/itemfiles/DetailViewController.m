@@ -14,7 +14,7 @@
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
 @interface DetailViewController()
-@property(strong) NSArray *detailsArray;
+@property(strong) NSMutableArray *detailsArray;
 @end
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
@@ -56,7 +56,7 @@
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {   
-    self.detailsArray = details;
+    self.detailsArray = [details mutableCopy];
     NSMutableArray* sections = [[NSMutableArray alloc] init];
     for(NSDictionary *sectionItem_ in metadata.sections  )
     {   
@@ -123,10 +123,20 @@
 
 - (void)viewDidLoad
 {
+//<<<<<<< HEAD
     [super viewDidLoad];
     self.title = self.beanTitle;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     [self loadDataFromDb];
+/*=======
+    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
+    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:self.detailsArray];
+    editViewController.title = @"Edit Record";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentModalViewController:navController animated:YES];
+>>>>>>> 45dbcf7ab016fbdcc3e6f5bb371d04e63c521a3a
+ */
 }
 
 - (void)viewDidUnload

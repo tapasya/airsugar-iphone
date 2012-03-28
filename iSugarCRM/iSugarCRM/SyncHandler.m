@@ -52,6 +52,8 @@ static SyncHandler *sharedInstance;
 -(id)initPrivate{
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
+    //remove later
+    self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
 }
 
@@ -84,8 +86,12 @@ static SyncHandler *sharedInstance;
     
 }
 -(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate{
-    
-    //TODO:
+    startDate = [self formatDate:startDate];
+    endDate = [self formatDate:endDate];
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    for(NSString *module in metadataStore.modulesSupported){
+        [self runSyncWithTimestampForModule:module startDate:startDate endDate:endDate parent:nil];
+    }
 }
 #pragma mark Module Sync Methods
 -(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent{
@@ -101,6 +107,13 @@ static SyncHandler *sharedInstance;
 -(void)runSyncForModule:(NSString*)module parent:(id)parent
 {
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    //create upload session
+    
+    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+    NSArray* uploadData = [dbSession getUploadData];
+    [self uploadData:uploadData forModule:module parent:parent];
+    
+    //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.delegate = self;
     session.parent = parent;
@@ -111,6 +124,12 @@ static SyncHandler *sharedInstance;
 -(void)runSyncForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent
 {
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    //create upload session
+    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+    NSArray* uploadData = [dbSession getUploadData];
+    [self uploadData:uploadData forModule:module parent:parent];
+    
+    //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.syncAction = kRead;
     session.delegate = self;
@@ -120,11 +139,14 @@ static SyncHandler *sharedInstance;
 
 
 -(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent{
-    //TODO:
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
-    NSLog(@"module name: %@", module);
+    //create upload session
+    NSArray* uploadData = [dbSession getUploadData];
+    [self uploadData:uploadData forModule:module parent:parent];
+    
+    //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.delegate = self;
     session.parent = parent;
@@ -132,7 +154,17 @@ static SyncHandler *sharedInstance;
 }
 
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
-    //TODO:
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+    NSString* deltaMark = [dbSession getLastSyncTimestamp];
+    //create upload session
+    NSArray* uploadData = [dbSession getUploadData];
+    [self uploadData:uploadData forModule:module parent:parent];
+    //create download session
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
+    session.delegate = self;
+    session.parent = parent;
+    [session startLoadingWithTimestamp:deltaMark startDate:startDate endDate:endDate];
 }
 
 -(void)addSyncSession:(WebserviceSession *)session{
@@ -169,7 +201,7 @@ static SyncHandler *sharedInstance;
 
 //write method, once the write is successfull run sync for the module
 -(void)sessionDidCompleteUploadSuccessfully:(WebserviceSession*)session{
-
+    
     //parent getting released..
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
 }
@@ -177,10 +209,9 @@ static SyncHandler *sharedInstance;
 -(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
 {  
     @synchronized([self class])
-    {   
+    {  
         SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
         DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-        NSLog(@"db session module name: %@", session.metadata.moduleName);
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;
@@ -189,19 +220,24 @@ static SyncHandler *sharedInstance;
 }
 
 -(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
-{ @synchronized([self class]){
-    NSLog(@"Error syncing data: %@",[error localizedDescription]);
-    if (session.syncAction == kRead) {
-        
-    }
-    else {
-        //write to local db with dirty flag
-        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
-        dbSession.syncDelegate = self;
-        dbSession.parent = session.parent;
-        [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:YES];
+{
+    @synchronized([self class]){
+        NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
+        if ([self.requestQueue operationCount]== 1) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
+            [delegate syncComplete:self];
+        }
+        if (session.syncAction == kRead) {
+            
+        }
+        else {
+            //write to local db with dirty flag
+            SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+            DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+            DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
+            dbSession.syncDelegate = self;
+            dbSession.parent = session.parent;
+            [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:YES];
         }
     }
 }
@@ -219,7 +255,6 @@ static SyncHandler *sharedInstance;
         dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateStyle = NSDateFormatterShortStyle;
         dateFormatter.timeStyle = NSDateFormatterNoStyle;
-        NSLog(@"datefromString %@",[dateFormatter dateFromString:date]);
         date = [[[[dateFormatter dateFromString:date] description] componentsSeparatedByString:@" "] objectAtIndex:0];
     }
     

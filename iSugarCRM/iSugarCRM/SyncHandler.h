@@ -38,7 +38,7 @@ write methods
 -(void)runSyncForModule:(NSString*)module parent:(id)parent;
 -(void)runSyncForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
 -(void)runSyncWithTimestampForModule:(NSString*)moduleName parent:(id)parentl;
--(void)runSyncWithTimestampForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
+-(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
 @end
 
 @protocol SyncHandlerDelegate

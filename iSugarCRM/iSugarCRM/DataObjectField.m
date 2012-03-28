@@ -16,8 +16,10 @@ static inline BOOL boolValue(NSString *s){
 
 @implementation DataObjectField
 @synthesize name,dataType;
-@synthesize sortable,filterable,editable;
+@synthesize sortable,filterable;
 @synthesize label,action;
+@synthesize mandatory;
+@synthesize editable;
 +(DataObjectField*)fieldWithName:(NSString*)name dataType:(ObjectFieldDataType)type andAction:(NSString*)action
 {
     DataObjectField *field = [[DataObjectField alloc] init];
@@ -63,6 +65,8 @@ static inline BOOL boolValue(NSString *s){
     daoField.name = [dictionary valueForKey:@"name"];
     daoField.label = [dictionary valueForKey:@"label"];
     daoField.sortable =[[dictionary valueForKey:@"sortable"] boolValue];
+    daoField.editable =[[dictionary valueForKey:@"editable"] boolValue];
+    daoField.mandatory =[[dictionary valueForKey:@"mandatory"] boolValue];
     daoField.action = [dictionary valueForKey:@"action"];
     return daoField;
 }
@@ -71,6 +75,8 @@ static inline BOOL boolValue(NSString *s){
     [copy setName:[self name]];
     [copy setLabel:[self label]];
     copy.action = self.action;
+    copy.editable = self.editable;
+    copy.mandatory = self.mandatory;
     [copy setDataType:[self dataType]];
     return copy;
 }

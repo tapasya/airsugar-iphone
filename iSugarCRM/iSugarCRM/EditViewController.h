@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EditViewRowItem.h"
 
-@interface EditViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface EditViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,EditViewRowItemDelegate>{
+    @private
+    NSIndexPath * selectedIndexPath;
+    CGSize kbBeginSize;
+}
 @property(strong) DataObjectMetadata* metadata;
 +(EditViewController*)editViewControllerWithMetadata:(DataObjectMetadata*)metadata;
 +(EditViewController*)editViewControllerWithMetadata:(DataObjectMetadata*)metadata andDetailedData:(NSArray *)detailedData;

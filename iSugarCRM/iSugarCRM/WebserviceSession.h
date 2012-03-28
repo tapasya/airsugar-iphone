@@ -29,6 +29,7 @@ enum SyncAction{
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
 -(void)startLoading:(NSString*)timestamp;
 -(void)startLoadingWithStartDate:(NSString *)startDate endDate:(NSString *)endDate;
+-(void)startLoadingWithTimestamp:(NSString *)timestamp startDate:(NSString*)startDate endDate:(NSString*)endDate;
 -(void)startUploading;
 @end
 

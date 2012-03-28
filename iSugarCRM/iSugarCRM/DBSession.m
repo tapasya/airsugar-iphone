@@ -12,6 +12,7 @@
 @interface DBSession ()
 
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db;
+-(NSArray*)getNameValuePair:(NSArray*)dataObjects;
 @end
 @implementation DBSession
 @synthesize delegate,metadata,syncDelegate,parent;
@@ -109,6 +110,56 @@
     [delegate session:self downloadedDetails:rows];
     
 }
+
+-(NSArray*)getUploadData{
+
+    SqliteObj* db = [[SqliteObj alloc] init];
+    NSError* error = nil;
+    NSMutableArray *rows = [[NSMutableArray alloc]init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+        [delegate session:self detailDownloadFailedWithError:error];
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE dirty = 1;",metadata.tableName];
+    sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
+    if (error) {
+        NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
+        [delegate session:self detailDownloadFailedWithError:error];
+    }
+    while(sqlite3_step(stmt)==SQLITE_ROW){
+        DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
+        int columnCount = sqlite3_column_count(stmt);
+        int columnIdx=0;
+        for (columnIdx=0;columnIdx<columnCount;columnIdx++) 
+        {
+            NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
+            NSString *value;
+            char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
+            //  NSLog(@"%s",field_value);
+            if (field_value!=NULL) {
+                value = [NSString stringWithFormat:@"%s",field_value];
+            }
+            else value = @"";
+            if (![fieldName isEqualToString:@"dirty"]) {
+                if(![dataObject setObject:value forFieldName:[metadata.column_objectFieldMap objectForKey:fieldName]]){
+                    NSLog(@"No %@ field in data object with specified metadata",fieldName);
+                }
+            }    
+        }
+        [rows addObject:dataObject];
+    }
+    sqlite3_finalize(stmt);
+    [db closeDatabase];
+
+    return [self getNameValuePair:rows];
+}
+-(NSArray*)getNameValuePair:(NSArray*)dataObjects{
+    NSMutableArray * nameValueList = [NSMutableArray array];
+    for(DataObject* dObj in dataObjects){
+        [nameValueList addObject:[dObj nameValueDictionary]];
+    }
+    return nameValueList;
+}
 #pragma mark Write Methods
 //remove method, will be used only in case of custom modules.
 -(BOOL)checkAndCreateTable:(SqliteObj*)db{
@@ -169,19 +220,19 @@
 
 -(BOOL)updateDatabase:(SqliteObj*)db withBean:(DataObject*)bean error:(NSError*)error dirty:(BOOL)dirty
 {
-    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ set",metadata.tableName];
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ set ",metadata.tableName];
     int count = 0;
     for(NSString *column in metadata.columnNames){
         if (++count==1) {
-            [sql appendFormat:@"%@ = %@",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];      
+            [sql appendFormat:@"%@ = '%@'",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];      
         }
         else{
-            [sql appendFormat:@",%@ = %@",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];
+            [sql appendFormat:@", %@ = '%@'",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];
         }
     }
-    [sql appendString:[NSString stringWithFormat:@"dirty = %@;",dirty]];
+    [sql appendString:[NSString stringWithFormat:@",dirty = %@ where id = '%@';",[NSNumber numberWithBool:dirty],[bean objectForFieldName:@"id"]]];
     BOOL success = [db executeUpdate:sql error:&error];
-    if (success) {
+    if (!success) {
         NSLog(@"error updating database: %@",[error localizedDescription]);
         // [syncDelegate session:self syncFailedWithError:error];
     }
@@ -209,14 +260,14 @@
         }
     }
     if (dirty) {
-        [sql appendString:@"dirty"];
-        [values appendString:[NSString stringWithFormat:@"%@",[NSNumber numberWithBool:dirty]]];
+        [sql appendString:@",dirty"];
+        [values appendString:[NSString stringWithFormat:@", %@",[NSNumber numberWithBool:dirty]]];
     }
     [sql appendString:@")"];
     [values appendString:@");"];
     [sql appendString:values];
     BOOL success = [db executeUpdate:sql error:&error];
-    if (success) {
+    if (!success) {
         NSLog(@"error inserting in database: %@",[error localizedDescription]);
         // [syncDelegate session:self syncFailedWithError:error];
     }
