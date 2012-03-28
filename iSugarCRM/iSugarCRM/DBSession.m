@@ -12,7 +12,6 @@
 @interface DBSession ()
 
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db;
--(NSArray*)getNameValuePair:(NSArray*)dataObjects;
 @end
 @implementation DBSession
 @synthesize delegate,metadata,syncDelegate,parent;
@@ -151,15 +150,10 @@
     sqlite3_finalize(stmt);
     [db closeDatabase];
 
-    return [self getNameValuePair:rows];
+    return rows;
 }
--(NSArray*)getNameValuePair:(NSArray*)dataObjects{
-    NSMutableArray * nameValueList = [NSMutableArray array];
-    for(DataObject* dObj in dataObjects){
-        [nameValueList addObject:[dObj nameValueDictionary]];
-    }
-    return nameValueList;
-}
+
+
 #pragma mark Write Methods
 //remove method, will be used only in case of custom modules.
 -(BOOL)checkAndCreateTable:(SqliteObj*)db{
@@ -196,7 +190,7 @@
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db{
     BOOL beanExists = YES;
     NSError* error = nil;
-    NSLog(@"check bean for id: %@",[bean objectForFieldName:@"id"]);
+   // NSLog(@"check bean for id: %@",[bean objectForFieldName:@"id"]);
     NSMutableString *sql = [NSMutableString stringWithFormat:@"Select * from %@ where id = '%@';",metadata.tableName,[bean objectForFieldName:@"id"]];
     
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
@@ -208,10 +202,10 @@
     
     if(sqlite3_step(stmt)==SQLITE_ROW){
         beanExists = YES;  
-        NSLog(@"bean exist in db. updating now.");
+ //       NSLog(@"bean exist in db. updating now.");
     }
     else{
-        NSLog(@"bean does not exist in db. inserting now.");
+//        NSLog(@"bean does not exist in db. inserting now.");
         beanExists = NO;
     }
     sqlite3_finalize(stmt);

@@ -54,7 +54,7 @@
 
 }
 
--(NSArray*)geUploadData
+-(NSArray*)nameValueDictionaryForData:(NSArray*)dataObjects
 {
     NSMutableArray *nameValueListArray = [NSMutableArray array]; 
     for(DataObject * dObj in uploadDataObjects){
@@ -62,10 +62,11 @@
     }
     return nameValueListArray;
 }
+
 -(void)startUploading
 { 
     if(self.uploadDataObjects != nil){
-    NSURLRequest *request = [metadata getWriteRequestWithData:[self geUploadData]];
+        NSURLRequest *request = [metadata getWriteRequestWithData:[self nameValueDictionaryForData:uploadDataObjects]];
     [self loadUrl:request]; 
     }
 }

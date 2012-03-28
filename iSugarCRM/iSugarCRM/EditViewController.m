@@ -196,9 +196,7 @@
     }
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     NSLog(@"module name = %@", self.metadata.objectClassIdentifier);
-    [syncHandler uploadData:[NSArray arrayWithObject:[[self.detailedData objectAtIndex:0] nameValueDictionary]] forModule:self.metadata.objectClassIdentifier parent:self];
-   
-//    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [syncHandler uploadData:[NSArray arrayWithObject:[self.detailedData objectAtIndex:0]] forModule:self.metadata.objectClassIdentifier parent:self];
 }
 
 -(void) discard
@@ -321,7 +319,7 @@
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
 }
 -(void)syncComplete:(SyncHandler*)syncHandler{
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+  //  [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 

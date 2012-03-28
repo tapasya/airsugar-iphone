@@ -53,7 +53,7 @@ static SyncHandler *sharedInstance;
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
-    self.requestQueue.maxConcurrentOperationCount = 1;
+ //   self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
 }
 
@@ -111,7 +111,9 @@ static SyncHandler *sharedInstance;
     
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSArray* uploadData = [dbSession getUploadData];
-    [self uploadData:uploadData forModule:module parent:parent];
+    if ([uploadData count] > 0) {
+    [self uploadData:uploadData forModule:module parent:parent];    
+    }
     
     //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
@@ -127,7 +129,9 @@ static SyncHandler *sharedInstance;
     //create upload session
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     NSArray* uploadData = [dbSession getUploadData];
-    [self uploadData:uploadData forModule:module parent:parent];
+    if ([uploadData count]>0) {
+        [self uploadData:uploadData forModule:module parent:parent];    
+    }
     
     //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
@@ -144,7 +148,9 @@ static SyncHandler *sharedInstance;
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
     //create upload session
     NSArray* uploadData = [dbSession getUploadData];
-    [self uploadData:uploadData forModule:module parent:parent];
+    if ([uploadData count]>0) {
+        [self uploadData:uploadData forModule:module parent:parent];    
+    }
     
     //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
@@ -159,7 +165,9 @@ static SyncHandler *sharedInstance;
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
     //create upload session
     NSArray* uploadData = [dbSession getUploadData];
-    [self uploadData:uploadData forModule:module parent:parent];
+    if ([uploadData count]>0) {
+        [self uploadData:uploadData forModule:module parent:parent];    
+    }
     //create download session
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.delegate = self;
