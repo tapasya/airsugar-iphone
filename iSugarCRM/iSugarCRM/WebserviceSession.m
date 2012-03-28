@@ -47,13 +47,24 @@
     NSURLRequest *request = [metadata getRequestWithStartDate:startDate endDate:endDate];
     [self loadUrl:request];
 }
+
 -(NSArray*)geUploadData{
-return nil;
+    return nil;
 }
+
+-(NSArray*)nameValueDictionaryForData:(NSArray*)dataObjects
+{
+    NSMutableArray *nameValueListArray = [NSMutableArray array]; 
+    for(DataObject * dObj in uploadDataObjects){
+        [nameValueListArray addObject:[dObj nameValueDictionary]];
+    }
+    return nameValueListArray;
+}
+
 -(void)startUploading
 { 
     if(self.uploadDataObjects != nil){
-    NSURLRequest *request = [metadata getWriteRequestWithData:[self geUploadData]];
+        NSURLRequest *request = [metadata getWriteRequestWithData:[self nameValueDictionaryForData:uploadDataObjects]];
     [self loadUrl:request]; 
     }
 }

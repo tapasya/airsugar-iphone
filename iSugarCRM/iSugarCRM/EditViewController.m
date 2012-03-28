@@ -9,15 +9,12 @@
 #import "EditViewController.h"
 #import "DataObjectMetadata.h"
 #import "DataObject.h"
-<<<<<<< HEAD
 #import "UITableViewCellItem.h"
 #import "EditViewRowItem.h"
 #import "AppDelegate.h"
 #import "EditViewSectionItem.h"
-
-=======
 #import "SyncHandler.h"
->>>>>>> Bug fixed in write-webservice metadata
+
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
@@ -26,7 +23,6 @@
 #define kNextSegementItemIndex 1
 @interface EditViewController()
 @property(strong) UITableView *_tableView;
-<<<<<<< HEAD
 @property(strong) NSMutableDictionary *_dataSource;
 @property(strong) NSMutableArray *_detailedData;
 @property(strong) NSMutableArray *editableDataObjectFields;//
@@ -44,25 +40,20 @@
 -(BOOL)hasNext:(NSIndexPath *)indexPath;
 -(BOOL)hasPrevious:(NSIndexPath *)indexPath;
 -(NSInteger)totalRowsCount;
-=======
-@property(strong) NSArray *dataSource;
-@property(strong) NSArray *detailedData;
->>>>>>> Bug fixed in write-webservice metadata
+
+//@property(strong) NSArray *detailedData;
 @end
 
 @implementation EditViewController
 @synthesize _tableView;
 @synthesize _dataSource;
 @synthesize metadata;
-<<<<<<< HEAD
 @synthesize _detailedData;
 @synthesize editableDataObjectFields;
 @synthesize toolBar;
 @synthesize pickerView;
 @synthesize actionSheet;
-=======
-@synthesize detailedData;
->>>>>>> Bug fixed in write-webservice metadata
+//@synthesize detailedData;
 
 
 #pragma mark - View lifecycle
@@ -79,7 +70,7 @@
     
     EditViewController *editViewController = [[EditViewController alloc] init];
     editViewController.metadata = metadata;
-    editViewController.detailedData = detailedData;
+    editViewController._detailedData = detailedData;
     return editViewController;
 }
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -95,13 +86,8 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-<<<<<<< HEAD
-    
     [self.view addSubview:_tableView];
     [self.view setAutoresizesSubviews:YES];
-=======
-    self.view = _tableView;
->>>>>>> Bug fixed in write-webservice metadata
 }
 
 
@@ -112,12 +98,7 @@
     [super viewDidLoad];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saveRecord)];
     self.navigationItem.rightBarButtonItem = barButtonItem;
-<<<<<<< HEAD
     UIBarButtonItem *discardButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStyleDone target:self action:@selector(discard)];
-=======
-    
-    UIBarButtonItem *discardButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Discard" style:UIBarButtonItemStylePlain target:self action:@selector(discard)];
->>>>>>> Bug fixed in write-webservice metadata
     self.navigationItem.leftBarButtonItem = discardButtonItem;
     [self performSelectorOnMainThread:@selector(getEditableDataObjectFieldArray) withObject:nil waitUntilDone:NO];
     
@@ -214,8 +195,8 @@
     }
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     NSLog(@"module name = %@", self.metadata.objectClassIdentifier);
-    [syncHandler uploadData:[NSArray arrayWithObject:[[self.detailedData objectAtIndex:0] nameValueDictionary]] forModule:self.metadata.objectClassIdentifier parent:self];
     //[self.navigationController dismissModalViewControllerAnimated:YES];
+    [syncHandler uploadData:[NSArray arrayWithObject:[self._detailedData objectAtIndex:0]] forModule:self.metadata.objectClassIdentifier parent:self];
 }
 
 -(void) discard
@@ -247,7 +228,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-<<<<<<< HEAD
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:indexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:indexPath.row];
     EditViewRowItem *evRowItem = [[EditViewRowItem alloc] init];
@@ -260,38 +240,6 @@
     }
     else{
         evRowItem.value = @"";
-=======
-    static NSString *cellIdentifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        UILabel *fieldLabel = [[UILabel alloc] init];
-        fieldLabel.font = [UIFont boldSystemFontOfSize:15];
-        fieldLabel.tag = 1001;
-        fieldLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        [cell.contentView addSubview:fieldLabel];
-        UITextField *valueField = [[UITextField alloc] init];
-        valueField.borderStyle = UITextBorderStyleRoundedRect;
-        valueField.tag = 1002;
-        [cell.contentView addSubview:valueField];
-        valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    }
-    UILabel *fieldLabel = (UILabel*)[cell.contentView viewWithTag:1001];
-    DataObjectField *field = [[[self.metadata fields] allObjects] objectAtIndex:indexPath.row];
-    fieldLabel.text = field.label;
-    fieldLabel.textAlignment = UITextAlignmentLeft;
-    fieldLabel.numberOfLines = 0;
-    fieldLabel.lineBreakMode = UILineBreakModeWordWrap;
-    fieldLabel.frame = CGRectMake(kSideMargin, 0,cell.contentView.frame.size.width/2 - 30,cell.contentView.frame.size.height);
-    
-    
-    UITextField *valueField = (UITextField*)[cell.contentView viewWithTag:1002];
-    if(detailedData != nil){
-        NSString *value = [(DataObject *)[detailedData objectAtIndex:0] objectForFieldName:field.name];
-        valueField.text = value;
-    }else{
-        valueField.text = @"";
->>>>>>> Bug fixed in write-webservice metadata
     }
 
     return [evRowItem reusableCellForTableView:tableView];
@@ -362,7 +310,14 @@
     [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionBottom animated:YES ];
     return YES;
 }
-<<<<<<< HEAD
+
+#pragma mark SyncHandler Delegate
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
+}
+-(void)syncComplete:(SyncHandler*)syncHandler{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
 
 //register for keyboard notifications.
 - (void)registerForKeyboardNotifications
@@ -762,13 +717,5 @@
     }else{
         return NO;
     }
-=======
-#pragma mark SyncHandler Delegate{
-
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
-}
--(void)syncComplete:(SyncHandler*)syncHandler{
-    [self.navigationController dismissModalViewControllerAnimated:YES];
->>>>>>> Bug fixed in write-webservice metadata
 }
 @end

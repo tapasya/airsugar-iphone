@@ -23,6 +23,7 @@
 //reading
 -(void)startLoading;
 -(void)loadDetailsForId:(NSString*)beanId;
+-(NSArray*)getUploadData;
 //writing
 -(void)insertDataObjectsInDb:(NSArray *)dataObjects dirty:(BOOL)dirty;
 
