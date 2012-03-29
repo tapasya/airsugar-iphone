@@ -135,7 +135,9 @@
     DataObject *dataObject = (DataObject *)[_detailedData objectAtIndex:0];
     for (DataObjectField *dof in dataObjectFields) {
         if (dof.editable == TRUE){
-            [_dataSource setObject:[dataObject objectForFieldName:dof.name] forKey:dof.name];
+            if(dataObject){
+                [_dataSource setObject:[dataObject objectForFieldName:dof.name] forKey:dof.name];
+            }
             if (dof.mandatory == TRUE) {
                 [mandatoryFields addObject:dof];
             }else{
