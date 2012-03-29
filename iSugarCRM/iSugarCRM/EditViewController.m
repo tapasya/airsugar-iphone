@@ -153,6 +153,7 @@
     optionalSection.rowItems = optionalFields;
     [editableDataObjectFields addObject:mandatorySection];
     [editableDataObjectFields addObject:optionalSection];
+    [_tableView reloadData];
 }
 
 - (void)viewDidUnload
