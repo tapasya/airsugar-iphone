@@ -10,7 +10,7 @@
  1. Upload the data in the queue
  2. Download the data
  */
-
+#import "DataObject.h"
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
 #import "Reachability.h"
@@ -53,7 +53,7 @@ static SyncHandler *sharedInstance;
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
- //   self.requestQueue.maxConcurrentOperationCount = 1;
+    self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
 }
 

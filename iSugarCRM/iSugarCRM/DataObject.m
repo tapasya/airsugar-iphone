@@ -9,13 +9,14 @@
 #import "DataObject.h"
 
 @implementation DataObject
-@synthesize metadata;
+@synthesize metadata,relationships;
 
 -(id)initWithMetadata:(DataObjectMetadata*)objectMetadata
 {
     self = [super init];
     metadata = objectMetadata;
     fieldValues = [[NSMutableDictionary alloc]init];
+    relationships = [[NSMutableDictionary alloc]init];
     return self;
 }
 -(id)objectForFieldName:(NSString*)fieldName{
@@ -31,7 +32,17 @@
     }
     return NO;
 }
+-(void)addRelationshipWithModule:(NSString*)module andBeans:(NSArray*)relatedBeanIds{
 
+    if ([relationships objectForKey:module]) {
+      [[relationships objectForKey:module] addObjectsFromArray:relatedBeanIds];
+    }
+    else [relationships setObject:[relatedBeanIds mutableCopy] forKey:module];
+    NSLog(@"relationship for module %@ = %@",metadata.objectClassIdentifier,relationships);
+}
+-(NSDictionary*)relationships{
+    return [relationships copy];
+}
 -(NSDictionary*)nameValueDictionary
 {
     NSMutableDictionary *nameValueList = [[OrderedDictionary alloc] init];
@@ -54,6 +65,7 @@
     {
         [description appendString:[NSString stringWithFormat:@"%@ : %@ \n",field.name, [self objectForFieldName:field.name]]];
     }
+//add relationship to description
     return description;
 }
 @end

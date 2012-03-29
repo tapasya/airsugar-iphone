@@ -155,27 +155,44 @@
     else  
     { //read
         NSDictionary *responseDictionary = [self.responseData objectFromJSONData]; //parse using some parser
+       
         id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
-        NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
+        id relationshipList = [responseDictionary valueForKeyPath:metadata.pathToRelationshipInResponse];
+         NSLog(@"relationship = %@",relationshipList);
+      //  NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
         if([responseObjects isKindOfClass:[NSDictionary class]]){
             responseObjects = [NSArray arrayWithObject:responseObjects];
         }
         NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
+       // NSMutableDictionary *relationshipDictionary = [NSMutableDictionary dictionary];
+        int count = 0;
         for(NSDictionary *responseObject in responseObjects)
         { 
             @try {
                 DataObjectMetadata *objectMetadata = [[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.moduleName];
                 DataObject *dataObject = [[DataObject alloc] initWithMetadata:objectMetadata];
+                
                 for(DataObjectField *field in [[objectMetadata fields] allObjects]) 
-                {
+                {   
                     id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field.name]];
                     if (value == nil) {
                         [dataObject setObject:@" " forFieldName:field.name];
                     } else {
                         [dataObject setObject:value forFieldName:field.name];
                     }
+                    
+                }
+                NSArray *relationships = [[relationshipList objectAtIndex:count] objectForKey:@"relation_list"];
+                for(NSDictionary *relationship in relationships){
+                    NSString* relatedModule = [relationship valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_module"]];
+                    NSMutableArray *beanIds = [NSMutableArray array];
+                    for(NSDictionary * bean in  [relationship valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_module_records"]]){
+                        [beanIds addObject:[bean valueForKeyPath:@"related_record"]];
+                    }
+                        [dataObject addRelationshipWithModule:relatedModule andBeans:beanIds];
                 }
                 [arrayOfDataObjects addObject:dataObject];
+                count++;
             }
             @catch (NSException *exception) {
                 NSLog(@"Error Parsing Data with Exception = %@, %@",[exception name],[exception description]);

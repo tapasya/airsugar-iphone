@@ -39,6 +39,4 @@ typedef enum ObjectFieldAction
 @property(strong)NSString *action;
 @property(strong)NSString *label;
 
-
-
 @end

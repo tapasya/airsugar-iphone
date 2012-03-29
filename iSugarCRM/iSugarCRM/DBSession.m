@@ -97,9 +97,9 @@
             }
             else value = @"";
             if (![fieldName isEqualToString:@"dirty"]) {
-            if(![dataObject setObject:value forFieldName:[metadata.column_objectFieldMap objectForKey:fieldName]]){
-                NSLog(@"No %@ field in data object with specified metadata",fieldName);
-            }
+                if(![dataObject setObject:value forFieldName:[metadata.column_objectFieldMap objectForKey:fieldName]]){
+                    NSLog(@"No %@ field in data object with specified metadata",fieldName);
+                }
             }    
         }
         [rows addObject:dataObject];
@@ -111,7 +111,7 @@
 }
 
 -(NSArray*)getUploadData{
-
+    
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     NSMutableArray *rows = [[NSMutableArray alloc]init];
@@ -149,7 +149,7 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
-
+    
     return rows;
 }
 
@@ -190,7 +190,7 @@
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db{
     BOOL beanExists = YES;
     NSError* error = nil;
-   // NSLog(@"check bean for id: %@",[bean objectForFieldName:@"id"]);
+    // NSLog(@"check bean for id: %@",[bean objectForFieldName:@"id"]);
     NSMutableString *sql = [NSMutableString stringWithFormat:@"Select * from %@ where id = '%@';",metadata.tableName,[bean objectForFieldName:@"id"]];
     
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
@@ -202,10 +202,10 @@
     
     if(sqlite3_step(stmt)==SQLITE_ROW){
         beanExists = YES;  
- //       NSLog(@"bean exist in db. updating now.");
+        //       NSLog(@"bean exist in db. updating now.");
     }
     else{
-//        NSLog(@"bean does not exist in db. inserting now.");
+        //        NSLog(@"bean does not exist in db. inserting now.");
         beanExists = NO;
     }
     sqlite3_finalize(stmt);
@@ -268,10 +268,27 @@
     return success;
     
 }
-
+-(BOOL)updateRelationshipTableForObjects:(NSArray*)dataObjects inDatabase:(SqliteObj*)db error:(NSError*)error{
+    BOOL success = NO;
+       for(DataObject* dObj in dataObjects){
+        NSDictionary *relationships =  dObj.relationships;
+        for(NSString * relatedModule in [relationships allKeys]){    
+            for(NSString *beanId in [relationships objectForKey:relatedModule]){
+                NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO Relationships (module_name,bean_id,related_module_name, related_bean_id) Values (%@,%@,%@,%@);",metadata.tableName,[dObj objectForFieldName:@"id"],relatedModule,beanId];
+            success = [db executeUpdate:sql error:&error];
+            if (!success) {
+                NSLog(@"error inserting in database: %@",[error localizedDescription]);
+                [syncDelegate session:self syncFailedWithError:error];
+            }
+            }
+        }
+        
+    }
+    return success;
+}
 //fails if even one of the updates/inserts fail
 -(void)insertDataObjectsInDb:(NSArray *)dataObjects dirty:(BOOL)dirty
-{
+{ 
     BOOL success = NO;
     NSError *error = nil;
     SqliteObj* db = [[SqliteObj alloc] init];
@@ -291,10 +308,12 @@
                 }
             }
         }
+        success = [self updateRelationshipTableForObjects:dataObjects inDatabase:db error:error];
         if (success == NO) {
             [syncDelegate session:self syncFailedWithError:error];
         } else {
-            [syncDelegate sessionSyncSuccessful:self];    
+            [syncDelegate sessionSyncSuccessful:self];  
+         
         }
         [db closeDatabase];
     } else {

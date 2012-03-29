@@ -1926,6 +1926,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>assistant</key>
 				<string>name_value_list.assistant.value</string>
 				<key>id</key>
@@ -3070,6 +3078,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>opportunity_type</key>
 				<string>name_value_list.opportunity_type.value</string>
 				<key>probability</key>
@@ -3965,6 +3981,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>date_start</key>
 				<string>name_value_list.date_start.value</string>
 				<key>location</key>
@@ -5087,6 +5111,22 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
+				<key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>description</key>
 				<string>name_value_list.description.value</string>
 				<key>expected_cost</key>
@@ -5154,6 +5194,8 @@
 			<string>Campaigns</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 		</dict>
 	</dict>
 	<key>Roles</key>
@@ -5660,6 +5702,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>created_by</key>
 				<string>name_value_list.created_by.value</string>
 				<key>created_by_name</key>
@@ -6631,6 +6681,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>description</key>
 				<string>name_value_list.description.value</string>
 				<key>parent_type</key>
@@ -8406,6 +8464,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>assigned_user_id</key>
 				<string>name_value_list.assigned_user_id.value</string>
 				<key>billing_address_street_4</key>
@@ -9317,6 +9383,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>assigned_user_id</key>
 				<string>name_value_list.assigned_user_id.value</string>
 				<key>birthdate</key>
@@ -11071,6 +11145,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>opportunity_role_fields</key>
 				<string>name_value_list.opportunity_role_fields.value</string>
 				<key>assistant</key>
@@ -11875,6 +11957,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>description</key>
 				<string>name_value_list.description.value</string>
 				<key>contact_email</key>
@@ -12774,6 +12864,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>is_admin</key>
 				<string>name_value_list.is_admin.value</string>
 				<key>last_name</key>
@@ -13632,6 +13730,14 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
+                <key>related_module_records</key>
+				<string>records</string>
+				<key>related_record</key>
+				<string>link_value.id.value</string>
+				<key>related_module</key>
+				<string>name</string>
+				<key>relation_list</key>
+				<string>link_list</string>
 				<key>id</key>
 				<string>name_value_list.id.value</string>
 				<key>description</key>
