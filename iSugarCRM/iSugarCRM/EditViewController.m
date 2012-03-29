@@ -113,7 +113,6 @@
     [super viewWillAppear:animated];
     // register for keyboard notifications
     [self registerForKeyboardNotifications];
-    [super viewWillAppear: animated];
     [self arrangeViews:[UIApplication sharedApplication].statusBarOrientation];
 }
 
@@ -164,10 +163,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    if(interfaceOrientation == UIInterfaceOrientationPortrait)
-        return YES;
-    else
-        return YES;
+    return YES;
 }
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -176,8 +172,16 @@
                                             duration: duration];
     _tableView.contentInset =  UIEdgeInsetsZero;
     [self arrangeViews: toInterfaceOrientation];
-    //pickerView.frame = [self pickerViewFrame];
-    toolBar.frame = [self toolBarFrame];
+    
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
+    if ([cell.reuseIdentifier isEqualToString:@"date"]) {
+        toolBar.frame = CGRectMake(0,_tableView.frame.size.height-pickerView.frame.size.height-35,pickerView.frame.size.width,35);
+    }
 }
 
 - (void) arrangeViews: (UIInterfaceOrientation)orientation {
@@ -289,6 +293,7 @@
         [self.view addSubview:self.toolBar];
         [self.view addSubview:pickerView];
         [UIView commitAnimations];
+        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }else{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -363,7 +368,7 @@
     if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
     {
         if ([cell.reuseIdentifier isEqualToString:@"date"]){
-            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.width-toolBar.frame.size.height,self.view.bounds.size.width,35);
+            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.height,35);
         }else{
             return CGRectMake(0, _tableView.frame.size.height-kbBeginSize.width-toolBar.frame.size.height,self.view.bounds.size.width, toolBar.frame.size.height);
         }
@@ -371,7 +376,7 @@
     else
     {
         if ([cell.reuseIdentifier isEqualToString:@"date"]) {
-            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.width,35);
+            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.width,toolBar.frame.size.height);
         }else{
             return CGRectMake(0,_tableView.frame.size.height-kbBeginSize.height-toolBar.frame.size.height,self.view.bounds.size.width,toolBar.frame.size.height);
         }
@@ -497,11 +502,6 @@
                 if([cell.reuseIdentifier isEqualToString:@"date"])
                 {
                     UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-//                    if (nextCell == nil) {
-//                        return;
-//                    }else{
-//                        selectedIndexPath = newIndexPath;
-//                    }
                     [self scrollCell:nextCell];//ScrollCell
                     
                     if ([nextCell.reuseIdentifier isEqualToString:@"date"])
@@ -576,9 +576,6 @@
             //if(selectedIndexPath.row < [self effectiveRowIndexWithIndexPath:selectedIndexPath])
             if([self hasNext:selectedIndexPath])
             {
-//                if (selectedIndexPath.row == [self totalRowsCount]-1) {
-//                    return;
-//                }
                 NSIndexPath *newIndexPath;
                 if (selectedIndexPath.row+1 >= [_tableView numberOfRowsInSection:selectedIndexPath.section]) {
                     newIndexPath = [NSIndexPath indexPathForRow:0 inSection:selectedIndexPath.section+1];
@@ -669,20 +666,29 @@
             _tableView.contentInset =  UIEdgeInsetsZero;
         }
         else{
-            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-124.0, 0.0);
+            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-106.0, 0.0);
             [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
         }
     }
     else{
-        if(rowHeight < (_tableView.frame.size.height-216-35)){
+        if(rowHeight < (_tableView.frame.size.height-216-57)){
             _tableView.contentInset =  UIEdgeInsetsZero;
         }
         else{
-            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-(_tableView.frame.size.height-216), 0.0);
+            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-(_tableView.frame.size.height-200), 0.0);
             [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
         }
     }
 }
+
+-(void)didTextChanged:(id)sender
+{
+    UITextField *textField = (UITextField*)sender;
+    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+    DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+    [_dataSource setObject:textField.text forKey:dof.name];
+}
+
 -(NSInteger)effectiveRowIndexWithIndexPath:(NSIndexPath *)indexpath
 {
     int i,rowsCount=0;
@@ -703,8 +709,6 @@
 {
     NSInteger currentRowIndex = [self effectiveRowIndexWithIndexPath:indexPath]+indexPath.row;
     NSInteger totalRowCount = [self totalRowsCount];
-    NSLog(@"CURRENT ROW INDEX in NEXT -->%i",currentRowIndex);
-    NSLog(@"TOTAL ROW INDEX in NEXT -->%i",totalRowCount);
     if(currentRowIndex == totalRowCount-1){
         return NO;
     }else{

@@ -24,6 +24,7 @@
 		0F8225FA14B724AD00DCC4A5 /* MyLauncherScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */; };
 		0F8225FB14B724AD00DCC4A5 /* MyLauncherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */; };
 		0F8225FC14B724AD00DCC4A5 /* MyLauncherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */; };
+		0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F93BDEE1524530700E57E80 /* RelationsViewController.m */; };
 		0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
 		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
 		0FB17C3214B5BF81004F0C80 /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
@@ -142,6 +143,8 @@
 		0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherView.m; sourceTree = "<group>"; };
 		0F8225F514B724AD00DCC4A5 /* MyLauncherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherViewController.h; sourceTree = "<group>"; };
 		0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherViewController.m; sourceTree = "<group>"; };
+		0F93BDED1524530700E57E80 /* RelationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationsViewController.h; sourceTree = "<group>"; };
+		0F93BDEE1524530700E57E80 /* RelationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationsViewController.m; sourceTree = "<group>"; };
 		0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0FB17C2A14B5B38E004F0C80 /* DashboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardController.h; sourceTree = "<group>"; };
 		0FB17C2B14B5B38E004F0C80 /* DashboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardController.m; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 		3B3E6277148E3288002BAE48 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0F93BDED1524530700E57E80 /* RelationsViewController.h */,
+				0F93BDEE1524530700E57E80 /* RelationsViewController.m */,
 				0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */,
 				0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */,
 				0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */,
@@ -786,6 +791,7 @@
 				0F630929150F52ED0029C18A /* EditViewRowItem.m in Sources */,
 				0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */,
 				2FBFC5AA150DEDB800A4831B /* Reachability.m in Sources */,
+				0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
