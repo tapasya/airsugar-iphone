@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface RelationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
-
+-(id)initWithDataSource:(NSDictionary *)dataSource;
 @end

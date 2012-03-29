@@ -22,7 +22,9 @@
 @implementation RelationsViewController
 
 @synthesize _tableView;
+
 #pragma mark - init methods
+
 -(id)initWithDataSource:(NSDictionary *)dataSource
 {
     if(self = [super init])
@@ -48,7 +50,6 @@
     CGFloat height = mainFrame.size.height;
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0,width, height)];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
@@ -88,19 +89,30 @@
     }
     NSString *sectionName = [[relationsDictionary allKeys]objectAtIndex:indexPath.section];
     NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
-    DataObject *dataObjectForRow = [objectArray objectAtIndex:indexPath.row];
-    ListViewMetadata *metadata = [self metaDataForModule:sectionName];
-    cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
     
-    for(DataObjectField *otherField in metadata.otherFields)
-    {
-        if ([dataObjectForRow objectForFieldName:otherField.name]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
-        }
-        else{
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
-        }
-    }
+    /*
+     CODE RELATED TO ACTUAL DATA
+     */
+//    DataObject *dataObjectForRow = [objectArray objectAtIndex:indexPath.row];
+//    ListViewMetadata *metadata = [self metaDataForModule:sectionName];
+//    cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
+     
+//    for(DataObjectField *otherField in metadata.otherFields)
+//    {
+//        if ([dataObjectForRow objectForFieldName:otherField.name]) {
+//            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
+//        }
+//        else{
+//            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
+//        }
+//    }
+    
+    /*
+     CODE RELATED TO DUMMY DATA
+     */
+    NSString *value = [objectArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = value;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,12 +124,16 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *sectionName = [[relationsDictionary allKeys]objectAtIndex:indexPath.section];
-    NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
-    id beanTitle = [(DataObject *)[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"];
-    id beanId =[(DataObject *)[objectArray objectAtIndex:indexPath.row]objectForFieldName:@"id"];
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:beanTitle];
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    /*
+     CODE RELATED TO ACTUAL DATA
+     */
+//    NSString *sectionName = [[relationsDictionary allKeys]objectAtIndex:indexPath.section];
+//    NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
+//    id beanTitle = [(DataObject *)[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+//    id beanId =[(DataObject *)[objectArray objectAtIndex:indexPath.row]objectForFieldName:@"id"];
+//    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:beanTitle];
+//    [self.navigationController pushViewController:detailViewController animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

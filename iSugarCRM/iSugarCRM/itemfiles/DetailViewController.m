@@ -13,6 +13,7 @@
 #import "DataObject.h"
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
+#import "RelationsViewController.h"
 @interface DetailViewController()
 {
     UIToolbar *toolbar;
@@ -210,7 +211,19 @@
 
 -(IBAction)relatedButtonClicked:(id)sender
 {
-    // TODO show relationships   
+    // TODO show relationships
+    //DUMMY DICNTIONARY,To be replaced by actual data
+    NSMutableDictionary *dataSource = [[NSMutableDictionary alloc] init];
+    NSArray *values = [[NSArray alloc] initWithObjects:@"ROW1",@"ROW2",@"ROW3",@"ROW4", nil];
+    [dataSource setObject:values forKey:@"Contacts"];
+    [dataSource setObject:values forKey:@"Calls"];
+    [dataSource setObject:values forKey:@"Accounts"];
+    RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataSource:dataSource];
+    relationsController.title = @"Relations";
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:relationsController];
+//    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+//    [self presentModalViewController:navController animated:YES];
+    [self.navigationController pushViewController:relationsController animated:YES];
 }
 
 #pragma mark - Table view data source
