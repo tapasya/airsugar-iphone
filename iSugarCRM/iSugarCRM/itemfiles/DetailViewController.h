@@ -17,4 +17,5 @@
 @property(strong)NSString *beanTitle;
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle;
 -(void) loadDataFromDb;
+-(void) editDetails;
 @end
