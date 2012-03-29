@@ -262,18 +262,22 @@
 
 -(BOOL)updateDatabase:(SqliteObj*)db withBean:(DataObject*)bean error:(NSError*)error dirty:(BOOL)dirty
 {
-
     NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ set ",metadata.tableName];
     int count = 0;
     for(NSString *column in metadata.columnNames){
+        NSString* value = [bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]];
+        if(!value || [value length] ==0)
+        {
+            value = @" ";
+        }
         if (++count==1) {
-            [sql appendFormat:@"%@ = '%@'",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];      
+            [sql appendFormat:@"%@ = '%@'",column,value];      
         }
         else{
-            [sql appendFormat:@", %@ = '%@'",column,[bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]]];
+            [sql appendFormat:@",%@ = '%@'",column,value];
         }
     }
-    [sql appendString:[NSString stringWithFormat:@",dirty = %@ where id = '%@';",[NSNumber numberWithBool:dirty],[bean objectForFieldName:@"id"]]];
+    [sql appendString:[NSString stringWithFormat:@",dirty = %@ where id = '%@';",[NSNumber numberWithBool:dirty], [bean objectForFieldName:@"id"]]];
     BOOL success = [db executeUpdate:sql error:&error];
     if (!success) {
         NSLog(@"error updating database: %@",[error localizedDescription]);
