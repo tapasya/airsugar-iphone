@@ -75,7 +75,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Contacts</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -1905,6 +1905,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -1926,7 +1928,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -3057,6 +3059,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -3078,7 +3082,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -3224,7 +3228,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Meetings</string>
+			<string>Prospects</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -3981,7 +3985,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -5111,14 +5115,6 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
-				<string>records</string>
-				<key>related_record</key>
-				<string>link_value.id.value</string>
-				<key>related_module</key>
-				<string>name</string>
-				<key>relation_list</key>
-				<string>link_list</string>
 				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
@@ -5681,6 +5677,8 @@
 		<true/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -5702,7 +5700,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -6660,6 +6658,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -6681,7 +6681,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -8443,6 +8443,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -8464,7 +8466,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -9362,6 +9364,8 @@
 		<true/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -9383,7 +9387,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -11124,6 +11128,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -11145,7 +11151,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -11936,6 +11942,8 @@
 		<true/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -11957,7 +11965,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -12843,6 +12851,8 @@
 		<true/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -12864,7 +12874,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>
@@ -13709,6 +13719,8 @@
 		<false/>
 		<key>WebserviceMetadata</key>
 		<dict>
+			<key>pathToRelationshipInResponse</key>
+			<string>relationship_list</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -13730,7 +13742,7 @@
 			</array>
 			<key>responseKeyPathMap</key>
 			<dict>
-                <key>related_module_records</key>
+				<key>related_module_records</key>
 				<string>records</string>
 				<key>related_record</key>
 				<string>link_value.id.value</string>

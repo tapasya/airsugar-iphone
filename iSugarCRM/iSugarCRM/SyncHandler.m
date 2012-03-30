@@ -10,10 +10,9 @@
  1. Upload the data in the queue
  2. Download the data
  */
-#import "DataObject.h"
+
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
-#import "Reachability.h"
 NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
 static SyncHandler *sharedInstance;
 @interface SyncHandler ()
@@ -53,11 +52,10 @@ static SyncHandler *sharedInstance;
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
-    self.requestQueue.maxConcurrentOperationCount = 1;
+   // self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
+
 }
-
-
 
 #pragma mark Complete Sync Methods
 
@@ -92,6 +90,7 @@ static SyncHandler *sharedInstance;
     for(NSString *module in metadataStore.modulesSupported){
         [self runSyncWithTimestampForModule:module startDate:startDate endDate:endDate parent:nil];
     }
+
 }
 #pragma mark Module Sync Methods
 -(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent{
@@ -101,6 +100,7 @@ static SyncHandler *sharedInstance;
     session.parent = parent;
     session.syncAction = kWrite;
     session.uploadDataObjects = uploadData;
+    session.queuePriority = NSOperationQueuePriorityHigh;
     [session startUploading];
     
 }
@@ -162,6 +162,7 @@ static SyncHandler *sharedInstance;
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
     //create upload session
     NSArray* uploadData = [dbSession getUploadData];
@@ -173,6 +174,7 @@ static SyncHandler *sharedInstance;
     session.delegate = self;
     session.parent = parent;
     [session startLoadingWithTimestamp:deltaMark startDate:startDate endDate:endDate];
+
 }
 
 -(void)addSyncSession:(WebserviceSession *)session{
@@ -209,7 +211,12 @@ static SyncHandler *sharedInstance;
 
 //write method, once the write is successfull run sync for the module
 -(void)sessionDidCompleteUploadSuccessfully:(WebserviceSession*)session{
-    
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
+    DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
+    dbSession.syncDelegate = self;
+    dbSession.parent = session.parent;
+    [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:NO];
     //parent getting released..
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
 }
@@ -217,8 +224,7 @@ static SyncHandler *sharedInstance;
 -(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
 {  
     @synchronized([self class])
-    {  
-        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    {  SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
         DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
@@ -250,6 +256,7 @@ static SyncHandler *sharedInstance;
     }
 }
 
+
 #pragma mark Utility
 
 //move this method to utils
@@ -268,13 +275,14 @@ static SyncHandler *sharedInstance;
     
     return date;
 }
+/*
 - (BOOL)reachabilityCheck:(NSError**)error {
     
 	BOOL reachable = YES;
 	NSError* localError = nil;
     if ( NULL == error )
 		*error = localError;
-	/** Check first line of reachability **/
+	
     NSString *hostName = [[NSUserDefaults standardUserDefaults] objectForKey:@"sugarEndPoint"];
 	Reachability *internetReach = [Reachability reachabilityWithHostName:hostName];
     [internetReach startNotifier];
@@ -291,4 +299,5 @@ static SyncHandler *sharedInstance;
     
 	return reachable;
 }
+*/
 @end

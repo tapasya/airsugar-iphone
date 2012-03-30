@@ -10,7 +10,7 @@
 #import "SqliteObj.h"
 #import "DataObject.h"
 @interface DBSession ()
-
+-(BOOL)loadRelationshipsForBean:(DataObject*)bean;
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db;
 @end
 @implementation DBSession
@@ -69,18 +69,19 @@
 
 -(void)loadDetailsForId:(NSString *)beanId
 {
+    BOOL success = YES;
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     NSMutableArray *rows = [[NSMutableArray alloc]init];
     if(![db initializeDatabaseWithError:&error]){
         NSLog(@"%@",[error localizedDescription]);
-        [delegate session:self detailDownloadFailedWithError:error];
+        success = NO;
     }
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id is '%@';",metadata.tableName,beanId];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
-        [delegate session:self detailDownloadFailedWithError:error];
+        success = NO;
     }
     while(sqlite3_step(stmt)==SQLITE_ROW){
         DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
@@ -106,12 +107,60 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
+   success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
+    if (!success) {
+        [delegate session:self detailDownloadFailedWithError:error];
+    } else {
     [delegate session:self downloadedDetails:rows];
-    
+    }
+}
+
+-(BOOL)loadRelationshipsForBean:(DataObject*)bean{
+    SqliteObj* db = [[SqliteObj alloc] init];
+    NSError* error = nil;
+    BOOL success = YES;
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+        [delegate session:self detailDownloadFailedWithError:error];
+        success = NO;
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Relationships WHERE bean_id is '%@';",[bean objectForFieldName:@"id"]];
+    sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
+    if (error) {
+        NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
+         success = NO;
+    }
+    NSMutableDictionary* relationship = [NSMutableDictionary dictionary];
+    while(sqlite3_step(stmt)==SQLITE_ROW){
+        NSString *relatedBeanId;
+        char *field_value = (char*)sqlite3_column_text(stmt, 3);
+        if (field_value!=NULL) {
+          relatedBeanId   = [NSString stringWithFormat:@"%s",field_value];
+        }
+        
+        NSString *relatedModule;
+         field_value = (char*)sqlite3_column_text(stmt, 2);
+        if (field_value!=NULL) {
+          relatedModule  = [NSString stringWithFormat:@"%s",field_value];
+        }
+
+        if (relatedBeanId && relatedModule) {
+            
+        if ([relationship objectForKey:relatedModule]) {
+            [[relationship objectForKey:relatedModule] addObject:relatedBeanId];
+        }
+        else{
+            [relationship setObject:[NSMutableArray arrayWithObject:relatedBeanId] forKey:relatedModule];
+        }
+        }
+    }
+    bean.relationships = relationship;
+    sqlite3_finalize(stmt);
+    [db closeDatabase];
+    return success;
 }
 
 -(NSArray*)getUploadData{
-    
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     NSMutableArray *rows = [[NSMutableArray alloc]init];
@@ -149,7 +198,6 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
-    
     return rows;
 }
 
@@ -214,6 +262,7 @@
 
 -(BOOL)updateDatabase:(SqliteObj*)db withBean:(DataObject*)bean error:(NSError*)error dirty:(BOOL)dirty
 {
+
     NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ set ",metadata.tableName];
     int count = 0;
     for(NSString *column in metadata.columnNames){
@@ -274,7 +323,7 @@
         NSDictionary *relationships =  dObj.relationships;
         for(NSString * relatedModule in [relationships allKeys]){    
             for(NSString *beanId in [relationships objectForKey:relatedModule]){
-                NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO Relationships (module_name,bean_id,related_module_name, related_bean_id) Values (%@,%@,%@,%@);",metadata.tableName,[dObj objectForFieldName:@"id"],relatedModule,beanId];
+                NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO Relationships (module_name,bean_id,related_module_name,related_bean_id) Values ('%@','%@','%@','%@');",metadata.tableName,[dObj objectForFieldName:@"id"],relatedModule,beanId];
             success = [db executeUpdate:sql error:&error];
             if (!success) {
                 NSLog(@"error inserting in database: %@",[error localizedDescription]);
@@ -313,7 +362,7 @@
             [syncDelegate session:self syncFailedWithError:error];
         } else {
             [syncDelegate sessionSyncSuccessful:self];  
-         
+
         }
         [db closeDatabase];
     } else {

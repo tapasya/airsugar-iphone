@@ -157,6 +157,9 @@ int usernameLength,passwordLength;
     }
 }
 
+
+#pragma mark SyncHandler Delegate methods
+
 #pragma mark SyncHandler Delegate methods
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
@@ -167,7 +170,6 @@ int usernameLength,passwordLength;
 {
     //[self dismissWaitingAlert];
 }
-
 
 #pragma mark UIApplicationDelegate methods
 

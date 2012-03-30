@@ -15,11 +15,13 @@
     NSMutableDictionary *fieldValues;
     NSMutableDictionary *relationships;
 }
-@property (strong,readonly)NSDictionary *relationships;
+@property (strong)NSMutableDictionary *relationships;
 @property(strong,readonly)DataObjectMetadata *metadata;
 -(id)initWithMetadata:(DataObjectMetadata*)objectMetadata;
 -(id)objectForFieldName:(NSString*)fieldName;
 -(BOOL)setObject:(id)anObject forFieldName:(NSString *)fieldName;
 -(void)addRelationshipWithModule:(NSString*)module andBeans:(NSArray*)relatedBeanIds;
--(NSDictionary*)nameValueDictionary;
+-(NSArray*)nameValueDictionary;
+
+
 @end

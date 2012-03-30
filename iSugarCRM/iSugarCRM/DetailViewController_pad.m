@@ -55,14 +55,24 @@
     }
 }
 
--(IBAction)createButtonClicked:(id)sender
+- (void)viewWillDisappear:(BOOL)animated
 {
-    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
-    editViewController.title = @"Add Record";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self presentModalViewController:navController animated:YES];        
+    [super viewWillDisappear:animated];
+}
+
+-(void) addToolbar
+{
+    CGRect toolbarFrame = self.navigationController.toolbar.frame;
+    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200, toolbarFrame.size.height)];
+    
+    UIBarButtonItem* composeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonClicked:)];
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(editDetails)];
+    UIBarButtonItem* deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteButtonClicked:)];
+    UIBarButtonItem* relatedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(relatedButtonClicked:)];
+    UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    NSMutableArray *barItems = [[NSMutableArray alloc] initWithObjects:composeButton, flexButton, editButton, flexButton, deleteButton, flexButton, relatedButton, nil];
+    [toolbar setItems:barItems];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
 }
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
@@ -76,6 +86,7 @@
         }
         [self.tableView setBackgroundColor:[UIColor whiteColor]];
         self.tableView.separatorColor = [UIColor lightGrayColor];
+        [self addToolbar];
     }
 }
 

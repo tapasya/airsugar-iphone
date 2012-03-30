@@ -88,10 +88,11 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableArray *relationshipList = [NSMutableArray array];
     NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
     for(NSString *module in moduleList){
-      [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
     }
     
     [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
+     [restDataDictionary setObject:@"1000" forKey:@"max_results"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
     return [self formatRequest];
@@ -113,16 +114,18 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableArray *relationshipList = [NSMutableArray array];
     NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
     for(NSString *module in moduleList){
-    [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
+
     }
     
     [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
-    
+     [restDataDictionary setObject:@"1000" forKey:@"max_results"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
     return [self formatRequest];
 
 }
+
 -(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString *)timestamp startDate:(NSString*)startDate endDate:(NSString*)endDate{
     
     if ((startDate == nil||[startDate length]==0)&&(endDate == nil||[endDate length]==0)&&(timestamp == nil||[timestamp length]==0)) {
@@ -149,17 +152,18 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableArray *relationshipList = [NSMutableArray array];
     NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
     for(NSString *module in moduleList){
-        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:module,@"name",@"id",@"value",nil]];
+        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
     }
     
     [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
-
+    [restDataDictionary setObject:@"1000" forKey:@"max_results"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
     return [self formatRequest];
 
 
 }
+
 -(NSURLRequest*) getWriteRequestWithData:(NSArray*)data
 {
     //append url parameters

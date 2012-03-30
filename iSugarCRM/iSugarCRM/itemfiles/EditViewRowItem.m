@@ -12,7 +12,7 @@
 #define KCellHeight 50.0
 #define kHeightlMargin 30.0
 @interface EditViewRowItem()
-    -(NSString *)formatDate:(NSString *)dateValue withFormat:(NSString *)dateFormat;
+-(NSString *)formatDate:(NSString *)dateValue withFormat:(NSString *)dateFormat;
 @end
 
 @implementation EditViewRowItem
@@ -57,6 +57,7 @@
             valueField.tag = 1001;
             valueField.delegate = self.delegate;
             valueField.keyboardType = UIKeyboardTypePhonePad;
+            [valueField addTarget:self.delegate action:@selector(didTextChanged:) forControlEvents:UIControlEventEditingChanged];
             valueField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             valueField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             valueField.frame = CGRectMake(cell.contentView.frame.origin.x+cell.contentView.frame.size.width/2-22, 5, cell.contentView.frame.size.width/2+20 , cell.contentView.frame.size.height-10);
@@ -69,6 +70,7 @@
             valueField.tag = 1001;
             valueField.delegate = self.delegate;
             valueField.keyboardType = UIKeyboardTypeNumberPad;
+            [valueField addTarget:self.delegate action:@selector(didTextChanged:) forControlEvents:UIControlEventEditingChanged];
             valueField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             valueField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             valueField.frame = CGRectMake(cell.contentView.frame.origin.x+cell.contentView.frame.size.width/2-22, 5, cell.contentView.frame.size.width/2+20 , cell.contentView.frame.size.height-10);
@@ -81,6 +83,7 @@
             valueField.tag = 1001;
             valueField.delegate = self.delegate;
             valueField.keyboardType = UIKeyboardTypeURL;
+            [valueField addTarget:self.delegate action:@selector(didTextChanged:) forControlEvents:UIControlEventEditingChanged];
             valueField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             valueField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             valueField.frame = CGRectMake(cell.contentView.frame.origin.x+cell.contentView.frame.size.width/2-22, 5, cell.contentView.frame.size.width/2+20 , cell.contentView.frame.size.height-10);
@@ -91,11 +94,12 @@
             valueField = [[UITextField alloc] init];
             valueField.borderStyle = UITextBorderStyleRoundedRect;
             valueField.delegate = self.delegate;
+            valueField.keyboardType = UIKeyboardTypeEmailAddress;
+            [valueField addTarget:self.delegate action:@selector(didTextChanged:) forControlEvents:UIControlEventEditingChanged];
             valueField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             valueField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
             valueField.tag = 1001;
             valueField.frame = CGRectMake(cell.contentView.frame.origin.x+cell.contentView.frame.size.width/2-22, 5, cell.contentView.frame.size.width/2+20 , cell.contentView.frame.size.height-10);
-            valueField.keyboardType = UIKeyboardTypeEmailAddress;
             valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             [cell.contentView addSubview:valueField];
         }
@@ -114,6 +118,7 @@
             valueField.tag = 1001;
             valueField.delegate = self.delegate;
             valueField.keyboardType = UIKeyboardTypeDefault;
+            [valueField addTarget:self.delegate action:@selector(didTextChanged:) forControlEvents:UIControlEventEditingChanged];
             valueField.frame = CGRectMake(cell.contentView.frame.origin.x+cell.contentView.frame.size.width/2-22, 5, cell.contentView.frame.size.width/2+20 , cell.contentView.frame.size.height-10);
             valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             [cell.contentView addSubview:valueField];

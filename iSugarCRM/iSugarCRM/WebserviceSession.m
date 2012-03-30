@@ -10,7 +10,6 @@
 #import "DataObject.h"
 #import "DataObjectField.h"
 #import "JSONKit.h"
-#import "Reachability.h"
 #import "SyncHandler.h"
 #define HTTPStatusOK 200
 @interface WebserviceSession()
@@ -70,6 +69,7 @@
     [self loadUrl:request]; 
     }
 }
+
 
 -(void) loadUrl:(NSURLRequest *)urlRequest
 {
@@ -148,30 +148,26 @@
     //parse only in data sync(download)
     
     if (syncAction == kWrite) {
-        if (delegate != nil && [delegate respondsToSelector:@selector(sessionDidCompleteUploadSuccessfully:)]) {
+            if (delegate != nil && [delegate respondsToSelector:@selector(sessionDidCompleteUploadSuccessfully:)]) {
             [delegate sessionDidCompleteUploadSuccessfully:self];
         }  
     }  
     else  
     { //read
         NSDictionary *responseDictionary = [self.responseData objectFromJSONData]; //parse using some parser
-       
         id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
         id relationshipList = [responseDictionary valueForKeyPath:metadata.pathToRelationshipInResponse];
-         NSLog(@"relationship = %@",relationshipList);
-      //  NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
+        //  NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
         if([responseObjects isKindOfClass:[NSDictionary class]]){
             responseObjects = [NSArray arrayWithObject:responseObjects];
         }
         NSMutableArray *arrayOfDataObjects = [[NSMutableArray alloc] init];
-       // NSMutableDictionary *relationshipDictionary = [NSMutableDictionary dictionary];
         int count = 0;
         for(NSDictionary *responseObject in responseObjects)
         { 
             @try {
                 DataObjectMetadata *objectMetadata = [[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.moduleName];
                 DataObject *dataObject = [[DataObject alloc] initWithMetadata:objectMetadata];
-                
                 for(DataObjectField *field in [[objectMetadata fields] allObjects]) 
                 {   
                     id value = [responseObject valueForKeyPath:[metadata.responseKeyPathMap objectForKey:field.name]];
@@ -182,14 +178,16 @@
                     }
                     
                 }
-                NSArray *relationships = [[relationshipList objectAtIndex:count] objectForKey:@"relation_list"];
+                NSArray *relationships = [[relationshipList objectAtIndex:count] objectForKey:[metadata.responseKeyPathMap objectForKey:@"relation_list"]];
                 for(NSDictionary *relationship in relationships){
                     NSString* relatedModule = [relationship valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_module"]];
                     NSMutableArray *beanIds = [NSMutableArray array];
                     for(NSDictionary * bean in  [relationship valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_module_records"]]){
-                        [beanIds addObject:[bean valueForKeyPath:@"related_record"]];
+                        [beanIds addObject:[bean valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_record"]]];
                     }
-                        [dataObject addRelationshipWithModule:relatedModule andBeans:beanIds];
+                    if ([beanIds count]>0) {
+                        [dataObject addRelationshipWithModule:relatedModule andBeans:beanIds]; 
+                    }
                 }
                 [arrayOfDataObjects addObject:dataObject];
                 count++;

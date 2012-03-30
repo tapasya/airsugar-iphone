@@ -34,26 +34,24 @@
 }
 -(void)addRelationshipWithModule:(NSString*)module andBeans:(NSArray*)relatedBeanIds{
 
+
     if ([relationships objectForKey:module]) {
       [[relationships objectForKey:module] addObjectsFromArray:relatedBeanIds];
     }
     else [relationships setObject:[relatedBeanIds mutableCopy] forKey:module];
-    NSLog(@"relationship for module %@ = %@",metadata.objectClassIdentifier,relationships);
+    
 }
--(NSDictionary*)relationships{
-    return [relationships copy];
-}
--(NSDictionary*)nameValueDictionary
+-(NSArray*)nameValueDictionary
 {
-    NSMutableDictionary *nameValueList = [[OrderedDictionary alloc] init];
+    NSMutableArray *nameValueArray = [[NSMutableArray alloc] init];
     for(DataObjectField* field in self.metadata.fields)
     {
         NSMutableDictionary* nameValuePair = [[NSMutableDictionary alloc] init];
         [nameValuePair setObject:field.name forKey:@"name"];
         [nameValuePair setObject:[self objectForFieldName:field.name] forKey:@"value"];
-        [nameValueList setObject:nameValuePair forKey:field.name];
+        [nameValueArray addObject:nameValuePair];
     }
-    return nameValueList;
+    return nameValueArray;
 }
 
 -(NSString*)description
