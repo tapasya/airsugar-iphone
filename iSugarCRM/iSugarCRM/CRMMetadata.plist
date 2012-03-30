@@ -14,7 +14,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -2107,7 +2107,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -3167,7 +3167,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -4056,7 +4056,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -5206,7 +5206,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -5753,7 +5753,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -6766,7 +6766,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -8593,7 +8593,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -9518,7 +9518,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -11306,7 +11306,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -12048,7 +12048,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
@@ -12999,7 +12999,7 @@
 			<array>
 				<dict>
 					<key>method</key>
-					<string>set_entry</string>
+					<string>set_entries</string>
 				</dict>
 				<dict>
 					<key>input_type</key>
