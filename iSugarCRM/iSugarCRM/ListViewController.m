@@ -224,7 +224,15 @@
 #pragma mark DBLoadSession Delegate;
 -(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
 {   
-    datasource = moduleList;
+    NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
+    for(DataObject* dataObject in moduleList)
+    {
+        if([[dataObject objectForFieldName:@"deleted"] isEqualToString:@"0"])
+        {
+            [visibleRecords addObject:dataObject];
+        }
+    }
+    datasource = visibleRecords;
     [tableData removeAllObjects];
     [tableData addObjectsFromArray:datasource];
     [self sortData];
@@ -429,16 +437,31 @@
     NSMutableIndexSet *indexSetToDelete = [[NSMutableIndexSet alloc] init];
     NSMutableIndexSet *dsIndexSetToDelete = [[NSMutableIndexSet alloc] init];
     NSMutableArray* copy = [self.datasource mutableCopy];
+    NSMutableArray* uploadData = [[NSMutableArray alloc] initWithCapacity:[selectedRows count]];
     for (NSIndexPath *indexPath in selectedRows)
     {
         [indexSetToDelete addIndex:indexPath.row];
         [dsIndexSetToDelete addIndex:[self.datasource indexOfObject:[self.tableData objectAtIndex:indexPath.row]]];
+        
+        DataObject* dataObject = (DataObject *)[self.tableData objectAtIndex:indexPath.row];
+        [dataObject setObject:@"1" forFieldName:@"deleted"];
+        [uploadData addObject:dataObject];
     }
     [self.tableData removeObjectsAtIndexes:indexSetToDelete];
     [copy removeObjectsAtIndexes:dsIndexSetToDelete];
     self.datasource = [[NSArray alloc] initWithArray:copy];
     [myTableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];    
-    // TODO should update the db for the deleted flag and sync
+    
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    [dbSession insertDataObjectsInDb:uploadData dirty:NO];
+    
+    SyncHandler * syncHandler = [SyncHandler sharedInstance];
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
+    [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
+    [self markItemAsDelete];
     [myTableView reloadData];
 
 }

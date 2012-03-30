@@ -14,6 +14,9 @@
 #import "DetailViewRowItem.h"
 #import "DetailViewSectionItem.h"
 #import "RelationsViewController.h"
+#import "SyncHandler.h"
+#import "AppDelegate.h"
+
 @interface DetailViewController()
 {
     UIToolbar *toolbar;
@@ -223,7 +226,20 @@
 
 -(IBAction)deleteButtonClicked:(id)sender
 {
-    // TODO delete the record and sync    
+    DataObject* dataObject = [detailsArray objectAtIndex:0];
+    [dataObject setObject:@"1" forFieldName:@"deleted"];    
+    NSArray *uploadData = [NSArray arrayWithObject:dataObject];
+    
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
+    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
+    [dbSession insertDataObjectsInDb:uploadData dirty:NO];
+    
+    SyncHandler * syncHandler = [SyncHandler sharedInstance];
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
+    [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
+    
 }
 
 -(IBAction)relatedButtonClicked:(id)sender
@@ -239,6 +255,37 @@
     RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataObject:[detailsArray objectAtIndex:0]];
     relationsController.title = @"Relations";
     [self.navigationController pushViewController:relationsController animated:YES];
+}
+
+#pragma mark SyncHandler Delegate
+
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate dismissWaitingAlert];
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+}
+-(void)syncComplete:(SyncHandler*)syncHandler{
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate dismissWaitingAlert];
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+}
+
+-(IBAction)showSyncAlert:(id)sender
+{
+    NSError* error = (NSError*) sender;
+    if(error)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Successfully deleted the record" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+        [self.navigationController popViewControllerAnimated:YES];
+        // TODO should send a callback to listview to reload records from db
+    }
 }
 
 #pragma mark - Table view data source
