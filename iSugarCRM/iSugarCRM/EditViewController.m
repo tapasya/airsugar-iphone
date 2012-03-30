@@ -208,7 +208,7 @@
     //[self.navigationController dismissModalViewControllerAnimated:YES];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:[NSArray arrayWithObject:[self.detailedData objectAtIndex:0]] forModule:self.metadata.objectClassIdentifier parent:self];
+    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject getNameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
 }
 
 -(void) discard

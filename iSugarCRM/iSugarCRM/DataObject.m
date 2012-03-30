@@ -54,6 +54,23 @@
     return nameValueArray;
 }
 
+-(NSArray*) getNameValueArrayForDelete
+{
+    NSMutableArray *nameValueArray = [[NSMutableArray alloc] init];
+    
+    NSMutableDictionary* idValuePair = [[NSMutableDictionary alloc] init];
+    [idValuePair setObject:@"id" forKey:@"name"];
+    [idValuePair setObject:[self objectForFieldName:@"id"] forKey:@"value"];
+    [nameValueArray addObject:idValuePair];
+   
+    NSMutableDictionary* deleteValuePair = [[NSMutableDictionary alloc] init];
+    [deleteValuePair setObject:@"deleted" forKey:@"name"];
+    [deleteValuePair setObject:[self objectForFieldName:@"deleted"] forKey:@"value"];
+    [nameValueArray addObject:deleteValuePair];
+    
+    return nameValueArray; 
+}
+
 -(NSString*)description
 {
     NSMutableString *description = [[NSMutableString alloc] init];

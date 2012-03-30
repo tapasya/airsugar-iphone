@@ -194,7 +194,7 @@
                 }
             }    
         }
-        [rows addObject:dataObject];
+        [rows addObject:[dataObject getNameValueArray]];
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];

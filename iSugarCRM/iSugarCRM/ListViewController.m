@@ -438,6 +438,7 @@
     NSMutableIndexSet *dsIndexSetToDelete = [[NSMutableIndexSet alloc] init];
     NSMutableArray* copy = [self.datasource mutableCopy];
     NSMutableArray* uploadData = [[NSMutableArray alloc] initWithCapacity:[selectedRows count]];
+    NSMutableArray* dbData = [[NSMutableArray alloc] initWithCapacity:[selectedRows count]];
     for (NSIndexPath *indexPath in selectedRows)
     {
         [indexSetToDelete addIndex:indexPath.row];
@@ -445,7 +446,8 @@
         
         DataObject* dataObject = (DataObject *)[self.tableData objectAtIndex:indexPath.row];
         [dataObject setObject:@"1" forFieldName:@"deleted"];
-        [uploadData addObject:dataObject];
+        [dbData addObject:dataObject];
+        [uploadData addObject:[dataObject  getNameValueArrayForDelete]];
     }
     [self.tableData removeObjectsAtIndexes:indexSetToDelete];
     [copy removeObjectsAtIndexes:dsIndexSetToDelete];
@@ -455,7 +457,7 @@
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
     DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    [dbSession insertDataObjectsInDb:uploadData dirty:NO];
+    [dbSession insertDataObjectsInDb:dbData dirty:NO];
     
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -463,7 +465,6 @@
     [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
     [self markItemAsDelete];
     [myTableView reloadData];
-
 }
 
 - (void)markItemAsDelete{
