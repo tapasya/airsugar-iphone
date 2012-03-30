@@ -157,9 +157,6 @@
 
 -(IBAction)showSyncAlert:(id)sender
 {
-    //[self.navigationController setToolbarHidden:YES animated:YES];
-    [self hideProgress];
-    
     NSError* error = (NSError*) sender;
     if(error)
     {
@@ -171,6 +168,7 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alertView show];
     }
+    [self hideProgress];
 }
 
 #pragma mark - View lifecycle
@@ -213,35 +211,14 @@
 
 -(void) showProgress
 {
-    CGRect toolbarFrame = self.navigationController.toolbar.frame;
-    activityIndicator = 
-    [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x + toolbarFrame.size.width/2 -10, 0, 20, 20)];
-    [activityIndicator startAnimating];
-    [self.navigationController.toolbar addSubview:activityIndicator];
-    
-    syncLabel = [[UILabel alloc] initWithFrame:CGRectMake(toolbarFrame.origin.x+toolbarFrame.size.width/2 - 50, 20, 100, 20)];
-    [syncLabel setText:@"Sync Started"];
-    if(IS_IPAD)
-    {
-        [syncLabel setTextColor:[UIColor grayColor]];
-         activityIndicator.color = [UIColor grayColor];
-    }
-    else
-    {
-        [syncLabel setTextColor:[UIColor whiteColor]];
-    }
-    [syncLabel setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController.toolbar addSubview:syncLabel];  
-    [self.navigationController setToolbarHidden:NO animated:YES];
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
 }
 
 -(void) hideProgress
 {
-    [self.navigationController setToolbarHidden:YES animated:YES];
-    [activityIndicator removeFromSuperview];
-    activityIndicator = nil;
-    [syncLabel removeFromSuperview];
-    syncLabel = nil;
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate dismissWaitingAlert];
 }
 
 #pragma mark DBLoadSession Delegate;

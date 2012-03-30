@@ -205,6 +205,9 @@
     }
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     NSLog(@"module name = %@", self.metadata.objectClassIdentifier);
+    //[self.navigationController dismissModalViewControllerAnimated:YES];
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     [syncHandler uploadData:[NSArray arrayWithObject:[self.detailedData objectAtIndex:0]] forModule:self.metadata.objectClassIdentifier parent:self];
 }
 
@@ -327,9 +330,30 @@
 #pragma mark SyncHandler Delegate
 
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate dismissWaitingAlert];
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
 }
 -(void)syncComplete:(SyncHandler*)syncHandler{
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate dismissWaitingAlert];
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+}
 
+-(IBAction)showSyncAlert:(id)sender
+{
+    NSError* error = (NSError*) sender;
+    if(error)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
 
 //register for keyboard notifications.
