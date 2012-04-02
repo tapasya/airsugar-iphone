@@ -146,7 +146,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSBundle mainBundle] pathForResource:@"CRMMetadata" ofType:@"plist"]])
     {  NSLog(@"Config file found, loading metadata!");
         self.metadataDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];
-        NSLog(@"metadata: %@",metadataDictionary);
+      //  NSLog(@"metadata = %@",metadataDictionary);
         return YES;
     }
     else

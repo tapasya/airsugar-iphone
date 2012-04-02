@@ -53,7 +53,7 @@ bool isSyncEnabled ;
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
         isSyncEnabled = true;
-        [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //blocking sync view
+        [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //TODO:blocking sync view
     }
     return self;
 }

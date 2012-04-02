@@ -54,7 +54,7 @@ static SyncHandler *sharedInstance;
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
-   // self.requestQueue.maxConcurrentOperationCount = 1;
+    //self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
 
 }
@@ -225,6 +225,7 @@ static SyncHandler *sharedInstance;
     }
     [dbSession insertDataObjectsInDb:dataObjects dirty:NO];
     //parent getting released..
+    NSLog(@"session count is %d",self.requestQueue.operationCount);
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
 }
 
@@ -237,7 +238,9 @@ static SyncHandler *sharedInstance;
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;
         [dbSession insertDataObjectsInDb:response dirty:NO];
+        NSLog(@"session count is %d",self.requestQueue.operationCount);
     }
+        
 }
 
 -(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
@@ -266,6 +269,7 @@ static SyncHandler *sharedInstance;
             [dbSession insertDataObjectsInDb:dataObjects dirty:YES];
         }
     }
+        NSLog(@"session count is %d",self.requestQueue.operationCount);
 }
 
 

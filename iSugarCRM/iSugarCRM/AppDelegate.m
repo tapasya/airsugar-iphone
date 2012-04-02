@@ -145,7 +145,7 @@ int usernameLength,passwordLength;
     syncHandler.delegate = self;
     NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
     NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-    [syncHandler runCompleteSyncWithStartDate:startDate endDate:endDate];
+    [syncHandler runCompleteSyncWithTimestampAndStartDate:startDate endDate:endDate];
 }
 - (void) resignFirstResponderRec:(UIView*) view {
     if ([view respondsToSelector:@selector(resignFirstResponder)]){

@@ -266,9 +266,9 @@
     int count = 0;
     for(NSString *column in metadata.columnNames){
         NSString* value = [bean objectForFieldName:[[metadata column_objectFieldMap]objectForKey:column]];
-        if(!value || [value length] ==0)
+        if(value == nil)
         {
-            value = @" ";
+            value = @"";
         }
         if (++count==1) {
             [sql appendFormat:@"%@ = '%@'",column,value];      

@@ -148,7 +148,7 @@
         NSDictionary *responseDictionary = [self.responseData objectFromJSONData]; //parse using some parser
         id responseObjects = [responseDictionary valueForKeyPath:metadata.pathToObjectsInResponse];
         id relationshipList = [responseDictionary valueForKeyPath:metadata.pathToRelationshipInResponse];
-        //  NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
+          NSLog(@"response object for module: %@ data: %@",metadata.moduleName,responseObjects);
         if([responseObjects isKindOfClass:[NSDictionary class]]){
             responseObjects = [NSArray arrayWithObject:responseObjects];
         }
