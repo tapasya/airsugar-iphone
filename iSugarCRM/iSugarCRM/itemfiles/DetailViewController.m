@@ -159,6 +159,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadDataFromDb];
     [self addToolbar];
 }
 
