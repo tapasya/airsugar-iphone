@@ -75,7 +75,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Contacts</string>
+			<string>Leads</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
@@ -3228,7 +3228,7 @@
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
-			<string>Prospects</string>
+			<string>Meetings</string>
 			<key>pathToObjectsInResponse</key>
 			<string>entry_list</string>
 		</dict>
