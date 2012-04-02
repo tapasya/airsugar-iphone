@@ -41,7 +41,7 @@
     else [relationships setObject:[relatedBeanIds mutableCopy] forKey:module];
     
 }
--(NSArray*)nameValueDictionary
+-(NSArray*)getNameValueArray
 {
     NSMutableArray *nameValueArray = [[NSMutableArray alloc] init];
     for(DataObjectField* field in self.metadata.fields)
@@ -56,6 +56,16 @@
         }
     }
     return nameValueArray;
+}
+
++(DataObject*) dataObjectFromNameValueArray:(NSArray *)nameValueArray andMetadata:(DataObjectMetadata *)objectMetadata
+{
+    DataObject* dataObject = [[DataObject alloc] initWithMetadata:objectMetadata];
+    for(NSDictionary* nameValuePair in nameValueArray)
+    {
+        [dataObject setObject:[nameValuePair objectForKey:@"value"] forFieldName:[nameValuePair objectForKey:@"name"]];
+    }    
+    return dataObject;
 }
 
 -(NSArray*) getNameValueArrayForDelete

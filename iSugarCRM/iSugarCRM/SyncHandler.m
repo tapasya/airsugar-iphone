@@ -13,6 +13,8 @@
 
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
+#import "DataObject.h"
+
 NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
 static SyncHandler *sharedInstance;
 @interface SyncHandler ()
@@ -216,7 +218,12 @@ static SyncHandler *sharedInstance;
     DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
     dbSession.syncDelegate = self;
     dbSession.parent = session.parent;
-    [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:NO];
+    NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
+    for(NSArray* nameValueArray in session.uploadDataObjects)
+    {
+        [dataObjects addObject:[DataObject dataObjectFromNameValueArray:nameValueArray andMetadata:[sharedInstance objectMetadataForModule:session.metadata.moduleName]]];
+    }
+    [dbSession insertDataObjectsInDb:dataObjects dirty:NO];
     //parent getting released..
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
 }
@@ -251,7 +258,12 @@ static SyncHandler *sharedInstance;
             DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
             dbSession.syncDelegate = self;
             dbSession.parent = session.parent;
-            [dbSession insertDataObjectsInDb:session.uploadDataObjects dirty:YES];
+            NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
+            for(NSArray* nameValueArray in session.uploadDataObjects)
+            {
+                [dataObjects addObject:[DataObject dataObjectFromNameValueArray:nameValueArray andMetadata:[sharedInstance objectMetadataForModule:session.metadata.moduleName]]];
+            }
+            [dbSession insertDataObjectsInDb:dataObjects dirty:YES];
         }
     }
 }

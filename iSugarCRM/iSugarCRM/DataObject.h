@@ -21,7 +21,7 @@
 -(id)objectForFieldName:(NSString*)fieldName;
 -(BOOL)setObject:(id)anObject forFieldName:(NSString *)fieldName;
 -(void)addRelationshipWithModule:(NSString*)module andBeans:(NSArray*)relatedBeanIds;
--(NSArray*)nameValueDictionary;
 -(NSArray*) getNameValueArray;
 -(NSArray*) getNameValueArrayForDelete;
++(DataObject*) dataObjectFromNameValueArray:(NSArray*) nameValueArray andMetadata:(DataObjectMetadata*) objectMetadata;
 @end
