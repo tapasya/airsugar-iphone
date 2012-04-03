@@ -311,17 +311,16 @@
     [super viewWillAppear:animated];
     [self sortData];
     [myTableView reloadData];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewWillDisappear:animated];
 }
 
@@ -423,6 +422,7 @@
             [appDelegate.recentItems setObject:[NSMutableArray arrayWithObject:beanId] forKey:moduleName];
         }
         DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
+        detailViewController.shouldCotainToolBar = YES;
          [self.navigationController pushViewController:detailViewController animated:YES];
     }
 }

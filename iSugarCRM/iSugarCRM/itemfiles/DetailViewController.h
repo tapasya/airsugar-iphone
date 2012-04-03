@@ -15,6 +15,7 @@
 @property(strong)DetailViewMetadata *metadata;
 @property(strong)NSString *beanId;
 @property(strong)NSString *beanTitle;
+@property(nonatomic)BOOL shouldCotainToolBar;
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle;
 -(void) loadDataFromDb;
 -(void) editDetails;

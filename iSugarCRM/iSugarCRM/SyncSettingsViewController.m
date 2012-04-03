@@ -344,7 +344,7 @@ BOOL isFirstTime;
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     //[sharedAppDelegate sync];
-    [sharedAppDelegate performSelectorInBackground:@selector(sync) withObject:nil];
+    [sharedAppDelegate performSelectorInBackground:@selector(completeSyncWithDateFilters) withObject:nil];
     //[sharedAppDelegate dismissWaitingAlert];
 }
 

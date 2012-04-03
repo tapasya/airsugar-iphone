@@ -67,6 +67,11 @@
     [super viewDidLoad];
     [self fetchDataObjects];
 }
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:YES animated:YES];
+    [super viewDidAppear:animated];
+}
 
 #pragma mark - TableView DataSource methods
 
@@ -96,9 +101,6 @@
     NSString *sectionName = [[[dataObjectStore allKeys]objectAtIndex:indexPath.section] capitalizedString];
     NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     
-    /*
-     CODE RELATED TO ACTUAL DATA
-     */
     DataObject *dataObjectForRow = [objectArray objectAtIndex:indexPath.row];
     ListViewMetadata *metadata = [self metaDataForModule:sectionName];
     cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
@@ -123,14 +125,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
-     CODE RELATED TO ACTUAL DATA
-     */
     NSString *sectionName = [[dataObjectStore allKeys]objectAtIndex:indexPath.section];
     NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     sectionName = [sectionName capitalizedString];
     id beanId = [[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"id"];
     DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:[[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"]];
+    detailViewController.shouldCotainToolBar = NO;
     [self.navigationController pushViewController:detailViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

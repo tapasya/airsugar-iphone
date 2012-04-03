@@ -28,8 +28,8 @@
 
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
-@synthesize detailsArray; 
-
+@synthesize detailsArray;
+@synthesize shouldCotainToolBar;
 #pragma mark init methods
 
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
@@ -135,8 +135,6 @@
 {
     [super viewDidLoad];
     self.title = self.beanTitle;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
-    [self loadDataFromDb];
 }
 
 - (void)viewDidUnload
@@ -149,7 +147,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self addToolbar];
+    [self loadDataFromDb];
+    if (self.shouldCotainToolBar == YES) {
+        [self addToolbar];
+    }else{
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -160,8 +163,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [toolbar removeFromSuperview];
-    [self.navigationController setToolbarHidden:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
