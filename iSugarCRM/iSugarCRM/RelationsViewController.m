@@ -109,7 +109,6 @@
     }
     NSString *sectionName = [[[dataObjectStore allKeys]objectAtIndex:indexPath.section] capitalizedString];
     NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
-    
     DataObject *dataObjectForRow = [objectArray objectAtIndex:indexPath.row];
     ListViewMetadata *metadata = [self metaDataForModule:sectionName];
     cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
