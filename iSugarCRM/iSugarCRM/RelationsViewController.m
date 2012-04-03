@@ -57,7 +57,7 @@
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissView:)];
     [self.view addSubview:_tableView];
     [self.view setAutoresizesSubviews:YES];
 }
@@ -71,6 +71,15 @@
 {
     [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewDidAppear:animated];
+    if([[dataSourceDictionary allKeys] count]==0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"No RelationsShips" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
+}
+
+-(void)dismissView:(id)sender
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - TableView DataSource methods
@@ -129,7 +138,13 @@
     NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     sectionName = [sectionName capitalizedString];
     id beanId = [[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"id"];
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:[[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"]];
+    id beanTitle;
+    if ([[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"] != nil)
+        beanTitle = [[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"];
+    else
+        beanTitle = @"Back";
+    
+    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:beanTitle];
     detailViewController.shouldCotainToolBar = NO;
     [self.navigationController pushViewController:detailViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

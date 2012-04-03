@@ -9,6 +9,7 @@
 #import "LoginUtils.h"
 #import "JSONKit.h"
 #import "ApplicationKeyStore.h"
+#import "SettingsStore.h"
 #import <CommonCrypto/CommonDigest.h>
 @implementation LoginUtils
 
@@ -97,7 +98,7 @@
     
 }
 +(NSString*)urlStringForParams:(NSMutableDictionary*)params{
-    NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
+    NSString* urlString  =[NSString stringWithFormat:@"%@?",[SettingsStore objectForKey:@"endpointURL"]];//[NSString stringWithFormat:@"%@?",sugarEndpoint];
     
     bool is_first=YES;
     for(id key in [params allKeys])

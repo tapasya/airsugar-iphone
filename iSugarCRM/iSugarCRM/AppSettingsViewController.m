@@ -142,10 +142,10 @@
     if(indexPath.section == 0 && indexPath.row == 0 && [cellIdentifier isEqualToString:kTextFieldCell])
     {
         [((TextFieldTableCell*)cell).label setText:@"Url"];
-        NSString *url = [SettingsStore objectForKey:@"sugarEndpoint"];
+        NSString *url = [SettingsStore objectForKey:@"endpointURL"];//[SettingsStore objectForKey:@"sugarEndpoint"];
         if(!value){
             if([url length] == 0)
-                value = sugarEndpoint;
+                value = [SettingsStore objectForKey:@"endpointURL"];//sugarEndpoint;
             else
                 value = url;
         }
@@ -244,7 +244,8 @@ return cell;
     
     [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:password forKey:(__bridge id)kSecValueData];
-    [SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
+    //[SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
+    [SettingsStore setObject:urlString forKey:@"endpointURL"];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

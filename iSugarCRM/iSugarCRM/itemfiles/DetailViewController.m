@@ -245,7 +245,10 @@
     
     RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataObject:[detailsArray objectAtIndex:0]];
     relationsController.title = @"Relations";
-    [self.navigationController pushViewController:relationsController animated:YES];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:relationsController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentModalViewController:navController animated:YES];
+    //[self.navigationController pushViewController:relationsController animated:YES];
 }
 
 #pragma mark SyncHandler Delegate

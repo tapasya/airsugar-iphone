@@ -14,6 +14,7 @@
 #import "SqliteObj.h"
 #import "OrderedDictionary.h"
 #import "JSONKit.h"
+#import "SettingsStore.h"
 static SugarCRMMetadataStore *sharedInstance = nil;
 
 @interface SugarCRMMetadataStore ()
@@ -276,7 +277,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
             //WebserviceMetadata
             WebserviceMetadata *wsMap = [[WebserviceMetadata alloc] init];
             wsMap.pathToObjectsInResponse = @"entry_list";
-            wsMap.endpoint = sugarEndpoint;
+            wsMap.endpoint = [SettingsStore objectForKey:@"endpointURL"];//wsMap.endpoint = sugarEndpoint;
             [wsMap setUrlParam:@"get_entry_list" forKey:@"method"];
             [wsMap setUrlParam:@"JSON" forKey:@"input_type"];
             [wsMap setUrlParam:@"JSON" forKey:@"response_type"];
@@ -351,7 +352,8 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 #pragma mark Utility methods
 
 -(NSString*)urlStringForParams:(NSMutableDictionary*)params{
-    NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
+    
+    NSString* urlString  =[NSString stringWithFormat:@"%@?",[SettingsStore objectForKey:@"endpointURL"]];//NSString* urlString  =[NSString stringWithFormat:@"%@?",sugarEndpoint];
     
     bool is_first=YES;
     for(id key in [params allKeys])
