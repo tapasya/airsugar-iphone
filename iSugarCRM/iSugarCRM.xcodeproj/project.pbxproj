@@ -61,6 +61,7 @@
 		0FFE2AC814EE60E300F90C4E /* Meetings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC314EE60E300F90C4E /* Meetings@2x.png */; };
 		0FFE2AC914EE60E300F90C4E /* Opportunities.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC414EE60E300F90C4E /* Opportunities.png */; };
 		0FFE2ACA14EE60E300F90C4E /* Opportunities@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC514EE60E300F90C4E /* Opportunities@2x.png */; };
+		2F05832D152B06EC006DCD26 /* RecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F05832C152B06EA006DCD26 /* RecentViewController.m */; };
 		2F6C46A0148676A400865C25 /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
 		2F6C46A1148676A400865C25 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2FB5CD1814D79C1A00C3898F /* CRMMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */; };
@@ -189,6 +190,8 @@
 		0FFE2AC314EE60E300F90C4E /* Meetings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Meetings@2x.png"; sourceTree = "<group>"; };
 		0FFE2AC414EE60E300F90C4E /* Opportunities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Opportunities.png; sourceTree = "<group>"; };
 		0FFE2AC514EE60E300F90C4E /* Opportunities@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Opportunities@2x.png"; sourceTree = "<group>"; };
+		2F05832B152B06E6006DCD26 /* RecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentViewController.h; sourceTree = "<group>"; };
+		2F05832C152B06EA006DCD26 /* RecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentViewController.m; sourceTree = "<group>"; };
 		2F6C469C148676A300865C25 /* OrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDictionary.h; sourceTree = "<group>"; };
 		2F6C469D148676A300865C25 /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		2F6C469E148676A300865C25 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 		3B3E6277148E3288002BAE48 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2F05832B152B06E6006DCD26 /* RecentViewController.h */,
+				2F05832C152B06EA006DCD26 /* RecentViewController.m */,
 				0F93BDED1524530700E57E80 /* RelationsViewController.h */,
 				0F93BDEE1524530700E57E80 /* RelationsViewController.m */,
 				0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */,
@@ -786,6 +791,7 @@
 				0F630929150F52ED0029C18A /* EditViewRowItem.m in Sources */,
 				0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */,
 				0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */,
+				2F05832D152B06EC006DCD26 /* RecentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

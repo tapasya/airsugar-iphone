@@ -18,7 +18,7 @@
 #import "DetailViewController.h"
 #import "ListViewController_pad.h"
 #import "SplitViewController.h"
-
+#import "RecentViewController.h"
 #define kIpadLabelWidth         400
 #define kIphoneLabelWidth       250
 #define kLabelHeight             50
@@ -168,7 +168,7 @@ bool isSyncEnabled ;
     moduleList = [sugarMetaDataStore modulesSupported];
     self.title = @"Modules";
 	if(![self hasSavedLauncherItems]){
-        NSInteger pageCount = moduleList.count / self.launcherView.maxItemsPerPage;
+        NSInteger pageCount = ( moduleList.count + 1) / self.launcherView.maxItemsPerPage; //added 1 for recent
         if(moduleList.count % self.launcherView.maxItemsPerPage != 0){
             pageCount++;
         }
@@ -186,6 +186,7 @@ bool isSyncEnabled ;
                 [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName image:imagename target:nil deletable:NO]];
             }
         }
+          [[pageItems objectAtIndex:pageCount-1] addObject:[[MyLauncherItem alloc] initWithTitle:@"Recent" image:@"itemImage" target:nil deletable:NO]];
         [self.launcherView setPages:pageItems animated:(BOOL) isSyncEnabled];
         
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)];
@@ -197,6 +198,13 @@ bool isSyncEnabled ;
 {
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     NSString *modulename = [item title];
+    if ([modulename isEqualToString:@"Recent"]) {
+       // AppDelegate *appDelegate = ;
+        RecentViewController *recent = [[RecentViewController alloc] initWithRecentItems:((AppDelegate*)[UIApplication sharedApplication].delegate).recentItems];
+        recent.title = modulename;
+        [self.navigationController pushViewController:recent animated:YES];  
+        return;
+    }
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];
     NSLog(@"metadata module name %@",metadata.moduleName); //remove debug logs
     if(IS_IPAD)

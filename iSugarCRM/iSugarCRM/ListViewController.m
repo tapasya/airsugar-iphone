@@ -412,7 +412,16 @@
         tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
         id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
         id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
-                    
+        AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        if ([appDelegate.recentItems objectForKey:moduleName]) {
+            NSMutableArray *beanIds = [appDelegate.recentItems objectForKey:moduleName];
+            if ([beanIds count]>=2) {
+                [beanIds removeObjectAtIndex:0];
+            }
+             [beanIds addObject:beanId];
+        } else {
+            [appDelegate.recentItems setObject:[NSMutableArray arrayWithObject:beanId] forKey:moduleName];
+        }
         DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:metadata.moduleName] beanId:beanId beanTitle:beanTitle];
          [self.navigationController pushViewController:detailViewController animated:YES];
     }

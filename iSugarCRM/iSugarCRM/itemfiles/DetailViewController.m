@@ -133,20 +133,10 @@
 
 - (void)viewDidLoad
 {
-//<<<<<<< HEAD
     [super viewDidLoad];
     self.title = self.beanTitle;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     [self loadDataFromDb];
-/*=======
-    SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
-    EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:self.detailsArray];
-    editViewController.title = @"Edit Record";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self presentModalViewController:navController animated:YES];
->>>>>>> 45dbcf7ab016fbdcc3e6f5bb371d04e63c521a3a
- */
 }
 
 - (void)viewDidUnload

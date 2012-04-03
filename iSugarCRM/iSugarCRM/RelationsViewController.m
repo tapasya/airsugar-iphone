@@ -12,16 +12,15 @@
 #import "ListViewMetadata.h"
 
 @interface RelationsViewController()
-{
-    NSDictionary *relationsDictionary;
-}
-    @property(strong) UITableView *_tableView;
+@property(strong) UITableView *_tableView;
+@property(strong) NSMutableDictionary* dataObjectStore;
 -(ListViewMetadata *)metaDataForModule:(NSString*)modulename;
+-(void)fetchDataObjects;
 @end
 
 @implementation RelationsViewController
 
-@synthesize _tableView;
+@synthesize _tableView,dataSourceDictionary,dataObjectStore;
 
 #pragma mark - init methods
 
@@ -29,7 +28,7 @@
 {
     if(self = [super init])
     {
-        relationsDictionary = dataObject.relationships;
+        dataSourceDictionary = dataObject.relationships;
     }
     return self;
 }
@@ -37,7 +36,13 @@
 -(ListViewMetadata *)metaDataForModule:(NSString *)modulename
 {
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    return [sharedInstance listViewMetadataForModule:modulename];
+    return [sharedInstance listViewMetadataForModule:[modulename capitalizedString]];
+}
+-(DBMetadata *)dbMetaDataForModule:(NSString *)modulename
+{
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    id metadata = [sharedInstance dbMetadataForModule:[modulename capitalizedString]];
+    return metadata;
 }
 
 #pragma mark - View lifecycle
@@ -60,24 +65,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self fetchDataObjects];
 }
 
 #pragma mark - TableView DataSource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[relationsDictionary allKeys]count];
+    return [[dataObjectStore allKeys]count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSString *sectionName = [[relationsDictionary allKeys] objectAtIndex:section];
-    NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
+    NSString *sectionName = [[dataObjectStore allKeys] objectAtIndex:section];
+    NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     return [objectArray count];
 }
 
 - (NSString *)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section {
-    return [[[relationsDictionary allKeys] objectAtIndex:section] capitalizedString];
+    return [[[dataObjectStore allKeys] objectAtIndex:section] capitalizedString];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,8 +93,8 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    NSString *sectionName = [[[relationsDictionary allKeys]objectAtIndex:indexPath.section] capitalizedString];
-    NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
+    NSString *sectionName = [[[dataObjectStore allKeys]objectAtIndex:indexPath.section] capitalizedString];
+    NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     
     /*
      CODE RELATED TO ACTUAL DATA
@@ -120,13 +126,33 @@
     /*
      CODE RELATED TO ACTUAL DATA
      */
-    NSString *sectionName = [[relationsDictionary allKeys]objectAtIndex:indexPath.section];
-    NSArray* objectArray = [relationsDictionary objectForKey:sectionName];
+    NSString *sectionName = [[dataObjectStore allKeys]objectAtIndex:indexPath.section];
+    NSArray* objectArray = [dataObjectStore objectForKey:sectionName];
     sectionName = [sectionName capitalizedString];
-    id beanId = [objectArray objectAtIndex:indexPath.row];
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:nil];
+    id beanId = [[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"id"];
+    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:[[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"]];
     [self.navigationController pushViewController:detailViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+#pragma mark Utility methods
+-(void)fetchDataObjects{
+    dataObjectStore = [NSMutableDictionary dictionary];
+    for(NSString* key in [dataSourceDictionary allKeys]){
+        for(NSString *beanId in  [dataSourceDictionary objectForKey:key]){
+            DBSession *session  = [DBSession sessionWithMetadata:[self dbMetaDataForModule:key]];
+            session.delegate = self;
+            [session loadDetailsForId:beanId];
+        }
+    }
+}
+#pragma mark DBSession Load delegate
 
+-(void)session:(DBSession*)session downloadedDetails:(NSArray*)details{
+    if([dataObjectStore objectForKey:session.metadata.tableName]){
+     NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];
+        [beans addObject:[details objectAtIndex:0]];
+    } else {
+        [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+    }
+}
 @end

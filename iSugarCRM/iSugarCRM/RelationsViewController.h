@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "DataObject.h"
-@interface RelationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+#import "DBSession.h"
+@interface RelationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,DBLoadSessionDelegate>{
+//  NSMutableDictionary *dataSourceDictionary;
+}
+@property(strong)NSMutableDictionary *dataSourceDictionary;
 -(id)initWithDataObject:(DataObject *)dataObject;
+
 @end

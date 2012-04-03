@@ -39,7 +39,7 @@ NSString * session=nil;
 @synthesize window = _window;
 @synthesize nvc;
 @synthesize syncHandler;
-@synthesize waitAlertView;
+@synthesize waitAlertView,recentItems;
 int usernameLength,passwordLength;
 //to be removed
 
@@ -175,6 +175,7 @@ int usernameLength,passwordLength;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.recentItems = [NSMutableDictionary dictionaryWithCapacity:10];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *lvc = [[LoginViewController alloc] init];
     if(![LoginUtils keyChainHasUserData])

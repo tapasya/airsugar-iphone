@@ -14,7 +14,7 @@
 @property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
-
+@property (strong) NSMutableDictionary *recentItems;
 -(void)completeSyncWithDateFilters;
 -(void)logout;
 -(BOOL)wipeDatabase;
