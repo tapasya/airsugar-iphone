@@ -28,13 +28,8 @@
 
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
-<<<<<<< HEAD
-@synthesize detailsArray; 
-
-=======
 @synthesize detailsArray;
 @synthesize shouldCotainToolBar;
->>>>>>> coustamized toolbar in detailedview
 #pragma mark init methods
 
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
@@ -141,8 +136,7 @@
 //<<<<<<< HEAD
     [super viewDidLoad];
     self.title = self.beanTitle;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
-    [self loadDataFromDb];
+    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
 /*=======
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
     EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName] andDetailedData:self.detailsArray];
@@ -165,6 +159,11 @@
 {
     [super viewWillAppear:animated];
     [self loadDataFromDb];
+    if (self.shouldCotainToolBar == YES) {
+        [self addToolbar];
+    }else{
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
