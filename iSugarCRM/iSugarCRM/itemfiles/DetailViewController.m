@@ -28,8 +28,13 @@
 
 @implementation DetailViewController
 @synthesize datasource,metadata,beanId,beanTitle;
+<<<<<<< HEAD
 @synthesize detailsArray; 
 
+=======
+@synthesize detailsArray;
+@synthesize shouldCotainToolBar;
+>>>>>>> coustamized toolbar in detailedview
 #pragma mark init methods
 
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle
@@ -160,7 +165,6 @@
 {
     [super viewWillAppear:animated];
     [self loadDataFromDb];
-    [self addToolbar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,8 +175,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [toolbar removeFromSuperview];
-    [self.navigationController setToolbarHidden:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
