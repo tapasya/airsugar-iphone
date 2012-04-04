@@ -20,6 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.shouldCotainToolBar = YES;
     }
     return self;
 }
@@ -33,6 +34,14 @@
 }
 
 #pragma mark - View lifecycle
+
+-(void)viewDidLoad
+{
+    if(self.shouldCotainToolBar == YES)
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+}
 
 - (void)viewDidUnload
 {
