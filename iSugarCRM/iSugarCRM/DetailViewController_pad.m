@@ -47,10 +47,13 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     if(!self.beanId)
-    {        
-        [[NSBundle mainBundle] loadNibNamed:@"DefaultDetailView" owner:self options:nil];
-        [self.createButton addTarget:self action:@selector(createButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.tableView addSubview:defaultView];    
+    {   
+        if(self.metadata)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"DefaultDetailView" owner:self options:nil];
+            [self.createButton addTarget:self action:@selector(createButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.tableView addSubview:defaultView];    
+        }
         self.tableView.separatorColor = [UIColor clearColor];
     }
 }
@@ -62,17 +65,20 @@
 
 -(void) addToolbar
 {
-    CGRect toolbarFrame = self.navigationController.toolbar.frame;
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200, toolbarFrame.size.height)];
-    
-    UIBarButtonItem* composeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonClicked:)];
-    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(editDetails)];
-    UIBarButtonItem* deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteButtonClicked:)];
-    UIBarButtonItem* relatedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(relatedButtonClicked:)];
-    UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    NSMutableArray *barItems = [[NSMutableArray alloc] initWithObjects:composeButton, flexButton, editButton, flexButton, deleteButton, flexButton, relatedButton, nil];
-    [toolbar setItems:barItems];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
+    if(self.shouldCotainToolBar)
+    {
+        CGRect toolbarFrame = self.navigationController.toolbar.frame;
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200, toolbarFrame.size.height)];
+        
+        UIBarButtonItem* composeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createButtonClicked:)];
+        UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(editDetails)];
+        UIBarButtonItem* deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteButtonClicked:)];
+        UIBarButtonItem* relatedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(relatedButtonClicked:)];
+        UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        NSMutableArray *barItems = [[NSMutableArray alloc] initWithObjects:composeButton, flexButton, editButton, flexButton, deleteButton, flexButton, relatedButton, nil];
+        [toolbar setItems:barItems];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolbar];
+    }
 }
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details

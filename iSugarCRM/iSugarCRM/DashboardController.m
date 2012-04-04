@@ -208,6 +208,7 @@ bool isSyncEnabled ;
             
             DetailViewController_pad* dvc_pad = [[DetailViewController_pad alloc] init];
             dvc_pad.metadata = [sharedInstance detailViewMetadataForModule:modulename];
+            dvc_pad.shouldCotainToolBar = NO;
 
             SplitViewController* spvc = [[SplitViewController alloc] init];
             spvc.master = recent;
