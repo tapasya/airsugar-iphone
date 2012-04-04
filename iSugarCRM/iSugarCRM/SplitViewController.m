@@ -36,10 +36,13 @@
     self.delegate = dvc;
 }
 
--(void) setMaster:(ListViewController_pad *)master
+-(void) setMaster:(UIViewController *)master
 {
     _mvc = master;
-    master.detailViewDelegate = self;
+    if([master respondsToSelector:@selector(setDetailViewDelegate:)])
+    {
+        [master performSelector:@selector(setDetailViewDelegate:) withObject:self];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -89,11 +92,17 @@
     return YES;
 }
 
--(void) loadDetailViewWithBeanId:(NSString *)beanId :(NSString *)beanTitle
+-(void) loadDetailViewWithBeanId:(NSString *)beanId beanTitle:(NSString *)beanTitle moduleName:(NSString *)moduleName
 {
     if(!self.detail)
     {
         self.detail = [[DetailViewController_pad alloc] init];
+    }
+    
+    if( !self.detail.metadata || ![self.detail.metadata.moduleName isEqualToString:moduleName])
+    {
+        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+        self.detail.metadata = [sharedInstance detailViewMetadataForModule:moduleName];
     }
     
     if (self.detail.popoverController != nil) {

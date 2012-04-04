@@ -18,5 +18,5 @@
 @end
 
 @protocol DetailViewDelegate
--(void) loadDetailViewWithBeanId:(NSString*) beanId:(NSString*) beanTitle;
+-(void) loadDetailViewWithBeanId:(NSString*) beanId beanTitle:(NSString*) beanTitle moduleName:(NSString*) moduleName;
 @end

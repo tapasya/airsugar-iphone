@@ -88,9 +88,19 @@
         //tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
         id beanTitle = [[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
         id beanId =[[self.tableData objectAtIndex:indexPath.row] objectForFieldName:@"id"];
+        AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+        if ([appDelegate.recentItems objectForKey:self.moduleName]) {
+            NSMutableArray *beanIds = [appDelegate.recentItems objectForKey:self.moduleName];
+            if ([beanIds count]>=2) {
+                [beanIds removeObjectAtIndex:0];
+            }
+            [beanIds addObject:beanId];
+        } else {
+            [appDelegate.recentItems setObject:[NSMutableArray arrayWithObject:beanId] forKey:self.moduleName];
+        }
         if(self.detailViewDelegate)
         {
-            [self.detailViewDelegate loadDetailViewWithBeanId:beanId :beanTitle];
+            [self.detailViewDelegate loadDetailViewWithBeanId:beanId beanTitle:beanTitle moduleName:self.moduleName];
         }
     }
 }

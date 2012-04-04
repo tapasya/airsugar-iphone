@@ -11,6 +11,6 @@
 #import "DetailViewController_pad.h"
 
 @interface SplitViewController : UISplitViewController<DetailViewDelegate>
-@property (nonatomic, strong) ListViewController_pad* master;
+@property (nonatomic, strong) UIViewController* master;
 @property (nonatomic, strong) DetailViewController_pad* detail;
 @end
