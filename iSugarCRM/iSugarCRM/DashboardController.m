@@ -19,6 +19,8 @@
 #import "ListViewController_pad.h"
 #import "SplitViewController.h"
 #import "RecentViewController.h"
+#import "RecentViewController_pad.h"
+
 #define kIpadLabelWidth         400
 #define kIphoneLabelWidth       250
 #define kLabelHeight             50
@@ -199,10 +201,27 @@ bool isSyncEnabled ;
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     NSString *modulename = [item title];
     if ([modulename isEqualToString:@"Recent"]) {
-       // AppDelegate *appDelegate = ;
-        RecentViewController *recent = [[RecentViewController alloc] initWithRecentItems:((AppDelegate*)[UIApplication sharedApplication].delegate).recentItems];
-        recent.title = modulename;
-        [self.navigationController pushViewController:recent animated:YES];  
+        if(IS_IPAD)
+        {
+            RecentViewController_pad *recent = [[RecentViewController_pad alloc] initWithRecentItems:((AppDelegate*)[UIApplication sharedApplication].delegate).recentItems];
+            recent.title = modulename;
+            
+            DetailViewController_pad* dvc_pad = [[DetailViewController_pad alloc] init];
+            dvc_pad.metadata = [sharedInstance detailViewMetadataForModule:modulename];
+
+            SplitViewController* spvc = [[SplitViewController alloc] init];
+            spvc.master = recent;
+            spvc.detail = dvc_pad;
+            spvc.viewControllers = [NSArray arrayWithObjects:[[UINavigationController alloc] initWithRootViewController:recent],[[UINavigationController alloc] initWithRootViewController:dvc_pad], nil];
+            
+            AppDelegate* delegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
+            delegate.window.rootViewController = spvc ;
+        }
+        {   
+            RecentViewController *recent = [[RecentViewController alloc] initWithRecentItems:((AppDelegate*)[UIApplication sharedApplication].delegate).recentItems];
+            recent.title = modulename;
+            [self.navigationController pushViewController:recent animated:YES];  
+        }
         return;
     }
     ListViewMetadata *metadata = [sharedInstance listViewMetadataForModule:modulename];

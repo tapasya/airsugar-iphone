@@ -24,6 +24,7 @@
 		0F8225FA14B724AD00DCC4A5 /* MyLauncherScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */; };
 		0F8225FB14B724AD00DCC4A5 /* MyLauncherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */; };
 		0F8225FC14B724AD00DCC4A5 /* MyLauncherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */; };
+		0F937AB4152C21D900E043BC /* RecentViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F937AB3152C21D900E043BC /* RecentViewController_pad.m */; };
 		0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F93BDEE1524530700E57E80 /* RelationsViewController.m */; };
 		0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
 		0FB17C2C14B5B38E004F0C80 /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
@@ -143,6 +144,8 @@
 		0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherView.m; sourceTree = "<group>"; };
 		0F8225F514B724AD00DCC4A5 /* MyLauncherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLauncherViewController.h; sourceTree = "<group>"; };
 		0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLauncherViewController.m; sourceTree = "<group>"; };
+		0F937AB2152C21D800E043BC /* RecentViewController_pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentViewController_pad.h; sourceTree = "<group>"; };
+		0F937AB3152C21D900E043BC /* RecentViewController_pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentViewController_pad.m; sourceTree = "<group>"; };
 		0F93BDED1524530700E57E80 /* RelationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationsViewController.h; sourceTree = "<group>"; };
 		0F93BDEE1524530700E57E80 /* RelationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationsViewController.m; sourceTree = "<group>"; };
 		0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -299,6 +302,8 @@
 				0FEA45501507257300390F2A /* SplitViewController.m */,
 				0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */,
 				0FF14D6A151092E300BB6969 /* DefaultDetailView.xib */,
+				0F937AB2152C21D800E043BC /* RecentViewController_pad.h */,
+				0F937AB3152C21D900E043BC /* RecentViewController_pad.m */,
 			);
 			name = UI_Ipad;
 			sourceTree = "<group>";
@@ -792,6 +797,7 @@
 				0F4723B915185A5B00DFF926 /* EditViewSectionItem.m in Sources */,
 				0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */,
 				2F05832D152B06EC006DCD26 /* RecentViewController.m in Sources */,
+				0F937AB4152C21D900E043BC /* RecentViewController_pad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
