@@ -14,7 +14,6 @@
 
 -(void)loadView{
     [super loadView];
-    self.navigationItem.leftBarButtonItem = nil;
 }
 
 -(void)viewDidLoad{
@@ -28,6 +27,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"No Recent Items" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 #pragma mark initmethods

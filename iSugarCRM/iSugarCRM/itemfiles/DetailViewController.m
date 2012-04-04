@@ -105,6 +105,11 @@
     NSLog(@"Error: %@",[error localizedDescription]);
 }
 
+-(void)dismissView:(id)sender
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
 
 #pragma mark --
 -(void)editDetails
@@ -135,6 +140,11 @@
 {
     [super viewDidLoad];
     self.title = self.beanTitle;
+    if(self.shouldCotainToolBar == NO){
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissView:)]; 
+    }else{
+        self.navigationItem.rightBarButtonItem = nil;
+    }
 }
 
 - (void)viewDidUnload
