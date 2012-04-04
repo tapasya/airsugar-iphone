@@ -14,5 +14,5 @@
 }
 @property(strong)NSMutableDictionary *dataSourceDictionary;
 -(id)initWithDataObject:(DataObject *)dataObject;
-
+-(void) loadDetailviewWithBeanId:(NSString*) beanId beanTitle: (NSString*) beanTitle moduleName:(NSString*) moduleName;
 @end

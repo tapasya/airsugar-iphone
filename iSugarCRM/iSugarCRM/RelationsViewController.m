@@ -77,6 +77,12 @@
     }
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES;
+}
+
 -(void)dismissView:(id)sender
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -141,13 +147,18 @@
     if ([[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"] != nil)
         beanTitle = [[objectArray objectAtIndex:indexPath.row] objectForFieldName:@"name"];
     else
-        beanTitle = @"Back";
-    
-    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:sectionName] beanId:beanId beanTitle:beanTitle];
+        beanTitle = @"Back";   
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self loadDetailviewWithBeanId:beanId beanTitle:beanTitle moduleName:sectionName];
+}
+
+-(void) loadDetailviewWithBeanId:(NSString *)beanId beanTitle:(NSString *)beanTitle moduleName:(NSString *)moduleName
+{
+    DetailViewController *detailViewController = [DetailViewController detailViewcontroller:[[SugarCRMMetadataStore sharedInstance] detailViewMetadataForModule:moduleName] beanId:beanId beanTitle:beanTitle];
     detailViewController.shouldCotainToolBar = NO;
     [self.navigationController pushViewController:detailViewController animated:YES];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 #pragma mark Utility methods
 -(void)fetchDataObjects{
     dataObjectStore = [NSMutableDictionary dictionary];
