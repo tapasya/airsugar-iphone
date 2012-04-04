@@ -101,6 +101,10 @@
        forPopoverController:(UIPopoverController *)pc
 {
     barButtonItem.title = self.metadata.moduleName;
+    if(!barButtonItem.title)
+    {
+        barButtonItem.title = aViewController.title;
+    }
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:NO];
     self.popoverController = pc;
 }
