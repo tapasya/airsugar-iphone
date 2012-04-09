@@ -20,6 +20,7 @@ static SyncHandler *sharedInstance;
 @interface SyncHandler ()
 @property (strong) NSOperationQueue *requestQueue;
 -(id)initPrivate;
+-(void)postSyncnotification;
 -(NSString*)formatDate:(NSString*)date;
 @property (assign) NSInteger requestCount;
 @end
@@ -41,6 +42,7 @@ static SyncHandler *sharedInstance;
         if(sharedInstance == nil){
             sharedInstance = [[SyncHandler alloc] initPrivate];
         }
+        sharedInstance.delegate = nil;
         return sharedInstance;
     }
 }
@@ -54,7 +56,7 @@ static SyncHandler *sharedInstance;
     self = [super init];
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
-    //self.requestQueue.maxConcurrentOperationCount = 1;
+    self.requestQueue.maxConcurrentOperationCount = 1;
     return self;
 
 }
@@ -104,7 +106,6 @@ static SyncHandler *sharedInstance;
     session.uploadDataObjects = uploadData;
     session.queuePriority = NSOperationQueuePriorityHigh;
     [session startUploading];
-    
 }
 -(void)runSyncForModule:(NSString*)module parent:(id)parent
 {
@@ -145,20 +146,10 @@ static SyncHandler *sharedInstance;
 
 
 -(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent{
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
-    NSString* deltaMark = [dbSession getLastSyncTimestamp];
-    //create upload session
-    NSArray* uploadData = [dbSession getUploadData];
-    if ([uploadData count]>0) {
-        [self uploadData:uploadData forModule:module parent:parent];    
-    }
-    
-    //create download session
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
-    session.delegate = self;
-    session.parent = parent;
-    [session startLoading:deltaMark];
+
+    NSString *startDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"key_sync_start_date"];
+    NSString *endDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"key_sync_end_date"];    
+    [self runSyncWithTimestampForModule:module startDate:startDate endDate:endDate parent:parent];
 }
 
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
@@ -175,8 +166,8 @@ static SyncHandler *sharedInstance;
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
     session.delegate = self;
     session.parent = parent;
+    session.syncAction = kRead;
     [session startLoadingWithTimestamp:deltaMark startDate:startDate endDate:endDate];
-
 }
 
 -(void)addSyncSession:(WebserviceSession *)session{
@@ -188,11 +179,7 @@ static SyncHandler *sharedInstance;
 -(void)session:(DBSession*)session syncFailedWithError:(NSError*)error
 {
     @synchronized([self class]){
-        if ([self.requestQueue operationCount]== 1) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
-            [delegate syncHandler:self failedWithError:error];
-        }
-        
+        [self postSyncnotification];
         [session.parent syncHandler:self failedWithError:error];
     }
 }
@@ -200,11 +187,7 @@ static SyncHandler *sharedInstance;
 -(void)sessionSyncSuccessful:(DBSession*)session;
 {   
     @synchronized([self class]){
-        if ([self.requestQueue operationCount]== 1) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
-            [delegate syncComplete:self];
-        }
-        //TODO:Add notification for each module.
+         [self postSyncnotification];
         [session.parent syncComplete:self];
     }
 }
@@ -218,15 +201,17 @@ static SyncHandler *sharedInstance;
     DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
     dbSession.syncDelegate = self;
     dbSession.parent = session.parent;
-    NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
-    for(NSArray* nameValueArray in session.uploadDataObjects)
-    {
-        [dataObjects addObject:[DataObject dataObjectFromNameValueArray:nameValueArray andMetadata:[sharedInstance objectMetadataForModule:session.metadata.moduleName]]];
-    }
-    [dbSession insertDataObjectsInDb:dataObjects dirty:NO];
+    //will be updated once we sync
+//    NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
+//    for(NSArray* nameValueArray in session.uploadDataObjects)
+//    {
+//        [dataObjects addObject:[DataObject dataObjectFromNameValueArray:nameValueArray andMetadata:[sharedInstance objectMetadataForModule:session.metadata.moduleName]]];
+//    }
+//    [dbSession insertDataObjectsInDb:dataObjects dirty:NO];
     //parent getting released..
     NSLog(@"session count is %d",self.requestQueue.operationCount);
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
+    //[self ]
 }
 
 -(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
@@ -237,7 +222,12 @@ static SyncHandler *sharedInstance;
         DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
         dbSession.syncDelegate = self;
         dbSession.parent = session.parent;
+        if ([response count]>0) {
         [dbSession insertDataObjectsInDb:response dirty:NO];
+        }
+        else{
+          [self postSyncnotification];
+        }
         NSLog(@"session count is %d",self.requestQueue.operationCount);
     }
         
@@ -247,12 +237,9 @@ static SyncHandler *sharedInstance;
 {
     @synchronized([self class]){
         NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
-        if ([self.requestQueue operationCount]== 1) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
-            [delegate syncComplete:self];
-        }
         if (session.syncAction == kRead) {
-            
+            [session.parent syncHandler:self failedWithError:error];
+              [self postSyncnotification];
         }
         else {
             //write to local db with dirty flag
@@ -270,9 +257,15 @@ static SyncHandler *sharedInstance;
         }
     }
         NSLog(@"session count is %d",self.requestQueue.operationCount);
+   
 }
 
-
+-(void)postSyncnotification{
+    if ([self.requestQueue operationCount]== 1) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
+        [delegate syncComplete:self];
+    }
+}
 #pragma mark Utility
 
 //move this method to utils

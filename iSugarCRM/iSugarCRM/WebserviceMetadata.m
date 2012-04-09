@@ -91,7 +91,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
         [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
     }
     
-    [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
+    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
      [restDataDictionary setObject:@"1000" forKey:@"max_results"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
@@ -155,7 +155,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
         [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
     }
     
-    [restDataDictionary  setObject:[NSArray array] forKey:@"link_name_to_fields_array"];
+    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
     [restDataDictionary setObject:@"1000" forKey:@"max_results"];
     NSString *restDataString = [restDataDictionary JSONString];
     [self setUrlParam:restDataString forKey:@"rest_data"];
@@ -195,7 +195,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
             [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParam valueForKey:key]]];
         }
     }
-  //  NSLog(@"url string: %@",urlWithParams);
+    NSLog(@"url string: %@",urlWithParams);
     //set url
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[urlWithParams stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
     

@@ -456,7 +456,7 @@
         DataObject* dataObject = (DataObject *)[self.tableData objectAtIndex:indexPath.row];
         [dataObject setObject:@"1" forFieldName:@"deleted"];
         [dbData addObject:dataObject];
-        [uploadData addObject:[dataObject  getNameValueArrayForDelete]];
+        [uploadData addObject:[dataObject  nameValueArrayForDelete]];
     }
     [self.tableData removeObjectsAtIndexes:indexSetToDelete];
     [copy removeObjectsAtIndexes:dsIndexSetToDelete];

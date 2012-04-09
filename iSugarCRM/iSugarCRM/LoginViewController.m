@@ -195,13 +195,14 @@ ApplicationKeyStore *keyChain;
     int urlLen = [urlField.text length];
     
     if (userNameLen==0 || passwordLen==0 || urlLen == 0) {
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] dismissWaitingAlert];
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your details and relogin" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertView show];
         [spinner stopAnimating];
         return;
     }
-    
-    id response = [LoginUtils login:usernameField.text :[LoginUtils md5Hash:passwordField.text]];
+    id response = [LoginUtils loginWithUsername:usernameField.text password:[LoginUtils md5Hash:passwordField.text] andUrl:urlField.text];
+    //id response = [LoginUtils login:usernameField.text :[LoginUtils md5Hash:passwordField.text]];
     NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
     if([[response objectForKey:@"response"]objectForKey:@"id"]){
         session = [[response objectForKey:@"response"]objectForKey:@"id"];

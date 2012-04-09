@@ -239,7 +239,7 @@
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject getNameValueArrayForDelete]] forModule:self.metadata.moduleName parent:self];
+    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArrayForDelete]] forModule:self.metadata.moduleName parent:self];
     
 }
 

@@ -27,7 +27,6 @@
 
 -(CGFloat)heightForCell:(UITableView*)tableView
 {
-    NSLog(@"%@",self.label);
     return 40.0f;
 }
 
@@ -181,11 +180,9 @@
     }
     
     NSDate *date = [dateFormatter dateFromString:dateValue];
-    NSLog(@"date object from string is %@",date);
     if (date != nil) {
         [dateFormatter setDateFormat:@"MM/dd/yy"];
         dateValue = [dateFormatter stringFromDate:date];
-        NSLog(@"dateValue is %@",dateValue);
     }else{
         [dateFormatter setDateFormat:@"MM/dd/yy"];
         dateValue = [dateFormatter stringFromDate:[NSDate date]];

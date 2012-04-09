@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DBMetadata.h"
-
+#import "DataObject.h"
 @protocol DBLoadSessionDelegate;
 @protocol DBSyncSessionDelegate;
 @interface DBSession : NSObject
@@ -26,6 +26,7 @@
 -(NSArray*)getUploadData;
 //writing
 -(void)insertDataObjectsInDb:(NSArray *)dataObjects dirty:(BOOL)dirty;
+-(BOOL)resetDirtyFlagForId:(DataObject*)dObj;
 
 -(NSString*)getLastSyncTimestamp;
 -(BOOL) deleteRecord:(NSString *)beanId;

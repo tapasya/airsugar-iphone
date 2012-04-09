@@ -6,6 +6,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -68,8 +70,6 @@
 				<key>description</key>
 				<string>name_value_list.description.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -2099,6 +2099,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -2159,8 +2161,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -3159,6 +3159,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -3221,8 +3223,6 @@
 				<key>description</key>
 				<string>name_value_list.description.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -4048,6 +4048,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -4108,8 +4110,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -5198,6 +5198,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -5258,8 +5260,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -5745,6 +5745,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -5805,8 +5807,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -6758,6 +6758,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -6818,8 +6820,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -8585,6 +8585,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -8645,8 +8647,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -9510,6 +9510,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -9570,8 +9572,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -11358,10 +11358,10 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>endpoint</key>
 			<string>http://192.168.1.83:6300/sugarcrm/service/v4/rest.php</string>
 			<key>module_name</key>
@@ -12040,6 +12040,8 @@
 	<dict>
 		<key>WriteWebserviceMetadata</key>
 		<dict>
+			<key>data_key</key>
+			<string>name_value_lists</string>
 			<key>method</key>
 			<integer>0</integer>
 			<key>postParameters</key>
@@ -12100,8 +12102,6 @@
 				<key>status</key>
 				<string>name_value_list.status.value</string>
 			</dict>
-			<key>data_key</key>
-			<string>name_value_list</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>
@@ -13054,7 +13054,7 @@
 				<string>name_value_list.description.value</string>
 			</dict>
 			<key>data_key</key>
-			<string>name_value_list</string>
+			<string>name_value_lists</string>
 			<key>headers</key>
 			<dict/>
 			<key>endpoint</key>

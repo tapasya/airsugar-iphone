@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface LoginUtils : NSObject
-+(id) login:(NSString*) username:(NSString*) password;
++(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url;
 +(id) login;
-+(NSString*)urlStringForParams:(NSMutableDictionary*)params;
++(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params;
 +(BOOL)keyChainHasUserData;
 +(void)displayLoginError:(id)response;
 +(void) showError:(NSError *)error;

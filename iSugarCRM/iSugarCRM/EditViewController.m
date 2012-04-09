@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "EditViewSectionItem.h"
 #import "SyncHandler.h"
-
+#import "DBSession.h"
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
@@ -44,7 +44,7 @@
 -(BOOL)hasNext:(NSIndexPath *)indexPath;
 -(BOOL)hasPrevious:(NSIndexPath *)indexPath;
 -(NSInteger)totalRowsCount;
-
+-(BOOL)isValidRecord;
 @end
 
 @implementation EditViewController
@@ -198,17 +198,51 @@
 }
 
 -(void)saveRecord{
-    //TODO save data into DB and update the same on server
+    
+    
+    if(![self isValidRecord])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Required fields Cannot be left empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+    DBSession * dbSession = [DBSession sessionWithMetadata:[sharedInstance dbMetadataForModule:self.metadata.objectClassIdentifier]];
+    
     DataObject *dataObject = (DataObject *)[detailedData objectAtIndex:0];
+    if(dataObject == nil)
+    {
+        
+        dataObject = [[DataObject alloc] initWithMetadata:[sharedInstance objectMetadataForKey:self.metadata.objectClassIdentifier]];
+    }
+    else
+    {
+        if(![dbSession resetDirtyFlagForId:dataObject]){
+            return; // add alert for error.
+        }
+    }
     for (NSString *key in [dataSource allKeys]) {
         [dataObject setObject:[dataSource objectForKey:key] forFieldName:key];
     }
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
-    NSLog(@"module name = %@", self.metadata.objectClassIdentifier);
-    //[self.navigationController dismissModalViewControllerAnimated:YES];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject getNameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
+    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
+}
+
+-(BOOL)isValidRecord
+{
+    NSInteger numberOfMandatoryCells = [_tableView numberOfRowsInSection:0];
+    BOOL saveRecord = TRUE;
+    for (int i=0; i<numberOfMandatoryCells; i++) {
+        UITableViewCell *mandatoryCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        UITextField *textField = (UITextField *)[mandatoryCell.contentView viewWithTag:1001];
+        if (textField.text== nil || [textField.text length] == 0) {
+            saveRecord = FALSE;
+            break;
+        }
+    }
+    return saveRecord;
 }
 
 -(void) discard
@@ -252,8 +286,13 @@
         evRowItem.value = [dataSource objectForKey:dof.name];
     }
     else{
-        evRowItem.value = @"";
-
+        if ([dataSource objectForKey:dof.name]) {
+            evRowItem.value = [dataSource objectForKey:dof.name];
+        }
+        else
+        {
+            evRowItem.value = @"";
+        }
     }
     return [evRowItem reusableCellForTableView:tableView];
 }
@@ -495,8 +534,6 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yy"];
 	dateValue.text = [dateFormatter stringFromDate:self.pickerView.date];
-    NSLog(@"DATE VALUE %@",dateValue.text);
-    NSLog(@"pikerview date %@",pickerView.date);
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     NSDate *date = pickerView.date;
@@ -684,10 +721,7 @@
 {
     selectedIndexPath = [_tableView indexPathForCell:cell];
     NSInteger rowIndex = [self effectiveRowIndexWithIndexPath:selectedIndexPath]+selectedIndexPath.row;//[selectedIndexPath row];
-    NSLog(@"ROW INDEX %i",rowIndex);
     NSInteger rowHeight = (rowIndex + 1)*cell.frame.size.height;
-    NSLog(@"Row Height is %i",rowHeight);
-    NSLog(@"Tbaleview height is %f",_tableView.frame.size.height);
     UIInterfaceOrientation orientation =
     [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)

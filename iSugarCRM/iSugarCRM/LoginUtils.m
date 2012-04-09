@@ -13,7 +13,7 @@
 #import <CommonCrypto/CommonDigest.h>
 @implementation LoginUtils
 
-+(id) login:(NSString *)username :(NSString *)password{
++(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url{
     NSMutableDictionary *authDictionary=[[NSMutableDictionary alloc]init];
     [authDictionary setObject:username forKey:@"user_name"];
     [authDictionary setObject:password forKey:@"password"];
@@ -25,7 +25,8 @@
     [urlParams setObject:@"JSON" forKey:@"input_type"];
     [urlParams setObject:@"JSON" forKey:@"response_type"];
     [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    //NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlString:url forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     NSLog(@"URLSTRING = %@",urlString);
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];  
@@ -68,11 +69,13 @@
 }
 
 +(id)login{
-    NSString *username,*password;
+    NSString *username,*password,*url;
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     username = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
     password = [keyChain objectForKey:(__bridge id)kSecValueData];
-    return [self login:username :[self md5Hash:password]];
+    url = [[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"];
+    return [self loginWithUsername:username password:[self md5Hash:password] andUrl:(NSString *)url];
+    //return [self login:username :[self md5Hash:password]];
 }
 +(void)displayLoginError:(id)response{
     
@@ -97,8 +100,8 @@
         }
     
 }
-+(NSString*)urlStringForParams:(NSMutableDictionary*)params{
-    NSString* urlString  =[NSString stringWithFormat:@"%@?",[SettingsStore objectForKey:@"endpointURL"]];//[NSString stringWithFormat:@"%@?",sugarEndpoint];
++(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params{
+    NSString* urlString  = [NSString stringWithFormat:@"%@?",url];//[NSString stringWithFormat:@"%@?",sugarEndpoint];
     
     bool is_first=YES;
     for(id key in [params allKeys])

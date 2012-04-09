@@ -107,11 +107,11 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
-   success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
+    success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
     if (!success) {
         [delegate session:self detailDownloadFailedWithError:error];
     } else {
-    [delegate session:self downloadedDetails:rows];
+        [delegate session:self downloadedDetails:rows];
     }
 }
 
@@ -128,30 +128,30 @@
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
-         success = NO;
+        success = NO;
     }
     NSMutableDictionary* relationship = [NSMutableDictionary dictionary];
     while(sqlite3_step(stmt)==SQLITE_ROW){
         NSString *relatedBeanId;
         char *field_value = (char*)sqlite3_column_text(stmt, 3);
         if (field_value!=NULL) {
-          relatedBeanId   = [NSString stringWithFormat:@"%s",field_value];
+            relatedBeanId   = [NSString stringWithFormat:@"%s",field_value];
         }
         
         NSString *relatedModule;
-         field_value = (char*)sqlite3_column_text(stmt, 2);
+        field_value = (char*)sqlite3_column_text(stmt, 2);
         if (field_value!=NULL) {
-          relatedModule  = [NSString stringWithFormat:@"%s",field_value];
+            relatedModule  = [NSString stringWithFormat:@"%s",field_value];
         }
-
+        
         if (relatedBeanId && relatedModule) {
             
-        if ([relationship objectForKey:relatedModule]) {
-            [[relationship objectForKey:relatedModule] addObject:relatedBeanId];
-        }
-        else{
-            [relationship setObject:[NSMutableArray arrayWithObject:relatedBeanId] forKey:relatedModule];
-        }
+            if ([relationship objectForKey:relatedModule]) {
+                [[relationship objectForKey:relatedModule] addObject:relatedBeanId];
+            }
+            else{
+                [relationship setObject:[NSMutableArray arrayWithObject:relatedBeanId] forKey:relatedModule];
+            }
         }
     }
     bean.relationships = relationship;
@@ -194,7 +194,7 @@
                 }
             }    
         }
-        [rows addObject:[dataObject getNameValueArray]];
+        [rows addObject:[dataObject nameValueArray]];
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
@@ -323,19 +323,23 @@
 }
 -(BOOL)updateRelationshipTableForObjects:(NSArray*)dataObjects inDatabase:(SqliteObj*)db error:(NSError*)error{
     BOOL success = NO;
-       for(DataObject* dObj in dataObjects){
+    for(DataObject* dObj in dataObjects){
         NSDictionary *relationships =  dObj.relationships;
-        for(NSString * relatedModule in [relationships allKeys]){    
-            for(NSString *beanId in [relationships objectForKey:relatedModule]){
-                NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO Relationships (module_name,bean_id,related_module_name,related_bean_id) Values ('%@','%@','%@','%@');",metadata.tableName,[dObj objectForFieldName:@"id"],relatedModule,beanId];
-            success = [db executeUpdate:sql error:&error];
-            if (!success) {
-                NSLog(@"error inserting in database: %@",[error localizedDescription]);
-                [syncDelegate session:self syncFailedWithError:error];
-            }
+        if ([[relationships allKeys] count]>0) {
+            for(NSString * relatedModule in [relationships allKeys]){    
+                for(NSString *beanId in [relationships objectForKey:relatedModule]){
+                    NSMutableString *sql = [NSMutableString stringWithFormat:@"INSERT OR REPLACE INTO Relationships (module_name,bean_id,related_module_name,related_bean_id) Values ('%@','%@','%@','%@');",metadata.tableName,[dObj objectForFieldName:@"id"],relatedModule,beanId];
+                    success = [db executeUpdate:sql error:&error];
+                    if (!success) {
+                        NSLog(@"error inserting in database: %@",[error localizedDescription]);
+                        [syncDelegate session:self syncFailedWithError:error];
+                    }
+                }
             }
         }
-        
+        else{
+            success = YES;
+        }
     }
     return success;
 }
@@ -365,8 +369,7 @@
         if (success == NO) {
             [syncDelegate session:self syncFailedWithError:error];
         } else {
-            [syncDelegate sessionSyncSuccessful:self];  
-
+            [syncDelegate sessionSyncSuccessful:self];
         }
         [db closeDatabase];
     } else {
@@ -374,6 +377,28 @@
     }
 }
 
+-(BOOL)resetDirtyFlagForId:(DataObject*)dObj{
+    NSError* error = nil;
+    SqliteObj* db = [[SqliteObj alloc] init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+    }
+    
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"UPDATE %@ set dirty = 0 WHERE id is '%@';",metadata.tableName, [dObj objectForFieldName:@"id"]];
+    [db executeUpdate:sql error:&error];
+    if(error)
+    {
+        NSLog(@"error updating dirty in table: %@",[error localizedDescription]);
+    }
+    else
+    {
+        NSLog(@"updated dirty for record with beanId: %@" ,[dObj objectForFieldName:@"id"]);
+    }
+    [db closeDatabase];
+    return error == nil ;
+
+}
+    
 -(NSString*)getLastSyncTimestamp
 {
     SqliteObj* db = [[SqliteObj alloc] init];
@@ -421,6 +446,7 @@
     {
         NSLog(@"deleted record with beanId: %@" , beanId);
     }
+    [db closeDatabase];
     return error == nil ;
 }
 
@@ -438,6 +464,7 @@
     {
         NSLog(@"error deleting records in table: %@",[error localizedDescription]);
     }
+    [db closeDatabase];
     return error == nil ;
 }
 @end
