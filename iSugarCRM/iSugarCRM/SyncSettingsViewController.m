@@ -329,12 +329,12 @@ BOOL isFirstTime;
     NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
     UIAlertView *dateAlert;
     if([dateStart compare:[NSDate date]] == NSOrderedDescending || [dateEnd compare:[NSDate date]] == NSOrderedDescending){
-        dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"StartDate or EndDate should not be a FutureDate" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Start Date or End Date should not be a Future Date" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [dateAlert show];
         return;
     }else{
         if([dateStart compare:dateEnd] == NSOrderedDescending){
-            dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"StartDate should not be earlier than EndDate" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Start Date should not be earlier than End Date" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [dateAlert show];
             return;
         }

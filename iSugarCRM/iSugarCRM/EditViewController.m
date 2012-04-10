@@ -199,7 +199,7 @@
 
 -(void)saveRecord{
     
-    
+    [self.view endEditing:YES];
     if(![self isValidRecord])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Required fields Cannot be left empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -225,9 +225,11 @@
         [dataObject setObject:[dataSource objectForKey:key] forFieldName:key];
     }
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
+    syncHandler.delegate = self;
+    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
+    
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
 }
 
 -(BOOL)isValidRecord

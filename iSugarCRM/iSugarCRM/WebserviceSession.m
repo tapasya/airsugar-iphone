@@ -172,6 +172,7 @@
                     }
                     
                 }
+                if ([relationshipList count]>0) {
                 NSArray *relationships = [[relationshipList objectAtIndex:count] objectForKey:[metadata.responseKeyPathMap objectForKey:@"relation_list"]];
                 for(NSDictionary *relationship in relationships){
                     NSString* relatedModule = [relationship valueForKeyPath:[metadata.responseKeyPathMap objectForKey:@"related_module"]];
@@ -182,6 +183,7 @@
                     if ([beanIds count]>0) {
                         [dataObject addRelationshipWithModule:relatedModule andBeans:beanIds]; 
                     }
+                }
                 }
                 [arrayOfDataObjects addObject:dataObject];
                 count++;

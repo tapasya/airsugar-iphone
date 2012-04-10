@@ -108,7 +108,6 @@
 
 
 -(void)syncModule{
-    //TODO module synch code;
     [self showProgress];
     SyncHandler* syncHandler = [SyncHandler sharedInstance];
     [syncHandler runSyncWithTimestampForModule:moduleName parent:self];

@@ -143,7 +143,8 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
     [restDataDictionary setObject:session forKey:@"session"];
     [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    //TODO: check for min b/w start date and timestamp
+    
+    //TODO: check for min b/w enddate and timestamp
     [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],timestamp, [moduleName lowercaseString], endDate] forKey:@"query"];
     
     [restDataDictionary  setObject:@"" forKey:@"order_by"];

@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "EditViewRowItem.h"
-
-@interface EditViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,EditViewRowItemDelegate>{
+#import "SyncHandler.h"
+@interface EditViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,EditViewRowItemDelegate,SyncHandlerDelegate>{
     @private
     NSIndexPath * selectedIndexPath;
     CGSize kbBeginSize;

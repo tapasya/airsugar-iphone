@@ -147,9 +147,22 @@ static SyncHandler *sharedInstance;
 
 -(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent{
 
-    NSString *startDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"key_sync_start_date"];
-    NSString *endDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"key_sync_end_date"];    
-    [self runSyncWithTimestampForModule:module startDate:startDate endDate:endDate parent:parent];
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
+    
+    NSString* deltaMark = [dbSession getLastSyncTimestamp];
+    
+    //create upload session
+    NSArray* uploadData = [dbSession getUploadData];
+    if ([uploadData count]>0) {
+        [self uploadData:uploadData forModule:module parent:parent];    
+    }
+    //create download session
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
+    session.delegate = self;
+    session.parent = parent;
+    session.syncAction = kRead;
+    [session startLoading:deltaMark];
 }
 
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
@@ -157,6 +170,7 @@ static SyncHandler *sharedInstance;
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
 
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
+    
     //create upload session
     NSArray* uploadData = [dbSession getUploadData];
     if ([uploadData count]>0) {
@@ -196,22 +210,8 @@ static SyncHandler *sharedInstance;
 
 //write method, once the write is successfull run sync for the module
 -(void)sessionDidCompleteUploadSuccessfully:(WebserviceSession*)session{
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-    DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
-    dbSession.syncDelegate = self;
-    dbSession.parent = session.parent;
-    //will be updated once we sync
-//    NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
-//    for(NSArray* nameValueArray in session.uploadDataObjects)
-//    {
-//        [dataObjects addObject:[DataObject dataObjectFromNameValueArray:nameValueArray andMetadata:[sharedInstance objectMetadataForModule:session.metadata.moduleName]]];
-//    }
-//    [dbSession insertDataObjectsInDb:dataObjects dirty:NO];
-    //parent getting released..
     NSLog(@"session count is %d",self.requestQueue.operationCount);
     [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
-    //[self ]
 }
 
 -(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
@@ -226,6 +226,7 @@ static SyncHandler *sharedInstance;
         [dbSession insertDataObjectsInDb:response dirty:NO];
         }
         else{
+            [session.parent syncComplete:self];
           [self postSyncnotification];
         }
         NSLog(@"session count is %d",self.requestQueue.operationCount);
