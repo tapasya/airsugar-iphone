@@ -167,7 +167,9 @@ bool isSyncEnabled ;
 {
     [self loadView];
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
-    moduleList = [sugarMetaDataStore modulesSupported];
+    NSMutableArray *tempArray = [[sugarMetaDataStore modulesSupported] mutableCopy];
+    [tempArray addObject:@"Recent"];
+    moduleList = tempArray;
     self.title = @"Modules";
 	if(![self hasSavedLauncherItems]){
         NSInteger pageCount = ( moduleList.count + 1) / self.launcherView.maxItemsPerPage; //added 1 for recent
@@ -188,7 +190,6 @@ bool isSyncEnabled ;
                 [[pageItems objectAtIndex:i] addObject:[[MyLauncherItem alloc] initWithTitle:moduleName image:imagename target:nil deletable:NO]];
             }
         }
-          [[pageItems objectAtIndex:pageCount-1] addObject:[[MyLauncherItem alloc] initWithTitle:@"Recent" image:@"itemImage" target:nil deletable:NO]];
         [self.launcherView setPages:pageItems animated:(BOOL) isSyncEnabled];
         
         UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)];
