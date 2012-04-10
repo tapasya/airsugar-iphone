@@ -184,16 +184,18 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     NSMutableString *urlWithParams = [[NSMutableString alloc] init];
     [urlWithParams appendString:endpoint];
     int index = 0;
-    for(NSDictionary *urlParam in urlParameters)
-    {
-        NSString *key = [[urlParam allKeys] objectAtIndex:0];
-        if(index++ == 0)
+    if(method == HTTPMethodGet){
+        for(NSDictionary *urlParam in urlParameters)
         {
-            [urlWithParams appendString:[NSString stringWithFormat:@"?%@=%@",key,[urlParam valueForKey:key]]];
-        }
-        else
-        {
-            [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParam valueForKey:key]]];
+            NSString *key = [[urlParam allKeys] objectAtIndex:0];
+            if(index++ == 0)
+            {
+                [urlWithParams appendString:[NSString stringWithFormat:@"?%@=%@",key,[urlParam valueForKey:key]]];
+            }
+            else
+            {
+                [urlWithParams appendString:[NSString stringWithFormat:@"&%@=%@",key,[urlParam valueForKey:key]]];
+            }
         }
     }
     NSLog(@"url string: %@",urlWithParams);
@@ -205,20 +207,15 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     
     //set http body if request is a post
     if(method == HTTPMethodPOST){
-        NSMutableString *postData = [[NSMutableString alloc] init];
-        index = 0;
-        for(NSString *key in [postParameters allKeys]){  
-            if(index++ == 0)
-            {
-                [postData appendString:[NSString stringWithFormat:@"%@=%@",key,[postParameters valueForKey:key]]];
-            }
-            else
-            {
-                [postData appendString:[NSString stringWithFormat:@"&%@=%@",key,[postParameters valueForKey:key]]];
-            }
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+        
+        NSMutableString * postData = [[NSMutableString alloc] init ];
+        for (NSDictionary *param in urlParameters) {
+            NSString *key = [[param allKeys] objectAtIndex:0];
+            [postData appendString:[NSString stringWithFormat:@"%@=%@&",key,[param valueForKey:key]]];
         }
         
-        if (postData.length > 0) {
+        if(postData.length > 0){
             [request setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
         }
     }

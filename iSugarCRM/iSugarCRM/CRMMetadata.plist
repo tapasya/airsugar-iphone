@@ -9,7 +9,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -2102,7 +2102,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -3162,7 +3162,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -4051,7 +4051,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -5201,7 +5201,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -5748,7 +5748,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -6761,7 +6761,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -8588,7 +8588,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -9513,7 +9513,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -11299,7 +11299,7 @@
 		<key>WriteWebserviceMetadata</key>
 		<dict>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -12043,7 +12043,7 @@
 			<key>data_key</key>
 			<string>name_value_lists</string>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
@@ -12992,7 +12992,7 @@
 		<key>WriteWebserviceMetadata</key>
 		<dict>
 			<key>method</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>postParameters</key>
 			<dict/>
 			<key>urlParameters</key>
