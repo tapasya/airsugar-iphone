@@ -38,7 +38,6 @@
 -(void) loadData;
 -(void) sortData;
 -(void) showActionSheet;
--(void) markItemAsDelete;
 -(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
 @property (strong) UIActionSheet *_actionSheet;
 @property(nonatomic, retain) UISegmentedControl *segmentedControl;
@@ -135,7 +134,7 @@
         navController.modalPresentationStyle = UIModalPresentationPageSheet;
         [self presentModalViewController:navController animated:YES];        
     }else if(buttonIndex == kActionSheetDeleteButtonIndex){
-        [self markItemAsDelete];
+        [self toggleEditing];
     }else if(buttonIndex == kActionSheetCancelButtonIndex){
         //
     }
@@ -471,11 +470,11 @@
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
-    [self markItemAsDelete];
+    [self toggleEditing];
     [myTableView reloadData];
 }
 
-- (void)markItemAsDelete{
+- (void)toggleEditing{
     
     UIBarButtonItem *barButtonItem = nil;
     if(!self.editing){

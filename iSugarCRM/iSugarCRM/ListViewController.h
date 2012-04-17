@@ -28,4 +28,5 @@
 -(void)displayModuleSetting;
 -(void)syncModule;
 -(void) sortData;
+-(void) toggleEditing;
 @end
