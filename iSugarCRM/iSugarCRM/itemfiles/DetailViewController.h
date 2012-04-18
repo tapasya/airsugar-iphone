@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DetailViewMetadata.h"
 #import "DBSession.h"
-@interface DetailViewController : UITableViewController<DBLoadSessionDelegate>
+@interface DetailViewController : UITableViewController<DBLoadSessionDelegate, UIAlertViewDelegate>
 
 @property(strong)NSArray *datasource;
 @property(strong)DetailViewMetadata *metadata;

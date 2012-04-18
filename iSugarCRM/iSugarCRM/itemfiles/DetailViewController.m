@@ -17,6 +17,8 @@
 #import "SyncHandler.h"
 #import "AppDelegate.h"
 
+#define kDeleteAlertViewTag 1001
+
 @interface DetailViewController()
 {
     UIToolbar *toolbar;
@@ -227,6 +229,24 @@
 
 -(IBAction)deleteButtonClicked:(id)sender
 {
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Do you really want to delete the record ?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Cancel", nil];
+    alertView.tag = kDeleteAlertViewTag;
+    [alertView show];
+    return;
+}
+
+-(IBAction)relatedButtonClicked:(id)sender
+{
+    RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataObject:[detailsArray objectAtIndex:0]];
+    relationsController.title = @"Relations";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:relationsController];
+    navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentModalViewController:navController animated:YES];
+    //[self.navigationController pushViewController:relationsController animated:YES];
+}
+
+-(void) deleteRecord
+{
     DataObject* dataObject = [detailsArray objectAtIndex:0];
     [dataObject setObject:@"1" forFieldName:@"deleted"];    
     NSArray *uploadData = [NSArray arrayWithObject:dataObject];
@@ -240,25 +260,14 @@
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArrayForDelete]] forModule:self.metadata.moduleName parent:self];
-    
 }
 
--(IBAction)relatedButtonClicked:(id)sender
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // TODO show relationships
-    //DUMMY DICNTIONARY,To be replaced by actual data
-//    NSMutableDictionary *dataSource = [[NSMutableDictionary alloc] init];
-//    NSArray *values = [[NSArray alloc] initWithObjects:@"ROW1",@"ROW2",@"ROW3",@"ROW4", nil];
-//    [dataSource setObject:values forKey:@"Contacts"];
-//    [dataSource setObject:values forKey:@"Calls"];
-//    [dataSource setObject:values forKey:@"Accounts"];
-    
-    RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataObject:[detailsArray objectAtIndex:0]];
-    relationsController.title = @"Relations";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:relationsController];
-    navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self presentModalViewController:navController animated:YES];
-    //[self.navigationController pushViewController:relationsController animated:YES];
+    if(alertView.tag == kDeleteAlertViewTag && buttonIndex == 0)
+    {
+        [self deleteRecord];
+    }
 }
 
 #pragma mark SyncHandler Delegate
