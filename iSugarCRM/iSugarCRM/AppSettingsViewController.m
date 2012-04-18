@@ -149,6 +149,7 @@
             else
                 value = url;
         }
+        urlString = value;
         [((TextFieldTableCell*)cell).textField setText:value];
         ((TextFieldTableCell*)cell).textField.tag = kURLTag;
         [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -160,6 +161,7 @@
             //value = @"will";
             value = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
         }
+        username = value;
         [((TextFieldTableCell*)cell).textField setText:value];
         ((TextFieldTableCell*)cell).textField.tag = kUsernameTag;
         [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -171,6 +173,7 @@
         if(!value){
             value = [keyChain objectForKey:(__bridge id)kSecValueData];//kSecValueData is to encrypt password
         }
+        password = value;
         [((TextFieldTableCell*)cell).textField setText:value];
         ((TextFieldTableCell*)cell).textField.tag = kPasswordTag;
         [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -222,8 +225,10 @@ return cell;
 	return YES;
 }
 
-- (void) textChanged:(id)sender {
+- (void) textChanged:(id)sender 
+{
     UITextField *textField = (UITextField *)sender;
+    self.navigationItem.rightBarButtonItem.enabled = ![[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]isEqualToString:@""];
     if(textField.tag == kUsernameTag){
         username = textField.text;
     }else if(textField.tag == kPasswordTag){
@@ -241,7 +246,6 @@ return cell;
 
 -(IBAction)saveSettings:(id)sender
 {
-    
     [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
     [keyChain addObject:password forKey:(__bridge id)kSecValueData];
     //[SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
