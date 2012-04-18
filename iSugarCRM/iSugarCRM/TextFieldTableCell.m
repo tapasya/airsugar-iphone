@@ -7,7 +7,7 @@
 //
 
 #import "TextFieldTableCell.h"
-#define kiPadFontSize       24
+#define kiPadFontSize       20
 #define kMinLabelWidth      97
 #define kMargin             5
 #define kiPadLableMargin    25
@@ -32,8 +32,8 @@
         CGRect labelFrame = label.frame;
         labelFrame.origin.x += kiPadLableMargin ;
         label.frame = labelFrame;
-        label.font = [UIFont systemFontOfSize:kiPadFontSize];
-        textField.font = [UIFont systemFontOfSize:kiPadFontSize];
+        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:kiPadFontSize];
+        textField.font = [UIFont fontWithName:@"Helvetica-Oblique" size:kiPadFontSize-2];
     }
 	labelSize.width = MIN(labelSize.width, label.bounds.size.width);
     
