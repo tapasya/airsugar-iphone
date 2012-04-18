@@ -482,7 +482,7 @@
         [myTableView setEditing:YES animated:YES];
         [myTableView reloadData];
         self.navigationItem.rightBarButtonItem = nil;
-        barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(markItemAsDelete)];
+        barButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(toggleEditing)];
        // self.navigationItem.rightBarButtonItem = barButtonItem;
         
         UIToolbar *bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
