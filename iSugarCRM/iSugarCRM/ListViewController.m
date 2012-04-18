@@ -107,6 +107,7 @@
 
 
 -(void)syncModule{
+    [sBar resignFirstResponder];
     [self showProgress];
     SyncHandler* syncHandler = [SyncHandler sharedInstance];
     [syncHandler runSyncWithTimestampForModule:moduleName parent:self];
@@ -114,6 +115,7 @@
 
 -(void)showActionSheet{
     //[self.actionSheet showInView:self.view];
+    [sBar resignFirstResponder];
     _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     [_actionSheet addButtonWithTitle:@"Add"];
     [_actionSheet addButtonWithTitle:@"Delete"];

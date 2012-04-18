@@ -142,7 +142,7 @@
 }
 
 -(void)showActionSheet{
-    //[self.actionSheet showInView:self.view];
+    [sBar resignFirstResponder];
     _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     [_actionSheet addButtonWithTitle:@"Add"];
     [_actionSheet addButtonWithTitle:@"Delete"];
@@ -154,6 +154,7 @@
 
 -(void) displayModuleSetting
 {
+   [sBar resignFirstResponder];
     ModuleSettingsViewController *msvc = [[ModuleSettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     msvc.moduleName = self.title;
     msvc.delegate = self;
