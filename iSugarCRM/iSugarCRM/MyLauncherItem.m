@@ -106,7 +106,14 @@
 	
 	UILabel *itemLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, itemLabelY, self.bounds.size.width, itemLabelHeight)];
 	itemLabel.backgroundColor = [UIColor clearColor];
-	itemLabel.font = [UIFont boldSystemFontOfSize:11];
+    if(IS_IPAD)
+    {
+        itemLabel.font = [UIFont boldSystemFontOfSize:15];
+    }
+    else
+    {
+        itemLabel.font = [UIFont boldSystemFontOfSize:11];
+    }
 	itemLabel.textColor = COLOR(46, 46, 46);
 	itemLabel.textAlignment = UITextAlignmentCenter;
 	itemLabel.lineBreakMode = UILineBreakModeTailTruncation;
