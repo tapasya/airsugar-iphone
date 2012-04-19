@@ -7,7 +7,7 @@
 //
 
 #import "EditViewRowItem.h"
-#define kSideMargin 5.0
+#define kSideMargin 10.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
 #define kHeightlMargin 30.0
@@ -142,7 +142,14 @@
     }else if ([[self reusableCellIdentifier] isEqualToString:@"url"]) {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];
         valueField.delegate = self.delegate;
-        valueField.text = [self value];
+        if([self value] && [[self value] length] > 0)
+        {   
+            valueField.text = [self value];
+        }
+        else
+        {
+            valueField.text = @"http://";
+        }
     }else if ([[self reusableCellIdentifier] isEqualToString:@"email"]) {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];
         valueField.delegate = self.delegate;
