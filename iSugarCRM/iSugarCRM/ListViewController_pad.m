@@ -139,17 +139,17 @@
             [self.detailViewDelegate loadDetailViewWithBeanId:beanId beanTitle:beanTitle moduleName:self.moduleName];
         }
     }
-}
+}   
 
 -(void)showActionSheet{
     [sBar resignFirstResponder];
     _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
     [_actionSheet addButtonWithTitle:@"Add"];
     [_actionSheet addButtonWithTitle:@"Delete"];
-    [_actionSheet addButtonWithTitle:@"Cancel"];
     _actionSheet.delegate = self;
     _actionSheet.destructiveButtonIndex = 1;
-    [_actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+    CGRect frame = self.navigationItem.rightBarButtonItem.customView.frame;
+    [_actionSheet showFromRect:CGRectMake(frame.origin.x + 2*frame.size.width/3, 1, frame.size.width/3, 1) inView:self.view animated:YES];
 }
 
 -(void) displayModuleSetting
