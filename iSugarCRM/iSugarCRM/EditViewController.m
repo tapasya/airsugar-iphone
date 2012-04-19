@@ -144,6 +144,9 @@
                 [dataSource setObject:[dataObject objectForFieldName:dof.name] forKey:dof.name];
             }
             if (dof.mandatory == TRUE) {
+                if ([dataObject objectForFieldName:dof.name] == nil || [[dataObject objectForFieldName:dof.name] length] == 0) {
+                    self.navigationItem.rightBarButtonItem.enabled = NO;
+                }
                 [mandatoryFields addObject:dof];
             }else{
                 [optionalFields addObject:dof];
@@ -203,12 +206,12 @@
 -(void)saveRecord{
     
     [self.view endEditing:YES];
-    if(![self isValidRecord])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Required fields Cannot be left empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+//    if(![self isValidRecord])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Required fields Cannot be left empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alert show];
+//        return;
+//    }
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBSession * dbSession = [DBSession sessionWithMetadata:[sharedInstance dbMetadataForModule:self.metadata.objectClassIdentifier]];
     
@@ -237,12 +240,14 @@
 
 -(BOOL)isValidRecord
 {
-    NSInteger numberOfMandatoryCells = [_tableView numberOfRowsInSection:0];
+    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:0];//getting required fields
+    NSArray *dataObjectFields  = evSectionItem.rowItems;
     BOOL saveRecord = TRUE;
-    for (int i=0; i<numberOfMandatoryCells; i++) {
-        UITableViewCell *mandatoryCell = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        UITextField *textField = (UITextField *)[mandatoryCell.contentView viewWithTag:1001];
-        if (textField.text== nil || [textField.text length] == 0) {
+    
+    for (int i=0; i<[dataObjectFields count]; i++) {
+        DataObjectField *dof = [dataObjectFields objectAtIndex:i];
+        NSString *value = [dataSource objectForKey:dof.name];
+        if (value == nil || [value length] == 0) {
             saveRecord = FALSE;
             break;
         }
@@ -371,11 +376,27 @@
     [self dismissPickerView];
     UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
     [self scrollCell:cell];
+    if(![self isValidRecord])
+    {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
 }
 - (void) textFieldDidEndEditing:(UITextField *)textField {
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     [dataSource setObject:textField.text forKey:dof.name];
+    if(![self isValidRecord])
+    {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];

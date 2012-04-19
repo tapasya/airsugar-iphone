@@ -139,6 +139,7 @@
         [self toggleEditing];
     }else if(buttonIndex == kActionSheetCancelButtonIndex){
         //
+        myTableView.contentInset = UIEdgeInsetsZero;
     }
 }
 
@@ -474,6 +475,7 @@
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
     [self toggleEditing];
+    myTableView.contentInset = UIEdgeInsetsZero;
     [myTableView reloadData];
 }
 
@@ -490,12 +492,11 @@
         
         UIToolbar *bottomToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
         bottomToolbar.tag = kEditToolbarTag;
-        
         UIBarButtonItem *delButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(deleteButtonPressed)];
         [delButtonItem setTintColor:[UIColor redColor]];
         
         UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        
+        myTableView.contentInset = UIEdgeInsetsMake(0, 0, bottomToolbar.frame.size.height, 0);
         [self.view addSubview:bottomToolbar];
         NSArray *items = [NSArray arrayWithObjects:flexButton, delButtonItem, barButtonItem, flexButton, nil];
         [bottomToolbar setItems:items];
@@ -512,6 +513,7 @@
             if(view.tag == kEditToolbarTag)
                 [view removeFromSuperview];
         }
+        myTableView.contentInset = UIEdgeInsetsZero;
     }
 }
 
