@@ -32,6 +32,7 @@ BOOL isFirstTime;
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
         startDate = [SettingsStore objectForKey:kStartDateIdentifier];
         endDate = [SettingsStore objectForKey:kStartDateIdentifier];
         if (!startDate && !endDate) {
@@ -242,7 +243,7 @@ BOOL isFirstTime;
         else
         {
             [self.actionSheet showInView:self.view];
-            [self.pickerView setFrame:CGRectMake(0, 44, 320, 0)];
+            [self.pickerView setFrame:CGRectMake(0, 44, 320, 400)];
             [self.actionSheet setBounds:CGRectMake(0, 0, 320, 480)];
         }
 
@@ -346,6 +347,12 @@ BOOL isFirstTime;
     //[sharedAppDelegate sync];
     [sharedAppDelegate performSelectorInBackground:@selector(completeSyncWithDateFilters) withObject:nil];
     //[sharedAppDelegate dismissWaitingAlert];
+}
+
+-(void) didCompleteSync
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
 -(void)eraseDBData:(id)sender{
