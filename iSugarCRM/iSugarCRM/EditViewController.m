@@ -23,6 +23,9 @@
 #define kPrevSegementItemIndex 0
 #define kNextSegementItemIndex 1
 @interface EditViewController ()
+{
+    UIPopoverController* popoverController;
+}
 @property(strong) UITableView *_tableView;
 @property(strong) NSMutableDictionary *dataSource;
 @property(strong) NSArray *detailedData;
@@ -85,7 +88,7 @@
     CGFloat width = mainFrame.size.width;
     CGFloat height = mainFrame.size.height;
     //_tableView = [[UITableView alloc]initWithFrame:[[UIScreen mainScreen]applicationFrame]];
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0,width, height)];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0,width, height) style:UITableViewStyleGrouped];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
@@ -328,22 +331,36 @@
         
         self.pickerView.date = [dateFormatter dateFromString:valueField.text];
         [self.view endEditing:YES]; // resign firstResponder if you have any text fields so the keyboard doesn't get in the way
-        [self._tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES]; // Scroll your row to the top so the user can actually see the row when interacting with the pickerView
-        
-        // Pickerview setup
-        self.pickerView.frame = CGRectZero;
-        // place the pickerView outside the screen boundaries
-        self.pickerView.frame = CGRectMake(0, 500, pickerView.frame.size.width,pickerView.frame.size.height);
-        // set it to visible and then animate it to slide up
-        [self.pickerView setHidden:NO];
-        [UIView beginAnimations:nil context:nil];
-        self.pickerView.frame = [self pickerViewFrame];
-        self.toolBar.frame = CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
-        self.toolBar.alpha = 1.0;
-        [self.view addSubview:self.toolBar];
-        [self.view addSubview:pickerView];
-        [UIView commitAnimations];
-        [self scrollCell:cell];
+        if(IS_IPAD)
+        {
+            UIViewController* popoverContent = [[UIViewController alloc] init];
+            UIView* popoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 344)];
+            popoverView.backgroundColor = [UIColor whiteColor];
+            self.pickerView.frame = CGRectMake(0, 0, 320, 344);
+            [popoverView addSubview:self.pickerView];
+            popoverContent.view = popoverView;
+            popoverContent.contentSizeForViewInPopover = CGSizeMake(320, 200);
+            popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
+            [popoverController presentPopoverFromRect:cell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+        else
+        {
+            [self._tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES]; // Scroll your row to the top so the user can actually see the row when interacting with the pickerView
+            // Pickerview setup
+            self.pickerView.frame = CGRectZero;
+            // place the pickerView outside the screen boundaries
+            self.pickerView.frame = CGRectMake(0, 500, pickerView.frame.size.width,pickerView.frame.size.height);
+            // set it to visible and then animate it to slide up
+            [self.pickerView setHidden:NO];
+            [UIView beginAnimations:nil context:nil];
+            self.pickerView.frame = [self pickerViewFrame];
+            self.toolBar.frame = CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
+            self.toolBar.alpha = 1.0;
+            [self.view addSubview:self.toolBar];
+            [self.view addSubview:pickerView];
+            [UIView commitAnimations];
+            [self scrollCell:cell];
+        }
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }else{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -422,14 +439,20 @@
 -(void)keyboardWillShow:(NSNotification *)notification
 {
     kbBeginSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    self.toolBar.alpha = 1.0;
-    toolBar.frame=[self toolBarFrame];
-    [self.view addSubview:toolBar];
+    if(!IS_IPAD)
+    {
+        self.toolBar.alpha = 1.0;
+        toolBar.frame=[self toolBarFrame];
+        [self.view addSubview:toolBar];
+    }
 }
 -(void)keyboardWillBeHidden:(NSNotification *)notification
 {
-    toolBar.alpha = 0.0;
-    toolBar.frame = CGRectMake(0,500,self.toolBar.frame.size.width,self.toolBar.frame.size.height);
+    if(!IS_IPAD)
+    {
+        toolBar.alpha = 0.0;
+        toolBar.frame = CGRectMake(0,500,self.toolBar.frame.size.width,self.toolBar.frame.size.height);
+    }
     _tableView.contentInset = UIEdgeInsetsZero;
 }
 -(CGRect)toolBarFrame
