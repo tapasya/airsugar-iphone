@@ -187,9 +187,15 @@ ApplicationKeyStore *keyChain;
     [sharedDelegate showSyncSettingViewController];
 }
 
+-(void) onLoginFailed:(id) response
+{
+    [spinner stopAnimating];
+    [(AppDelegate*)[[UIApplication sharedApplication] delegate] dismissWaitingAlert];
+    [LoginUtils displayLoginError:response];
+}
+
 -(void) authenicate
 {
-    
     int userNameLen = [usernameField.text length];
     int passwordLen = [passwordField.text length];
     int urlLen = [urlField.text length];
@@ -208,9 +214,7 @@ ApplicationKeyStore *keyChain;
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
         [self performSelectorOnMainThread:@selector(showSyncSettings) withObject:nil waitUntilDone:NO];
     }else{
-        [spinner stopAnimating];
-        [(AppDelegate*)[[UIApplication sharedApplication] delegate] dismissWaitingAlert];
-        [LoginUtils displayLoginError:response];
+        [self performSelectorOnMainThread:@selector(onLoginFailed:) withObject:response waitUntilDone:NO];
     }
     
 }
