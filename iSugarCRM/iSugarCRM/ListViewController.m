@@ -383,8 +383,9 @@
     
     for(DataObjectField *otherField in metadata.otherFields)
     {
-      if ([dataObjectForRow objectForFieldName:otherField.name]) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,[dataObjectForRow objectForFieldName:otherField.name]];
+        NSString* value = [dataObjectForRow objectForFieldName:otherField.name];
+      if (value && [value length] >0) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,value];
       }
       else{
           cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
