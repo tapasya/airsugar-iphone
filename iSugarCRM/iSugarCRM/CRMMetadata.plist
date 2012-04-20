@@ -515,7 +515,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -1083,7 +1083,7 @@
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
-					<true/>
+					<false/>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>
@@ -2464,6 +2464,27 @@
 							<key>label</key>
 							<string>Probability (%)</string>
 						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>description</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Description</string>
+						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Info</string>
@@ -2507,7 +2528,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -2839,7 +2860,7 @@
 					<key>action</key>
 					<string>number</string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -2893,7 +2914,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -2965,7 +2986,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -4504,7 +4525,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -4568,7 +4589,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -4576,7 +4597,7 @@
 					<key>sortable</key>
 					<string>0</string>
 					<key>label</key>
-					<string>Objective: </string>
+					<string>Objective</string>
 					<key>type</key>
 					<string>0</string>
 					<key>name</key>
@@ -4676,7 +4697,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -4684,7 +4705,7 @@
 					<key>sortable</key>
 					<string>0</string>
 					<key>label</key>
-					<string>Impressions: </string>
+					<string>Impressions</string>
 					<key>type</key>
 					<string>0</string>
 					<key>name</key>
@@ -4838,7 +4859,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -4856,7 +4877,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -5000,7 +5021,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -5072,7 +5093,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -5080,7 +5101,7 @@
 					<key>sortable</key>
 					<string>0</string>
 					<key>label</key>
-					<string>Expected Revenue: </string>
+					<string>Expected Revenue</string>
 					<key>type</key>
 					<string>0</string>
 					<key>name</key>
@@ -6106,7 +6127,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -7511,7 +7532,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -9990,7 +10011,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>created_by</string>
+									<string>created_by_name</string>
 								</dict>
 							</array>
 							<key>label</key>
