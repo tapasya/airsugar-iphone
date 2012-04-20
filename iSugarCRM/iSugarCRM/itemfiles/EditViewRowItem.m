@@ -191,8 +191,8 @@
         [dateFormatter setDateFormat:@"MM/dd/yy"];
         dateValue = [dateFormatter stringFromDate:date];
     }else{
-        [dateFormatter setDateFormat:@"MM/dd/yy"];
-        dateValue = [dateFormatter stringFromDate:[NSDate date]];
+        //[dateFormatter setDateFormat:@"MM/dd/yy"];
+        dateValue = @"MM/dd/yy";//[dateFormatter stringFromDate:[NSDate date]];
     }
     return dateValue;
 }

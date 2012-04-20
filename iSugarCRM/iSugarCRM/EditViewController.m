@@ -292,12 +292,23 @@
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:indexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:indexPath.row];
     EditViewRowItem *evRowItem = [[EditViewRowItem alloc] init];
+    UITableViewCell *cell;
     evRowItem.label = dof.label;
     evRowItem.action = dof.action;
     evRowItem.delegate = self;
     if(detailedData != nil){
-        //evRowItem.value = [(DataObject *)[_detailedData objectAtIndex:0] objectForFieldName:dof.name];
+        NSLog(@"value of dataobject %@ and field %@",[dataSource objectForKey:dof.name],dof.name);
         evRowItem.value = [dataSource objectForKey:dof.name];
+        cell = [evRowItem reusableCellForTableView:tableView];
+        if([cell.reuseIdentifier isEqualToString:@"date"])
+        {
+            UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            if([dateFormatter dateFromString:valueField.text] == nil)
+                [dataSource setObject:@"" forKey:dof.name];
+        }
     }
     else{
         if ([dataSource objectForKey:dof.name]) {
@@ -307,8 +318,20 @@
         {
             evRowItem.value = @"";
         }
+        cell = [evRowItem reusableCellForTableView:tableView];
+        if([cell.reuseIdentifier isEqualToString:@"date"])
+        {
+            UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            if([dateFormatter dateFromString:valueField.text] == nil)
+                [dataSource setObject:@"" forKey:dof.name];
+        }
     }
-    return [evRowItem reusableCellForTableView:tableView];
+    
+    
+    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -337,8 +360,14 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        
-        self.pickerView.date = [dateFormatter dateFromString:valueField.text];
+        if([dateFormatter dateFromString:valueField.text] != nil)
+        {
+            self.pickerView.date = [dateFormatter dateFromString:valueField.text];
+        }
+        else
+        {
+            self.pickerView.date = [NSDate date];
+        }
         [self.view endEditing:YES]; // resign firstResponder if you have any text fields so the keyboard doesn't get in the way
         if(IS_IPAD)
         {
@@ -380,27 +409,11 @@
     [self dismissPickerView];
     UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
     [self scrollCell:cell];
-    if(![self isValidRecord])
-    {
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    }
 }
 - (void) textFieldDidEndEditing:(UITextField *)textField {
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     [dataSource setObject:textField.text forKey:dof.name];
-    if(![self isValidRecord])
-    {
-        self.navigationItem.rightBarButtonItem.enabled = NO;
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
@@ -590,6 +603,8 @@
     NSDate *date = pickerView.date;
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
 	[(DataObject *)[detailedData objectAtIndex:0] setObject:[dateFormatter stringFromDate:date] forFieldName:dof.name];
+    [dataSource setObject:[dateFormatter stringFromDate:date] forKey:dof.name];
+    self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 
 -(void)nextPrevious:(id)sender
@@ -628,7 +643,7 @@
                         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
                         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                        if(valueField.text != nil)
+                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
                             self.pickerView.date = [dateFormatter dateFromString:valueField.text];
                         else
                             self.pickerView.date = [NSDate date];
@@ -663,7 +678,7 @@
                         toolBar.alpha = 1.0;
                         toolBar.frame = CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
                         
-                        if(valueField.text != nil)
+                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
                             self.pickerView.date = [dateFormatter dateFromString:valueField.text];
                         else
                             self.pickerView.date = [NSDate date];
@@ -712,7 +727,7 @@
                         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
                         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                        if(valueField.text != nil)
+                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
                             self.pickerView.date = [dateFormatter dateFromString:valueField.text];
                         else
                             self.pickerView.date = [NSDate date];
@@ -737,7 +752,7 @@
                         toolBar.frame = [self toolBarFrame];
                         
                         
-                        if(valueField.text != nil)
+                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
                             self.pickerView.date = [dateFormatter dateFromString:valueField.text];
                         else
                             self.pickerView.date = [NSDate date];
@@ -802,6 +817,7 @@
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     [dataSource setObject:textField.text forKey:dof.name];
+    self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 
 -(NSInteger)effectiveRowIndexWithIndexPath:(NSIndexPath *)indexpath
