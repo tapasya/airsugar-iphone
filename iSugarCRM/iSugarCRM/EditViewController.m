@@ -182,7 +182,11 @@
                                             duration: duration];
     _tableView.contentInset =  UIEdgeInsetsZero;
     [self arrangeViews: toInterfaceOrientation];
-    
+    if(popoverController)
+    {
+        [popoverController dismissPopoverAnimated:NO];
+        popoverController = nil;
+    }
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
