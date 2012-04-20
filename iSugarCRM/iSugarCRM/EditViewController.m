@@ -417,6 +417,7 @@
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate dismissWaitingAlert];
     [self.navigationController dismissModalViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
     [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
 }
 

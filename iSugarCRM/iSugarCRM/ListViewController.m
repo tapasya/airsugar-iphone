@@ -67,6 +67,7 @@
 
 -(id)init{
     if (self=[super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"ReloadRecords" object:nil];
         myTableView = [[UITableView alloc] init];
         tableData = [[NSMutableArray alloc] init];
     }

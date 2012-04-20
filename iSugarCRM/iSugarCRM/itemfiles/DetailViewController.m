@@ -46,6 +46,10 @@
 
 -(id)init{
     self = [super init];
+    if(self)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromDb) name:@"ReloadRecords" object:nil];
+    }
     return self;
 }
 - (id)initWithStyle:(UITableViewStyle)style
