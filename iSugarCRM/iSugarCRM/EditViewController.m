@@ -402,17 +402,22 @@
 
 #pragma mark SyncHandler Delegate
 
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate dismissWaitingAlert];
-    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+-(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{   
+     dispatch_async(dispatch_get_main_queue(), ^(void) {
+         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+         [sharedAppDelegate dismissWaitingAlert];
+         [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+     });
 }
+
 -(void)syncComplete:(SyncHandler*)syncHandler{
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate dismissWaitingAlert];
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
-    [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate dismissWaitingAlert];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
+        [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+    });
 }
 
 -(IBAction)showSyncAlert:(id)sender
