@@ -90,6 +90,28 @@
     }
 }
 
+-(void) loadDataFromDb
+{
+    if(self.beanId)
+    {
+        [super loadDataFromDb];
+    }
+    else
+    {
+        if(!defaultView)
+        {
+            [[NSBundle mainBundle] loadNibNamed:@"DefaultDetailView" owner:self options:nil];
+            [self.createButton addTarget:self action:@selector(createButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        self.navigationItem.rightBarButtonItem = nil;
+        self.title = @"";
+        CGRect frame = [self tableView].frame;
+        defaultView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, self.view.frame.size.height);
+        [self.tableView addSubview:defaultView];  
+        self.tableView.separatorColor = [UIColor clearColor];
+    }
+}
+
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
 {
     [super session:session downloadedDetails:details];
