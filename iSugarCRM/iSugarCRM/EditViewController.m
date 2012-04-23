@@ -696,7 +696,13 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        self.pickerView.date = [dateFormatter dateFromString:dateText];
+        if ([dateFormatter dateFromString:dateText] != nil) {
+            self.pickerView.date = [dateFormatter dateFromString:dateText];
+        }
+        else {
+            self.pickerView.date = [NSDate date];
+        }
+        
     }
     else
         self.pickerView.date = [NSDate date];
