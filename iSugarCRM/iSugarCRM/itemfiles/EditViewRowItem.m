@@ -102,7 +102,7 @@
             valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             [cell.contentView addSubview:valueField];
         }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
+        else if ([[self reusableCellIdentifier] isEqualToString:@"date"] || [[self reusableCellIdentifier] isEqualToString:@"time"]) {
             UILabel *valueField = [[UILabel alloc] init];
             valueField.tag = 1001;
             valueField.backgroundColor = [UIColor clearColor];
@@ -158,6 +158,11 @@
         NSString *dateString = [self formatDate:[self value] withFormat:nil];
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         valueField.text = dateString;
+        valueField.backgroundColor = [UIColor clearColor];
+    }else if([[self reusableCellIdentifier] isEqualToString:@"time"])
+    {
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        valueField.text = @"0";
         valueField.backgroundColor = [UIColor clearColor];
     }else {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];
