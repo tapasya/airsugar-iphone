@@ -9,6 +9,8 @@
 #import "WebserviceMetadata.h"
 #import "OrderedDictionary.h"
 #import "JSONKit.h"
+#import "SettingsStore.h"
+
 static inline NSString* httpMethodAsString(HTTPMethod method){
     switch (method) {
         case HTTPMethodGet:
@@ -182,7 +184,8 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 -(NSURLRequest*)formatRequest
 {
     NSMutableString *urlWithParams = [[NSMutableString alloc] init];
-    [urlWithParams appendString:endpoint];
+    [urlWithParams appendString:[SettingsStore objectForKey:@"endpointURL"]];
+    //[urlWithParams appendString:endpoint];
     int index = 0;
     if(method == HTTPMethodGet){
         for(NSDictionary *urlParam in urlParameters)
