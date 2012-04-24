@@ -501,6 +501,7 @@
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
    [(DataObject *)[detailedData objectAtIndex:0] setObject:selectedValue forFieldName:dof.name];
     [dataSource setObject:selectedValue forKey:dof.name];
+    self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)timePickerView numberOfRowsInComponent:(NSInteger)component {
