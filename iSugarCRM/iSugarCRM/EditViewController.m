@@ -496,6 +496,10 @@
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     UILabel *dateValue = (UILabel *)[cell.contentView viewWithTag:1001];
     NSString* selectedValue = [self pickerView:listPickerView titleForRow:row forComponent:component];
+    if(selectedValue)
+    {
+        dateValue.textColor = [UIColor blackColor];        
+    }
     dateValue.text = selectedValue;
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];

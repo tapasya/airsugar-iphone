@@ -158,16 +158,26 @@
         NSString *dateString = [self formatDate:[self value] withFormat:nil];
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         valueField.text = dateString;
+        if([dateString isEqualToString:@"MM/DD/YY"])
+        {
+            valueField.textColor = [UIColor lightGrayColor];            
+        }
+        else
+        {
+            valueField.textColor = [UIColor blackColor];            
+        }
         valueField.backgroundColor = [UIColor clearColor];
     }else if([[self reusableCellIdentifier] isEqualToString:@"time"])
     {
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         if([self value] && ![self.value isEqualToString:@""])
         {
+            valueField.textColor = [UIColor blackColor];
             valueField.text = self.value;
         }
         else
         {
+            valueField.textColor = [UIColor lightGrayColor];
             valueField.text = @"0";
         }
         valueField.backgroundColor = [UIColor clearColor];
@@ -176,10 +186,13 @@
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         if([self value] && ![self.value isEqualToString:@""])
         {
+            valueField.textColor = [UIColor blackColor];            
             valueField.text = self.value;
         }
         else
         {
+            valueField.textColor = [UIColor lightGrayColor];
+            //valueField.font = [UIFont fontWithName:@"Helvetica-Oblique" size:14];
             valueField.text = @"Select User";
         }
         valueField.backgroundColor = [UIColor clearColor];
@@ -188,10 +201,12 @@
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         if([self value] && ![self.value isEqualToString:@""])
         {
+            valueField.textColor = [UIColor blackColor];
             valueField.text = self.value;
         }
         else
         {
+            valueField.textColor = [UIColor lightGrayColor];
             valueField.text = @"Select Account";
         }
         valueField.backgroundColor = [UIColor clearColor];
@@ -228,7 +243,7 @@
         dateValue = [dateFormatter stringFromDate:date];
     }else{
         //[dateFormatter setDateFormat:@"MM/dd/yy"];
-        dateValue = @"MM/dd/yy";//[dateFormatter stringFromDate:[NSDate date]];
+        dateValue = @"MM/DD/YY";//[dateFormatter stringFromDate:[NSDate date]];
     }
     return dateValue;
 }
