@@ -101,7 +101,11 @@
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             NSDate *date = [dateFormatter dateFromString:dateString];
-            [dateFormatter setDateFormat:@"dd-MMM-yyyy"];
+            if (date == nil) {
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                date = [dateFormatter dateFromString:dateString];
+            }
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             dateString = [dateFormatter stringFromDate:date];
             
             textLabel.text = dateString;

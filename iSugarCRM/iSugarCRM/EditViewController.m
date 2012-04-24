@@ -734,12 +734,12 @@
 	UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     UILabel *dateValue = (UILabel *)[cell.contentView viewWithTag:1001];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MM/dd/yy"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	dateValue.text = [dateFormatter stringFromDate:self.datePicker.date];
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     NSDate *date = datePicker.date;
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd "];
 	[(DataObject *)[detailedData objectAtIndex:0] setObject:[dateFormatter stringFromDate:date] forFieldName:dof.name];
     [dataSource setObject:[dateFormatter stringFromDate:date] forKey:dof.name];
     self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];

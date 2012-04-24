@@ -260,7 +260,7 @@
     
     NSDate *date = [dateFormatter dateFromString:dateValue];
     if (date != nil) {
-        [dateFormatter setDateFormat:@"MM/dd/yy"];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         dateValue = [dateFormatter stringFromDate:date];
     }else{
         //[dateFormatter setDateFormat:@"MM/dd/yy"];
