@@ -3346,6 +3346,14 @@
 					<array>
 						<string>Prospecting</string>
 						<string>Qualification</string>
+						<string>Needs Analysis</string>
+						<string>Value Proposition</string>
+						<string>Id. Decision Makers</string>
+						<string>Perception Analysis</string>
+						<string>Proposal/Price Quote</string>
+						<string>Negotiation/Review</string>
+						<string>Closed Won</string>
+						<string>Closed Lost</string>
 					</array>
 					<key>action</key>
 					<string>custom</string>
@@ -4325,7 +4333,13 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Planned</string>
+						<string>Held</string>
+						<string>Not Held</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -14073,7 +14087,13 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Administration</string>
+						<string>Product</string>
+						<string>User</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -14091,7 +14111,16 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>New</string>
+						<string>Assigned</string>
+						<string>Closed</string>
+						<string>Pending Input</string>
+						<string>Rejected</string>
+						<string>Duplicate</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -14109,7 +14138,13 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>High</string>
+						<string>Medium</string>
+						<string>Low</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
