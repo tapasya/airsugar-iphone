@@ -102,7 +102,7 @@
             valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             [cell.contentView addSubview:valueField];
         }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"date"] || [[self reusableCellIdentifier] isEqualToString:@"time"]) {
+        else if ([[self reusableCellIdentifier] isEqualToString:@"date"] || [[self reusableCellIdentifier] isEqualToString:@"time"]|| [[self reusableCellIdentifier] isEqualToString:@"assigned_user_name"] || [[self reusableCellIdentifier] isEqualToString:@"account_name"]) {
             UILabel *valueField = [[UILabel alloc] init];
             valueField.tag = 1001;
             valueField.backgroundColor = [UIColor clearColor];
@@ -162,7 +162,38 @@
     }else if([[self reusableCellIdentifier] isEqualToString:@"time"])
     {
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
-        valueField.text = @"0";
+        if([self value] && ![self.value isEqualToString:@""])
+        {
+            valueField.text = self.value;
+        }
+        else
+        {
+            valueField.text = @"0";
+        }
+        valueField.backgroundColor = [UIColor clearColor];
+    }else if([[self reusableCellIdentifier] isEqualToString:@"assigned_user_name"])
+    {
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        if([self value] && ![self.value isEqualToString:@""])
+        {
+            valueField.text = self.value;
+        }
+        else
+        {
+            valueField.text = @"Select User";
+        }
+        valueField.backgroundColor = [UIColor clearColor];
+    }else if([[self reusableCellIdentifier] isEqualToString:@"account_name"])
+    {
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        if([self value] && ![self.value isEqualToString:@""])
+        {
+            valueField.text = self.value;
+        }
+        else
+        {
+            valueField.text = @"Select Account";
+        }
         valueField.backgroundColor = [UIColor clearColor];
     }else {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];

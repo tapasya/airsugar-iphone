@@ -897,7 +897,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>assigned_user_name</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -1492,7 +1492,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -2010,7 +2010,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>account_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -3145,7 +3145,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>account_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -3199,7 +3199,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -4194,7 +4194,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -5216,7 +5216,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -6692,7 +6692,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<false/>
 					<key>mandatory</key>
@@ -8529,7 +8529,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -10856,7 +10856,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -11322,7 +11322,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>account_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -14003,7 +14003,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>

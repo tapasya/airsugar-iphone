@@ -46,6 +46,7 @@
 		0FF81BD214F758AD00A3E04A /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BCF14F758AD00A3E04A /* Icon-72.png */; };
 		0FF81BD314F758AD00A3E04A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD014F758AD00A3E04A /* Icon.png */; };
 		0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD114F758AD00A3E04A /* Icon@2x.png */; };
+		0FFBEE0915459853002CB106 /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFBEE0815459853002CB106 /* DBHelper.m */; };
 		0FFE2AB514EE60CB00F90C4E /* Accounts.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAA14EE60CB00F90C4E /* Accounts.png */; };
 		0FFE2AB614EE60CB00F90C4E /* Accounts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAB14EE60CB00F90C4E /* Accounts@2x.png */; };
 		0FFE2AB714EE60CB00F90C4E /* Calls.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAC14EE60CB00F90C4E /* Calls.png */; };
@@ -177,6 +178,8 @@
 		0FF81BCF14F758AD00A3E04A /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		0FF81BD014F758AD00A3E04A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		0FF81BD114F758AD00A3E04A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		0FFBEE0715459853002CB106 /* DBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBHelper.h; sourceTree = "<group>"; };
+		0FFBEE0815459853002CB106 /* DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBHelper.m; sourceTree = "<group>"; };
 		0FFE2AAA14EE60CB00F90C4E /* Accounts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Accounts.png; sourceTree = "<group>"; };
 		0FFE2AAB14EE60CB00F90C4E /* Accounts@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Accounts@2x.png"; sourceTree = "<group>"; };
 		0FFE2AAC14EE60CB00F90C4E /* Calls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calls.png; sourceTree = "<group>"; };
@@ -480,6 +483,8 @@
 		3B504E5414862D1B0037D75E /* database */ = {
 			isa = PBXGroup;
 			children = (
+				0FFBEE0715459853002CB106 /* DBHelper.h */,
+				0FFBEE0815459853002CB106 /* DBHelper.m */,
 				3B5C9812147CF84F007EF770 /* DBSession.h */,
 				3B5C9813147CF850007EF770 /* DBSession.m */,
 				3B504E5514862E410037D75E /* DBMetadata.h */,
@@ -798,6 +803,7 @@
 				0F93BDEF1524530700E57E80 /* RelationsViewController.m in Sources */,
 				2F05832D152B06EC006DCD26 /* RecentViewController.m in Sources */,
 				0F937AB4152C21D900E043BC /* RecentViewController_pad.m in Sources */,
+				0FFBEE0915459853002CB106 /* DBHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

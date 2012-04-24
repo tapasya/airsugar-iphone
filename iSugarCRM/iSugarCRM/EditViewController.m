@@ -16,6 +16,8 @@
 #import "EditViewSectionItem.h"
 #import "SyncHandler.h"
 #import "DBSession.h"
+#import "DBHelper.h"
+
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
@@ -24,6 +26,8 @@
 #define kNextSegementItemIndex 1
 #define kHourPickerTag      1002
 #define kMinPickerTag       1003
+#define kUserPickerTag       1004
+#define kAccountPickerTag       1005
 
 @interface EditViewController ()
 {
@@ -35,15 +39,16 @@
 
 
 @property(strong) NSMutableArray *editableDataObjectFields;
+@property(nonatomic, strong) NSArray* userList;
+@property(nonatomic, strong) NSArray* accounts;
 @property(nonatomic,strong) UIToolbar *toolBar;
-@property(nonatomic,strong) UIDatePicker *pickerView;
-@property(nonatomic, strong) UIPickerView* timePicker;
+@property(nonatomic,strong) UIDatePicker *datePicker;
+@property(nonatomic, strong) UIPickerView* userPicker;
 @property(strong) UIActionSheet *actionSheet;
 
 -(void)registerForKeyboardNotifications;
 -(void)unRegisterForKeyboardNotifications;
--(void)dismissPickerView;
--(void)dismissTimePickerView;
+-(void)dismissPicker:(UIView*) picker;
 -(CGRect)toolBarFrame;
 -(CGRect)pickerViewFrame;
 -(void)arrangeViews:(UIInterfaceOrientation)orientation;
@@ -55,6 +60,8 @@
 -(BOOL)isValidRecord;
 -(void) showTimePicker:(NSString*) value;
 -(void) showDatePicker:(NSString*) dateText;
+-(void) showUserPicker:(NSString*) userName;
+-(void) showAccountPicker:(NSString*) accountName;
 @end
 
 @implementation EditViewController
@@ -63,9 +70,11 @@
 @synthesize metadata;
 @synthesize detailedData;
 @synthesize editableDataObjectFields;
+@synthesize userList;
+@synthesize accounts;
 @synthesize toolBar;
-@synthesize pickerView;
-@synthesize timePicker;
+@synthesize datePicker;
+@synthesize userPicker;
 @synthesize actionSheet;
 //@synthesize detailedData;
 
@@ -105,8 +114,6 @@
     [self.view setAutoresizesSubviews:YES];
 }
 
-
-
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
@@ -117,8 +124,8 @@
     self.navigationItem.leftBarButtonItem = discardButtonItem;
     [self performSelectorOnMainThread:@selector(getEditableDataObjectFieldArray) withObject:nil waitUntilDone:NO];
     
-    for (UIView * subview in self.pickerView.subviews) {
-        subview.frame = pickerView.bounds;
+    for (UIView * subview in self.datePicker.subviews) {
+        subview.frame = datePicker.bounds;
     }
     
 }
@@ -202,28 +209,22 @@
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     if ([cell.reuseIdentifier isEqualToString:@"date"]) {
-        toolBar.frame = CGRectMake(0,_tableView.frame.size.height-pickerView.frame.size.height-35,pickerView.frame.size.width,35);
+        toolBar.frame = CGRectMake(0,_tableView.frame.size.height-datePicker.frame.size.height-35,datePicker.frame.size.width,35);
     }
 }
 
 - (void) arrangeViews: (UIInterfaceOrientation)orientation {
     if (UIInterfaceOrientationIsPortrait(orientation)) {
-        pickerView.frame = CGRectMake(0, 200, 320, 216);
+        datePicker.frame = CGRectMake(0, 200, 320, 216);
     }
     else {
-        pickerView.frame = CGRectMake(0, 106, 480, 162);
+        datePicker.frame = CGRectMake(0, 106, 480, 162);
     }
 }
 
 -(void)saveRecord{
     
     [self.view endEditing:YES];
-//    if(![self isValidRecord])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"Required fields Cannot be left empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
     DBSession * dbSession = [DBSession sessionWithMetadata:[sharedInstance dbMetadataForModule:self.metadata.objectClassIdentifier]];
     
@@ -274,10 +275,7 @@
 }
 
 #pragma mark - TableView DataSource methods
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return [self.editableDataObjectFields count];
-//}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [editableDataObjectFields count];
@@ -377,13 +375,29 @@
         [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+    else if([cell.reuseIdentifier isEqualToString:@"assigned_user_name"])
+    {
+        [self.view endEditing:YES]; 
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        [self showUserPicker:valueField.text];
+        [self scrollCell:cell];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    else if([cell.reuseIdentifier isEqualToString:@"account_name"])
+    {
+        [self.view endEditing:YES]; 
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        [self showAccountPicker:valueField.text];
+        [self scrollCell:cell];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
     else{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 #pragma mark - TextField delegate methods
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
-    [self dismissPickerView];
+    [self dismissPicker:self.datePicker];
     UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
     [self scrollCell:cell];
 }
@@ -477,15 +491,16 @@
     _tableView.contentInset = UIEdgeInsetsZero;
 }
 
-- (void)pickerView:(UIPickerView *)timePickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
+- (void)pickerView:(UIPickerView *)listPickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
     // Handle the selection
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     UILabel *dateValue = (UILabel *)[cell.contentView viewWithTag:1001];
-    NSString* selectedValue = [self pickerView:timePicker titleForRow:row forComponent:component];
+    NSString* selectedValue = [self pickerView:listPickerView titleForRow:row forComponent:component];
     dateValue.text = selectedValue;
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
    [(DataObject *)[detailedData objectAtIndex:0] setObject:selectedValue forFieldName:dof.name];
+    [dataSource setObject:selectedValue forKey:dof.name];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)timePickerView numberOfRowsInComponent:(NSInteger)component {
@@ -498,6 +513,14 @@
     {
         return 60;
     }
+    else if(tag == kUserPickerTag)
+    {
+        return [self.userList count];
+    }
+    else if( tag == kAccountPickerTag)
+    {
+        return [self.accounts count];
+    }
     return 0;
 }
 
@@ -509,7 +532,20 @@
 // tell the picker the title for a given component
 - (NSString *)pickerView:(UIPickerView *)timePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     NSString *title;
-    title = [@"" stringByAppendingFormat:@"%d",row];
+    NSInteger tag = timePickerView.tag;
+    if(tag == kHourPickerTag || tag == kMinPickerTag)
+    {   
+        title = [@"" stringByAppendingFormat:@"%d",row];
+    }
+    else if(tag == kUserPickerTag)
+    {
+        title = [[self.userList objectAtIndex:row] objectForKey:@"name"];
+    }
+    else if( tag == kAccountPickerTag)
+    {
+        DataObject* dataObject = [self.accounts objectAtIndex:row];
+        title = [dataObject objectForFieldName:@"name"];
+    }
     
     return title;
 }
@@ -529,7 +565,7 @@
     if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
     {
         if ([cell.reuseIdentifier isEqualToString:@"date"]){
-            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.height,35);
+            return CGRectMake(0, _tableView.frame.size.height-datePicker.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.height,35);
         }else{
             return CGRectMake(0, _tableView.frame.size.height-kbBeginSize.width-toolBar.frame.size.height,self.view.bounds.size.width, toolBar.frame.size.height);
         }
@@ -537,7 +573,7 @@
     else
     {
         if ([cell.reuseIdentifier isEqualToString:@"date"]) {
-            return CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.width,toolBar.frame.size.height);
+            return CGRectMake(0, _tableView.frame.size.height-datePicker.frame.size.height-toolBar.frame.size.height,self.view.bounds.size.width,toolBar.frame.size.height);
         }else{
             return CGRectMake(0,_tableView.frame.size.height-kbBeginSize.height-toolBar.frame.size.height,self.view.bounds.size.width,toolBar.frame.size.height);
         }
@@ -557,27 +593,47 @@
     }
 }
 
--(UIPickerView*) timePicker
+-(NSArray*) userList
 {
-    if(!timePicker){
-        timePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, 0, 216)];
-        [timePicker setBackgroundColor:[UIColor clearColor]];
-        timePicker.showsSelectionIndicator = YES;
-        timePicker.delegate = self;
-    }
-    return timePicker;
+    
+    if(!userList)
+    {
+        userList = [DBHelper loadUserList];
+    }   
+    return  userList;
 }
 
--(UIDatePicker*) pickerView
+-(NSArray*) accounts
 {
-    if(!pickerView){
-        pickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, 0, 0)];
-        //pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [pickerView setDatePickerMode:UIDatePickerModeDate];
-        [pickerView setBackgroundColor:[UIColor clearColor]];
-        [pickerView addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    if(!accounts)
+    {
+        accounts = [DBHelper loadRecordsinModule:@"Accounts"];
+    }    
+    return accounts;
+}
+
+-(UIPickerView*) userPicker
+{
+    if(!userPicker)
+    {
+        userPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44, 0, 216)];
+        [userPicker setBackgroundColor:[UIColor clearColor]];
+        userPicker.showsSelectionIndicator = YES;
+        userPicker.delegate = self;
     }
-    return pickerView;
+    return userPicker;
+}
+
+-(UIDatePicker*) datePicker
+{
+    if(!datePicker){
+        datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, 0, 0)];
+        //pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [datePicker setDatePickerMode:UIDatePickerModeDateAndTime];
+        [datePicker setBackgroundColor:[UIColor clearColor]];
+        [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
+    }
+    return datePicker;
 }
 -(UIToolbar *) toolBar
 {
@@ -615,32 +671,22 @@
     [self.view endEditing:YES]; 
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     if([cell.reuseIdentifier isEqualToString:@"date"]){
-        [self dismissPickerView];
-    }else if([cell.reuseIdentifier isEqualToString:@"time"]){
-        [self dismissTimePickerView];
+        [self dismissPicker:self.datePicker];
+    }else if([cell.reuseIdentifier isEqualToString:@"time"] || [cell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [cell.reuseIdentifier isEqualToString:@"account_name"]){
+        [self dismissPicker:self.userPicker];
     }else{
         toolBar.frame = CGRectMake(0,500,self.toolBar.frame.size.width,self.toolBar.frame.size.height);
     }
 }
 
--(void)dismissPickerView
-{
+-(void) dismissPicker:(UIView*) picker
+{    
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5];
-    self.pickerView.frame = CGRectMake(0, 500, pickerView.frame.size.width,pickerView.frame.size.height); // place the pickerView outside the screen
-    [pickerView removeFromSuperview];
+    self.datePicker.frame = CGRectMake(0, 500, picker.frame.size.width,picker.frame.size.height);
+    [picker removeFromSuperview];
     [UIView commitAnimations];
 }
-
--(void)dismissTimePickerView
-{
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5];
-    self.pickerView.frame = CGRectMake(0, 500, timePicker.frame.size.width,timePicker.frame.size.height); // place the pickerView outside the screen
-    [timePicker removeFromSuperview];
-    [UIView commitAnimations];
-}
-
 
 - (void)dateChanged:(id)sender
 {
@@ -648,32 +694,25 @@
     UILabel *dateValue = (UILabel *)[cell.contentView viewWithTag:1001];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yy"];
-	dateValue.text = [dateFormatter stringFromDate:self.pickerView.date];
+	dateValue.text = [dateFormatter stringFromDate:self.datePicker.date];
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-    NSDate *date = pickerView.date;
+    NSDate *date = datePicker.date;
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
 	[(DataObject *)[detailedData objectAtIndex:0] setObject:[dateFormatter stringFromDate:date] forFieldName:dof.name];
     [dataSource setObject:[dateFormatter stringFromDate:date] forKey:dof.name];
     self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 
--(void) showTimePicker:(NSString*) value;
+-(void) showPicker:(UIView*) picker
 {
-    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES]; 
-    
-    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
-    DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-    self.timePicker.tag = [dof.name isEqualToString:@"duration_hours"] ? kHourPickerTag:kMinPickerTag;
-    [self.timePicker reloadAllComponents];
-    [self.timePicker selectRow:[value integerValue] inComponent:0 animated:YES];
     if(IS_IPAD)
     {
         UIViewController* popoverContent = [[UIViewController alloc] init];
         UIView* popoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 344)];
         popoverView.backgroundColor = [UIColor whiteColor];
-        self.timePicker.frame = CGRectMake(0, 0, 320, 216);
-        [popoverView addSubview:self.timePicker];
+        picker.frame = CGRectMake(0, 0, 320, 216);
+        [popoverView addSubview:picker];
         popoverContent.view = popoverView;
         popoverContent.contentSizeForViewInPopover = CGSizeMake(320, 200);
         popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
@@ -681,64 +720,82 @@
     }
     else
     {    
-        self.timePicker.frame = CGRectMake(0, 500, timePicker.frame.size.width,216);
-        [self.timePicker setHidden:NO];
+        picker.frame = CGRectMake(0, 500, picker.frame.size.width,216);
+        [picker setHidden:NO];
         [UIView beginAnimations:nil context:nil];
-        self.timePicker.frame = [self pickerViewFrame];
-        self.toolBar.frame = CGRectMake(0, _tableView.frame.size.height-timePicker.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
+        picker.frame = [self pickerViewFrame];
+        self.toolBar.frame = CGRectMake(0, _tableView.frame.size.height-picker.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
         self.toolBar.alpha = 1.0;
         [self.view addSubview:self.toolBar];
-        [self.view addSubview:timePicker];
+        [self.view addSubview:picker];
         [UIView commitAnimations];
     }
 }
 
--(void) showDatePicker:(NSString*) dateText
+-(void) showTimePicker:(NSString*) value;
 {
-    
+    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];     
+    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+    DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+    self.userPicker.tag = [dof.name isEqualToString:@"duration_hours"] ? kHourPickerTag:kMinPickerTag;
+    [self.userPicker reloadAllComponents];
+    [self.userPicker selectRow:[value integerValue] inComponent:0 animated:YES];
+    [self showPicker:self.userPicker];
+}
+
+-(void) showUserPicker:(NSString *)userName
+{
+    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
+    self.userPicker.tag = kUserPickerTag;
+    [self.userPicker reloadAllComponents];
+    if(userName)
+    {
+        NSInteger selectedIndex = [userList indexOfObject:userName];
+        if(selectedIndex != NSNotFound)
+        {
+           [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+        }
+    }
+    [self showPicker:self.userPicker];
+}
+
+-(void) showAccountPicker:(NSString *)accountName
+{
+    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
+    self.userPicker.tag = kAccountPickerTag;
+    [self.userPicker reloadAllComponents];
+    if(accountName)
+    {
+        NSInteger selectedIndex = [accounts indexOfObject:accountName];
+        if(selectedIndex != NSNotFound)
+        {
+            [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+        }
+    }
+    [self showPicker:self.userPicker];
+}
+
+-(void) showDatePicker:(NSString*) dateText
+{    
     if(dateText != nil)
     {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterShortStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        if ([dateFormatter dateFromString:dateText] != nil) {
-            self.pickerView.date = [dateFormatter dateFromString:dateText];
+        if ([dateFormatter dateFromString:dateText] != nil) 
+        {
+            self.datePicker.date = [dateFormatter dateFromString:dateText];
         }
-        else {
-            self.pickerView.date = [NSDate date];
-        }
-        
+        else 
+        {
+            self.datePicker.date = [NSDate date];
+        }        
     }
     else
-        self.pickerView.date = [NSDate date];
+        self.datePicker.date = [NSDate date];
     
-
     [self.view endEditing:YES];//dismiss if there is a keypad
-    if(IS_IPAD)
-    {
-        UIViewController* popoverContent = [[UIViewController alloc] init];
-        UIView* popoverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 344)];
-        popoverView.backgroundColor = [UIColor whiteColor];
-        self.pickerView.frame = CGRectMake(0, 0, 320, 344);
-        [popoverView addSubview:self.pickerView];
-        popoverContent.view = popoverView;
-        popoverContent.contentSizeForViewInPopover = CGSizeMake(320, 200);
-        popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
-        [popoverController presentPopoverFromRect:[_tableView cellForRowAtIndexPath:selectedIndexPath].frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    }
-    else
-    {
-        self.toolBar.alpha = 1.0;
-        //self.toolBar.frame = CGRectMake(0, _tableView.frame.size.height-pickerView.frame.size.height-self.toolBar.frame.size.height,self.view.bounds.size.width,35);
-        toolBar.frame = [self toolBarFrame];
-        self.pickerView.frame = CGRectMake(0, 500, pickerView.frame.size.width,pickerView.frame.size.height); // place the pickerView outside the screen boundaries
-        [self.pickerView setHidden:NO]; // set it to visible and then animate it to slide up
-        [UIView beginAnimations:nil context:nil];
-        self.pickerView.frame = [self pickerViewFrame];  
-        [self.view addSubview:toolBar];
-        [self.view addSubview:pickerView];
-        [UIView commitAnimations];
-    }     
+    [self showPicker:self.datePicker];
 }
 
 -(void) showKeyboard:(UITableViewCell*) currentCell : (UITableViewCell*) nextCell
@@ -750,6 +807,56 @@
     [dataSource setObject:currentTextField.text forKey:dof.name];
     UITextField *newTextField = (UITextField *)[nextCell.contentView viewWithTag:1001];
     [newTextField becomeFirstResponder];
+}
+
+-(void) handleNextCell:(UITableViewCell*) currentCell :(UITableViewCell*) nextCell :(NSIndexPath*) newIndexPath
+{
+    if([currentCell.reuseIdentifier isEqualToString:@"date"])
+    {
+        [self dismissPicker:self.datePicker];
+    }
+    else if([currentCell.reuseIdentifier isEqualToString:@"time"] || [currentCell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [currentCell.reuseIdentifier isEqualToString:@"account_name"])
+    {
+        [self dismissPicker:self.userPicker];
+    }
+    else
+    {
+        [self dismissKeyboard:nil];
+    }
+    
+   // UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
+    [self scrollCell:nextCell];//ScrollCell
+    
+    if(!nextCell)
+    {
+        [self dismissKeyboard:nil];
+        return;
+    }
+    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
+    {
+        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
+        [self showDatePicker:valueField.text]; 
+    }
+    else if([nextCell.reuseIdentifier isEqualToString:@"time"])
+    {
+        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
+        [self showTimePicker:valueField.text];
+    }
+    else if([nextCell.reuseIdentifier isEqualToString:@"assigned_user_name"])
+    {
+        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
+        [self showUserPicker:valueField.text];
+    }
+    else if([nextCell.reuseIdentifier isEqualToString:@"account_name"])
+    {
+        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
+        [self showAccountPicker:valueField.text];
+    }
+    else
+    {
+        UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
+        [textField becomeFirstResponder];
+    }
 }
 
 -(void)nextPrevious:(id)sender
@@ -777,89 +884,7 @@
                     }
                 }   
                 selectedIndexPath = newIndexPath;
-                if([cell.reuseIdentifier isEqualToString:@"date"])
-                {
-                    UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                    [self scrollCell:nextCell];//ScrollCell
-                    [self dismissPickerView];
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-                        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
-                            self.pickerView.date = [dateFormatter dateFromString:valueField.text];
-                        else
-                            self.pickerView.date = [NSDate date];
-                    }
-                    else if([nextCell.reuseIdentifier isEqualToString:@"time"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-                    }
-                    else
-                    {
-                        UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [textField becomeFirstResponder];
-                    }
-                }
-                else if([cell.reuseIdentifier isEqualToString:@"time"])
-                {
-                    [self dismissTimePickerView];
-                    UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                    [self scrollCell:nextCell];//ScrollCell
-                    
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        [self showDatePicker:valueField.text]; 
-                    }
-                    else if([nextCell.reuseIdentifier isEqualToString:@"time"]){
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-                    }
-                    else
-                    {
-                        UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [textField becomeFirstResponder];
-                    }
-                }
-                else
-                {
-                    [self dismissKeyboard:nil];
-                    UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                    if (nextCell == nil) 
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        selectedIndexPath = newIndexPath;
-                    }
-                    [self scrollCell:nextCell];//ScrollCell
-                    
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        [self showDatePicker:valueField.text];
-                    }
-                    else if([nextCell.reuseIdentifier isEqualToString:@"time"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-                    }
-                    else
-                    {
-                        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
-                        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-                        UITextField *currentTextField = (UITextField *)[cell.contentView viewWithTag:1001];
-                        //[(DataObject *)[_detailedData objectAtIndex:0] setObject:currentTextField.text forFieldName:dof.name];
-                        [dataSource setObject:currentTextField.text forKey:dof.name];
-                        UITextField *newTextField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [newTextField becomeFirstResponder];
-                    }
-                }
+                [self handleNextCell:cell :[_tableView cellForRowAtIndexPath:newIndexPath] :newIndexPath];
             }
             break;
         case kNextSegementItemIndex:
@@ -871,79 +896,10 @@
                     newIndexPath = [NSIndexPath indexPathForRow:0 inSection:selectedIndexPath.section+1];
                 }else{
                     newIndexPath = [NSIndexPath indexPathForRow:selectedIndexPath.row+1 inSection:selectedIndexPath.section];
-                }
-                
+                }                
                 
                 UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                [self scrollCell:nextCell];//ScrollCell
-                if([cell.reuseIdentifier isEqualToString:@"date"])
-                {
-                    [self dismissPickerView];
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                        [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-                        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-                        if(valueField.text != nil && [dateFormatter dateFromString:valueField.text] != nil)
-                            self.pickerView.date = [dateFormatter dateFromString:valueField.text];
-                        else
-                            self.pickerView.date = [NSDate date];
-                    }else if([nextCell.reuseIdentifier isEqualToString:@"time"]){
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-
-                    }else
-                    {
-                        UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [textField becomeFirstResponder];
-                    }
-                }
-                else if([cell.reuseIdentifier isEqualToString:@"time"])
-                {
-                    [self dismissTimePickerView];
-                    UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                    [self scrollCell:nextCell];//ScrollCell
-                    
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        [self showDatePicker:valueField.text]; 
-                    }
-                    else if([nextCell.reuseIdentifier isEqualToString:@"time"]){
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-                    }
-                    else
-                    {
-                        UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [textField becomeFirstResponder];
-                    }
-                }
-                else
-                {
-                    //UITableViewCell *nextCell = [_tableView cellForRowAtIndexPath:newIndexPath];
-                    if ([nextCell.reuseIdentifier isEqualToString:@"date"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];
-                        [self showDatePicker:valueField.text];
-                    }
-                    else if([nextCell.reuseIdentifier isEqualToString:@"time"])
-                    {
-                        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-                        [self showTimePicker:valueField.text];
-                    }
-                    else
-                    {
-                        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
-                        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-                        UITextField *currentTextField = (UITextField *)[cell.contentView viewWithTag:1001];
-                        [dataSource setObject:currentTextField.text forKey:dof.name];
-                        //[(DataObject *)[_detailedData objectAtIndex:0] setObject:currentTextField.text forFieldName:dof.name];
-                        UITextField *newTextField = (UITextField *)[nextCell.contentView viewWithTag:1001];
-                        [newTextField becomeFirstResponder];
-                    }
-                }
+                [self handleNextCell:cell :nextCell :newIndexPath];
                 selectedIndexPath = newIndexPath;
             }
             break;
