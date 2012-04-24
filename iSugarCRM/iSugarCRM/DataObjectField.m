@@ -70,7 +70,7 @@ static inline BOOL boolValue(NSString *s){
     daoField.editable =[[dictionary valueForKey:@"editable"] boolValue];
     daoField.mandatory =[[dictionary valueForKey:@"mandatory"] boolValue];
     daoField.action = [dictionary valueForKey:@"action"];
-    daoField.predefinedValues = [dictionary valueForKey@"predefinedValues"];
+    daoField.predefinedValues = [dictionary valueForKey:@"predefinedValues"];
     return daoField;
 }
 - (id)copyWithZone:(NSZone *)zone{

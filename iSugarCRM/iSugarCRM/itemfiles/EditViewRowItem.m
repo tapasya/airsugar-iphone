@@ -210,6 +210,20 @@
             valueField.text = @"Select Account";
         }
         valueField.backgroundColor = [UIColor clearColor];
+    }else if([[self reusableCellIdentifier] isEqualToString:@"custom"])
+    {
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        if([self value] && ![self.value isEqualToString:@""])
+        {
+            valueField.textColor = [UIColor blackColor];
+            valueField.text = self.value;
+        }
+        else
+        {
+            valueField.textColor = [UIColor lightGrayColor];
+            valueField.text = [NSString stringWithFormat:@"Select %@", [self label]];
+        }
+        valueField.backgroundColor = [UIColor clearColor];
     }else {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];
         valueField.delegate = self.delegate;

@@ -28,6 +28,7 @@
 #define kMinPickerTag       1003
 #define kUserPickerTag       1004
 #define kAccountPickerTag       1005
+#define kCustomPickerTag    1006
 
 @interface EditViewController ()
 {
@@ -58,10 +59,14 @@
 -(BOOL)hasPrevious:(NSIndexPath *)indexPath;
 -(NSInteger)totalRowsCount;
 -(BOOL)isValidRecord;
--(void) showTimePicker:(NSString*) value;
 -(void) showDatePicker:(NSString*) dateText;
+-(void) showPickerView:(NSInteger) tag:(NSString*) value;
+/*
+-(void) showTimePicker:(NSString*) value;
 -(void) showUserPicker:(NSString*) userName;
 -(void) showAccountPicker:(NSString*) accountName;
+-(void) showCustomPicker:(NSString*) value;
+ */
 @end
 
 @implementation EditViewController
@@ -371,7 +376,7 @@
     {
         [self.view endEditing:YES]; // resign firstResponder if you have any text fields so the keyboard doesn't get in the way
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
-        [self showTimePicker:valueField.text];
+        [self showPickerView:kHourPickerTag:valueField.text];
         [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -379,7 +384,7 @@
     {
         [self.view endEditing:YES]; 
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
-        [self showUserPicker:valueField.text];
+        [self showPickerView:kUserPickerTag:valueField.text];
         [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -387,7 +392,15 @@
     {
         [self.view endEditing:YES]; 
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
-        [self showAccountPicker:valueField.text];
+        [self showPickerView:kAccountPickerTag:valueField.text];
+        [self scrollCell:cell];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    else if([cell.reuseIdentifier isEqualToString:@"custom"])
+    {
+        [self.view endEditing:YES]; 
+        UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
+        [self showPickerView:kCustomPickerTag:valueField.text];
         [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -526,6 +539,12 @@
     {
         return [self.accounts count];
     }
+    else if( tag == kCustomPickerTag)
+    {
+        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+        return [[dof predefinedValues] count];        
+    }
     return 0;
 }
 
@@ -551,7 +570,12 @@
         DataObject* dataObject = [self.accounts objectAtIndex:row];
         title = [dataObject objectForFieldName:@"name"];
     }
-    
+    else if( tag == kCustomPickerTag)
+    {
+        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+        title = [[dof predefinedValues] objectAtIndex:row];       
+    }
     return title;
 }
 
@@ -677,7 +701,7 @@
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     if([cell.reuseIdentifier isEqualToString:@"date"]){
         [self dismissPicker:self.datePicker];
-    }else if([cell.reuseIdentifier isEqualToString:@"time"] || [cell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [cell.reuseIdentifier isEqualToString:@"account_name"]){
+    }else if([cell.reuseIdentifier isEqualToString:@"time"] || [cell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [cell.reuseIdentifier isEqualToString:@"account_name"] || [cell.reuseIdentifier isEqualToString:@"custom"]){
         [self dismissPicker:self.userPicker];
     }else{
         toolBar.frame = CGRectMake(0,500,self.toolBar.frame.size.width,self.toolBar.frame.size.height);
@@ -737,45 +761,58 @@
     }
 }
 
--(void) showTimePicker:(NSString*) value;
+-(void) showPickerView:(NSInteger) tag:(NSString*) value
 {
-    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];     
-    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
-    DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-    self.userPicker.tag = [dof.name isEqualToString:@"duration_hours"] ? kHourPickerTag:kMinPickerTag;
-    [self.userPicker reloadAllComponents];
-    [self.userPicker selectRow:[value integerValue] inComponent:0 animated:YES];
-    [self showPicker:self.userPicker];
-}
-
--(void) showUserPicker:(NSString *)userName
-{
-    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
-    self.userPicker.tag = kUserPickerTag;
-    [self.userPicker reloadAllComponents];
-    if(userName)
+    if(tag == kHourPickerTag || tag == kMinPickerTag)
+    {   
+        [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];     
+        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+        self.userPicker.tag = [dof.name isEqualToString:@"duration_hours"] ? kHourPickerTag:kMinPickerTag;
+        [self.userPicker reloadAllComponents];
+        [self.userPicker selectRow:[value integerValue] inComponent:0 animated:YES];
+    }
+    else if(tag == kUserPickerTag)
     {
-        NSInteger selectedIndex = [userList indexOfObject:userName];
-        if(selectedIndex != NSNotFound)
+        [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
+        self.userPicker.tag = kUserPickerTag;
+        [self.userPicker reloadAllComponents];
+        if(value)
         {
-           [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            NSInteger selectedIndex = [userList indexOfObject:value];
+            if(selectedIndex != NSNotFound)
+            {
+                [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            }
         }
     }
-    [self showPicker:self.userPicker];
-}
-
--(void) showAccountPicker:(NSString *)accountName
-{
-    [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
-    self.userPicker.tag = kAccountPickerTag;
-    [self.userPicker reloadAllComponents];
-    if(accountName)
+    else if( tag == kAccountPickerTag)
     {
-        NSInteger selectedIndex = [accounts indexOfObject:accountName];
-        if(selectedIndex != NSNotFound)
+        [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
+        self.userPicker.tag = kAccountPickerTag;
+        [self.userPicker reloadAllComponents];
+        if(value)
         {
-            [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            NSInteger selectedIndex = [accounts indexOfObject:value];
+            if(selectedIndex != NSNotFound)
+            {
+                [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            }
         }
+    }
+    else if( tag == kCustomPickerTag)
+    {
+        [self._tableView scrollToRowAtIndexPath:selectedIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];    
+        self.userPicker.tag = kCustomPickerTag;
+        [self.userPicker reloadAllComponents];
+        if(value)
+        {
+            NSInteger selectedIndex = [userList indexOfObject:value];
+            if(selectedIndex != NSNotFound)
+            {
+                [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            }
+        }     
     }
     [self showPicker:self.userPicker];
 }
@@ -820,7 +857,7 @@
     {
         [self dismissPicker:self.datePicker];
     }
-    else if([currentCell.reuseIdentifier isEqualToString:@"time"] || [currentCell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [currentCell.reuseIdentifier isEqualToString:@"account_name"])
+    else if([currentCell.reuseIdentifier isEqualToString:@"time"] || [currentCell.reuseIdentifier isEqualToString:@"assigned_user_name"] || [currentCell.reuseIdentifier isEqualToString:@"account_name"] || [currentCell.reuseIdentifier isEqualToString:@"custom"])
     {
         [self dismissPicker:self.userPicker];
     }
@@ -845,19 +882,23 @@
     else if([nextCell.reuseIdentifier isEqualToString:@"time"])
     {
         UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-        [self showTimePicker:valueField.text];
+        [self showPickerView:kHourPickerTag:valueField.text];
     }
     else if([nextCell.reuseIdentifier isEqualToString:@"assigned_user_name"])
     {
         UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-        [self showUserPicker:valueField.text];
+        [self showPickerView:kUserPickerTag:valueField.text];
     }
     else if([nextCell.reuseIdentifier isEqualToString:@"account_name"])
     {
         UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
-        [self showAccountPicker:valueField.text];
+        [self showPickerView:kAccountPickerTag:valueField.text];
     }
-    else
+    else if([nextCell.reuseIdentifier isEqualToString:@"custom"])
+    {
+        UILabel *valueField = (UILabel*)[nextCell.contentView viewWithTag:1001];            
+        [self showPickerView:kCustomPickerTag:valueField.text];
+    }else
     {
         UITextField *textField = (UITextField *)[nextCell.contentView viewWithTag:1001];
         [textField becomeFirstResponder];
