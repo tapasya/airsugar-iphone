@@ -5149,7 +5149,18 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>TeleSales</string>
+						<string>Mail</string>
+						<string>Email</string>
+						<string>Print</string>
+						<string>Web</string>
+						<string>Radio</string>
+						<string>Television</string>
+						<string>Newspaper</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -5491,7 +5502,16 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Planning</string>
+						<string>Active</string>
+						<string>Incative</string>
+						<string>Complete</string>
+						<string>In Queue</string>
+						<string>Sending</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -7037,7 +7057,16 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Inbound Planned</string>
+						<string>Inbound Held</string>
+						<string>Inbound Not Held</string>
+						<string>Outbound Planned</string>
+						<string>Outbound Held</string>
+						<string>Outbound Not Held</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
