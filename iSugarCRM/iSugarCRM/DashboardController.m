@@ -20,6 +20,9 @@
 #import "SplitViewController.h"
 #import "RecentViewController.h"
 #import "RecentViewController_pad.h"
+#import "SettingsStore.h"
+#import "JSONKit.h"
+#import "DBHelper.h"
 
 #define kIpadLabelWidth         400
 #define kIphoneLabelWidth       250
@@ -252,9 +255,48 @@ bool isSyncEnabled ;
     }
 }
 
+-(NSArray*) fetchUserList
+{
+    NSMutableString* restUrl = [[NSMutableString alloc] init];
+    [restUrl appendString:[SettingsStore objectForKey:@"endpointURL"]];
+    NSMutableDictionary* restData = [[OrderedDictionary alloc] init];
+    [restData setObject:session forKey:@"session"];
+    [restData setObject:@"Users" forKey:@"module_name"];
+    [restData setObject:@"" forKey:@"query"];
+    [restData setObject:@"" forKey:@"order_by"];
+    [restData setObject:@"" forKey:@"offset"];
+    [restData setObject:[[NSArray alloc] initWithObjects:@"name", nil] forKey:@"select_fields"];
+    
+    [restUrl appendString:@"?method=get_entry_list&input_type=JSON&response_type=JSON&rest_data="];
+    [restUrl appendString:[restData JSONString]];
+    
+    NSString* urlString = [[NSString stringWithFormat:@"%@",restUrl] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error=nil;
+    NSDictionary *result = nil;
+    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    if (error == nil) 
+    {
+        result = [adata objectFromJSONData];
+        return [result valueForKeyPath:@"entry_list"];        
+    }
+    else
+    {
+        result = [[NSDictionary alloc]initWithObjectsAndKeys:(NSError *)error, @"Error", nil];
+        return nil;
+    }
+}
+
+
 -(void)didCompleteSync
 {   
     NSLog(@"sync complete");
+    NSArray* userList = [self fetchUserList];
+    [DBHelper updateUserTable:userList];
     [self.spinner stopAnimating];
     [self.spinner setHidden:YES];
     [self.loadingLabel setHidden:YES];
