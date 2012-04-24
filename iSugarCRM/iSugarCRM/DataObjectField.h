@@ -38,5 +38,6 @@ typedef enum ObjectFieldAction
 @property(nonatomic)BOOL mandatory;
 @property(strong)NSString *action;
 @property(strong)NSString *label;
+@property(strong)NSArray* predefinedValues;
 
 @end

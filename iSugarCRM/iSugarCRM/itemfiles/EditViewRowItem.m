@@ -102,7 +102,7 @@
             valueField.autoresizingMask =  UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleLeftMargin| UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
             [cell.contentView addSubview:valueField];
         }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"date"] || [[self reusableCellIdentifier] isEqualToString:@"time"]|| [[self reusableCellIdentifier] isEqualToString:@"assigned_user_name"] || [[self reusableCellIdentifier] isEqualToString:@"account_name"]) {
+        else if ([[self reusableCellIdentifier] isEqualToString:@"date"] || [[self reusableCellIdentifier] isEqualToString:@"time"]|| [[self reusableCellIdentifier] isEqualToString:@"assigned_user_name"] || [[self reusableCellIdentifier] isEqualToString:@"account_name"]||[[self reusableCellIdentifier] isEqualToString:@"custom"]) {
             UILabel *valueField = [[UILabel alloc] init];
             valueField.tag = 1001;
             valueField.backgroundColor = [UIColor clearColor];

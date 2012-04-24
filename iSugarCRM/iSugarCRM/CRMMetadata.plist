@@ -3342,8 +3342,13 @@
 					<string>currency_symbol</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>Prospecting</string>
+						<string>Qualification</string>
+					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -14023,9 +14028,9 @@
 					<key>action</key>
 					<string>number</string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
-					<true/>
+					<false/>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>
