@@ -1473,6 +1473,15 @@
 					<string>alt_address_street_3</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>New</string>
+						<string>Assigned</string>
+						<string>In Process</string>
+						<string>Converted</string>
+						<string>Recycled</string>
+						<string>Dead</string>
+					</array>
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
@@ -1667,6 +1676,23 @@
 					<string>accept_status_id</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>Conference</string>
+						<string>Trade Source</string>
+						<string>Website</string>
+						<string>Word of Mouth</string>
+						<string>Email</string>
+						<string>Campaign</string>
+						<string>Other</string>
+						<string>Direct Mail</string>
+						<string>Public Relations</string>
+						<string>Partner</string>
+						<string>Employee</string>
+						<string>Self Generated</string>
+						<string>Existing Customer</string>
+						<string>Cold Call</string>
+					</array>
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
@@ -8612,6 +8638,19 @@
 					<string>name</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>Analyst</string>
+						<string>Competitor</string>
+						<string>Customer</string>
+						<string>Integrator</string>
+						<string>Investor</string>
+						<string>Partner</string>
+						<string>Press</string>
+						<string>Prospects</string>
+						<string>Reseller</string>
+						<string>Other</string>
+					</array>
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
@@ -8864,6 +8903,39 @@
 					<string>billing_address_postalcode</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>Apparel</string>
+						<string>Banking</string>
+						<string>Biotechnology</string>
+						<string>Chemicals</string>
+						<string>Consulting</string>
+						<string>Communication</string>
+						<string>Construction</string>
+						<string>Electronics</string>
+						<string>Education</string>
+						<string>Energy</string>
+						<string>Engineering</string>
+						<string>Entertainment</string>
+						<string>Environmental</string>
+						<string>Finance</string>
+						<string>Government</string>
+						<string>Healthcare</string>
+						<string>Hospitality</string>
+						<string>Insurance</string>
+						<string>Machinery</string>
+						<string>Manufacturing</string>
+						<string>Media</string>
+						<string>Not For Profit</string>
+						<string>Recreation</string>
+						<string>Retail</string>
+						<string>Shipping</string>
+						<string>Technology</string>
+						<string>Telecommunication</string>
+						<string>Transportation</string>
+						<string>Utilities</string>
+						<string>Other</string>
+					</array>
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
@@ -11063,6 +11135,23 @@
 					<string>email_and_name1</string>
 				</dict>
 				<dict>
+					<key>predefinedValues</key>
+					<array>
+						<string>Conference</string>
+						<string>Trade Source</string>
+						<string>Website</string>
+						<string>Word of Mouth</string>
+						<string>Email</string>
+						<string>Campaign</string>
+						<string>Other</string>
+						<string>Direct Mail</string>
+						<string>Public Relations</string>
+						<string>Partner</string>
+						<string>Employee</string>
+						<string>Self Generated</string>
+						<string>Existing Customer</string>
+						<string>Cold Call</string>
+					</array>
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
