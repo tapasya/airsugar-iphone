@@ -108,6 +108,7 @@
 
 
 -(void)syncModule{
+    sBar.text = @"";
     [sBar resignFirstResponder];
     [self showProgress];
     SyncHandler* syncHandler = [SyncHandler sharedInstance];
