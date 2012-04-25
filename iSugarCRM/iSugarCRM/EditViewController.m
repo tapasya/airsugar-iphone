@@ -508,17 +508,20 @@
     // Handle the selection
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:selectedIndexPath];
     UILabel *dateValue = (UILabel *)[cell.contentView viewWithTag:1001];
-    NSString* selectedValue = [self pickerView:listPickerView titleForRow:row forComponent:component];
-    if(selectedValue)
+    if([listPickerView numberOfRowsInComponent:0] > 0)
     {
-        dateValue.textColor = [UIColor blackColor];        
+        NSString* selectedValue = [self pickerView:listPickerView titleForRow:row forComponent:component];
+        if(selectedValue)
+        {
+            dateValue.textColor = [UIColor blackColor];        
+        }
+        dateValue.text = selectedValue;
+        EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+        DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+        [(DataObject *)[detailedData objectAtIndex:0] setObject:selectedValue forFieldName:dof.name];
+        [dataSource setObject:selectedValue forKey:dof.name];
+        self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
     }
-    dateValue.text = selectedValue;
-    EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
-    DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
-   [(DataObject *)[detailedData objectAtIndex:0] setObject:selectedValue forFieldName:dof.name];
-    [dataSource setObject:selectedValue forKey:dof.name];
-    self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)timePickerView numberOfRowsInComponent:(NSInteger)component {
