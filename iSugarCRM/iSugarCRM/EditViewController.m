@@ -810,7 +810,9 @@
         [self.userPicker reloadAllComponents];
         if(value)
         {
-            NSInteger selectedIndex = [userList indexOfObject:value];
+            EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
+            DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+            NSInteger selectedIndex = [[dof predefinedValues] indexOfObject:value];
             if(selectedIndex != NSNotFound)
             {
                 [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
