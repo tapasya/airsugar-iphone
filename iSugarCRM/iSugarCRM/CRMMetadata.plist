@@ -69,6 +69,8 @@
 				<string>name_value_list.reminder_time.value</string>
 				<key>description</key>
 				<string>name_value_list.description.value</string>
+				<key>website</key>
+				<string>name_value_list.website.value</string>
 			</dict>
 			<key>headers</key>
 			<dict/>
@@ -424,7 +426,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>email</string>
+									<string>email1</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -529,7 +531,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>lead_source</string>
+									<string>website</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -7697,7 +7699,7 @@
 									<key>type</key>
 									<string>email</string>
 									<key>name</key>
-									<string>email</string>
+									<string>email1</string>
 								</dict>
 							</array>
 							<key>label</key>
