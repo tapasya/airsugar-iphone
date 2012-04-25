@@ -12,6 +12,8 @@
 #import "ApplicationKeyStore.h"
 #import "SyncSettingsViewController.h"
 #import "AppDelegate.h"
+#import "LoginUtils.h"
+
 #define kLogoutCell @"login"
 #define kTextFieldCell @"textFieldCell"
 
@@ -246,11 +248,19 @@ return cell;
 
 -(IBAction)saveSettings:(id)sender
 {
-    [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
-    [keyChain addObject:password forKey:(__bridge id)kSecValueData];
-    //[SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
-    [SettingsStore setObject:urlString forKey:@"endpointURL"];
-    [self.navigationController popViewControllerAnimated:YES];
+    id response = [LoginUtils loginWithUsername:username password:password andUrl:username];
+    //id response = [LoginUtils login:usernameField.text :[LoginUtils md5Hash:passwordField.text]];
+    NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
+    if([[response objectForKey:@"response"]objectForKey:@"id"]){
+        [keyChain addObject:username forKey:(__bridge id)kSecAttrAccount];
+        [keyChain addObject:password forKey:(__bridge id)kSecValueData];
+        //[SettingsStore setObject:urlString forKey:@"sugarEndpoint"];
+        [SettingsStore setObject:urlString forKey:@"endpointURL"];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [LoginUtils displayLoginError:response];
+    }
 }
 
 @end

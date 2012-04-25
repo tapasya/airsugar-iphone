@@ -145,6 +145,7 @@ int usernameLength,passwordLength;
     [sugarMetaDataStore configureMetadata];
     self.syncHandler = [SyncHandler sharedInstance];
     syncHandler.delegate = self;
+    syncHandler.seamlessSessionFalg = false;
     NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
     NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
     [syncHandler runCompleteSyncWithTimestampAndStartDate:startDate endDate:endDate];

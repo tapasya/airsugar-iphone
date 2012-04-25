@@ -14,6 +14,7 @@
 #import "SyncHandler.h"
 #import "SugarCRMMetadataStore.h"
 #import "DataObject.h"
+#import "LoginUtils.h"
 
 NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
 static SyncHandler *sharedInstance;
@@ -31,6 +32,7 @@ static SyncHandler *sharedInstance;
 @synthesize hadError;
 @synthesize requestCount;
 @synthesize delegate;
+@synthesize seamlessSessionFalg;
 #pragma mark Singleton methods
 
 -(id)init{
@@ -42,6 +44,7 @@ static SyncHandler *sharedInstance;
         if(sharedInstance == nil){
             sharedInstance = [[SyncHandler alloc] initPrivate];
         }
+        sharedInstance.seamlessSessionFalg = true;
         sharedInstance.delegate = nil;
         return sharedInstance;
     }
@@ -66,6 +69,11 @@ static SyncHandler *sharedInstance;
 //for all complete syn methods: create add functionality to take all the dirty records in db and sync
 -(void)runCompleteSync
 {   
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     for(NSString *module in metadataStore.modulesSupported)
     {
@@ -75,6 +83,11 @@ static SyncHandler *sharedInstance;
 
 -(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
 {
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+    }
     startDate = [self formatDate:startDate];
     endDate = [self formatDate:endDate];
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
@@ -88,6 +101,15 @@ static SyncHandler *sharedInstance;
     
 }
 -(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate{
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     startDate = [self formatDate:startDate];
     endDate = [self formatDate:endDate];
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
@@ -98,6 +120,15 @@ static SyncHandler *sharedInstance;
 }
 #pragma mark Module Sync Methods
 -(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent{
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
     session.delegate = self;
@@ -109,6 +140,15 @@ static SyncHandler *sharedInstance;
 }
 -(void)runSyncForModule:(NSString*)module parent:(id)parent
 {
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     //create upload session
     
@@ -128,6 +168,15 @@ static SyncHandler *sharedInstance;
 
 -(void)runSyncForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent
 {
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     //create upload session
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
@@ -146,7 +195,15 @@ static SyncHandler *sharedInstance;
 
 
 -(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent{
-
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
     
@@ -166,11 +223,19 @@ static SyncHandler *sharedInstance;
 }
 
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent{
+    if (self.seamlessSessionFalg == true) {
+        if (![LoginUtils seamLessLogin]) {
+            return;
+        }
+        else
+        {
+            self.seamlessSessionFalg = false;
+        }
+    }
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
     DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
 
     NSString* deltaMark = [dbSession getLastSyncTimestamp];
-    
     //create upload session
     NSArray* uploadData = [dbSession getUploadData];
     if ([uploadData count]>0) {

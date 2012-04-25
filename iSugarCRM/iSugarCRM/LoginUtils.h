@@ -11,6 +11,7 @@
 @interface LoginUtils : NSObject
 +(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url;
 +(id) login;
++(BOOL) seamLessLogin;
 +(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params;
 +(BOOL)keyChainHasUserData;
 +(void)displayLoginError:(id)response;

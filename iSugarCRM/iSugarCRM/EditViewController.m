@@ -61,12 +61,9 @@
 -(BOOL)isValidRecord;
 -(void) showDatePicker:(NSString*) dateText;
 -(void) showPickerView:(NSInteger) tag:(NSString*) value;
-/*
--(void) showTimePicker:(NSString*) value;
--(void) showUserPicker:(NSString*) userName;
--(void) showAccountPicker:(NSString*) accountName;
--(void) showCustomPicker:(NSString*) value;
- */
+
+-(BOOL)validateEmail:(UITextField *)textField;
+-(BOOL)validatePhoneNumber:(UITextField *)textField;
 @end
 
 @implementation EditViewController
@@ -264,7 +261,7 @@
     
     for (int i=0; i<[dataObjectFields count]; i++) {
         DataObjectField *dof = [dataObjectFields objectAtIndex:i];
-        NSString *value = [dataSource objectForKey:dof.name];
+        NSString *value = [[dataSource objectForKey:dof.name] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (value == nil || [value length] == 0) {
             saveRecord = FALSE;
             break;
@@ -417,6 +414,25 @@
 - (void) textFieldDidEndEditing:(UITextField *)textField {
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
+    UIAlertView *alert;
+    if (textField.keyboardType == UIKeyboardTypeEmailAddress) {
+        if(![self validateEmail:textField])
+        {
+            textField.text = @"";
+            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid EmailId" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            return;
+        }
+    }
+    else if(textField.keyboardType == UIKeyboardTypePhonePad){
+        if(![self validatePhoneNumber:textField])
+        {
+            textField.text = @"";
+            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid Phonenumber" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            return;
+        }
+    }
     [dataSource setObject:textField.text forKey:dof.name];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -425,6 +441,39 @@
     UITableViewCell *cell = (UITableViewCell *)textField.superview.superview;
     [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionBottom animated:YES ];
     return YES;
+}
+
+#pragma mark validators
+
+-(BOOL)validateEmail:(UITextField *)textField
+{
+    NSError *error;
+    NSString *string = @"rotarian.iita@gmail.com";
+    NSString *regexPattern = [NSString stringWithFormat:@"%@%@%@%@",@"^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@",@"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.",@"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|",@"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
+    
+    NSRange range   = [regex rangeOfFirstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
+    
+    if (range.location == NSNotFound) {
+        return FALSE;
+    }else {
+        return TRUE;
+    }
+}
+-(BOOL)validatePhoneNumber:(UITextField *)textField
+{
+    NSError *error;
+    NSString *string = @"9030245759";
+    NSString *regexPattern = [NSString stringWithFormat:@"%@",@"^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$"];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
+    
+    NSRange range   = [regex rangeOfFirstMatchInString:string options:0 range:NSMakeRange(0, [string length])];
+    
+    if (range.location == NSNotFound) {
+        return FALSE;
+    }else {
+        return TRUE;
+    }
 }
 
 #pragma mark SyncHandler Delegate
@@ -736,6 +785,10 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	dateValue.text = [dateFormatter stringFromDate:self.datePicker.date];
+    if(dateValue.text)
+    {
+        dateValue.textColor = [UIColor blackColor];        
+    }
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     NSDate *date = datePicker.date;

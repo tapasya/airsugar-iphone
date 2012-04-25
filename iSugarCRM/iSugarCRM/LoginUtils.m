@@ -48,6 +48,50 @@
     return result;
 }
 
+
++(BOOL) seamLessLogin{
+    BOOL isSuccesfull = YES;
+    NSMutableDictionary* restDataDictionary=[[NSMutableDictionary alloc]init];
+    [restDataDictionary setObject:session forKey:@"session"];
+    NSMutableDictionary* urlParams=[[NSMutableDictionary alloc] init];
+    [urlParams setObject:@"seamless_login" forKey:@"method"];
+    [urlParams setObject:@"JSON" forKey:@"input_type"];
+    [urlParams setObject:@"JSON" forKey:@"response_type"];
+    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+    //NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlString:[SettingsStore objectForKey:@"endpointURL"] forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    NSLog(@"URLSTRING = %@",urlString);
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"POST"];  
+    NSURLResponse* response = [[NSURLResponse alloc] init]; 
+    NSError* error=nil;
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    [data length];
+    NSUInteger len = [data length];
+    Byte *byteData = (Byte*)malloc(len);
+    [data getBytes:byteData length:[data length]];
+    NSString *responseValue = [NSString stringWithFormat:@"%i",byteData];
+    NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+    if (data== nil) {
+        [resultDict setObject:@"" forKey:@"data"];
+    }
+    else
+    {
+        NSString *str = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+        [resultDict setObject:str forKey:@"data"];
+    }
+    [resultDict setObject:responseValue forKey:@"statuscode"];
+    if (![responseValue isEqualToString:@"1"]) {
+        id response =[LoginUtils login];
+        session = [[response objectForKey:@"response"]objectForKey:@"id"];
+        if(!session){
+            [LoginUtils displayLoginError:response];
+            isSuccesfull = NO;
+        }
+    }
+    return isSuccesfull;
+}
+
 +(BOOL)keyChainHasUserData{
     
     int passwordLen;
