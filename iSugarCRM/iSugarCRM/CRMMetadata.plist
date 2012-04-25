@@ -3232,7 +3232,12 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Existing Business</string>
+						<string>New Business</string>
+					</array>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
