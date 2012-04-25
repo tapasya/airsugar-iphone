@@ -1483,7 +1483,7 @@
 						<string>Dead</string>
 					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -1694,7 +1694,7 @@
 						<string>Cold Call</string>
 					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -8652,7 +8652,7 @@
 						<string>Other</string>
 					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -8937,7 +8937,7 @@
 						<string>Other</string>
 					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -11153,7 +11153,7 @@
 						<string>Cold Call</string>
 					</array>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
