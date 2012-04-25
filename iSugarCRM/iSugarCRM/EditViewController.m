@@ -520,6 +520,15 @@
         DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
         [(DataObject *)[detailedData objectAtIndex:0] setObject:selectedValue forFieldName:dof.name];
         [dataSource setObject:selectedValue forKey:dof.name];
+        if(listPickerView.tag == kAccountPickerTag)
+        {
+            DataObject* dataObject = [self.accounts objectAtIndex:row];
+            [dataSource setObject:[dataObject objectForFieldName:@"id"] forKey:@"account_id"];
+        }
+        else if(listPickerView.tag == kUserPickerTag)
+        {
+            [dataSource setObject:[[self.userList objectAtIndex:row] objectForKey:@"id"] forKey:@"assigned_user_id"];
+        }
         self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
     }
 }
