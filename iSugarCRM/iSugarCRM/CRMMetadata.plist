@@ -10258,6 +10258,12 @@
 				<string>name_value_list.name.value</string>
 				<key>status</key>
 				<string>name_value_list.status.value</string>
+				<key>email1</key>
+				<string>name_value_list.email1.value</string>
+				<key>phone_work</key>
+				<string>name_value_list.phone_work.value</string>
+				<key>title</key>
+				<string>name_value_list.title.value</string>
 			</dict>
 			<key>headers</key>
 			<dict/>
@@ -10593,7 +10599,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>email</string>
+									<string>email1</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -10635,11 +10641,221 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>assigned_user_name</string>
+									<string>primary_address_street</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_street_1</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_street_2</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_street_3</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_city</string>
 								</dict>
 							</array>
 							<key>label</key>
-							<string>User</string>
+							<string>Primary Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>office_address_street</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>office_address_street_1</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>office_address_street_2</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>office_address_street_3</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Office Address</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>report_to_name</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Reports To</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>lead_source</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Lead Source</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>department</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Department</string>
+						</dict>
+					</array>
+					<key>section_name</key>
+					<string>Info</string>
+				</dict>
+				<dict>
+					<key>rows</key>
+					<array>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string>date</string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>description</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Desctiption</string>
 						</dict>
 						<dict>
 							<key>fields</key>
@@ -10685,7 +10901,7 @@
 						</dict>
 					</array>
 					<key>section_name</key>
-					<string>Info</string>
+					<string>Other Info</string>
 				</dict>
 			</array>
 			<key>module_name</key>
@@ -10701,7 +10917,7 @@
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
-					<true/>
+					<false/>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>
@@ -11248,24 +11464,6 @@
 					<string>0</string>
 					<key>name</key>
 					<string>accept_status_id</string>
-				</dict>
-				<dict>
-					<key>action</key>
-					<string></string>
-					<key>editable</key>
-					<false/>
-					<key>mandatory</key>
-					<false/>
-					<key>filterable</key>
-					<false/>
-					<key>sortable</key>
-					<string>0</string>
-					<key>label</key>
-					<string>Name:</string>
-					<key>type</key>
-					<string>0</string>
-					<key>name</key>
-					<string>email_and_name1</string>
 				</dict>
 				<dict>
 					<key>predefinedValues</key>
