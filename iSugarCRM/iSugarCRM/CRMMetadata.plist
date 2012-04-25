@@ -866,27 +866,6 @@
 							<key>label</key>
 							<string>Campaign</string>
 						</dict>
-						<dict>
-							<key>fields</key>
-							<array>
-								<dict>
-									<key>action</key>
-									<string></string>
-									<key>editable</key>
-									<false/>
-									<key>filterable</key>
-									<false/>
-									<key>sortable</key>
-									<false/>
-									<key>type</key>
-									<string>0</string>
-									<key>name</key>
-									<string>do_not_call</string>
-								</dict>
-							</array>
-							<key>label</key>
-							<string>Do Not Call</string>
-						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Info</string>
@@ -1174,7 +1153,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -4799,6 +4778,31 @@
 									<key>action</key>
 									<string></string>
 									<key>editable</key>
+									<true/>
+									<key>mandatory</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Objective</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>objective</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Objective</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
 									<false/>
 									<key>filterable</key>
 									<false/>
@@ -5016,6 +5020,31 @@
 									<key>action</key>
 									<string></string>
 									<key>editable</key>
+									<true/>
+									<key>mandatory</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Description</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>description</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Description</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
 									<false/>
 									<key>filterable</key>
 									<false/>
@@ -5194,7 +5223,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>number</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -5233,14 +5262,14 @@
 					<string>custom</string>
 					<key>predefinedValues</key>
 					<array>
-						<string>TeleSales</string>
+						<string>Telesales</string>
 						<string>Mail</string>
 						<string>Email</string>
 						<string>Print</string>
 						<string>Web</string>
 						<string>Radio</string>
 						<string>Television</string>
-						<string>Newspaper</string>
+						<string>Newsletter</string>
 					</array>
 					<key>editable</key>
 					<true/>
@@ -5367,7 +5396,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>number</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -5385,7 +5414,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>number</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -5529,7 +5558,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>number</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -6629,6 +6658,24 @@
 							<array>
 								<dict>
 									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>mandatory</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Direction</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>direction</string>
+								</dict>
+								<dict>
+									<key>action</key>
 									<string>custom</string>
 									<key>predefinedValues</key>
 									<array>
@@ -6657,31 +6704,6 @@
 							</array>
 							<key>label</key>
 							<string>Status</string>
-						</dict>
-						<dict>
-							<key>fields</key>
-							<array>
-								<dict>
-									<key>action</key>
-									<string></string>
-									<key>editable</key>
-									<false/>
-									<key>mandatory</key>
-									<false/>
-									<key>filterable</key>
-									<false/>
-									<key>sortable</key>
-									<string>0</string>
-									<key>label</key>
-									<string>Reminder Time</string>
-									<key>type</key>
-									<string>0</string>
-									<key>name</key>
-									<string>reminder_time</string>
-								</dict>
-							</array>
-							<key>label</key>
-							<string>Reminder Time</string>
 						</dict>
 					</array>
 					<key>section_name</key>
@@ -6726,11 +6748,11 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>direction</string>
+									<string>description</string>
 								</dict>
 							</array>
 							<key>label</key>
-							<string>Direction</string>
+							<string>Description</string>
 						</dict>
 						<dict>
 							<key>fields</key>
@@ -6823,7 +6845,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<true/>
 					<key>filterable</key>
@@ -6913,7 +6935,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -6947,7 +6969,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>assigned_user_name</string>
 					<key>editable</key>
 					<true/>
 					<key>filterable</key>
@@ -6999,9 +7021,18 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
-					<false/>
+					<true/>
+					<key>predefinedValues</key>
+					<array>
+						<string>1 minute prior</string>
+						<string>5 minutes prior</string>
+						<string>10 minutes prior</string>
+						<string>15 minutes prior</string>
+						<string>30 minutes prior</string>
+						<string>1 hour prior</string>
+					</array>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -7200,12 +7231,9 @@
 					<string>custom</string>
 					<key>predefinedValues</key>
 					<array>
-						<string>Inbound Planned</string>
-						<string>Inbound Held</string>
-						<string>Inbound Not Held</string>
-						<string>Outbound Planned</string>
-						<string>Outbound Held</string>
-						<string>Outbound Not Held</string>
+						<string>Planned</string>
+						<string>Held</string>
+						<string>Not Held</string>
 					</array>
 					<key>editable</key>
 					<true/>
@@ -7224,11 +7252,16 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
 					<key>editable</key>
-					<false/>
+					<true/>
+					<key>predefinedValues</key>
+					<array>
+						<string>Inbound</string>
+						<string>Outbound</string>
+					</array>
 					<key>mandatory</key>
-					<false/>
+					<true/>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>
@@ -7244,7 +7277,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -13930,6 +13963,31 @@
 							</array>
 							<key>label</key>
 							<string>Priority</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string>account_name</string>
+									<key>editable</key>
+									<true/>
+									<key>mandatory</key>
+									<true/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Account Name</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>account_name</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Account Name</string>
 						</dict>
 						<dict>
 							<key>fields</key>
