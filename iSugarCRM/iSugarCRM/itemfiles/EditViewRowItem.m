@@ -246,7 +246,14 @@
 -(NSString *)formatDate:(NSString *)dateValue withFormat:(NSString *)dateFormat{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     if (dateFormat == nil) {
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        if([dateValue length] > 10)
+        {   
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        }
+        else
+        {
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        }
     }else{
         [dateFormatter setDateFormat:dateFormat];
     }
