@@ -161,7 +161,7 @@
     for (DataObjectField *dof in dataObjectFields) {
         if (dof.editable == TRUE){
             if(dataObject){
-                [dataSource setObject:[dataObject objectForFieldName:dof.name] forKey:dof.name];
+                [dataSource setObject:[dataObject objectForFieldName:dof.name] ?[dataObject objectForFieldName:dof.name]:@"" forKey:dof.name];
             }
             if (dof.mandatory == TRUE) {
                 if ([dataObject objectForFieldName:dof.name] == nil || [[dataObject objectForFieldName:dof.name] length] == 0) {
