@@ -2761,6 +2761,31 @@
 							<array>
 								<dict>
 									<key>action</key>
+									<string>account_name</string>
+									<key>editable</key>
+									<true/>
+									<key>mandatory</key>
+									<true/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Account Name</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>account_name</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Account Name</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
 									<string></string>
 									<key>editable</key>
 									<false/>
@@ -4099,7 +4124,7 @@
 					<key>sortable</key>
 					<string>0</string>
 					<key>label</key>
-					<string>Name</string>
+					<string>Subject</string>
 					<key>type</key>
 					<string>0</string>
 					<key>name</key>
@@ -4401,9 +4426,18 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>1 minute prior</string>
+						<string>5 minutes prior</string>
+						<string>10 minutes prior</string>
+						<string>15 minutes prior</string>
+						<string>30 minutes prior</string>
+						<string>1 hour prior</string>
+					</array>
 					<key>editable</key>
-					<false/>
+					<true/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -6582,6 +6616,65 @@
 							</array>
 							<key>label</key>
 							<string>Assigned To</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string>custom</string>
+									<key>predefinedValues</key>
+									<array>
+										<string>Inbound Planned</string>
+										<string>Inbound Held</string>
+										<string>Inbound Not Held</string>
+										<string>Outbound Planned</string>
+										<string>Outbound Held</string>
+										<string>Outbound Not Held</string>
+									</array>
+									<key>editable</key>
+									<true/>
+									<key>mandatory</key>
+									<true/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Status</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>status</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Status</string>
+						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>mandatory</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<string>0</string>
+									<key>label</key>
+									<string>Reminder Time</string>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>reminder_time</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Reminder Time</string>
 						</dict>
 					</array>
 					<key>section_name</key>
@@ -8852,7 +8945,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -14302,6 +14395,24 @@
 					<string>0</string>
 					<key>name</key>
 					<string>account_id</string>
+				</dict>
+				<dict>
+					<key>action</key>
+					<string>account_name</string>
+					<key>editable</key>
+					<true/>
+					<key>mandatory</key>
+					<true/>
+					<key>filterable</key>
+					<false/>
+					<key>sortable</key>
+					<string>0</string>
+					<key>label</key>
+					<string>Account Name</string>
+					<key>type</key>
+					<string>0</string>
+					<key>name</key>
+					<string>account_name</string>
 				</dict>
 			</array>
 			<key>class</key>
