@@ -43,14 +43,14 @@
         if ([[self reusableCellIdentifier] isEqualToString:@"phone"]) {
             UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
             actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchUpInside];
+            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
             actionButton.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:actionButton];
         }
         else if ([[self reusableCellIdentifier] isEqualToString:@"url"]) {
             UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
             actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchUpInside];
+            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
             actionButton.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:actionButton];
             
@@ -58,7 +58,7 @@
         else if ([[self reusableCellIdentifier] isEqualToString:@"email"]) {
             UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
             actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchUpInside];
+            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
             actionButton.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:actionButton];
             
@@ -66,7 +66,7 @@
         else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
             UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
             actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchUpInside];
+            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
             actionButton.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:actionButton];
         }
@@ -192,7 +192,7 @@
     } 
     else if ([action isEqualToString:@"url"]) {
         
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@",[[self valueStringWithFormat:nil]stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[self valueStringWithFormat:nil]stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
     }
     else if ([action isEqualToString:@"map"]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"url:%@",[self valueStringWithFormat:nil]]]];

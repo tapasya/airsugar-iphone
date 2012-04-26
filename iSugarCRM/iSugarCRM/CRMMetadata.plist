@@ -2930,6 +2930,27 @@
 							<key>label</key>
 							<string>Description</string>
 						</dict>
+						<dict>
+							<key>fields</key>
+							<array>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>next_step</string>
+								</dict>
+							</array>
+							<key>label</key>
+							<string>Next Step</string>
+						</dict>
 					</array>
 					<key>section_name</key>
 					<string>Info</string>
@@ -3519,11 +3540,28 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
-					<key>editable</key>
-					<true/>
+					<string>custom</string>
+					<key>predefinedValues</key>
+					<array>
+						<string>Cold Call</string>
+						<string>Existing Customer</string>
+						<string>Self Generated</string>
+						<string>Employee</string>
+						<string>Partner</string>
+						<string>Public Relations</string>
+						<string>Direct Mail</string>
+						<string>Conference</string>
+						<string>Trade Show</string>
+						<string>Website</string>
+						<string>Word of Mouth</string>
+						<string>Email</string>
+						<string>Campaign</string>
+						<string>Other</string>
+					</array>
 					<key>mandatory</key>
 					<false/>
+					<key>editable</key>
+					<string>YES</string>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>

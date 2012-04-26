@@ -362,11 +362,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     selectedIndexPath = indexPath;
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
+    [self scrollCell:cell];
     if([cell.reuseIdentifier isEqualToString:@"date"])
     {
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         [self showDatePicker:valueField.text];
-        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else if([cell.reuseIdentifier isEqualToString:@"time"])
@@ -374,7 +374,6 @@
         [self.view endEditing:YES]; // resign firstResponder if you have any text fields so the keyboard doesn't get in the way
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         [self showPickerView:kHourPickerTag:valueField.text];
-        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else if([cell.reuseIdentifier isEqualToString:@"assigned_user_name"])
@@ -382,7 +381,6 @@
         [self.view endEditing:YES]; 
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         [self showPickerView:kUserPickerTag:valueField.text];
-        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else if([cell.reuseIdentifier isEqualToString:@"account_name"])
@@ -390,7 +388,6 @@
         [self.view endEditing:YES]; 
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         [self showPickerView:kAccountPickerTag:valueField.text];
-        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else if([cell.reuseIdentifier isEqualToString:@"custom"])
@@ -398,7 +395,6 @@
         [self.view endEditing:YES]; 
         UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
         [self showPickerView:kCustomPickerTag:valueField.text];
-        [self scrollCell:cell];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else{
@@ -810,7 +806,24 @@
         popoverContent.view = popoverView;
         popoverContent.contentSizeForViewInPopover = CGSizeMake(320, 200);
         popoverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
-        [popoverController presentPopoverFromRect:[_tableView cellForRowAtIndexPath:selectedIndexPath].frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        CGRect frame = [_tableView rectForRowAtIndexPath:selectedIndexPath];
+        CGPoint yOffset = _tableView.contentOffset;
+        CGFloat height ;
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
+        {  
+            height = self.view.window.frame.size.width;
+        }
+        else 
+        {
+            height = self.view.window.frame.size.height;
+        }
+        if(height-(frame.origin.y-yOffset.y)<picker.frame.size.height){
+            [popoverController presentPopoverFromRect:CGRectMake(frame.origin.x, (frame.origin.y-yOffset.y), frame.size.width, frame.size.height) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        }else {
+            [popoverController presentPopoverFromRect:CGRectMake(frame.origin.x, (frame.origin.y-yOffset.y), frame.size.width, frame.size.height) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+       // [popoverController presentPopoverFromRect:[_tableView cellForRowAtIndexPath:selectedIndexPath].bounds inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
     else
     {    
@@ -824,6 +837,31 @@
         [self.view addSubview:picker];
         [UIView commitAnimations];
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if(popoverController && [popoverController isPopoverVisible])
+    {
+        CGRect frame = [_tableView rectForRowAtIndexPath:selectedIndexPath];
+        CGPoint yOffset = _tableView.contentOffset;
+        CGFloat height ;
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
+        {  
+            height = self.view.window.frame.size.width;
+        }
+        else 
+        {
+            height = self.view.window.frame.size.height;
+        }
+        if(height-(frame.origin.y-yOffset.y)<  popoverController.contentViewController.view.frame.size.height){
+            [popoverController presentPopoverFromRect:CGRectMake(frame.origin.x, (frame.origin.y-yOffset.y), frame.size.width, frame.size.height) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        }else {
+            [popoverController presentPopoverFromRect:CGRectMake(frame.origin.x, (frame.origin.y-yOffset.y), frame.size.width, frame.size.height) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        }
+    }
+    //[self showPicker:userPicker];
 }
 
 -(void) showPickerView:(NSInteger) tag:(NSString*) value
@@ -1024,27 +1062,30 @@
 -(void)scrollCell:(UITableViewCell*)cell
 {
     selectedIndexPath = [_tableView indexPathForCell:cell];
-    NSInteger rowIndex = [self effectiveRowIndexWithIndexPath:selectedIndexPath]+selectedIndexPath.row;//[selectedIndexPath row];
-    NSInteger rowHeight = (rowIndex + 1)*cell.frame.size.height;
-    UIInterfaceOrientation orientation =
-    [[UIApplication sharedApplication] statusBarOrientation];
-    if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
+    if(!IS_IPAD)
     {
-        if(rowHeight < 106){
-            _tableView.contentInset =  UIEdgeInsetsZero;
+        NSInteger rowIndex = [self effectiveRowIndexWithIndexPath:selectedIndexPath]+selectedIndexPath.row;//[selectedIndexPath row];
+        NSInteger rowHeight = (rowIndex + 1)*cell.frame.size.height;
+        UIInterfaceOrientation orientation =
+        [[UIApplication sharedApplication] statusBarOrientation];
+        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight)
+        {   
+            if(rowHeight < 106){
+                _tableView.contentInset =  UIEdgeInsetsZero;
+            }
+            else{
+                _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-106.0, 0.0);
+               
+            }
         }
         else{
-            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-106.0, 0.0);
-            [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
-        }
-    }
-    else{
-        if(rowHeight < (_tableView.frame.size.height-216-57)){
-            _tableView.contentInset =  UIEdgeInsetsZero;
-        }
-        else{
-            _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-(_tableView.frame.size.height-200), 0.0);
-            [_tableView scrollToRowAtIndexPath:[_tableView indexPathForCell:cell] atScrollPosition:UITableViewScrollPositionTop animated:YES ];
+            if(rowHeight < (_tableView.frame.size.height-216-57)){
+                _tableView.contentInset =  UIEdgeInsetsZero;
+            }
+            else{
+                _tableView.contentInset =  UIEdgeInsetsMake(0.0, 0.0, rowHeight-(_tableView.frame.size.height-200), 0.0);
+               
+            }
         }
     }
 }

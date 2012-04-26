@@ -18,7 +18,7 @@
 @property (assign) id<SyncHandlerDelegate>delegate;
 @property (assign) BOOL isCancelled;
 @property (assign) BOOL hadError;
-@property (assign) BOOL seamlessSessionFalg;
+@property (assign) BOOL skipSeamlessLogin;
 
 + (SyncHandler*)sharedInstance;
 - (void)addSyncSession:(WebserviceSession*)session;
