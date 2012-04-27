@@ -1387,7 +1387,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -1441,7 +1441,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>filterable</key>
 					<false/>
 					<key>sortable</key>
@@ -1574,7 +1574,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -2213,7 +2213,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -3367,7 +3367,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -10802,7 +10802,7 @@
 								</dict>
 							</array>
 							<key>label</key>
-							<string>Office Address</string>
+							<string>Other Address</string>
 						</dict>
 						<dict>
 							<key>fields</key>
@@ -10953,7 +10953,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11221,7 +11221,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11293,7 +11293,7 @@
 					<key>action</key>
 					<string>phone</string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11311,7 +11311,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11347,7 +11347,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11435,7 +11435,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -11992,7 +11992,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -14027,6 +14027,7 @@
 				<string>resolution</string>
 				<string>work_log</string>
 				<string>account_id</string>
+				<string>account_name</string>
 			</array>
 			<key>column_objectFieldMap</key>
 			<dict>
@@ -14036,6 +14037,8 @@
 				<string>description</string>
 				<key>account_id</key>
 				<string>account_id</string>
+				<key>account_name</key>
+				<string>account_name</string>
 				<key>assigned_user_name</key>
 				<string>assigned_user_name</string>
 				<key>date_modified</key>
@@ -14760,6 +14763,8 @@
 				<string>name_value_list.description.value</string>
 				<key>account_id</key>
 				<string>name_value_list.account_id.value</string>
+				<key>account_name</key>
+				<string>name_value_list.account_name.value</string>
 				<key>assigned_user_name</key>
 				<string>name_value_list.assigned_user_name.value</string>
 				<key>date_modified</key>
