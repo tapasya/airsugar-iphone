@@ -8879,7 +8879,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
