@@ -312,8 +312,7 @@
         {
             UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             if([dateFormatter dateFromString:valueField.text] == nil)
                 [dataSource setObject:@"" forKey:dof.name];
         }
@@ -331,8 +330,7 @@
         {
             UILabel *valueField = (UILabel*)[cell.contentView viewWithTag:1001];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
             if([dateFormatter dateFromString:valueField.text] == nil)
                 [dataSource setObject:@"" forKey:dof.name];
         }
