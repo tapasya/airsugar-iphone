@@ -521,7 +521,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>url</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -542,7 +542,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>map</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -5364,7 +5364,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -5677,7 +5677,7 @@
 				</dict>
 				<dict>
 					<key>action</key>
-					<string></string>
+					<string>number</string>
 					<key>editable</key>
 					<true/>
 					<key>mandatory</key>
@@ -10349,7 +10349,6 @@
 				<string>name</string>
 				<string>accept_status_id</string>
 				<string>primary_address_street_3</string>
-				<string>email_and_name1</string>
 				<string>lead_source</string>
 				<string>email2</string>
 				<string>primary_address_state</string>
@@ -10447,8 +10446,6 @@
 				<string>name</string>
 				<key>lead_source</key>
 				<string>lead_source</string>
-				<key>email_and_name1</key>
-				<string>email_and_name1</string>
 				<key>m_accept_status_fields</key>
 				<string>m_accept_status_fields</string>
 				<key>email</key>
@@ -10737,6 +10734,48 @@
 									<key>name</key>
 									<string>primary_address_city</string>
 								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_state</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_country</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>primary_address_postalcode</string>
+								</dict>
 							</array>
 							<key>label</key>
 							<string>Primary Address</string>
@@ -10756,7 +10795,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>office_address_street</string>
+									<string>alt_address_street</string>
 								</dict>
 								<dict>
 									<key>action</key>
@@ -10770,7 +10809,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>office_address_street_1</string>
+									<string>alt_address_street_1</string>
 								</dict>
 								<dict>
 									<key>action</key>
@@ -10784,7 +10823,7 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>office_address_street_2</string>
+									<string>alt_address_street_2</string>
 								</dict>
 								<dict>
 									<key>action</key>
@@ -10798,7 +10837,63 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>office_address_street_3</string>
+									<string>alt_address_street_3</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>alt_address_city</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>alt_address_state</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>alt_address_country</string>
+								</dict>
+								<dict>
+									<key>action</key>
+									<string></string>
+									<key>editable</key>
+									<false/>
+									<key>filterable</key>
+									<false/>
+									<key>sortable</key>
+									<false/>
+									<key>type</key>
+									<string>0</string>
+									<key>name</key>
+									<string>alt_address_postalcode</string>
 								</dict>
 							</array>
 							<key>label</key>
@@ -12163,8 +12258,6 @@
 				<string>name_value_list.name.value</string>
 				<key>lead_source</key>
 				<string>name_value_list.lead_source.value</string>
-				<key>email_and_name1</key>
-				<string>name_value_list.email_and_name1.value</string>
 				<key>m_accept_status_fields</key>
 				<string>name_value_list.m_accept_status_fields.value</string>
 				<key>email</key>

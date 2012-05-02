@@ -10,6 +10,7 @@
 #define kHeightlMargin 30.0
 @interface DetailViewRowItem ()
 -(NSString*)valueStringWithFormat:(NSString*)format;
+-(void)actionHandler:(id)sender;
 @end
 @implementation DetailViewRowItem
 @synthesize label,values,action,type;
