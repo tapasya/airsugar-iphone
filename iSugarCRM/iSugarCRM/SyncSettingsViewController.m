@@ -10,6 +10,8 @@
 #import "SettingsStore.h"
 #import "AppDelegate.h"
 
+#define kEraseAlertViewTag 1001
+
 @interface SyncSettingsViewController()
 -(void) showDatePickerPopoverAtFrame:(CGRect) frame;
 @property (nonatomic, retain) UIPopoverController* popoverController;
@@ -256,6 +258,17 @@ BOOL isFirstTime;
     else if([identifier isEqualToString:kEraseAllCellIdentifier])
     {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Do you really want to erase all data from database ?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Cancel", nil];
+        alertView.tag = kEraseAlertViewTag;
+        [alertView show];
+        return;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == kEraseAlertViewTag && buttonIndex == 0)
+    {
         [self performSelectorOnMainThread:@selector(eraseDBData:) withObject:nil waitUntilDone:NO];
     }
 }

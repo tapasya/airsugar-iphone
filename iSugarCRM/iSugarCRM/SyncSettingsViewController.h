@@ -16,7 +16,7 @@
 #define kStartDateTag                   1
 #define kEndDateTag                     2
 
-@interface SyncSettingsViewController : UITableViewController
+@interface SyncSettingsViewController : UITableViewController<UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray* settingsArray;       //move these to class extenstion
 @property (nonatomic, retain) UIDatePicker *pickerView; 

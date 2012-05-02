@@ -16,6 +16,7 @@
 
 #define kLogoutCell @"login"
 #define kTextFieldCell @"textFieldCell"
+#define kLogoutAlertViewTag 1001
 
 @interface AppSettingsViewController ()
 @property (strong) NSArray* cellIdentifierArray;
@@ -72,6 +73,7 @@
 	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     self.navigationItem.rightBarButtonItem = self.saveButton;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     self.title = @"Settings";
     keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
 }
@@ -206,15 +208,26 @@ return cell;
     }
     else if([[[cellIdentifierArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:kLogoutCell])
     {
-        [(AppDelegate*)[[UIApplication sharedApplication] delegate] showWaitingAlertWithMessage:nil];
-        [self performSelectorInBackground:@selector(logout) withObject:nil];
-        //[(AppDelegate*)[[UIApplication sharedApplication] delegate] logout];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Do you really want to logout of the app?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Cancel", nil];
+        alertView.tag = kLogoutAlertViewTag;
+        [alertView show];
+        return;
     }
     else
     {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
     }  
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView.tag == kLogoutAlertViewTag && buttonIndex == 0)
+    {
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] showWaitingAlertWithMessage:nil];
+        [self performSelectorInBackground:@selector(logout) withObject:nil];
+    }
 }
 
 -(void) logout
@@ -248,7 +261,7 @@ return cell;
 
 -(IBAction)saveSettings:(id)sender
 {
-    id response = [LoginUtils loginWithUsername:username password:password andUrl:username];
+    id response = [LoginUtils loginWithUsername:username password:[LoginUtils md5Hash:password] andUrl:urlString];
     //id response = [LoginUtils login:usernameField.text :[LoginUtils md5Hash:passwordField.text]];
     NSLog(@"RESPONSE OBJECT IS --------> %@",[response objectForKey:@"response"]);
     if([[response objectForKey:@"response"]objectForKey:@"id"]){

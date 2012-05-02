@@ -20,5 +20,5 @@
 
 
 
-@interface AppSettingsViewController : UITableViewController<UITextFieldDelegate, UIActionSheetDelegate>
+@interface AppSettingsViewController : UITableViewController<UITextFieldDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 @end
