@@ -3988,27 +3988,6 @@
 									<key>type</key>
 									<string>0</string>
 									<key>name</key>
-									<string>reminder_time</string>
-								</dict>
-							</array>
-							<key>label</key>
-							<string>Reminder</string>
-						</dict>
-						<dict>
-							<key>fields</key>
-							<array>
-								<dict>
-									<key>action</key>
-									<string></string>
-									<key>editable</key>
-									<false/>
-									<key>filterable</key>
-									<false/>
-									<key>sortable</key>
-									<false/>
-									<key>type</key>
-									<string>0</string>
-									<key>name</key>
 									<string>location</string>
 								</dict>
 							</array>
@@ -8344,7 +8323,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -8452,7 +8431,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -8614,7 +8593,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -8632,7 +8611,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
@@ -8951,7 +8930,7 @@
 					<key>action</key>
 					<string></string>
 					<key>editable</key>
-					<true/>
+					<false/>
 					<key>mandatory</key>
 					<false/>
 					<key>filterable</key>
