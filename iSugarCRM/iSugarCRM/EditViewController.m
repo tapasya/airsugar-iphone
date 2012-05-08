@@ -880,11 +880,15 @@
         [self.userPicker reloadAllComponents];
         if(value)
         {
-            NSInteger selectedIndex = [userList indexOfObject:value];
-            if(selectedIndex != NSNotFound)
-            {
-                [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            NSInteger selectedIndex = 0;
+            for (int i=0; i < [userList count]; i++) {
+                NSDictionary* userInfo = [userList objectAtIndex:i];
+                if([[userInfo valueForKey:@"name"] isEqualToString:value])
+                {
+                    selectedIndex = i;
+                }
             }
+            [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES];             
         }
     }
     else if( tag == kAccountPickerTag)
@@ -894,11 +898,15 @@
         [self.userPicker reloadAllComponents];
         if(value)
         {
-            NSInteger selectedIndex = [accounts indexOfObject:value];
-            if(selectedIndex != NSNotFound)
-            {
-                [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
+            NSInteger selectedIndex = 0;
+            for (int i=0; i < [accounts count]; i++) {
+                DataObject* userInfo = [accounts objectAtIndex:i];
+                if([[userInfo  objectForFieldName:@"name"] isEqualToString:value])
+                {
+                    selectedIndex = i;
+                }                   
             }
+            [self.userPicker selectRow:selectedIndex inComponent:0 animated:YES]; 
         }
     }
     else if( tag == kCustomPickerTag)
