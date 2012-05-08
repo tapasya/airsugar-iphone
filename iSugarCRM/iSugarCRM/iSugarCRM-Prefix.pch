@@ -12,7 +12,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "SugarCRMMetadataStore.h"
-#define sugarEndpoint @"http://192.168.1.83:6300/sugarcrm/service/v4/rest.php"
+#define sugarEndpoint @"http://75.101.222.214/html/sugarcrm/service/v4/rest.php"
 #define kAppAuthenticationState @"state"
 extern NSString*  session;
 #endif

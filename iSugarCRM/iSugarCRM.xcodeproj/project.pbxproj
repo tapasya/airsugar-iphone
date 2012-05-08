@@ -35,6 +35,9 @@
 		0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB9F83F14DC20380084BF7E /* Security.framework */; };
 		0FCE1ADE14D2678B00CE04FB /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
 		0FCE1AE214D2846C00CE04FB /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
+		0FE5286915592DC4002D8AD2 /* Recent.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286715592DC4002D8AD2 /* Recent.png */; };
+		0FE5286A15592DC4002D8AD2 /* Recent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286815592DC4002D8AD2 /* Recent@2x.png */; };
+		0FE5286D15592E26002D8AD2 /* manage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286C15592E26002D8AD2 /* manage.png */; };
 		0FE6ADC714F6099A0055EFF8 /* PanCake_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */; };
 		0FE861F114F3B38C0065B585 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
 		0FEA45511507257300390F2A /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA45501507257300390F2A /* SplitViewController.m */; };
@@ -164,6 +167,9 @@
 		0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsDataStore.m; sourceTree = "<group>"; };
 		0FCE1AE014D2846C00CE04FB /* ModuleSettingsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModuleSettingsObject.h; sourceTree = "<group>"; };
 		0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModuleSettingsObject.m; sourceTree = "<group>"; };
+		0FE5286715592DC4002D8AD2 /* Recent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Recent.png; sourceTree = "<group>"; };
+		0FE5286815592DC4002D8AD2 /* Recent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Recent@2x.png"; sourceTree = "<group>"; };
+		0FE5286C15592E26002D8AD2 /* manage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manage.png; sourceTree = "<group>"; };
 		0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PanCake_Logo.png; sourceTree = "<group>"; };
 		0FE861F014F3B38C0065B585 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		0FEA454F1507257300390F2A /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
@@ -357,6 +363,9 @@
 		0FB17C3014B5BF72004F0C80 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0FE5286C15592E26002D8AD2 /* manage.png */,
+				0FE5286715592DC4002D8AD2 /* Recent.png */,
+				0FE5286815592DC4002D8AD2 /* Recent@2x.png */,
 				0FF81BCF14F758AD00A3E04A /* Icon-72.png */,
 				0FF81BD014F758AD00A3E04A /* Icon.png */,
 				0FF81BD114F758AD00A3E04A /* Icon@2x.png */,
@@ -719,6 +728,9 @@
 				0FF81BD414F758AD00A3E04A /* Icon@2x.png in Resources */,
 				0FEA4577150753EE00390F2A /* LoginViewController~ipad.xib in Resources */,
 				0FF14D6B151092E300BB6969 /* DefaultDetailView.xib in Resources */,
+				0FE5286915592DC4002D8AD2 /* Recent.png in Resources */,
+				0FE5286A15592DC4002D8AD2 /* Recent@2x.png in Resources */,
+				0FE5286D15592E26002D8AD2 /* manage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,8 +863,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -867,8 +879,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "CFE69336-1F0C-4287-B284-D25D9FA23951";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CFE69336-1F0C-4287-B284-D25D9FA23951";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -879,8 +891,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Pramati Technologies";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -889,6 +901,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "51D3FE78-FDAF-407B-B5C5-B6C4CC0EEBF0";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -897,8 +911,8 @@
 		3B5C9800147CF7BD007EF770 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
@@ -909,8 +923,8 @@
 					"\"$(SRCROOT)/iSugarCRM\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
+				PROVISIONING_PROFILE = "CFE69336-1F0C-4287-B284-D25D9FA23951";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CFE69336-1F0C-4287-B284-D25D9FA23951";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -920,8 +934,8 @@
 		3B5C9801147CF7BD007EF770 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vijay Pullur (4XJ5LKQBAR)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Pramati Technologies";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Pramati Technologies";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
@@ -932,8 +946,8 @@
 					"\"$(SRCROOT)/iSugarCRM\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0628A281-253B-4CB7-9049-8E9A3DA80FFF";
+				PROVISIONING_PROFILE = "51D3FE78-FDAF-407B-B5C5-B6C4CC0EEBF0";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "51D3FE78-FDAF-407B-B5C5-B6C4CC0EEBF0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
