@@ -237,6 +237,18 @@ BOOL isFirstTime;
     {
         UITableViewCell *targetCell = [tableView cellForRowAtIndexPath:indexPath];
         self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
+        if( [identifier isEqualToString:kStartDateIdentifier])
+        {
+            self.pickerView.maximumDate = [self.dateFormatter dateFromString:endDate];
+            self.pickerView.minimumDate = nil;
+        }
+        
+        if( [identifier isEqualToString:kEndDateIdentifier])
+        {
+            self.pickerView.minimumDate = [self.dateFormatter dateFromString:startDate];
+            self.pickerView.maximumDate = [NSDate date];
+        }
+        
         if(IS_IPAD)
         {
             [self showDatePickerPopoverAtFrame:targetCell.frame];
