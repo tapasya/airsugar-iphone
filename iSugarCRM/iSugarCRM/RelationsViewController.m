@@ -72,7 +72,7 @@
     [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewDidAppear:animated];
     if([[dataSourceDictionary allKeys] count]==0){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"No RelationsShips" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"No Relationships" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
 }
