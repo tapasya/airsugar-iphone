@@ -79,7 +79,7 @@
         segmentedControl = [[UISegmentedControl alloc] initWithItems:nil];
         [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"settings.png"] atIndex:kSegementedControlSettingsButtonIndex animated:YES];
         [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:kSegementedControlSyncButtonIndex animated:YES];
-        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"sync.png"] atIndex:kSegementedControlTempButtonIndex animated:YES];
+        [segmentedControl insertSegmentWithImage:[UIImage imageNamed:@"manage.png"] atIndex:kSegementedControlTempButtonIndex animated:YES];
     }
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     segmentedControl.frame = CGRectMake(0, 0, 90, 30);

@@ -186,6 +186,11 @@ bool isSyncEnabled ;
             for(int j=i*self.launcherView.maxItemsPerPage; j< limit; j++){
                 NSString *moduleName = [moduleList objectAtIndex:j];
                 NSString *imagename = [[sugarMetaDataStore listViewMetadataForModule:moduleName] iconImageName];
+                if([moduleName isEqualToString:@"Recent"])
+                {
+                    imagename = moduleName;
+                }
+                
                 if(!imagename || [imagename isEqualToString:@""])
                 {
                     imagename = @"itemImage";
