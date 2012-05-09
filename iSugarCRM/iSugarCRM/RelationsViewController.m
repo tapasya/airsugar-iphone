@@ -71,7 +71,7 @@
 {
     [self.navigationController setToolbarHidden:YES animated:YES];
     [super viewDidAppear:animated];
-    if([[dataSourceDictionary allKeys] count]==0){
+    if([[dataObjectStore allKeys] count]==0){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Info" message:@"No Relationships" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
     }
@@ -173,11 +173,13 @@
 #pragma mark DBSession Load delegate
 
 -(void)session:(DBSession*)session downloadedDetails:(NSArray*)details{
-    if([dataObjectStore objectForKey:session.metadata.tableName]){
-     NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];
-        [beans addObject:[details objectAtIndex:0]];
-    } else {
-        [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+    if([details count] >0){
+        if([dataObjectStore objectForKey:session.metadata.tableName]){
+         NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];
+            [beans addObject:[details objectAtIndex:0]];
+        } else {
+            [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+        }
     }
 }
 @end

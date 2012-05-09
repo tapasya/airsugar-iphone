@@ -107,7 +107,9 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
-    success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
+    if([rows count] >0){
+        success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
+    }
     if (!success) {
         [delegate session:self detailDownloadFailedWithError:error];
     } else {
