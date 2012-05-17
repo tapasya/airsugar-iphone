@@ -25,7 +25,7 @@
 //TODO use OHALabel and NSAttributedString
 //TODO format fields according to the type
 -(UITableViewCell*)reusableCellForTableView:(UITableView*)tableView{
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
+    UITableViewCell *cell = nil;//(UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self reusableCellIdentifier]];
     if (cell == nil) 
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[self reusableCellIdentifier]];
@@ -74,6 +74,7 @@
     }
     
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:1000];
+    textLabel = (UILabel*)[cell.contentView viewWithTag:1000];
     
     [textLabel setFont:[UIFont boldSystemFontOfSize:18]];
     textLabel.text = [NSString stringWithFormat:@"%@: ",[self label]];

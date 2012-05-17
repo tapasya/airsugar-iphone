@@ -418,7 +418,7 @@
         AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
         if ([appDelegate.recentItems objectForKey:moduleName]) {
             NSMutableArray *beanIds = [appDelegate.recentItems objectForKey:moduleName];
-            if ([beanIds count]>=2) {
+            if ([beanIds count]>=5) {
                 [beanIds removeObjectAtIndex:0];
             }
              [beanIds addObject:beanId];
