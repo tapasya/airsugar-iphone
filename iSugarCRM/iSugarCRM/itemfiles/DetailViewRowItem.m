@@ -10,7 +10,7 @@
 #define kHeightlMargin 30.0
 @interface DetailViewRowItem ()
 -(NSString*)valueStringWithFormat:(NSString*)format;
--(void)actionHandler:(id)sender;
+-(IBAction)actionHandler:(id)sender;
 @end
 @implementation DetailViewRowItem
 @synthesize label,values,action,type;
@@ -48,7 +48,7 @@
             actionButton.backgroundColor = [UIColor clearColor];
             [cell.contentView addSubview:actionButton];
         }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"url"]) {
+        else if ([[self reusableCellIdentifier] isEqualToString:@"url"] || [[self reusableCellIdentifier] isEqualToString:@"map"]) {
             UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
             actionButton.tag = 1002;
             [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
@@ -89,7 +89,7 @@
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width +kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
-        } else if ([[self reusableCellIdentifier] isEqualToString:@"url"]) {
+        } else if ([[self reusableCellIdentifier] isEqualToString:@"url"] || [[self reusableCellIdentifier] isEqualToString:@"map"]) {
             textLabel.text = [self valueStringWithFormat:nil];
             UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
             button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
@@ -166,7 +166,7 @@
         return [[self class]description];
     }
 }
--(void)actionHandler:(id)sender{
+-(IBAction)actionHandler:(id)sender{
     if ([action isEqualToString:@"phone"]) {
         NSMutableString *phone = [[self valueStringWithFormat:nil] mutableCopy];
         [phone replaceOccurrencesOfString:@" " 
@@ -193,10 +193,14 @@
     } 
     else if ([action isEqualToString:@"url"]) {
         
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[self valueStringWithFormat:nil]stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]]];
+        NSString *urlString = [[self valueStringWithFormat:nil] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
     }
     else if ([action isEqualToString:@"map"]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"url:%@",[self valueStringWithFormat:nil]]]];
+        NSString* query = [self valueStringWithFormat:nil];
+        query = [query stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.google.com/maps?q=%@",query]]];
     }
     
     else {

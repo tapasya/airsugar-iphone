@@ -3978,7 +3978,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>map</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
@@ -10645,7 +10645,7 @@
 							<array>
 								<dict>
 									<key>action</key>
-									<string></string>
+									<string>map</string>
 									<key>editable</key>
 									<false/>
 									<key>filterable</key>
