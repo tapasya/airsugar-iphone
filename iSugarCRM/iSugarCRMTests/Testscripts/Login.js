@@ -68,6 +68,14 @@ if(alert.staticTexts()["Please check your details and relogin"].isValid())
 
 appWindow.logElementTree();
 
+// Clearing the texts in user name and in password fields
+
+username.setValue("");
+password.setValue("");
+target.frontMostApp().keyboard().buttons()["return"].tap();
+delay(1);
+
+
 
 UIALogger.logStart("Check if user is able to login into applicaiton with out entering username and password");
 login.tap();
