@@ -104,10 +104,10 @@
 		3B5C98251484F086007EF770 /* DataObjectField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98241484F083007EF770 /* DataObjectField.m */; };
 		3B5C98281484F150007EF770 /* DataObjectMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98271484F14E007EF770 /* DataObjectMetadata.m */; };
 		3B5C982B1484F1E5007EF770 /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C982A1484F1E2007EF770 /* DataObject.m */; };
-		4E9453CE156BB7B300F8867E /* Campaigns.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453C8156BB7B300F8867E /* Campaigns.js */; };
+		4E88CED6156CE3ED005E9413 /* Leads.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED4156CE3ED005E9413 /* Leads.js */; };
+		4E88CED7156CE3ED005E9413 /* Main.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED5156CE3ED005E9413 /* Main.js */; };
 		4E9453CF156BB7B300F8867E /* Login.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453C9156BB7B300F8867E /* Login.js */; };
 		4E9453D0156BB7B300F8867E /* Moduleicons.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CA156BB7B300F8867E /* Moduleicons.js */; };
-		4E9453D1156BB7B300F8867E /* Opportunity.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CB156BB7B300F8867E /* Opportunity.js */; };
 		4E9453D2156BB7B300F8867E /* Settings.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CC156BB7B300F8867E /* Settings.js */; };
 		4E9453D3156BB7B300F8867E /* Syncsetup.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CD156BB7B300F8867E /* Syncsetup.js */; };
 /* End PBXBuildFile section */
@@ -276,10 +276,10 @@
 		3B5C98271484F14E007EF770 /* DataObjectMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObjectMetadata.m; sourceTree = "<group>"; };
 		3B5C98291484F1E0007EF770 /* DataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataObject.h; sourceTree = "<group>"; };
 		3B5C982A1484F1E2007EF770 /* DataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObject.m; sourceTree = "<group>"; };
-		4E9453C8156BB7B300F8867E /* Campaigns.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Campaigns.js; path = iSugarCRMTests/Testscripts/Campaigns.js; sourceTree = "<group>"; };
+		4E88CED4156CE3ED005E9413 /* Leads.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Leads.js; path = iSugarCRMTests/Testscripts/Leads.js; sourceTree = "<group>"; };
+		4E88CED5156CE3ED005E9413 /* Main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Main.js; path = iSugarCRMTests/Testscripts/Main.js; sourceTree = "<group>"; };
 		4E9453C9156BB7B300F8867E /* Login.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Login.js; path = iSugarCRMTests/Testscripts/Login.js; sourceTree = "<group>"; };
 		4E9453CA156BB7B300F8867E /* Moduleicons.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Moduleicons.js; path = iSugarCRMTests/Testscripts/Moduleicons.js; sourceTree = "<group>"; };
-		4E9453CB156BB7B300F8867E /* Opportunity.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Opportunity.js; path = iSugarCRMTests/Testscripts/Opportunity.js; sourceTree = "<group>"; };
 		4E9453CC156BB7B300F8867E /* Settings.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Settings.js; path = iSugarCRMTests/Testscripts/Settings.js; sourceTree = "<group>"; };
 		4E9453CD156BB7B300F8867E /* Syncsetup.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Syncsetup.js; path = iSugarCRMTests/Testscripts/Syncsetup.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -643,10 +643,10 @@
 		4E8AA1DE156BB52D0024FEE5 /* Testscripts */ = {
 			isa = PBXGroup;
 			children = (
-				4E9453C8156BB7B300F8867E /* Campaigns.js */,
+				4E88CED4156CE3ED005E9413 /* Leads.js */,
+				4E88CED5156CE3ED005E9413 /* Main.js */,
 				4E9453C9156BB7B300F8867E /* Login.js */,
 				4E9453CA156BB7B300F8867E /* Moduleicons.js */,
-				4E9453CB156BB7B300F8867E /* Opportunity.js */,
 				4E9453CC156BB7B300F8867E /* Settings.js */,
 				4E9453CD156BB7B300F8867E /* Syncsetup.js */,
 			);
@@ -842,12 +842,12 @@
 				2F05832D152B06EC006DCD26 /* RecentViewController.m in Sources */,
 				0F937AB4152C21D900E043BC /* RecentViewController_pad.m in Sources */,
 				0FFBEE0915459853002CB106 /* DBHelper.m in Sources */,
-				4E9453CE156BB7B300F8867E /* Campaigns.js in Sources */,
 				4E9453CF156BB7B300F8867E /* Login.js in Sources */,
 				4E9453D0156BB7B300F8867E /* Moduleicons.js in Sources */,
-				4E9453D1156BB7B300F8867E /* Opportunity.js in Sources */,
 				4E9453D2156BB7B300F8867E /* Settings.js in Sources */,
 				4E9453D3156BB7B300F8867E /* Syncsetup.js in Sources */,
+				4E88CED6156CE3ED005E9413 /* Leads.js in Sources */,
+				4E88CED7156CE3ED005E9413 /* Main.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

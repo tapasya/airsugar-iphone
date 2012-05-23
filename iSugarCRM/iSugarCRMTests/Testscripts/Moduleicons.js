@@ -17,8 +17,6 @@ else
 }
 }
 
-
-
 UIALogger.logStart("Checking if Opportunities icon exists in the Modules screen");
 moduleIcon("Opportunities");
 
@@ -51,22 +49,4 @@ moduleIcon("Meetings");
 
 UIALogger.logStart("Checking if Recent icon exists in the Modules screen");
 moduleIcon("itemimage");
-
-
-//UIALogger.logDebug("Done with checking all icons in the modules screen");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

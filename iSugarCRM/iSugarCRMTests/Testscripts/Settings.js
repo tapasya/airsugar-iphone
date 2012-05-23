@@ -47,21 +47,9 @@ if(alert.staticTexts()["Login attempt failed please check the username and passw
 }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+// Main Code starts here
 
 delay(6);
-
 
 if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 {
@@ -95,7 +83,6 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 	var settingsNavigationbar = appWindow.navigationBar();
 	var tableviews = appWindow.tableViews()[0];
 	
-	
 	UIALogger.logStart("Check for the Modules button and the save button in the settings screen");
 	if(settingsNavigationbar.buttons()["Modules"].isValid && settingsNavigationbar.buttons()["Save"].isValid())
 	{
@@ -106,7 +93,6 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 		UIALogger.logFail("User is unable to see the two buttons SAVE and MODULES");
 	}
 	
-	
 	UIALogger.logStart("Check is SAVE button is enabled or not");
 	if(!appWindow.navigationBar().buttons()["Save"].isEnabled())
 	{
@@ -116,8 +102,7 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 	{
 		UIALogger.logFail("Save button is enabled");
 	}
-	
-	
+    
 	UIALogger.logStart("Change the User Name and check if Save button is enabled not");
 	tableviews.cells()["Username"].textFields()[0].setValue("williams");
 	tableviews.cells()["Password"].secureTextFields()[0].setValue("williams");
@@ -129,7 +114,6 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 	{
 		UIALogger.logFail("Save button is not enabled");
 	}
-	
 	
 	UIALogger.logStart("Now Click on Save button and check for the Error message box");
 	appWindow.navigationBar().buttons()["Save"].tap();
@@ -183,27 +167,19 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 		UIALogger.logFail("User is not in settings screen");
 	}
 	delay(1);
-	//target.frontMostApp().keyboard().keys()["Done"].tap();
-	//logTree();
-	
-	
+
 	UIALogger.logStart("Click on LogOut button and check if user has navigated to the login screen");
 	appWindow.tableViews()[0].cells()["Logout"].tap();
 	
 	UIATarget.onAlert = function onAlert(alert) {
 	var title = alert.name();
-	UIALogger.logWarning("Alert with title '" + title + "' encountered.");
 	if (title == "Confirm") {
-	alert.buttons()["OK"].tap();
-	return true; //alert handled, so bypass the default handler
+		alert.buttons()["OK"].tap();
+		return true; //alert handled, so bypass the default handler
 	}
 	// return false to use the default handler
 	return false;
 	}
-	
-	
-	
-	
 	delay(6);
 	if(appWindow.scrollViews()[0].buttons()["Login"].isValid())
 	{
@@ -214,17 +190,6 @@ if(appWindow.navigationBar().staticTexts()["Modules"].isValid())
 		UIALogger.logFail("User is unable to navigate to the login screen");
 	}
 	
-	
-	
-	
-
-
-
-
-	
-
-
-
 }
 else
 {
