@@ -104,106 +104,6 @@
 		3B5C98251484F086007EF770 /* DataObjectField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98241484F083007EF770 /* DataObjectField.m */; };
 		3B5C98281484F150007EF770 /* DataObjectMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98271484F14E007EF770 /* DataObjectMetadata.m */; };
 		3B5C982B1484F1E5007EF770 /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C982A1484F1E2007EF770 /* DataObject.m */; };
-		4E7E0587157383A80072B76B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97DC147CF7BC007EF770 /* main.m */; };
-		4E7E0588157383A80072B76B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C97E0147CF7BD007EF770 /* AppDelegate.m */; };
-		4E7E0589157383A80072B76B /* MetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9807147CF800007EF770 /* MetadataStore.m */; };
-		4E7E058A157383A80072B76B /* ViewMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C980D147CF82A007EF770 /* ViewMetadataStore.m */; };
-		4E7E058B157383A80072B76B /* WebserviceSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9810147CF83E007EF770 /* WebserviceSession.m */; };
-		4E7E058C157383A80072B76B /* DBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9813147CF850007EF770 /* DBSession.m */; };
-		4E7E058D157383A80072B76B /* ViewSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C9816147CF85F007EF770 /* ViewSession.m */; };
-		4E7E058E157383A80072B76B /* WebserviceMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */; };
-		4E7E058F157383A80072B76B /* SugarCRMMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98211484C2DA007EF770 /* SugarCRMMetadataStore.m */; };
-		4E7E0590157383A80072B76B /* DataObjectField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98241484F083007EF770 /* DataObjectField.m */; };
-		4E7E0591157383A80072B76B /* DataObjectMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C98271484F14E007EF770 /* DataObjectMetadata.m */; };
-		4E7E0592157383A80072B76B /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5C982A1484F1E2007EF770 /* DataObject.m */; };
-		4E7E0593157383A80072B76B /* DBMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B504E5614862E410037D75E /* DBMetadata.m */; };
-		4E7E0594157383A80072B76B /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469D148676A300865C25 /* OrderedDictionary.m */; };
-		4E7E0595157383A80072B76B /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C469F148676A300865C25 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		4E7E0596157383A80072B76B /* ListViewMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6275148E2F8A002BAE48 /* ListViewMetadata.m */; };
-		4E7E0597157383A80072B76B /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E6279148E32AE002BAE48 /* ListViewController.m */; };
-		4E7E0598157383A80072B76B /* DetailViewMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E627D148E35D9002BAE48 /* DetailViewMetadata.m */; };
-		4E7E0599157383A80072B76B /* SqliteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9F4B8148D0DEB00446A5F /* SqliteObj.m */; };
-		4E7E059A157383A80072B76B /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC31495DDF0000CFB80 /* RootViewController.m */; };
-		4E7E059B157383A80072B76B /* SyncHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBDFC7149644B5000CFB80 /* SyncHandler.m */; };
-		4E7E059C157383A80072B76B /* DetailViewRowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EB14A21328009079A1 /* DetailViewRowItem.m */; };
-		4E7E059D157383A80072B76B /* DetailViewSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48ED14A21328009079A1 /* DetailViewSectionItem.m */; };
-		4E7E059E157383A80072B76B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB48EF14A21328009079A1 /* DetailViewController.m */; };
-		4E7E059F157383A80072B76B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE314B3027300AABAA9 /* LoginViewController.m */; };
-		4E7E05A0157383A80072B76B /* LoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F02AAE814B305D200AABAA9 /* LoginUtils.m */; };
-		4E7E05A1157383A80072B76B /* DashboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB17C2B14B5B38E004F0C80 /* DashboardController.m */; };
-		4E7E05A2157383A80072B76B /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EC14B724AD00DCC4A5 /* CustomBadge.m */; };
-		4E7E05A3157383A80072B76B /* MyLauncherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225EE14B724AD00DCC4A5 /* MyLauncherItem.m */; };
-		4E7E05A4157383A80072B76B /* MyLauncherPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F014B724AD00DCC4A5 /* MyLauncherPageControl.m */; };
-		4E7E05A5157383A80072B76B /* MyLauncherScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F214B724AD00DCC4A5 /* MyLauncherScrollView.m */; };
-		4E7E05A6157383A80072B76B /* MyLauncherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F414B724AD00DCC4A5 /* MyLauncherView.m */; };
-		4E7E05A7157383A80072B76B /* MyLauncherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F8225F614B724AD00DCC4A5 /* MyLauncherViewController.m */; };
-		4E7E05A8157383A80072B76B /* SettingsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7DAEF14BC36EA00E9F794 /* SettingsStore.m */; };
-		4E7E05A9157383A80072B76B /* ModuleSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F81708014BEB1EE0061EF4D /* ModuleSettingsViewController.m */; };
-		4E7E05AA157383A80072B76B /* ModuleSettingsDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1ADD14D2678B00CE04FB /* ModuleSettingsDataStore.m */; };
-		4E7E05AB157383A80072B76B /* ModuleSettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCE1AE114D2846C00CE04FB /* ModuleSettingsObject.m */; };
-		4E7E05AC157383A80072B76B /* AppSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E8F14DA622B002169D7 /* AppSettingsViewController.m */; };
-		4E7E05AD157383A80072B76B /* TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF27E9514DA6422002169D7 /* TextFieldTableCell.m */; };
-		4E7E05AE157383A80072B76B /* ApplicationKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB9F83914DC17050084BF7E /* ApplicationKeyStore.m */; };
-		4E7E05AF157383A80072B76B /* SyncSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7863F14F38573004C2CD9 /* SyncSettingsViewController.m */; };
-		4E7E05B0157383A80072B76B /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F19C2791500EAE700BE2110 /* EditViewController.m */; };
-		4E7E05B1157383A80072B76B /* ListViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F0AABCA1505D4C4008ABEF7 /* ListViewController_pad.m */; };
-		4E7E05B2157383A80072B76B /* DetailViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F48CD7B150657A300D36640 /* DetailViewController_pad.m */; };
-		4E7E05B3157383A80072B76B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA45501507257300390F2A /* SplitViewController.m */; };
-		4E7E05B4157383A80072B76B /* EditViewRowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F630928150F52ED0029C18A /* EditViewRowItem.m */; };
-		4E7E05B5157383A80072B76B /* EditViewSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F4723B815185A5B00DFF926 /* EditViewSectionItem.m */; };
-		4E7E05B6157383A80072B76B /* RelationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F93BDEE1524530700E57E80 /* RelationsViewController.m */; };
-		4E7E05B7157383A80072B76B /* RecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F05832C152B06EA006DCD26 /* RecentViewController.m */; };
-		4E7E05B8157383A80072B76B /* RecentViewController_pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F937AB3152C21D900E043BC /* RecentViewController_pad.m */; };
-		4E7E05B9157383A80072B76B /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFBEE0815459853002CB106 /* DBHelper.m */; };
-		4E7E05BA157383A80072B76B /* Login.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453C9156BB7B300F8867E /* Login.js */; };
-		4E7E05BB157383A80072B76B /* Moduleicons.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CA156BB7B300F8867E /* Moduleicons.js */; };
-		4E7E05BC157383A80072B76B /* Settings.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CC156BB7B300F8867E /* Settings.js */; };
-		4E7E05BD157383A80072B76B /* Syncsetup.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CD156BB7B300F8867E /* Syncsetup.js */; };
-		4E7E05BE157383A80072B76B /* Leads.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED4156CE3ED005E9413 /* Leads.js */; };
-		4E7E05BF157383A80072B76B /* Main.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED5156CE3ED005E9413 /* Main.js */; };
-		4E7E05C1157383A80072B76B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */; };
-		4E7E05C2157383A80072B76B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB9F83F14DC20380084BF7E /* Security.framework */; };
-		4E7E05C3157383A80072B76B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB17A0114B5A14E004F0C80 /* QuartzCore.framework */; };
-		4E7E05C4157383A80072B76B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD9F491148D0A8900446A5F /* libsqlite3.dylib */; };
-		4E7E05C5157383A80072B76B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D0147CF7BC007EF770 /* UIKit.framework */; };
-		4E7E05C6157383A80072B76B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D2147CF7BC007EF770 /* Foundation.framework */; };
-		4E7E05C7157383A80072B76B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5C97D4147CF7BC007EF770 /* CoreGraphics.framework */; };
-		4E7E05C9157383A80072B76B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B5C97D9147CF7BC007EF770 /* InfoPlist.strings */; };
-		4E7E05CA157383A80072B76B /* CRMDatabase.db in Resources */ = {isa = PBXBuildFile; fileRef = 2FFC25A1148EB17B0060D5A6 /* CRMDatabase.db */; };
-		4E7E05CB157383A80072B76B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F02AAE414B3027300AABAA9 /* LoginViewController.xib */; };
-		4E7E05CC157383A80072B76B /* itemImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FB17C3114B5BF81004F0C80 /* itemImage.png */; };
-		4E7E05CD157383A80072B76B /* CRMMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FB5CD1714D79C1A00C3898F /* CRMMetadata.plist */; };
-		4E7E05CE157383A80072B76B /* TextFieldTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF27E9214DA63F6002169D7 /* TextFieldTableCell.xib */; };
-		4E7E05CF157383A80072B76B /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F3CAE9814EAA71300288F58 /* settings.png */; };
-		4E7E05D0157383A80072B76B /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7810F914ECD38500ED61AF /* sync.png */; };
-		4E7E05D1157383A80072B76B /* Accounts.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAA14EE60CB00F90C4E /* Accounts.png */; };
-		4E7E05D2157383A80072B76B /* Accounts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAB14EE60CB00F90C4E /* Accounts@2x.png */; };
-		4E7E05D3157383A80072B76B /* Calls.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAC14EE60CB00F90C4E /* Calls.png */; };
-		4E7E05D4157383A80072B76B /* Calls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAD14EE60CB00F90C4E /* Calls@2x.png */; };
-		4E7E05D5157383A80072B76B /* Campaigns.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAE14EE60CB00F90C4E /* Campaigns.png */; };
-		4E7E05D6157383A80072B76B /* Campaigns@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AAF14EE60CB00F90C4E /* Campaigns@2x.png */; };
-		4E7E05D7157383A80072B76B /* Cases.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AB014EE60CB00F90C4E /* Cases.png */; };
-		4E7E05D8157383A80072B76B /* Cases@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AB114EE60CB00F90C4E /* Cases@2x.png */; };
-		4E7E05D9157383A80072B76B /* Contacts.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AB214EE60CB00F90C4E /* Contacts.png */; };
-		4E7E05DA157383A80072B76B /* Contacts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AB314EE60CB00F90C4E /* Contacts@2x.png */; };
-		4E7E05DB157383A80072B76B /* Leads.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AB414EE60CB00F90C4E /* Leads.png */; };
-		4E7E05DC157383A80072B76B /* Leads@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC114EE60E300F90C4E /* Leads@2x.png */; };
-		4E7E05DD157383A80072B76B /* Meetings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC214EE60E300F90C4E /* Meetings.png */; };
-		4E7E05DE157383A80072B76B /* Meetings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC314EE60E300F90C4E /* Meetings@2x.png */; };
-		4E7E05DF157383A80072B76B /* Opportunities.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC414EE60E300F90C4E /* Opportunities.png */; };
-		4E7E05E0157383A80072B76B /* Opportunities@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FFE2AC514EE60E300F90C4E /* Opportunities@2x.png */; };
-		4E7E05E1157383A80072B76B /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE861F014F3B38C0065B585 /* background.png */; };
-		4E7E05E2157383A80072B76B /* PanCake_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE6ADC614F6099A0055EFF8 /* PanCake_Logo.png */; };
-		4E7E05E3157383A80072B76B /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BCF14F758AD00A3E04A /* Icon-72.png */; };
-		4E7E05E4157383A80072B76B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD014F758AD00A3E04A /* Icon.png */; };
-		4E7E05E5157383A80072B76B /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FF81BD114F758AD00A3E04A /* Icon@2x.png */; };
-		4E7E05E6157383A80072B76B /* LoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FEA4576150753ED00390F2A /* LoginViewController~ipad.xib */; };
-		4E7E05E7157383A80072B76B /* DefaultDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF14D6A151092E300BB6969 /* DefaultDetailView.xib */; };
-		4E7E05E8157383A80072B76B /* Recent.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286715592DC4002D8AD2 /* Recent.png */; };
-		4E7E05E9157383A80072B76B /* Recent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286815592DC4002D8AD2 /* Recent@2x.png */; };
-		4E7E05EA157383A80072B76B /* manage.png in Resources */ = {isa = PBXBuildFile; fileRef = 0FE5286C15592E26002D8AD2 /* manage.png */; };
-		4E7E05F3157384020072B76B /* libMonkeyTalk-1.0.8.beta4c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E7E05F2157384020072B76B /* libMonkeyTalk-1.0.8.beta4c.a */; };
-		4E7E05F51573844C0072B76B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E7E05F41573844C0072B76B /* CFNetwork.framework */; };
 		4E88CED6156CE3ED005E9413 /* Leads.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED4156CE3ED005E9413 /* Leads.js */; };
 		4E88CED7156CE3ED005E9413 /* Main.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E88CED5156CE3ED005E9413 /* Main.js */; };
 		4E9453CF156BB7B300F8867E /* Login.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453C9156BB7B300F8867E /* Login.js */; };
@@ -376,10 +276,6 @@
 		3B5C98271484F14E007EF770 /* DataObjectMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObjectMetadata.m; sourceTree = "<group>"; };
 		3B5C98291484F1E0007EF770 /* DataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataObject.h; sourceTree = "<group>"; };
 		3B5C982A1484F1E2007EF770 /* DataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataObject.m; sourceTree = "<group>"; };
-		4E7E05EE157383A80072B76B /* Pancake copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pancake copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E7E05F1157383A90072B76B /* Pancake copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Pancake copy-Info.plist"; path = "/Users/zetendral/SugarCRM/pancake-ios/iSugarCRM/Pancake copy-Info.plist"; sourceTree = "<absolute>"; };
-		4E7E05F2157384020072B76B /* libMonkeyTalk-1.0.8.beta4c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMonkeyTalk-1.0.8.beta4c.a"; sourceTree = "<group>"; };
-		4E7E05F41573844C0072B76B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4E88CED4156CE3ED005E9413 /* Leads.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Leads.js; path = iSugarCRMTests/Testscripts/Leads.js; sourceTree = "<group>"; };
 		4E88CED5156CE3ED005E9413 /* Main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Main.js; path = iSugarCRMTests/Testscripts/Main.js; sourceTree = "<group>"; };
 		4E9453C9156BB7B300F8867E /* Login.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Login.js; path = iSugarCRMTests/Testscripts/Login.js; sourceTree = "<group>"; };
@@ -410,22 +306,6 @@
 				3B5C97EF147CF7BD007EF770 /* SenTestingKit.framework in Frameworks */,
 				3B5C97F0147CF7BD007EF770 /* UIKit.framework in Frameworks */,
 				3B5C97F1147CF7BD007EF770 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4E7E05C0157383A80072B76B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4E7E05F51573844C0072B76B /* CFNetwork.framework in Frameworks */,
-				4E7E05C1157383A80072B76B /* SystemConfiguration.framework in Frameworks */,
-				4E7E05C2157383A80072B76B /* Security.framework in Frameworks */,
-				4E7E05C3157383A80072B76B /* QuartzCore.framework in Frameworks */,
-				4E7E05C4157383A80072B76B /* libsqlite3.dylib in Frameworks */,
-				4E7E05C5157383A80072B76B /* UIKit.framework in Frameworks */,
-				4E7E05C6157383A80072B76B /* Foundation.framework in Frameworks */,
-				4E7E05C7157383A80072B76B /* CoreGraphics.framework in Frameworks */,
-				4E7E05F3157384020072B76B /* libMonkeyTalk-1.0.8.beta4c.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,15 +539,12 @@
 		3B5C97C1147CF7BC007EF770 = {
 			isa = PBXGroup;
 			children = (
-				4E7E05F41573844C0072B76B /* CFNetwork.framework */,
-				4E7E05F2157384020072B76B /* libMonkeyTalk-1.0.8.beta4c.a */,
 				4E8AA1DE156BB52D0024FEE5 /* Testscripts */,
 				2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */,
 				3B5C97D6147CF7BC007EF770 /* iSugarCRM */,
 				3B5C97F4147CF7BD007EF770 /* iSugarCRMTests */,
 				3B5C97CF147CF7BC007EF770 /* Frameworks */,
 				3B5C97CD147CF7BC007EF770 /* Products */,
-				4E7E05F1157383A90072B76B /* Pancake copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -676,7 +553,6 @@
 			children = (
 				3B5C97CC147CF7BC007EF770 /* Pancake.app */,
 				3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */,
-				4E7E05EE157383A80072B76B /* Pancake copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -816,23 +692,6 @@
 			productReference = 3B5C97ED147CF7BD007EF770 /* iSugarCRMTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		4E7E0585157383A80072B76B /* Pancake Test */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4E7E05EB157383A80072B76B /* Build configuration list for PBXNativeTarget "Pancake Test" */;
-			buildPhases = (
-				4E7E0586157383A80072B76B /* Sources */,
-				4E7E05C0157383A80072B76B /* Frameworks */,
-				4E7E05C8157383A80072B76B /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pancake Test";
-			productName = iSugarCRM;
-			productReference = 4E7E05EE157383A80072B76B /* Pancake copy.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -855,7 +714,6 @@
 			targets = (
 				3B5C97CB147CF7BC007EF770 /* Pancake */,
 				3B5C97EC147CF7BD007EF770 /* PancakeTests */,
-				4E7E0585157383A80072B76B /* Pancake Test */,
 			);
 		};
 /* End PBXProject section */
@@ -907,47 +765,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B5C97F9147CF7BD007EF770 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4E7E05C8157383A80072B76B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4E7E05C9157383A80072B76B /* InfoPlist.strings in Resources */,
-				4E7E05CA157383A80072B76B /* CRMDatabase.db in Resources */,
-				4E7E05CB157383A80072B76B /* LoginViewController.xib in Resources */,
-				4E7E05CC157383A80072B76B /* itemImage.png in Resources */,
-				4E7E05CD157383A80072B76B /* CRMMetadata.plist in Resources */,
-				4E7E05CE157383A80072B76B /* TextFieldTableCell.xib in Resources */,
-				4E7E05CF157383A80072B76B /* settings.png in Resources */,
-				4E7E05D0157383A80072B76B /* sync.png in Resources */,
-				4E7E05D1157383A80072B76B /* Accounts.png in Resources */,
-				4E7E05D2157383A80072B76B /* Accounts@2x.png in Resources */,
-				4E7E05D3157383A80072B76B /* Calls.png in Resources */,
-				4E7E05D4157383A80072B76B /* Calls@2x.png in Resources */,
-				4E7E05D5157383A80072B76B /* Campaigns.png in Resources */,
-				4E7E05D6157383A80072B76B /* Campaigns@2x.png in Resources */,
-				4E7E05D7157383A80072B76B /* Cases.png in Resources */,
-				4E7E05D8157383A80072B76B /* Cases@2x.png in Resources */,
-				4E7E05D9157383A80072B76B /* Contacts.png in Resources */,
-				4E7E05DA157383A80072B76B /* Contacts@2x.png in Resources */,
-				4E7E05DB157383A80072B76B /* Leads.png in Resources */,
-				4E7E05DC157383A80072B76B /* Leads@2x.png in Resources */,
-				4E7E05DD157383A80072B76B /* Meetings.png in Resources */,
-				4E7E05DE157383A80072B76B /* Meetings@2x.png in Resources */,
-				4E7E05DF157383A80072B76B /* Opportunities.png in Resources */,
-				4E7E05E0157383A80072B76B /* Opportunities@2x.png in Resources */,
-				4E7E05E1157383A80072B76B /* background.png in Resources */,
-				4E7E05E2157383A80072B76B /* PanCake_Logo.png in Resources */,
-				4E7E05E3157383A80072B76B /* Icon-72.png in Resources */,
-				4E7E05E4157383A80072B76B /* Icon.png in Resources */,
-				4E7E05E5157383A80072B76B /* Icon@2x.png in Resources */,
-				4E7E05E6157383A80072B76B /* LoginViewController~ipad.xib in Resources */,
-				4E7E05E7157383A80072B76B /* DefaultDetailView.xib in Resources */,
-				4E7E05E8157383A80072B76B /* Recent.png in Resources */,
-				4E7E05E9157383A80072B76B /* Recent@2x.png in Resources */,
-				4E7E05EA157383A80072B76B /* manage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1039,70 +856,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B5C97FC147CF7BD007EF770 /* iSugarCRMTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4E7E0586157383A80072B76B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4E7E0587157383A80072B76B /* main.m in Sources */,
-				4E7E0588157383A80072B76B /* AppDelegate.m in Sources */,
-				4E7E0589157383A80072B76B /* MetadataStore.m in Sources */,
-				4E7E058A157383A80072B76B /* ViewMetadataStore.m in Sources */,
-				4E7E058B157383A80072B76B /* WebserviceSession.m in Sources */,
-				4E7E058C157383A80072B76B /* DBSession.m in Sources */,
-				4E7E058D157383A80072B76B /* ViewSession.m in Sources */,
-				4E7E058E157383A80072B76B /* WebserviceMetadata.m in Sources */,
-				4E7E058F157383A80072B76B /* SugarCRMMetadataStore.m in Sources */,
-				4E7E0590157383A80072B76B /* DataObjectField.m in Sources */,
-				4E7E0591157383A80072B76B /* DataObjectMetadata.m in Sources */,
-				4E7E0592157383A80072B76B /* DataObject.m in Sources */,
-				4E7E0593157383A80072B76B /* DBMetadata.m in Sources */,
-				4E7E0594157383A80072B76B /* OrderedDictionary.m in Sources */,
-				4E7E0595157383A80072B76B /* JSONKit.m in Sources */,
-				4E7E0596157383A80072B76B /* ListViewMetadata.m in Sources */,
-				4E7E0597157383A80072B76B /* ListViewController.m in Sources */,
-				4E7E0598157383A80072B76B /* DetailViewMetadata.m in Sources */,
-				4E7E0599157383A80072B76B /* SqliteObj.m in Sources */,
-				4E7E059A157383A80072B76B /* RootViewController.m in Sources */,
-				4E7E059B157383A80072B76B /* SyncHandler.m in Sources */,
-				4E7E059C157383A80072B76B /* DetailViewRowItem.m in Sources */,
-				4E7E059D157383A80072B76B /* DetailViewSectionItem.m in Sources */,
-				4E7E059E157383A80072B76B /* DetailViewController.m in Sources */,
-				4E7E059F157383A80072B76B /* LoginViewController.m in Sources */,
-				4E7E05A0157383A80072B76B /* LoginUtils.m in Sources */,
-				4E7E05A1157383A80072B76B /* DashboardController.m in Sources */,
-				4E7E05A2157383A80072B76B /* CustomBadge.m in Sources */,
-				4E7E05A3157383A80072B76B /* MyLauncherItem.m in Sources */,
-				4E7E05A4157383A80072B76B /* MyLauncherPageControl.m in Sources */,
-				4E7E05A5157383A80072B76B /* MyLauncherScrollView.m in Sources */,
-				4E7E05A6157383A80072B76B /* MyLauncherView.m in Sources */,
-				4E7E05A7157383A80072B76B /* MyLauncherViewController.m in Sources */,
-				4E7E05A8157383A80072B76B /* SettingsStore.m in Sources */,
-				4E7E05A9157383A80072B76B /* ModuleSettingsViewController.m in Sources */,
-				4E7E05AA157383A80072B76B /* ModuleSettingsDataStore.m in Sources */,
-				4E7E05AB157383A80072B76B /* ModuleSettingsObject.m in Sources */,
-				4E7E05AC157383A80072B76B /* AppSettingsViewController.m in Sources */,
-				4E7E05AD157383A80072B76B /* TextFieldTableCell.m in Sources */,
-				4E7E05AE157383A80072B76B /* ApplicationKeyStore.m in Sources */,
-				4E7E05AF157383A80072B76B /* SyncSettingsViewController.m in Sources */,
-				4E7E05B0157383A80072B76B /* EditViewController.m in Sources */,
-				4E7E05B1157383A80072B76B /* ListViewController_pad.m in Sources */,
-				4E7E05B2157383A80072B76B /* DetailViewController_pad.m in Sources */,
-				4E7E05B3157383A80072B76B /* SplitViewController.m in Sources */,
-				4E7E05B4157383A80072B76B /* EditViewRowItem.m in Sources */,
-				4E7E05B5157383A80072B76B /* EditViewSectionItem.m in Sources */,
-				4E7E05B6157383A80072B76B /* RelationsViewController.m in Sources */,
-				4E7E05B7157383A80072B76B /* RecentViewController.m in Sources */,
-				4E7E05B8157383A80072B76B /* RecentViewController_pad.m in Sources */,
-				4E7E05B9157383A80072B76B /* DBHelper.m in Sources */,
-				4E7E05BA157383A80072B76B /* Login.js in Sources */,
-				4E7E05BB157383A80072B76B /* Moduleicons.js in Sources */,
-				4E7E05BC157383A80072B76B /* Settings.js in Sources */,
-				4E7E05BD157383A80072B76B /* Syncsetup.js in Sources */,
-				4E7E05BE157383A80072B76B /* Leads.js in Sources */,
-				4E7E05BF157383A80072B76B /* Main.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1267,62 +1020,6 @@
 			};
 			name = Release;
 		};
-		4E7E05EC157383A80072B76B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Malasree Bantupalli (SR988792LU)";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
-				INFOPLIST_FILE = "Pancake copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/iSugarCRM\"",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-lstdc++",
-				);
-				PRODUCT_NAME = "Pancake copy";
-				PROVISIONING_PROFILE = "B4A6CA0F-B79B-4630-BCB0-0A0956D4E1EF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B4A6CA0F-B79B-4630-BCB0-0A0956D4E1EF";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		4E7E05ED157383A80072B76B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Pramati Technologies";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Pramati Technologies";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
-				INFOPLIST_FILE = "Pancake copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/iSugarCRM\"",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-all_load",
-					"-lstdc++",
-				);
-				PRODUCT_NAME = "Pancake copy";
-				PROVISIONING_PROFILE = "C60C3E8C-49B3-42C6-9D12-0883FE73B0E1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C60C3E8C-49B3-42C6-9D12-0883FE73B0E1";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1349,15 +1046,6 @@
 			buildConfigurations = (
 				3B5C9803147CF7BD007EF770 /* Debug */,
 				3B5C9804147CF7BD007EF770 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		4E7E05EB157383A80072B76B /* Build configuration list for PBXNativeTarget "Pancake Test" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4E7E05EC157383A80072B76B /* Debug */,
-				4E7E05ED157383A80072B76B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
