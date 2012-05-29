@@ -2,6 +2,8 @@ Welcome
 pancake-ios: Sugar on Pancake
 An IOS Client for SugarCRM.
 
+You can download [Sugar on Pancake](http://itunes.apple.com/us/app/sugar-on-pancake/id528250369?ls=1&mt=8)  from itunes
+
 Please check-out the following video on youtube to see how it works: Coming Soon..
 
 Supported features
