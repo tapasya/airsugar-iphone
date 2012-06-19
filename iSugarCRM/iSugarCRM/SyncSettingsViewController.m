@@ -9,6 +9,9 @@
 #import "SyncSettingsViewController.h"
 #import "SettingsStore.h"
 #import "AppDelegate.h"
+#import "Reachability.h"
+#import "SyncHandler.h"
+#import "ConnectivityChecker.h"
 
 #define kEraseAlertViewTag 1001
 
@@ -35,6 +38,7 @@ BOOL isFirstTime;
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncFailed) name:@"SugarSyncFailed" object:nil];  
         startDate = [SettingsStore objectForKey:kStartDateIdentifier];
         endDate = [SettingsStore objectForKey:kStartDateIdentifier];
         if (!startDate && !endDate) {
@@ -145,6 +149,12 @@ BOOL isFirstTime;
     [super viewDidAppear:animated];
 }
 
+-(void) viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SugarSyncComplete" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SugarSyncFailed" object:nil];
+    [super viewDidDisappear:animated];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -344,40 +354,50 @@ BOOL isFirstTime;
 
 -(void)syncNow:(id)sender{
     
-    if(!startDate){
-        startDate = [self.dateFormatter stringFromDate:[NSDate date]];
-    }
-    
-    if(!endDate){
-        endDate = [self.dateFormatter stringFromDate:[NSDate date]];
-    }
-    NSDate *dateStart = [self.dateFormatter dateFromString:self.startDate];
-    NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
-    UIAlertView *dateAlert;
-    if([dateStart compare:[NSDate date]] == NSOrderedDescending || [dateEnd compare:[NSDate date]] == NSOrderedDescending){
-        dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Start Date or End Date should not be a Future Date" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [dateAlert show];
-        return;
-    }else{
-        if([dateStart compare:dateEnd] == NSOrderedDescending){
-            dateAlert = [[UIAlertView alloc]initWithTitle:@"Info" message:@"Start Date should not be earlier than End Date" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            [dateAlert show];
-            return;
+    //NSError* error;
+    if([[ConnectivityChecker singletonObject] isNetworkReachable])
+    {
+        if(!startDate){
+            startDate = [self.dateFormatter stringFromDate:[NSDate date]];
         }
+        
+        if(!endDate){
+            endDate = [self.dateFormatter stringFromDate:[NSDate date]];
+        }
+        [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
+        [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
+        //[sharedAppDelegate sync];
+        [sharedAppDelegate performSelectorInBackground:@selector(completeSyncWithDateFilters) withObject:nil];
+        //[sharedAppDelegate dismissWaitingAlert];
     }
-    [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
-    [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    //[sharedAppDelegate sync];
-    [sharedAppDelegate performSelectorInBackground:@selector(completeSyncWithDateFilters) withObject:nil];
-    //[sharedAppDelegate dismissWaitingAlert];
+    else
+    {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"No interner connection. Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 -(void) didCompleteSync
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    [alertView show];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;    
+        [sharedAppDelegate dismissWaitingAlert];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    });
+}
+
+-(void) syncFailed:(id) sender
+{ 
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;    
+        [sharedAppDelegate dismissWaitingAlert];
+        NSError* error = (NSError*) sender;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];        
+    });
 }
 
 -(void)eraseDBData:(id)sender{

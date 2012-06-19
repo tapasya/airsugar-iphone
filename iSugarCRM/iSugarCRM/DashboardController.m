@@ -23,6 +23,7 @@
 #import "SettingsStore.h"
 #import "JSONKit.h"
 #import "DBHelper.h"
+#import "ConnectivityChecker.h"
 
 #define kIpadLabelWidth         400
 #define kIphoneLabelWidth       250
@@ -46,6 +47,7 @@ bool isSyncEnabled ;
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncFailed:) name:@"SugarSyncFailed" object:nil];        
         isSyncEnabled = false;
     }
     return self;
@@ -57,6 +59,7 @@ bool isSyncEnabled ;
     if (self) {
         // Custom initialization
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didCompleteSync) name:@"SugarSyncComplete" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncFailed) name:@"SugarSyncFailed" object:nil];        
         isSyncEnabled = true;
         [self performSelectorInBackground:@selector(performLoginAction) withObject:nil]; //TODO:blocking sync view
     }
@@ -129,6 +132,13 @@ bool isSyncEnabled ;
     [super viewDidAppear:animated];
 }
 
+-(void) viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SugarSyncComplete" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SugarSyncFailed" object:nil];
+    [super viewDidDisappear:animated];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -141,27 +151,39 @@ bool isSyncEnabled ;
     [self.navigationController pushViewController:svc animated:YES];
 }
 
+
 -(void)performLoginAction{
 
     id response;
-    if(session){
-        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedAppDelegate completeSyncWithDateFilters];
-    }else{
-        session = nil;
-        response = [LoginUtils login];
-        session = [[response objectForKey:@"response"]objectForKey:@"id"];
-        if(!session){
-            LoginViewController *lvc = [[LoginViewController alloc] init];
-            UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
-            appKeyWindow.rootViewController=lvc;
-            [lvc.spinner setHidden:YES];
-            [LoginUtils displayLoginError:response];
-        }else{
-            AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    AppDelegate *sharedAppDelegate;//NSError* error;
+    if([[ConnectivityChecker singletonObject] isNetworkReachable])
+    {
+        if(session){
+            sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             [sharedAppDelegate completeSyncWithDateFilters];
+        }else{
+            session = nil;
+            response = [LoginUtils login];
+            session = [[response objectForKey:@"response"]objectForKey:@"id"];
+            if(!session){
+                SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+                [sugarMetaDataStore configureMetadata];            
+                [self loadModuleViews];            
+                [LoginUtils displayLoginError:response];
+            }else{
+                sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [sharedAppDelegate completeSyncWithDateFilters];
+            }
         }
     }
+    else
+    {
+        SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
+        [sugarMetaDataStore configureMetadata];            
+        [self loadModuleViews];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"No internet connection. Please try again later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }    
 }
 
 
@@ -169,6 +191,9 @@ bool isSyncEnabled ;
 -(void) loadModuleViews
 {
     [self loadView];
+    [self.spinner stopAnimating];
+    [self.spinner setHidden:YES];
+    [self.loadingLabel setHidden:YES];
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     NSMutableArray *tempArray = [[sugarMetaDataStore modulesSupported] mutableCopy];
     [tempArray addObject:@"Recent"];
@@ -302,9 +327,6 @@ bool isSyncEnabled ;
     NSLog(@"sync complete");
     NSArray* userList = [self fetchUserList];
     [DBHelper updateUserTable:userList];
-    [self.spinner stopAnimating];
-    [self.spinner setHidden:YES];
-    [self.loadingLabel setHidden:YES];
     [self performSelectorOnMainThread:@selector(loadModuleViews) withObject:nil waitUntilDone:NO];
     //[self loadModuleViews];
     
@@ -315,6 +337,16 @@ bool isSyncEnabled ;
      */
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [appDelegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
+}
+
+-(void) syncFailed:(id) sender
+{ 
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self loadModuleViews];
+        NSError* error = (NSError*) sender;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];        
+    });
 }
 
 @end

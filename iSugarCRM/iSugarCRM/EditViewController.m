@@ -17,6 +17,7 @@
 #import "SyncHandler.h"
 #import "DBSession.h"
 #import "DBHelper.h"
+#import "Reachability.h"
 
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
@@ -245,9 +246,12 @@
     for (NSString *key in [dataSource allKeys]) {
         [dataObject setObject:[dataSource objectForKey:key] forFieldName:key];
     }
+        
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     syncHandler.delegate = self;
-    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArray]] forModule:self.metadata.objectClassIdentifier parent:self];
+    NSMutableArray* uploadDataArray = [[dbSession getUploadData] mutableCopy];
+    [uploadDataArray addObject:dataObject];
+    [syncHandler uploadData:uploadDataArray forModule:self.metadata.objectClassIdentifier parent:self];
     
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
@@ -442,7 +446,7 @@
 -(BOOL)validateEmail:(UITextField *)textField
 {
     NSError *error;
-    NSString *string = @"rotarian.iita@gmail.com";
+    NSString *string = textField.text;
     NSString *regexPattern = [NSString stringWithFormat:@"%@%@%@%@",@"^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@",@"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.",@"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|",@"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
     
@@ -457,7 +461,7 @@
 -(BOOL)validatePhoneNumber:(UITextField *)textField
 {
     NSError *error;
-    NSString *string = @"9030245759";
+    NSString *string = textField.text;
     NSString *regexPattern = [NSString stringWithFormat:@"%@",@"^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$"];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
     
@@ -476,7 +480,18 @@
      dispatch_async(dispatch_get_main_queue(), ^(void) {
          AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
          [sharedAppDelegate dismissWaitingAlert];
-         [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+         if([error code] == NotReachable)
+         {
+             [self.navigationController dismissModalViewControllerAnimated:YES];
+             NSError* newError = [NSError errorWithDomain:error.domain code:error.code userInfo:[NSDictionary 
+                                    dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available. Changes saved locally and will be updated on next sync"],NSLocalizedDescriptionKey,nil]];
+             [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
+             [self performSelector:@selector(showSyncAlert:) withObject:newError];
+         }
+         else
+         {
+             [self performSelector:@selector(showSyncAlert:) withObject:error];
+         }
      });
 }
 
@@ -486,7 +501,7 @@
         [sharedAppDelegate dismissWaitingAlert];
         [self.navigationController dismissModalViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
-        [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+        [self performSelector:@selector(showSyncAlert:) withObject:nil];
     });
 }
 

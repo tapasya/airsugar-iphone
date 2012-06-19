@@ -16,6 +16,7 @@
 #import "RelationsViewController.h"
 #import "SyncHandler.h"
 #import "AppDelegate.h"
+#import "Reachability.h"
 
 #define kDeleteAlertViewTag 1001
 
@@ -71,39 +72,42 @@
 #pragma mark DbSession Load Delegate methods
 
 -(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
-{   
+{       
     self.detailsArray = [details mutableCopy];
     NSMutableArray* sections = [[NSMutableArray alloc] init];
-    for(NSDictionary *sectionItem_ in metadata.sections  )
-    {   
-        DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
-        sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
-        NSMutableArray *rowItems = [[NSMutableArray alloc] init];
-        NSArray *rows = [sectionItem_ objectForKey:@"rows"];
-        for(NSDictionary *rowItem_ in rows)
-        {
-            DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
-            rowItem.label = [rowItem_ objectForKey:@"label"];
-            //workaround for deteremining action type. pls resolve.
-            rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
-        
-            NSMutableArray *fields = [NSMutableArray array];
-            for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
+    if( [details count] >0)
+    {
+        for(NSDictionary *sectionItem_ in metadata.sections  )
+        {   
+            DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
+            sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
+            NSMutableArray *rowItems = [[NSMutableArray alloc] init];
+            NSArray *rows = [sectionItem_ objectForKey:@"rows"];
+            for(NSDictionary *rowItem_ in rows)
             {
-                NSString *value = [[details objectAtIndex:0] objectForFieldName:field.name];
-                if (value) 
+                DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
+                rowItem.label = [rowItem_ objectForKey:@"label"];
+                //workaround for deteremining action type. pls resolve.
+                rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
+            
+                NSMutableArray *fields = [NSMutableArray array];
+                for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
                 {
-                    [fields addObject:value];    
+                    NSString *value = [[details objectAtIndex:0] objectForFieldName:field.name];
+                    if (value) 
+                    {
+                        [fields addObject:value];    
+                    }
                 }
+                rowItem.values = fields;
+                [rowItems addObject:rowItem];
             }
-            rowItem.values = fields;
-            [rowItems addObject:rowItem];
-        }
-        sectionItem.rowItems = rowItems;
-        [sections addObject:sectionItem];
+            sectionItem.rowItems = rowItems;
+            [sections addObject:sectionItem];
+        }        
+        //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];        
     }
     self.datasource = sections;
-    //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];
     [self.tableView reloadData];
 }
 -(void)session:(DBSession *)session detailDownloadFailedWithError:(NSError *)error
@@ -263,7 +267,9 @@
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:[NSArray arrayWithObject:[dataObject nameValueArrayForDelete]] forModule:self.metadata.moduleName parent:self];
+    NSMutableArray* uploadDataArray = [[dbSession getUploadData] mutableCopy];
+    [uploadDataArray addObject:dataObject];
+    [syncHandler uploadData:uploadDataArray forModule:self.metadata.moduleName parent:self];
     self.beanId = nil;
     self.beanTitle = @"";
     self.navigationController.title = @"";
@@ -284,7 +290,18 @@
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [sharedAppDelegate dismissWaitingAlert];
-        [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
+        if([error code] == NotReachable)
+        {
+            [self.navigationController dismissModalViewControllerAnimated:YES];
+            NSError* newError = [NSError errorWithDomain:error.domain code:error.code userInfo:
+                                 [NSDictionary  dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available. Changes saved locally and will be updated on next sync"],NSLocalizedDescriptionKey,nil]];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
+            [self performSelector:@selector(showSyncAlert:) withObject:newError];
+        }
+        else
+        {
+            [self performSelector:@selector(showSyncAlert:) withObject:error];
+        }
     });
 }
 -(void)syncComplete:(SyncHandler*)syncHandler
@@ -294,7 +311,7 @@
         [sharedAppDelegate dismissWaitingAlert];
         [self.navigationController dismissModalViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
-        [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+        [self performSelector:@selector(showSyncAlert:) withObject:nil];
     });
 }
 

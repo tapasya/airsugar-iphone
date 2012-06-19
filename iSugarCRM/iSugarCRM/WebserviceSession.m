@@ -56,7 +56,14 @@
 -(void)startUploading
 { 
     if(self.uploadDataObjects != nil){
-        NSURLRequest *request = [metadata getWriteRequestWithData:uploadDataObjects];
+        // Converting Dataobject to Namevalue arrays before posting . This should happed only here. 
+        // Removed the conversion from one to other at all other places
+        NSMutableArray* uploadObjects = [[NSMutableArray alloc] initWithCapacity:uploadDataObjects.count];
+        for(DataObject* dataObject in uploadDataObjects)
+        {
+            [uploadObjects addObject:[dataObject nameValueArray]];
+        }
+        NSURLRequest *request = [metadata getWriteRequestWithData:uploadObjects];
         [self loadUrl:request]; 
     }
 }

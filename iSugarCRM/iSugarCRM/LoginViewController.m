@@ -95,7 +95,6 @@ ApplicationKeyStore *keyChain;
     passwordField.secureTextEntry = YES;
     passwordField.returnKeyType = UIReturnKeyDefault;
     
-    //TODO: md5 hash for password
     usernameField.text = @"will";
     passwordField.text = @"will";
     urlField.text = sugarEndpoint;

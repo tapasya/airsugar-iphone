@@ -230,7 +230,7 @@
     NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
     for(DataObject* dataObject in moduleList)
     {
-        if([[dataObject objectForFieldName:@"deleted"] isEqualToString:@"0"])
+        if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
         {
             [visibleRecords addObject:dataObject];
         }
@@ -460,7 +460,7 @@
         DataObject* dataObject = (DataObject *)[self.tableData objectAtIndex:indexPath.row];
         [dataObject setObject:@"1" forFieldName:@"deleted"];
         [dbData addObject:dataObject];
-        [uploadData addObject:[dataObject  nameValueArrayForDelete]];
+        [uploadData addObject:dataObject];
     }
     [self.tableData removeObjectsAtIndexes:indexSetToDelete];
     [copy removeObjectsAtIndexes:dsIndexSetToDelete];
@@ -471,6 +471,8 @@
     DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
     DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
     [dbSession insertDataObjectsInDb:dbData dirty:NO];
+    
+    [uploadData addObjectsFromArray:[dbSession getUploadData]];
     
     SyncHandler * syncHandler = [SyncHandler sharedInstance];
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;

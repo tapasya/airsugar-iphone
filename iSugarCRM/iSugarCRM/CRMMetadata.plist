@@ -323,7 +323,7 @@
 				<key>label</key>
 				<string>Name</string>
 				<key>name</key>
-				<string>name</string>
+				<string>last_name</string>
 			</dict>
 			<key>otherFields</key>
 			<array>

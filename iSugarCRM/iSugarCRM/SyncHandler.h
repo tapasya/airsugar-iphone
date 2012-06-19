@@ -40,6 +40,10 @@ write methods
 -(void)runSyncForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
 -(void)runSyncWithTimestampForModule:(NSString*)moduleName parent:(id)parentl;
 -(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
+/*
+ Network Reachability methods
+ */
+//+ (BOOL)isReachable:(NSError**)error;
 @end
 
 @protocol SyncHandlerDelegate

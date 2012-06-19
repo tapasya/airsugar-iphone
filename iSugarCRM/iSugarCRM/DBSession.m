@@ -196,7 +196,7 @@
                 }
             }    
         }
-        [rows addObject:[dataObject nameValueArray]];
+        [rows addObject:dataObject];
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
@@ -298,6 +298,9 @@
                 //TODO add current timestamp;
             }
         }
+        if(!value)
+            value = @"";
+        
         if (is_first) 
         {
             [sql appendString:[NSString stringWithFormat:@"%@",column_name]];

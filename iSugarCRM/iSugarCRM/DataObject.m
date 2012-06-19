@@ -47,7 +47,8 @@
     for(DataObjectField* field in self.metadata.fields)
     {
         NSString* value = [self objectForFieldName:field.name];
-        if(value)
+        // Preventing the dummy local id from the name value array
+        if(value && !([field.name isEqualToString:@"id"]&& [value hasPrefix:LOCAL_ID_PREFIX]))
         {
             NSMutableDictionary* nameValuePair = [[NSMutableDictionary alloc] init];
             [nameValuePair setObject:field.name forKey:@"name"];
@@ -56,6 +57,21 @@
         }
     }
     return nameValueArray;
+}
+
++(NSArray*) removeLocalId:(NSArray *)nameValueArray
+{
+    NSMutableArray* temp = [nameValueArray mutableCopy];
+    for(NSDictionary* nameValueDictionary in temp)
+    {
+        NSString* name = [nameValueDictionary objectForKey:@"name"];
+        NSString* value = [nameValueDictionary objectForKey:@"value"];
+        if([name isEqualToString:@"id"] && [value hasPrefix:LOCAL_ID_PREFIX])
+        {
+            [temp removeObject:nameValueDictionary];
+        }
+    }
+    return temp;
 }
 
 +(DataObject*) dataObjectFromNameValueArray:(NSArray *)nameValueArray andMetadata:(DataObjectMetadata *)objectMetadata

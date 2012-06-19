@@ -11,6 +11,8 @@
 #import "ApplicationKeyStore.h"
 #import "SettingsStore.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "AppDelegate.h"
+
 @implementation LoginUtils
 
 +(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url{
@@ -50,38 +52,53 @@
 
 
 +(BOOL) seamLessLogin{
+    NSError *error = nil;
     BOOL isSuccesfull = YES;
-    NSMutableDictionary* restDataDictionary=[[NSMutableDictionary alloc]init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    NSMutableDictionary* urlParams=[[NSMutableDictionary alloc] init];
-    [urlParams setObject:@"seamless_login" forKey:@"method"];
-    [urlParams setObject:@"JSON" forKey:@"input_type"];
-    [urlParams setObject:@"JSON" forKey:@"response_type"];
-    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    //NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlString:[SettingsStore objectForKey:@"endpointURL"] forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSLog(@"URLSTRING = %@",urlString);
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];  
-    NSURLResponse* response = [[NSURLResponse alloc] init]; 
-    NSError* error=nil;
-    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    [data length];
-    NSUInteger len = [data length];
-    Byte *byteData = (Byte*)malloc(len);
-    [data getBytes:byteData length:[data length]];
-    NSString *responseValue = [NSString stringWithFormat:@"%i",byteData];
-    NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-    if (data== nil) {
-        [resultDict setObject:@"" forKey:@"data"];
+    if(session)
+    {
+        NSMutableDictionary* restDataDictionary=[[NSMutableDictionary alloc]init];
+        [restDataDictionary setObject:session forKey:@"session"];
+        NSMutableDictionary* urlParams=[[NSMutableDictionary alloc] init];
+        [urlParams setObject:@"seamless_login" forKey:@"method"];
+        [urlParams setObject:@"JSON" forKey:@"input_type"];
+        [urlParams setObject:@"JSON" forKey:@"response_type"];
+        [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+        //NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString* urlString = [[NSString stringWithFormat:@"%@",[self urlString:[SettingsStore objectForKey:@"endpointURL"] forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSLog(@"URLSTRING = %@",urlString);
+        NSMutableURLRequest* request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+        [request setHTTPMethod:@"POST"];  
+        NSURLResponse* response = [[NSURLResponse alloc] init]; 
+        error=nil;
+        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        [data length];
+        NSUInteger len = [data length];
+        Byte *byteData = (Byte*)malloc(len);
+        [data getBytes:byteData length:[data length]];
+        NSString *responseValue = [NSString stringWithFormat:@"%i",byteData];
+        NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+        if (data== nil) {
+            [resultDict setObject:@"" forKey:@"data"];
+        }
+        else
+        {
+            NSString *str = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+            [resultDict setObject:str forKey:@"data"];
+        }
+        [resultDict setObject:responseValue forKey:@"statuscode"];
+        if (![responseValue isEqualToString:@"1"]) {
+            id response =[LoginUtils login];
+            session = [[response objectForKey:@"response"]objectForKey:@"id"];
+            if(!session){
+                 dispatch_async(dispatch_get_main_queue(), ^(void) {
+                     [LoginUtils displayLoginError:response];
+                 });
+                isSuccesfull = NO;
+            }
+        }
     }
     else
     {
-        NSString *str = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
-        [resultDict setObject:str forKey:@"data"];
-    }
-    [resultDict setObject:responseValue forKey:@"statuscode"];
-    if (![responseValue isEqualToString:@"1"]) {
         id response =[LoginUtils login];
         session = [[response objectForKey:@"response"]objectForKey:@"id"];
         if(!session){
@@ -121,29 +138,35 @@
     return [self loginWithUsername:username password:[self md5Hash:password] andUrl:(NSString *)url];
     //return [self login:username :[self md5Hash:password]];
 }
+
 +(void)displayLoginError:(id)response{
     
-        if([response objectForKey:@"Error"]){
-            [self showError:[response objectForKey:@"Error"]];
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;    
+    [sharedAppDelegate performSelectorInBackground:@selector(dismissWaitingAlert) withObject:nil];
+    if([response objectForKey:@"Error"])
+    {
+        [self showError:[response objectForKey:@"Error"]];
+    }
+    else
+    {
+        NSString  *errorDescription,*errorName;
+        if([[[response objectForKey:@"response"]objectForKey:@"name"] length]!=0){
+            errorName = [[response objectForKey:@"response"]objectForKey:@"name"];
         }else{
-            NSString  *errorDescription,*errorName;
-            if([[[response objectForKey:@"response"]objectForKey:@"name"] length]!=0){
-                errorName = [[response objectForKey:@"response"]objectForKey:@"name"];
-            }else{
-                errorName = @"Invalid Login";
-            }
-            
-            if([[[response objectForKey:@"response"]objectForKey:@"description"] length]!=0){
-                errorDescription = [[response objectForKey:@"response"]objectForKey:@"description"];
-            }else{
-                errorDescription = @"Login attempt failed please check the username and password";
-            }
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorName message:errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alertView show];
+            errorName = @"Invalid Login";
         }
-    
+        
+        if([[[response objectForKey:@"response"]objectForKey:@"description"] length]!=0){
+            errorDescription = [[response objectForKey:@"response"]objectForKey:@"description"];
+        }else{
+            errorDescription = @"Login attempt failed please check the username and password";
+        }
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorName message:errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 }
+
 +(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params{
     NSString* urlString  = [NSString stringWithFormat:@"%@?",url];//[NSString stringWithFormat:@"%@?",sugarEndpoint];
     

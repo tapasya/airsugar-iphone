@@ -117,7 +117,7 @@ static SugarCRMMetadataStore *sharedInstance = nil;
     
     for(NSString *module in [metadataDictionary allKeys])
     {
-        if([[moduleList allKeys] containsObject:module]&&![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
+        if(![[[metadataDictionary objectForKey:module] objectForKey:@"disabled"] boolValue])
         {   
             WebserviceMetadata *webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WebserviceMetadata"]];
             WebserviceMetadata *write_webserviceMetadata = [WebserviceMetadata objectFromDictionary:[[metadataDictionary objectForKey:module] objectForKey:@"WriteWebserviceMetadata"]];
@@ -160,31 +160,34 @@ static SugarCRMMetadataStore *sharedInstance = nil;
 
 -(void)loadModuleList 
 {
-    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
-    [urlParams setObject:@"get_available_modules" forKey:@"method"];
-    [urlParams setObject:@"JSON" forKey:@"input_type"];
-    [urlParams setObject:@"JSON" forKey:@"response_type"];
-    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];  
-    NSURLResponse* response = [[NSURLResponse alloc] init]; 
-    NSError* error = nil;  
-    NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
-    if (error) {
-        NSLog(@"Error Parsing Metadata");
-        return;
-    } 
-    NSMutableDictionary *moduleKeyValuePairs=[[NSMutableDictionary alloc] init];
-    id moduleResponse=[adata objectFromJSONData];
-    for(NSDictionary* module in [moduleResponse objectForKey:@"modules"] ){
-        [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
+    if(session)
+    {
+        NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+        [restDataDictionary setObject:session forKey:@"session"];
+        NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+        [urlParams setObject:@"get_available_modules" forKey:@"method"];
+        [urlParams setObject:@"JSON" forKey:@"input_type"];
+        [urlParams setObject:@"JSON" forKey:@"response_type"];
+        [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+        NSString* urlString=[[NSString stringWithFormat:@"%@",[self urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+        [request setHTTPMethod:@"POST"];  
+        NSURLResponse* response = [[NSURLResponse alloc] init]; 
+        NSError* error = nil;  
+        NSData* adata = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+        if (error) {
+            NSLog(@"Error Parsing Metadata");
+            return;
+        } 
+        NSMutableDictionary *moduleKeyValuePairs=[[NSMutableDictionary alloc] init];
+        id moduleResponse=[adata objectFromJSONData];
+        for(NSDictionary* module in [moduleResponse objectForKey:@"modules"] ){
+            [moduleKeyValuePairs setObject:[module objectForKey:@"module_label"] forKey:[module objectForKey:@"module_key"]];
+        }
+        NSLog(@"modules in plist %@",moduleKeyValuePairs);
+        
+        self.moduleList = moduleKeyValuePairs;
     }
-    NSLog(@"modules in plist %@",moduleKeyValuePairs);
-    
-    self.moduleList = moduleKeyValuePairs;
 }
 
 

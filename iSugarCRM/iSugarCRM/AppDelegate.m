@@ -25,6 +25,8 @@
 #import "LoginUtils.h"
 #import "SettingsStore.h"
 #import "SyncSettingsViewController.h"
+#import "ConnectivityChecker.h"
+#import "Reachability.h"
 
 NSString * session=nil;
 
@@ -32,6 +34,7 @@ NSString * session=nil;
 -(void) showDashboardController;
 -(void) showSyncSettingViewController;
 -(void) resignFirstResponderRec:(UIView*) view;
+-(void) initNetworkReachability;
 @property(strong) UIAlertView *waitAlertView;
 @end
 
@@ -103,28 +106,32 @@ int usernameLength,passwordLength;
 }
 -(void)logout
 {
-    NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
-    [urlParams setObject:@"logout" forKey:@"method"];
-    [urlParams setObject:@"JSON" forKey:@"input_type"];
-    [urlParams setObject:@"JSON" forKey:@"response_type"];
-    [urlParams setObject:restDataDictionary forKey:@"rest_data"];
-    NSString *url = [[NSUserDefaults standardUserDefaults]objectForKey:@"endpointURL"];
-    //NSString* urlString=[[NSString stringWithFormat:@"%@",[LoginUtils urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSString* urlString=[[NSString stringWithFormat:@"%@",[LoginUtils urlString:url forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"POST"];  
-    NSURLResponse* response = [[NSURLResponse alloc] init]; 
-    NSError* error = nil;  
-    NSData* logoutResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
-    if (error) {
-        NSLog(@"Error Logging Out!");
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Failed to Logout" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
-        [alertView show];
-        return;
-    } 
-    NSLog(@"logout response = %@",[logoutResponseData objectFromJSONData]);
+    if (session)
+    {
+        NSMutableDictionary* restDataDictionary=[[OrderedDictionary alloc]init];
+        [restDataDictionary setObject:session forKey:@"session"];
+        NSMutableDictionary* urlParams=[[OrderedDictionary alloc] init];
+        [urlParams setObject:@"logout" forKey:@"method"];
+        [urlParams setObject:@"JSON" forKey:@"input_type"];
+        [urlParams setObject:@"JSON" forKey:@"response_type"];
+        [urlParams setObject:restDataDictionary forKey:@"rest_data"];
+        NSString *url = [[NSUserDefaults standardUserDefaults]objectForKey:@"endpointURL"];
+        //NSString* urlString=[[NSString stringWithFormat:@"%@",[LoginUtils urlStringForParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString* urlString=[[NSString stringWithFormat:@"%@",[LoginUtils urlString:url forParams:urlParams]] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
+        [request setHTTPMethod:@"POST"];  
+        NSURLResponse* response = [[NSURLResponse alloc] init]; 
+        NSError* error = nil;  
+        NSData* logoutResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error]; 
+        if (error) {
+            NSLog(@"Error Logging Out!");
+            [self dismissWaitingAlert];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Logout" message:@"Failed to Logout" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+            [alertView show];
+            return;
+        } 
+        NSLog(@"logout response = %@",[logoutResponseData objectFromJSONData]);
+    }
     [self resetApp];
 }
 
@@ -167,10 +174,16 @@ int usernameLength,passwordLength;
 -(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
 {
     [self performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncFailed" object:error];
 }
 -(void)syncComplete:(SyncHandler*)syncHandler
 {
     //[self dismissWaitingAlert];
+}
+
+-(void) initNetworkReachability
+{
+    [[ConnectivityChecker singletonObject] startReaching];
 }
 
 #pragma mark UIApplicationDelegate methods
@@ -180,6 +193,8 @@ int usernameLength,passwordLength;
     self.recentItems = [NSMutableDictionary dictionaryWithCapacity:10];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     LoginViewController *lvc = [[LoginViewController alloc] init];
+    [self performSelector:@selector(initNetworkReachability) withObject:nil afterDelay:0.1];
+    //[self performSelectorInBackground:@selector(initNetworkReachability) withObject:nil];
     if(![LoginUtils keyChainHasUserData])
     {
         self.window.rootViewController = lvc;
@@ -233,8 +248,9 @@ int usernameLength,passwordLength;
     /*
      Called when the application is about to terminate.
      Save data if appropriate.
-     See also applicationDidEnterBackground:.
+     See also applicationDidEnterBackground:.xza
      */
+    [[NSNotificationCenter defaultCenter] removeObserver:[ConnectivityChecker singletonObject]name:kReachabilityChangedNotification object:nil];
 }
 
 
