@@ -48,13 +48,23 @@ static ConnectivityChecker *_singleton = nil;
 -(void)startReaching
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityNotifier:) name:kReachabilityChangedNotification object:nil];
-    
-    NSRange range = [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] rangeOfString:@"://"];
-    if(range.location == NSNotFound)
+    NSString *endpointURL = @"";NSString *hostname = @"";
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] == nil)
     {
-        range.location = 0;
+        endpointURL = sugarEndpoint;
     }
-    NSString *hostname = [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] substringWithRange:NSMakeRange(range.location+range.length, [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] rangeOfString:@"/"].location)];
+    else {
+        endpointURL = [[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"];
+    }
+    
+    NSArray *components = [endpointURL componentsSeparatedByString:@"://"];
+    if ([components count]>1) {
+        hostname = [[[components objectAtIndex:1] componentsSeparatedByString:@"/"] objectAtIndex:0];
+    }
+    else {
+        hostname = [[[components objectAtIndex:0] componentsSeparatedByString:@"/"] objectAtIndex:0];
+    }
+    
     _hostReach = [Reachability reachabilityWithHostName:hostname];
     [_hostReach startNotifier];
     [self updateReachability:_hostReach];
