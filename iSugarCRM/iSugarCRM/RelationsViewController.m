@@ -174,11 +174,15 @@
 
 -(void)session:(DBSession*)session downloadedDetails:(NSArray*)details{
     if([details count] >0){
-        if([dataObjectStore objectForKey:session.metadata.tableName]){
-         NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];
-            [beans addObject:[details objectAtIndex:0]];
-        } else {
-            [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+        DataObject* dataObject = [details objectAtIndex:0];
+        if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
+        {
+            if([dataObjectStore objectForKey:session.metadata.tableName]){
+                NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];            
+                [beans addObject:dataObject];                          
+            } else {
+                [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+            }
         }
     }
 }

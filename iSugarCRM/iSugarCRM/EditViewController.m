@@ -416,22 +416,28 @@
     if (textField.keyboardType == UIKeyboardTypeEmailAddress) {
         if(![self validateEmail:textField])
         {
-            textField.text = @"";
-            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid EmailId" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Invalid Email address %@",textField.text] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-            return;
+            textField.text = @"";
+        }
+        else {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }
     }
     else if(textField.keyboardType == UIKeyboardTypePhonePad){
+        
         if(![self validatePhoneNumber:textField])
         {
-            textField.text = @"";
-            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Invalid Phonenumber" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Invalid Phonenumber %@",textField.text] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];
-            return;
+            textField.text = @"";
+        }
+        else {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }
     }
     [dataSource setObject:textField.text forKey:dof.name];
+    //self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
@@ -1117,7 +1123,11 @@
     EditViewSectionItem *evSectionItem = [editableDataObjectFields objectAtIndex:selectedIndexPath.section];
     DataObjectField *dof  = [evSectionItem.rowItems objectAtIndex:selectedIndexPath.row];
     [dataSource setObject:textField.text forKey:dof.name];
-    self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
+    if (textField.keyboardType == UIKeyboardTypeEmailAddress || textField.keyboardType == UIKeyboardTypePhonePad) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }else {
+        self.navigationItem.rightBarButtonItem.enabled = [self isValidRecord];
+    }
 }
 
 -(NSInteger)effectiveRowIndexWithIndexPath:(NSIndexPath *)indexpath
