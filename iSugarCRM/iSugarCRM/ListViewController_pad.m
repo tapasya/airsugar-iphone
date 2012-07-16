@@ -18,6 +18,7 @@
     @private
     UIPopoverController *popOver;
     UIActionSheet *_actionSheet;
+    UIBarButtonItem* modulesButton;
 }
 @end
 @implementation ListViewController_pad
@@ -61,7 +62,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Modules" style:UIBarButtonItemStyleBordered target:self  action:@selector(showDashboard:)];
+    modulesButton = [[UIBarButtonItem alloc] initWithTitle:@"Modules" style:UIBarButtonItemStyleBordered target:self  action:@selector(showDashboard:)];
+    self.navigationItem.leftBarButtonItem = modulesButton;
     if(UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
     {
         self.navigationItem.rightBarButtonItem.customView.hidden = YES;
@@ -71,6 +73,7 @@
 
 -(void) viewWillAppear:(BOOL)animated
 {
+    self.navigationItem.leftBarButtonItem = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) ? nil : modulesButton;
     [super viewWillAppear:animated];
 }
 
@@ -111,6 +114,8 @@
         [_actionSheet dismissWithClickedButtonIndex:2 animated:YES];
         _actionSheet = nil;
     }
+    self.navigationItem.leftBarButtonItem = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) ? nil : modulesButton;
+    
     if(self.navigationItem.rightBarButtonItem.customView)
     {
         self.navigationItem.rightBarButtonItem.customView.hidden = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
