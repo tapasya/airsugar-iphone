@@ -9,17 +9,21 @@
 #import "DBSession.h"
 #import "SqliteObj.h"
 #import "DataObject.h"
+#import "SugarCRMMetadataStore.h"
+
 @interface DBSession ()
 -(BOOL)loadRelationshipsForBean:(DataObject*)bean;
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db;
 @end
 @implementation DBSession
-@synthesize delegate,metadata,syncDelegate,parent;
+@synthesize metadata,parent;
+@synthesize completionBlock = _completionBlock;
+@synthesize errorBlock = _errorBlock;
 
-+(DBSession*)sessionWithMetadata:(DBMetadata*)metadata
++(DBSession*)sessionForModule:(NSString *)moduleName
 {
     DBSession *session=[[DBSession alloc] init];
-    session.metadata=metadata;
+    session.metadata=[[SugarCRMMetadataStore sharedInstance] dbMetadataForModule:moduleName];
     return session;
 }
 
@@ -31,14 +35,20 @@
     NSMutableArray *rows = [[NSMutableArray alloc]init];
     if(![db initializeDatabaseWithError:&error]){
         NSLog(@"%@",[error localizedDescription]);
-        [delegate session:self listDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ ;",metadata.tableName];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
-        [delegate session:self listDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     while(sqlite3_step(stmt)==SQLITE_ROW){
         DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
         int columnCount = sqlite3_column_count(stmt);
@@ -64,7 +74,10 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
-    [delegate session:self downloadedModuleList:rows moreComing:NO];
+    
+    if (nil != self.completionBlock) {
+        self.completionBlock(rows);
+    }
 }
 
 -(void)loadDetailsForId:(NSString *)beanId
@@ -77,12 +90,14 @@
         NSLog(@"%@",[error localizedDescription]);
         success = NO;
     }
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE id is '%@';",metadata.tableName,beanId];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
         success = NO;
     }
+    
     while(sqlite3_step(stmt)==SQLITE_ROW){
         DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
         int columnCount = sqlite3_column_count(stmt);
@@ -107,31 +122,42 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
+    
     if([rows count] >0){
         success = [self loadRelationshipsForBean:[rows objectAtIndex:0]];
     }
+    
     if (!success) {
-        [delegate session:self detailDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     } else {
-        [delegate session:self downloadedDetails:rows];
+        if (nil != self.completionBlock) {
+            self.completionBlock(rows);
+        }
     }
 }
 
--(BOOL)loadRelationshipsForBean:(DataObject*)bean{
+-(BOOL)loadRelationshipsForBean:(DataObject*)bean
+{
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     BOOL success = YES;
     if(![db initializeDatabaseWithError:&error]){
         NSLog(@"%@",[error localizedDescription]);
-        [delegate session:self detailDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
         success = NO;
     }
+   
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Relationships WHERE bean_id is '%@';",[bean objectForFieldName:@"id"]];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
         success = NO;
     }
+    
     NSMutableDictionary* relationship = [NSMutableDictionary dictionary];
     while(sqlite3_step(stmt)==SQLITE_ROW){
         NSString *relatedBeanId;
@@ -159,23 +185,31 @@
     bean.relationships = relationship;
     sqlite3_finalize(stmt);
     [db closeDatabase];
+    
     return success;
 }
 
--(NSArray*)getUploadData{
+-(NSArray*) getUploadData
+{
     SqliteObj* db = [[SqliteObj alloc] init];
     NSError* error = nil;
     NSMutableArray *rows = [[NSMutableArray alloc]init];
     if(![db initializeDatabaseWithError:&error]){
         NSLog(@"%@",[error localizedDescription]);
-        [delegate session:self detailDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE dirty = 1;",metadata.tableName];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
-        [delegate session:self detailDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     while(sqlite3_step(stmt)==SQLITE_ROW){
         DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
         int columnCount = sqlite3_column_count(stmt);
@@ -200,6 +234,7 @@
     }
     sqlite3_finalize(stmt);
     [db closeDatabase];
+    
     return rows;
 }
 
@@ -212,8 +247,11 @@
     if(![db initializeDatabaseWithError:&error])
     {
         NSLog(@"%@",[error localizedDescription]);
-        [syncDelegate session:self syncFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+   
     NSMutableString *sql = [NSMutableString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (",metadata.tableName];
     BOOL is_first = YES;
     for(NSString *column_name in [metadata.columnNames allObjects])
@@ -231,7 +269,9 @@
     
     if(![db executeUpdate:sql error:&error]){
         NSLog(@"error creating database with sql:%@ and error: %@",sql,[error localizedDescription]);
-        [syncDelegate session:self syncFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
         return NO;
     }
     return YES;
@@ -247,7 +287,9 @@
     if (error) {
         beanExists = NO;
         NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
-        [delegate session:self listDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
     
     if(sqlite3_step(stmt)==SQLITE_ROW){
@@ -326,7 +368,8 @@
     return success;
     
 }
--(BOOL)updateRelationshipTableForObjects:(NSArray*)dataObjects inDatabase:(SqliteObj*)db error:(NSError*)error{
+-(BOOL)updateRelationshipTableForObjects:(NSArray*)dataObjects inDatabase:(SqliteObj*)db error:(NSError*)error
+{
     BOOL success = NO;
     for(DataObject* dObj in dataObjects){
         NSDictionary *relationships =  dObj.relationships;
@@ -337,7 +380,9 @@
                     success = [db executeUpdate:sql error:&error];
                     if (!success) {
                         NSLog(@"error inserting in database: %@",[error localizedDescription]);
-                        [syncDelegate session:self syncFailedWithError:error];
+                        if (nil != self.errorBlock) {
+                            self.errorBlock(error);
+                        };
                     }
                 }
             }
@@ -372,9 +417,14 @@
         }
         success = [self updateRelationshipTableForObjects:dataObjects inDatabase:db error:error];
         if (success == NO) {
-            [syncDelegate session:self syncFailedWithError:error];
+            if (nil != self.errorBlock) {
+                self.errorBlock(error);
+            };
         } else {
-            [syncDelegate sessionSyncSuccessful:self];
+            if (nil != self.completionBlock) {
+                // TODO revisit
+                self.completionBlock(dataObjects);
+            }
         }
         [db closeDatabase];
     } else {
@@ -394,6 +444,9 @@
     if(error)
     {
         NSLog(@"error updating dirty in table: %@",[error localizedDescription]);
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
     else
     {
@@ -412,14 +465,21 @@
     if(![db initializeDatabaseWithError:&error])
     {
         NSLog(@"%@",[error localizedDescription]);
-        [delegate session:self listDownloadFailedWithError:error];
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     //TODO: use mapping b/w fields and column name
     NSString *sql = [NSString stringWithFormat:@"SELECT date_modified FROM %@ ORDER BY date_modified DESC LIMIT 1;",metadata.tableName];
     sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
     if (error) {
         NSLog(@"error retrieving timestamp from database: %@",[error localizedDescription]);
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
     }
+    
     if(sqlite3_step(stmt)==SQLITE_ROW)
     {
         char *field_value = (char*)sqlite3_column_text(stmt, 0);

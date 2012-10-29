@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define kStartDateIdentifier            @"key_sync_start_date" //move constants to implementation file
+#define kEndDateIdentifier              @"key_sync_end_date"
+
+
 @interface SettingsStore : NSObject
 + (void)setBool:(BOOL)value      forKey:(NSString*)key;
 + (void)setFloat:(float)value    forKey:(NSString*)key;

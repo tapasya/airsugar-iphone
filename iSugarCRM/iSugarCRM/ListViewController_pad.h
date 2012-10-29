@@ -10,13 +10,13 @@
 #import "ListViewController.h"
 #import "ModuleSettingsViewController.h"
 
-@protocol DetailViewDelegate;
+typedef void(^ListViewSelectionBlock)(NSString* beanId, NSString* beanTitle, NSString* moduleName);
+
 @interface ListViewController_pad : ListViewController<SortDelegate>
 +(ListViewController_pad*)listViewControllerWithMetadata:(ListViewMetadata*)metadata;
 +(ListViewController_pad*)listViewControllerWithModuleName:(NSString*)module;
-@property (weak) id<DetailViewDelegate> detailViewDelegate;
+
+@property (nonatomic , strong) ListViewSelectionBlock selectionBlock;
+
 @end
 
-@protocol DetailViewDelegate
--(void) loadDetailViewWithBeanId:(NSString*) beanId beanTitle:(NSString*) beanTitle moduleName:(NSString*) moduleName;
-@end

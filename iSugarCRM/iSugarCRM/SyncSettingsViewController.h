@@ -7,8 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#define kStartDateIdentifier            @"key_sync_start_date" //move constants to implementation file
-#define kEndDateIdentifier              @"key_sync_end_date"
 
 #define kSyncNowCellIdentifier          @"Sync Now"
 #define kEraseAllCellIdentifier         @"Erase All"

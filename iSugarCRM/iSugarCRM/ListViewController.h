@@ -11,7 +11,7 @@
 #import "DBSession.h"
 #import "SyncHandler.h"
 
-@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,DBLoadSessionDelegate, UISearchBarDelegate, SyncHandlerDelegate,UIActionSheetDelegate>
+@interface ListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate,UIActionSheetDelegate>
 {
     @protected
     UITableView *myTableView;

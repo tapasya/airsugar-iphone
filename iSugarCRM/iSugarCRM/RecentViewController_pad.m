@@ -11,7 +11,7 @@
 #import "DashboardController.h"
 
 @implementation RecentViewController_pad
-@synthesize detailViewDelegate;
+@synthesize selectionBlock = _selectionBlock;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -66,9 +66,9 @@
 
 -(void) loadDetailviewWithBeanId:(NSString *)beanId beanTitle:(NSString *)beanTitle moduleName:(NSString *)moduleName
 {
-    if(self.detailViewDelegate)
+    if(self.selectionBlock)
     {
-        [self.detailViewDelegate loadDetailViewWithBeanId:beanId beanTitle:beanTitle moduleName:moduleName];
+        self.selectionBlock(beanId, beanTitle, moduleName);
     }
 }
 

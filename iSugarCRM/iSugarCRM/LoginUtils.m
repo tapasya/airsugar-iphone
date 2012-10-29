@@ -15,7 +15,8 @@
 
 @implementation LoginUtils
 
-+(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url{
++(id) loginWithUsername:(NSString*) username password:(NSString*) password andUrl:(NSString *)url
+{
     NSMutableDictionary *authDictionary=[[NSMutableDictionary alloc]init];
     [authDictionary setObject:username forKey:@"user_name"];
     [authDictionary setObject:password forKey:@"password"];
@@ -51,7 +52,8 @@
 }
 
 
-+(BOOL) seamLessLogin{
++(BOOL) seamLessLogin
+{
     NSError *error = nil;
     BOOL isSuccesfull = YES;
     if(session)
@@ -75,7 +77,7 @@
         NSUInteger len = [data length];
         Byte *byteData = (Byte*)malloc(len);
         [data getBytes:byteData length:[data length]];
-        NSString *responseValue = [NSString stringWithFormat:@"%i",byteData];
+        NSString *responseValue = [NSString stringWithFormat:@"%s",byteData];
         NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
         if (data== nil) {
             [resultDict setObject:@"" forKey:@"data"];
@@ -109,8 +111,8 @@
     return isSuccesfull;
 }
 
-+(BOOL)keyChainHasUserData{
-    
++(BOOL)keyChainHasUserData
+{
     int passwordLen;
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     if([[NSUserDefaults standardUserDefaults] objectForKey:kAppAuthenticationState] == nil)
@@ -129,7 +131,8 @@
     }
 }
 
-+(id)login{
++(id)login
+{
     NSString *username,*password,*url;
     ApplicationKeyStore *keyChain = [[ApplicationKeyStore alloc]initWithName:@"iSugarCRM-keystore"];
     username = [keyChain objectForKey:(__bridge id)kSecAttrAccount];
@@ -139,8 +142,8 @@
     //return [self login:username :[self md5Hash:password]];
 }
 
-+(void)displayLoginError:(id)response{
-    
++(void)displayLoginError:(id)response
+{
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;    
     [sharedAppDelegate performSelectorInBackground:@selector(dismissWaitingAlert) withObject:nil];
     if([response objectForKey:@"Error"])
@@ -163,11 +166,12 @@
         }
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:errorName message:errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alertView show];
+        [self showAlert:alertView];
     }
 }
 
-+(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params{
++(NSString*)urlString:(NSString *)url forParams:(NSMutableDictionary*)params
+{
     NSString* urlString  = [NSString stringWithFormat:@"%@?",url];//[NSString stringWithFormat:@"%@?",sugarEndpoint];
     
     bool is_first=YES;
@@ -207,7 +211,14 @@
     NSLog(@"Code-->%d",[error code]);
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:messageString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    [alertView show];
+    [self showAlert:alertView];
+}
+
++ (void) showAlert:(UIAlertView*) alert
+{
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        [alert show];
+    });
 }
 
 + (NSString *) md5Hash:(NSString*)string

@@ -225,11 +225,14 @@
     }
 }
 
--(void)saveRecord{
+-(void)saveRecord
+{
+    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
     
     [self.view endEditing:YES];
     SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBSession * dbSession = [DBSession sessionWithMetadata:[sharedInstance dbMetadataForModule:self.metadata.objectClassIdentifier]];
+    DBSession * dbSession = [DBSession sessionForModule:self.metadata.objectClassIdentifier];
     
     DataObject *dataObject = (DataObject *)[detailedData objectAtIndex:0];
     if(dataObject == nil)
@@ -243,18 +246,42 @@
             return; // add alert for error.
         }
     }
+    
     for (NSString *key in [dataSource allKeys]) {
         [dataObject setObject:[dataSource objectForKey:key] forFieldName:key];
     }
         
-    SyncHandler * syncHandler = [SyncHandler sharedInstance];
-    syncHandler.delegate = self;
-    NSMutableArray* uploadDataArray = [[dbSession getUploadData] mutableCopy];
-    [uploadDataArray addObject:dataObject];
-    [syncHandler uploadData:uploadDataArray forModule:self.metadata.objectClassIdentifier parent:self];
     
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
+    // Add a dummy id for new records this dummy id will not be sent to the server when syncing this record
+    if( ![dataObject objectForFieldName:@"id"])
+    {
+        [dataObject setObject:[NSString stringWithFormat:@"%@%f", LOCAL_ID_PREFIX, [[NSDate date] timeIntervalSince1970]] forFieldName:@"id"];
+    }
+    
+    __weak EditViewController* evc = self;
+    
+    dbSession.completionBlock = ^(NSArray* data){
+        
+        SyncHandler * syncHandler = [SyncHandler sharedInstance];
+        
+        syncHandler.completionBlock = ^(){
+            [evc syncComplete];
+        };
+        
+        syncHandler.errorBlock = ^(NSArray* errors){
+            [evc syncFailedWithError:[errors objectAtIndex:0]];
+        };
+        
+        [syncHandler runSyncforModules:[NSArray arrayWithObject:self.metadata.objectClassIdentifier] withSyncType:SYNC_TYPE_WITH_TIME_STAMP];
+        
+    };
+    
+    dbSession.errorBlock = ^(NSError* error){
+        NSLog(@"Handle database error while saving a record : %@", [error localizedDescription]);
+    };
+    
+    [dbSession insertDataObjectsInDb:[NSArray arrayWithObject:dataObject] dirty:YES];
+    
 }
 
 -(BOOL)isValidRecord
@@ -279,6 +306,55 @@
     dataSource = nil;
     [self.navigationController dismissModalViewControllerAnimated:YES];
 }
+
+#pragma mark SyncHandler block methods
+
+-(void) syncFailedWithError:(NSError*)error
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate dismissWaitingAlert];
+        if([error code] == NotReachable)
+        {
+            [self.navigationController dismissModalViewControllerAnimated:YES];
+            NSError* newError = [NSError errorWithDomain:error.domain code:error.code userInfo:[NSDictionary
+                                                                                                dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available. Changes saved locally and will be updated on next sync"],NSLocalizedDescriptionKey,nil]];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
+            [self performSelector:@selector(showSyncAlert:) withObject:newError];
+        }
+        else
+        {
+            [self performSelector:@selector(showSyncAlert:) withObject:error];
+        }
+    });
+}
+
+-(void) syncComplete
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate dismissWaitingAlert];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
+        [self performSelector:@selector(showSyncAlert:) withObject:nil];
+    });
+}
+
+-(IBAction)showSyncAlert:(id)sender
+{
+    NSError* error = (NSError*) sender;
+    if(error)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+}
+
 
 #pragma mark - TableView DataSource methods
 
@@ -361,7 +437,8 @@
 }
 
 #pragma mark - TableView delegate methods
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     selectedIndexPath = indexPath;
     UITableViewCell *cell = [_tableView cellForRowAtIndexPath:indexPath];
     [self scrollCell:cell];
@@ -480,51 +557,6 @@
     }
 }
 
-#pragma mark SyncHandler Delegate
-
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error{   
-     dispatch_async(dispatch_get_main_queue(), ^(void) {
-         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-         [sharedAppDelegate dismissWaitingAlert];
-         if([error code] == NotReachable)
-         {
-             [self.navigationController dismissModalViewControllerAnimated:YES];
-             NSError* newError = [NSError errorWithDomain:error.domain code:error.code userInfo:[NSDictionary 
-                                    dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available. Changes saved locally and will be updated on next sync"],NSLocalizedDescriptionKey,nil]];
-             [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
-             [self performSelector:@selector(showSyncAlert:) withObject:newError];
-         }
-         else
-         {
-             [self performSelector:@selector(showSyncAlert:) withObject:error];
-         }
-     });
-}
-
--(void)syncComplete:(SyncHandler*)syncHandler{
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [sharedAppDelegate dismissWaitingAlert];
-        [self.navigationController dismissModalViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"ReloadRecords" object:nil];
-        [self performSelector:@selector(showSyncAlert:) withObject:nil];
-    });
-}
-
--(IBAction)showSyncAlert:(id)sender
-{
-    NSError* error = (NSError*) sender;
-    if(error)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-    else
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sync Completed" message:@"Sync Completed" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-}
 
 //register for keyboard notifications.
 - (void)registerForKeyboardNotifications

@@ -164,26 +164,31 @@
     dataObjectStore = [NSMutableDictionary dictionary];
     for(NSString* key in [dataSourceDictionary allKeys]){
         for(NSString *beanId in  [dataSourceDictionary objectForKey:key]){
-            DBSession *session  = [DBSession sessionWithMetadata:[self dbMetaDataForModule:key]];
-            session.delegate = self;
+            DBSession *session  = [DBSession sessionForModule:[key capitalizedString]];
+            
+            session.completionBlock = ^(NSArray* details){
+                if([details count] >0){
+                    DataObject* dataObject = [details objectAtIndex:0];
+                    if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
+                    {
+                        if([dataObjectStore objectForKey:session.metadata.tableName]){
+                            NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];
+                            [beans addObject:dataObject];
+                        } else {
+                            [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
+                        }
+                    }
+                }
+
+            };
+            
+            session.errorBlock = ^(NSError* error){
+                NSLog(@"Handle relationships db error");
+            };
+            
             [session loadDetailsForId:beanId];
         }
     }
 }
-#pragma mark DBSession Load delegate
 
--(void)session:(DBSession*)session downloadedDetails:(NSArray*)details{
-    if([details count] >0){
-        DataObject* dataObject = [details objectAtIndex:0];
-        if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
-        {
-            if([dataObjectStore objectForKey:session.metadata.tableName]){
-                NSMutableArray *beans = [dataObjectStore objectForKey:session.metadata.tableName];            
-                [beans addObject:dataObject];                          
-            } else {
-                [dataObjectStore setObject:[NSMutableArray arrayWithObject:[details objectAtIndex:0]] forKey:session.metadata.tableName];
-            }
-        }
-    }
-}
 @end

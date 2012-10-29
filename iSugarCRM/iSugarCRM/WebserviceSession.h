@@ -13,7 +13,12 @@ enum SyncAction{
     kRead = 0 ,
     kWrite
 };
-@protocol WebserviceSessionDelegate;
+
+typedef void(^WebserviceSessionCompletionBlock)(id response, NSString* moduleName, enum SyncAction syncAction, NSArray* uploadData );
+
+typedef void(^WebserviceSessionErrorBlock)(NSError* error, NSString* moduleName);
+
+
 @interface WebserviceSession : NSOperation<NSURLConnectionDataDelegate>{
     @private
     BOOL _isExecuting;
@@ -21,11 +26,15 @@ enum SyncAction{
 }
 @property (readonly) BOOL executing;
 @property (readonly) BOOL finished;
-@property(weak)id<WebserviceSessionDelegate> delegate;
 @property(strong)WebserviceMetadata *metadata;
 @property(assign)NSInteger syncAction;
 @property(weak)id parent;
 @property(strong)NSArray* uploadDataObjects;
+
+@property (nonatomic, strong) WebserviceSessionCompletionBlock completionBlock;
+
+@property (nonatomic, strong) WebserviceSessionErrorBlock errorBlock;
+
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata;
 -(void)startLoading:(NSString*)timestamp;
 -(void)startLoadingWithStartDate:(NSString *)startDate endDate:(NSString *)endDate;

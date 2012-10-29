@@ -10,7 +10,7 @@
 #import "RootViewController.h"
 #import "SyncHandler.h"
 @class ViewController;
-@interface AppDelegate : UIResponder <UIApplicationDelegate,SyncHandlerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong) SyncHandler *syncHandler;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;

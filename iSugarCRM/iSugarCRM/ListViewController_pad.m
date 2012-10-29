@@ -22,7 +22,7 @@
 }
 @end
 @implementation ListViewController_pad
-@synthesize detailViewDelegate=_delegate;
+@synthesize selectionBlock = _selectionBlock;
 
 +(ListViewController_pad*)listViewControllerWithMetadata:(ListViewMetadata*)metadata
 {
@@ -139,9 +139,9 @@
         } else {
             [appDelegate.recentItems setObject:[NSMutableArray arrayWithObject:beanId] forKey:self.moduleName];
         }
-        if(self.detailViewDelegate)
+        if(nil !=self.selectionBlock)
         {
-            [self.detailViewDelegate loadDetailViewWithBeanId:beanId beanTitle:beanTitle moduleName:self.moduleName];
+            self.selectionBlock(beanId, beanTitle, self.moduleName);
         }
     }
 }   

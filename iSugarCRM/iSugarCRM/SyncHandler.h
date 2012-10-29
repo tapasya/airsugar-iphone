@@ -10,43 +10,33 @@
 #import "WebserviceSession.h"
 #import "DBSession.h"
 
-@protocol SyncHandlerDelegate;
-@interface SyncHandler : NSObject<WebserviceSessionDelegate,DBSyncSessionDelegate> {
+enum SYNC_TYPE {
+    SYNC_TYPE_DEFAULT = 0,
+    SYNC_TYPE_WITH_TIME_STAMP,
+    SYNC_TYPE_WITH_DATES,
+    SYNC_TYPE_WITH_TIME_STAMP_AND_DATES
+    };
+
+typedef void (^SyncHandlerCompletionBlock) ();
+
+typedef void (^SyncHandlerErrorBlock)(NSArray* errors);
+
+@interface SyncHandler : NSObject<WebserviceSessionDelegate> {
+
 @private
     NSOperationQueue        *mRequestQueue;
 }
-@property (assign) id<SyncHandlerDelegate>delegate;
-@property (assign) BOOL isCancelled;
-@property (assign) BOOL hadError;
-@property (assign) BOOL skipSeamlessLogin;
 
 + (SyncHandler*)sharedInstance;
-- (void)addSyncSession:(WebserviceSession*)session;
-/*
-write methods
- */
- -(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent;
-/*
- Complete app sync methods
- */
--(void)runCompleteSync;
--(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate;
--(void)runCompleteSyncWithTimestamp;
--(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate;
-/*
- Per module sync methods
- */
--(void)runSyncForModule:(NSString*)module parent:(id)parent;
--(void)runSyncForModule:(NSString*)moduleName startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
--(void)runSyncWithTimestampForModule:(NSString*)moduleName parent:(id)parentl;
--(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent;
-/*
- Network Reachability methods
- */
-//+ (BOOL)isReachable:(NSError**)error;
-@end
 
-@protocol SyncHandlerDelegate
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error;
--(void)syncComplete:(SyncHandler*)syncHandler;
+- (void)addSyncSession:(WebserviceSession*)session;
+
+// Complete app sync methods
+-(void) runSyncforModules:(NSArray*) modules withSyncType:(enum SYNC_TYPE) syncType;
+
+// Callback blocks
+@property (nonatomic, strong) SyncHandlerCompletionBlock completionBlock;
+
+@property (nonatomic, strong) SyncHandlerErrorBlock errorBlock;
+
 @end

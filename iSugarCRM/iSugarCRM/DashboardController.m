@@ -152,8 +152,8 @@ bool isSyncEnabled ;
 }
 
 
--(void)performLoginAction{
-
+-(void)performLoginAction
+{
     id response;
     AppDelegate *sharedAppDelegate;//NSError* error;
     if([[ConnectivityChecker singletonObject] isNetworkReachable])

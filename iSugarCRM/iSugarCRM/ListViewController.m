@@ -9,7 +9,6 @@
 #import "ListViewController.h"
 #import "ListViewMetadata.h"
 #import "SugarCRMMetadataStore.h"
-#import "DBSession.h"
 #import "DataObject.h"
 #import "ModuleSettingsViewController.h"
 #import "ModuleSettingsDataStore.h"
@@ -107,15 +106,29 @@
 }
 
 
--(void)syncModule{
+-(void)syncModule
+{
     sBar.text = @"";
     [sBar resignFirstResponder];
     [self showProgress];
     SyncHandler* syncHandler = [SyncHandler sharedInstance];
-    [syncHandler runSyncWithTimestampForModule:moduleName parent:self];
+    
+    __weak ListViewController* lvc = self;
+    
+    syncHandler.completionBlock = ^(){
+        [lvc loadData];
+        [lvc performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
+    };
+    
+    syncHandler.errorBlock = ^(NSArray* errors){
+        [lvc performSelectorOnMainThread:@selector(showSyncAlert:) withObject:[errors objectAtIndex:0]  waitUntilDone:NO];
+    };
+    
+    [syncHandler runSyncforModules:[NSArray arrayWithObject:moduleName] withSyncType:SYNC_TYPE_WITH_TIME_STAMP];
 }
 
--(void)showActionSheet{
+-(void)showActionSheet
+{
     //[self.actionSheet showInView:self.view];
     [sBar resignFirstResponder];
     _actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
@@ -224,36 +237,35 @@
     [sharedAppDelegate dismissWaitingAlert];
 }
 
-#pragma mark DBLoadSession Delegate;
--(void)session:(DBSession *)session downloadedModuleList:(NSArray *)moduleList moreComing:(BOOL)moreComing
-{   
-    NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
-    for(DataObject* dataObject in moduleList)
-    {
-        if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
-        {
-            [visibleRecords addObject:dataObject];
-        }
-    }
-    datasource = visibleRecords;
-    [tableData removeAllObjects];
-    [tableData addObjectsFromArray:datasource];
-    [self sortData];
-    [myTableView reloadData];
-    [self intializeTableDataMask];
-}
-
--(void)session:(DBSession *)session listDownloadFailedWithError:(NSError *)error
-{
-    NSLog(@"Error: %@",[error localizedDescription]);
-}
-
 -(void)loadData
 {
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    dbSession.delegate = self;
+    DBSessionCompletionBlock completionBlock = ^(NSArray* records){
+        NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
+        for(DataObject* dataObject in records)
+        {
+            if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
+            {
+                [visibleRecords addObject:dataObject];
+            }
+        }
+        datasource = visibleRecords;
+        [tableData removeAllObjects];
+        [tableData addObjectsFromArray:datasource];
+        [self sortData];
+        // Load UI on mail queue
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [myTableView reloadData];
+            [self intializeTableDataMask];
+        });
+    };
+    
+    DBSessionErrorBlock errorBlock = ^(NSError* error){
+        NSLog(@"Error: %@",[error localizedDescription]);
+    };
+    
+    DBSession* dbSession = [DBSession sessionForModule:self.moduleName];
+    dbSession.completionBlock = completionBlock;
+    dbSession.errorBlock = errorBlock;
     [dbSession startLoading];
 }
 
@@ -450,8 +462,8 @@
     NSMutableIndexSet *indexSetToDelete = [[NSMutableIndexSet alloc] init];
     NSMutableIndexSet *dsIndexSetToDelete = [[NSMutableIndexSet alloc] init];
     NSMutableArray* copy = [self.datasource mutableCopy];
-    NSMutableArray* uploadData = [[NSMutableArray alloc] initWithCapacity:[selectedRows count]];
     NSMutableArray* dbData = [[NSMutableArray alloc] initWithCapacity:[selectedRows count]];
+    
     for (NSIndexPath *indexPath in selectedRows)
     {
         [indexSetToDelete addIndex:indexPath.row];
@@ -460,24 +472,27 @@
         DataObject* dataObject = (DataObject *)[self.tableData objectAtIndex:indexPath.row];
         [dataObject setObject:@"1" forFieldName:@"deleted"];
         [dbData addObject:dataObject];
-        [uploadData addObject:dataObject];
     }
+    
     [self.tableData removeObjectsAtIndexes:indexSetToDelete];
     [copy removeObjectsAtIndexes:dsIndexSetToDelete];
     self.datasource = [[NSArray alloc] initWithArray:copy];
     [myTableView deleteRowsAtIndexPaths:selectedRows withRowAnimation:UITableViewRowAnimationAutomatic];    
     
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    [dbSession insertDataObjectsInDb:dbData dirty:NO];
+    __weak ListViewController* lvc = self;
+   
+    DBSession * dbSession = [DBSession sessionForModule:self.moduleName];
     
-    [uploadData addObjectsFromArray:[dbSession getUploadData]];
+    dbSession.completionBlock = ^(NSArray* data){
+        [lvc syncModule];
+    };
     
-    SyncHandler * syncHandler = [SyncHandler sharedInstance];
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    [syncHandler uploadData:uploadData forModule:self.metadata.moduleName parent:self];
+    dbSession.errorBlock = ^(NSError* error){
+        NSLog(@"Handle database error while saving a record : %@", [error localizedDescription]);
+    };
+    
+    [dbSession insertDataObjectsInDb:dbData dirty:YES];
+    
     [self toggleEditing];
     myTableView.contentInset = UIEdgeInsetsZero;
     [myTableView reloadData];

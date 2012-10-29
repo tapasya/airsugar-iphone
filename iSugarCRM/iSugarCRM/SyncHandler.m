@@ -16,37 +16,64 @@
 #import "DataObject.h"
 #import "LoginUtils.h"
 #import "ConnectivityChecker.h"
+#import "SettingsStore.h"
+#import <dispatch/dispatch.h>
 
 NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
+
 static SyncHandler *sharedInstance;
+
 @interface SyncHandler ()
-@property (strong) NSOperationQueue *requestQueue;
+{
+    dispatch_queue_t bgQueue;
+}
+
 -(id)initPrivate;
+
 -(void)postSyncnotification;
+
 -(NSString*)formatDate:(NSString*)date;
+
+@property (strong) NSOperationQueue *requestQueue;
+
+@property (assign) BOOL skipSeamlessLogin;
+
 @property (assign) NSInteger requestCount;
+
+@property (nonatomic, strong) WebserviceSessionCompletionBlock websessionCompletionBlock;
+
+@property (nonatomic, strong) WebserviceSessionErrorBlock websessionErrorBlock ;
+
+@property (nonatomic, strong) NSMutableArray* errors;
+
 @end
 
 @implementation SyncHandler
 @synthesize requestQueue = mRequestQueue;
-@synthesize isCancelled;
-@synthesize hadError;
 @synthesize requestCount;
-@synthesize delegate;
 @synthesize skipSeamlessLogin;
+
+@synthesize websessionCompletionBlock = _websessionCompletionBlock;
+@synthesize websessionErrorBlock = _websessionErrorBlock;
+
+@synthesize completionBlock = _completionBlock;
+@synthesize errorBlock = _errorBlock;
+
+@synthesize errors = _errors;
+
 #pragma mark Singleton methods
 
 -(id)init{
     NSAssert(NO, @"Cannot instantiate this directly, use sharedInstance");
     return nil;
 }
-+(SyncHandler*)sharedInstance{
++(SyncHandler*)sharedInstance
+{
     @synchronized(self){
         if(sharedInstance == nil){
             sharedInstance = [[SyncHandler alloc] initPrivate];
         }
         //sharedInstance.skipSeamlessLogin = true;
-        sharedInstance.delegate = nil;
         return sharedInstance;
     }
 }
@@ -56,8 +83,10 @@ static SyncHandler *sharedInstance;
     return self; 
 }
 
--(id)initPrivate{
+-(id)initPrivate
+{
     self = [super init];
+    bgQueue = dispatch_queue_create("com.imaginea.ios.pancake", NULL);
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
     self.requestQueue.maxConcurrentOperationCount = 1;
@@ -73,368 +102,257 @@ static SyncHandler *sharedInstance;
     return self.skipSeamlessLogin;
 }
 
+- (void) showNetworkError
+{
+    NSError* error = [NSError errorWithDomain:NetworkRequestErrorDomain
+                                code:NotReachable
+                            userInfo:[NSDictionary
+                                      dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
+    [self.errors addObject:error];
+    
+    if (self.errorBlock != nil) {
+        self.errorBlock(self.errors);
+    }
+}
+
 #pragma mark Complete Sync Methods
 
 //for all complete syn methods: create add functionality to take all the dirty records in db and sync
--(void)runCompleteSync
-{   
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [self session:nil didFailWithError:error];
-        return ;
-    }
-    else
-    {    
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
+
+- (void) runSyncforModules:(NSArray *)modules withSyncType:(enum SYNC_TYPE)syncType
+{
+    dispatch_async(bgQueue, ^(){
+        self.errors = [[NSMutableArray alloc] initWithCapacity:modules.count];
         
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        for(NSString *module in metadataStore.modulesSupported)
+        if (![[ConnectivityChecker singletonObject] isNetworkReachable])
         {
-            [self runSyncForModule:module parent:nil];
+            [self showNetworkError];
         }
-    }
+        else
+        {
+            if (![self isSeamlessloginSuccessfull])
+                return;
+            
+            //SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+            
+            for(NSString *moduleName in modules)
+            {
+                [self startUploadSessionforModule:moduleName];
+                
+                //create download session
+                [self startDownloadSessionForModule:moduleName syncType:syncType];
+            }
+        }
+    });
 }
 
--(void)runCompleteSyncWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
+#pragma mark - Module Sync Methods
+
+-(BOOL) startUploadSessionforModule:(NSString*)module
 {
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [self session:nil didFailWithError:error];
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
-        
-        startDate = [self formatDate:startDate];
-        endDate = [self formatDate:endDate];
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        for(NSString *module in metadataStore.modulesSupported){
-            [self runSyncForModule:module startDate:startDate endDate:endDate parent:nil];
-        }
-    }
-}
--(void)runCompleteSyncWithTimestamp{
+    BOOL isSessionStarted = NO;
     
-    //TODO:
-    
-}
--(void)runCompleteSyncWithTimestampAndStartDate:(NSString*)startDate endDate:(NSString*)endDate{
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [self session:nil didFailWithError:error];
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
-        
-        startDate = [self formatDate:startDate];
-        endDate = [self formatDate:endDate];
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        for(NSString *module in metadataStore.modulesSupported){
-            [self runSyncWithTimestampForModule:module startDate:startDate endDate:endDate parent:nil];
-        }
-    }
-}
-#pragma mark Module Sync Methods
--(void)uploadData:(NSArray*)uploadData forModule:(NSString*)module parent:(id)parent
-{     
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
-    session.delegate = self;
-    session.parent = parent;
-    session.syncAction = kWrite;    
-    session.uploadDataObjects = uploadData;
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [self session:session didFailWithError:error];
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
+    DBSession *dbSession = [DBSession sessionForModule:module];
+    NSArray* uploadData = [dbSession getUploadData];
+    if ([uploadData count] > 0) {
+        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
         
-        session.queuePriority = NSOperationQueuePriorityHigh;
-        [session startUploading];
-    }
-}
--(void)runSyncForModule:(NSString*)module parent:(id)parent
-{
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [parent syncHandler:self failedWithError:error];
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
+        session.completionBlock = ^(id response, NSString* moduleName, enum SyncAction syncAction, NSArray* dirtyData){
+            [self uploadCompleteWithResponse:response forModule:moduleName forObjects:dirtyData];
+        };
         
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        //create upload session
+        session.errorBlock = ^ (NSError* error, NSString* moduleName){
+            [self uploadFailedWithError:error forModule:moduleName];
+        };
         
-        DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
-        NSArray* uploadData = [dbSession getUploadData];
-        if ([uploadData count] > 0) {
-        [self uploadData:uploadData forModule:module parent:parent];    
+        session.syncAction = kWrite;    
+        session.uploadDataObjects = uploadData;
+        
+        if (![[ConnectivityChecker singletonObject] isNetworkReachable])
+        {
+            [self showNetworkError];
         }
-        
-        //create download session
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
-        session.delegate = self;
-        session.parent = parent;
-        [session startLoading:nil];
-    }
-}
-
-
--(void)runSyncForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent
-{
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [parent syncHandler:self failedWithError:error];
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
-
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        //create upload session
-        DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
-        NSArray* uploadData = [dbSession getUploadData];
-        if ([uploadData count]>0) {
-            [self uploadData:uploadData forModule:module parent:parent];    
+        else
+        {  
+            if ([self isSeamlessloginSuccessfull]) {
+                session.queuePriority = NSOperationQueuePriorityHigh;
+                [session startUploading];
+                isSessionStarted = YES;
+            }
         }
-
-        //create download session
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
-        session.syncAction = kRead;
-        session.delegate = self;
-        session.parent = parent;
-        [session startLoadingWithStartDate:startDate endDate:endDate];    
     }
+    
+    return YES;
 }
 
-
--(void)runSyncWithTimestampForModule:(NSString*)module parent:(id)parent
+- (void) startDownloadSessionForModule:(NSString*) moduleName syncType:(enum SYNC_TYPE) syncType
 {
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [parent syncHandler:self failedWithError:error];        
-        return ;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
-        
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
-        
-        NSString* deltaMark = [dbSession getLastSyncTimestamp];
-        
-        //create upload session
-        NSArray* uploadData = [dbSession getUploadData];
-        if ([uploadData count]>0) {
-            [self uploadData:uploadData forModule:module parent:parent];    
-        }
-        //create download session
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
-        session.delegate = self;
-        session.parent = parent;
-        session.syncAction = kRead;
-        [session startLoading:deltaMark];
+    //create download session
+    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:moduleName]];
+    session.syncAction = kRead;
+    
+    session.completionBlock = ^(id response, NSString* moduleName, enum SyncAction syncAction, NSArray* uploadData){
+        [self downloadCompleteWithResponse:response forModule:moduleName];
+    };
+    
+    session.errorBlock = ^ (NSError* error, NSString* moduleName){
+        [self downloadFailedWithError:error forModule:moduleName];
+    };
+    
+    switch (syncType) {
+        case SYNC_TYPE_WITH_DATES:
+            {
+                NSString *startDate = [self formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
+                NSString *endDate = [self formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
+                [session startLoadingWithStartDate:startDate endDate:endDate];
+            }
+            break;
+        case SYNC_TYPE_WITH_TIME_STAMP:
+            {
+                DBSession *dbSession = [DBSession sessionForModule:moduleName];
+                NSString* deltaMark = [dbSession getLastSyncTimestamp];
+                [session startLoading:deltaMark];
+            }
+            break;
+            
+        case SYNC_TYPE_WITH_TIME_STAMP_AND_DATES:
+            {
+                DBSession *dbSession = [DBSession sessionForModule:moduleName];
+                NSString* deltaMark = [dbSession getLastSyncTimestamp];
+                NSString *startDate = [self formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
+                NSString *endDate = [self formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
+                [session startLoadingWithTimestamp:deltaMark startDate:startDate endDate:endDate];
+            }
+            break;
+        default:
+            [session startLoading:nil];
+            break;
     }
 }
 
--(void)runSyncWithTimestampForModule:(NSString*)module startDate:(NSString*)startDate endDate:(NSString*) endDate parent:(id)parent
+-(void)addSyncSession:(WebserviceSession *)session
 {
-    NSError* error;
-    if (![[ConnectivityChecker singletonObject] isNetworkReachable]) 
-    {
-        error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                    code:NotReachable 
-                                userInfo:[NSDictionary 
-                                          dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-        [parent syncHandler:self failedWithError:error];
-        return;
-    }
-    else
-    {  
-        if (![self isSeamlessloginSuccessfull]) 
-            return;
-        
-        SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-        DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:module]];
-
-        NSString* deltaMark = [dbSession getLastSyncTimestamp];
-        //create upload session
-        NSArray* uploadData = [dbSession getUploadData];
-        if ([uploadData count]>0) {
-            [self uploadData:uploadData forModule:module parent:parent];    
-        }
-        //create download session
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:module]];
-        session.delegate = self;
-        session.parent = parent;
-        session.syncAction = kRead;
-        [session startLoadingWithTimestamp:deltaMark startDate:startDate endDate:endDate];
-    }
-}
-
--(void)addSyncSession:(WebserviceSession *)session{
     NSLog(@"operation count = %d",[self.requestQueue operationCount]);
     [self.requestQueue addOperation:session];
 }
 
-#pragma mark Db Sync Session delegate methods
--(void)session:(DBSession*)session syncFailedWithError:(NSError*)error
+# pragma mark - Webservice session completion block Methods
+
+- (void) uploadCompleteWithResponse:(id) response forModule:(NSString*) moduleName forObjects:(NSArray*) uploadedData
 {
-    @synchronized([self class]){
-        [self postSyncnotification];
-        [session.parent syncHandler:self failedWithError:error];
-    }
-}
-
--(void)sessionSyncSuccessful:(DBSession*)session;
-{   
-    @synchronized([self class]){
-         [self postSyncnotification];
-        [session.parent syncComplete:self];
-    }
-}
-
-#pragma mark Webservice Session delegate methods
-
-//write method, once the write is successfull run sync for the module
--(void)sessionDidCompleteUploadSuccessfully:(WebserviceSession*)session{
     NSLog(@"session count is %d",self.requestQueue.operationCount);
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    DBSession *dbSession = [DBSession sessionWithMetadata:[metadataStore dbMetadataForModule:session.metadata.moduleName]];
-    
+    DBSession *dbSession = [DBSession sessionForModule:moduleName];
     //reset dirty flags
-    NSArray* uploadData = [dbSession getUploadData];
-    if ([uploadData count]>0) {
-        for( DataObject* dataObject in uploadData)
-        {
-           // Delete the records with dummy ids. Records with actual ids will be downloaded 
-            if([[dataObject objectForFieldName:@"id"] hasPrefix:LOCAL_ID_PREFIX])
+    if ([uploadedData isKindOfClass:[NSArray class]]) {
+        if ([uploadedData count]>0) {
+            for( DataObject* dataObject in uploadedData)
             {
-                [dbSession deleteRecord:[dataObject objectForFieldName:@"id"]];
+                // Delete the records with dummy ids. Records with actual ids will be downloaded
+                if([[dataObject objectForFieldName:@"id"] hasPrefix:LOCAL_ID_PREFIX])
+                {
+                    [dbSession deleteRecord:[dataObject objectForFieldName:@"id"]];
+                }
+                else
+                {
+                    [dbSession resetDirtyFlagForId:dataObject];
+                }
             }
-            else
-            {
-                [dbSession resetDirtyFlagForId:dataObject];
-            }
-
-        }        
+            
+            // Starting a download session once upload is successful
+            [self startDownloadSessionForModule:moduleName syncType:SYNC_TYPE_WITH_TIME_STAMP];
+        }
     }
-    [self runSyncWithTimestampForModule:session.metadata.moduleName parent:session.parent];
 }
 
--(void)session:(WebserviceSession*)session didCompleteDownloadWithResponse:(id)response
-{  
+- (void) downloadCompleteWithResponse:(id) response forModule:(NSString*) moduleName
+{
     @synchronized([self class])
-    {  SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-        DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
-        dbSession.syncDelegate = self;
-        dbSession.parent = session.parent;
-        if ([response count]>0) {
-        [dbSession insertDataObjectsInDb:response dirty:NO];
-        }
-        else{
-            [session.parent syncComplete:self];
-          [self postSyncnotification];
+    {
+        if ([response isKindOfClass:[NSArray class]]) {
+            
+            DBSession *dbSession = [DBSession sessionForModule:moduleName];
+            
+            dbSession.completionBlock = ^(NSArray* data)  {
+                @synchronized([self class]){
+                    [self postSyncnotification];
+                }
+            };
+            
+            dbSession.errorBlock = ^(NSError* error){
+                @synchronized([self class]){
+                    [self.errors addObject:error];
+                    [self postSyncnotification];
+                }
+            };
+            
+            if ([response count]>0) {
+                [dbSession insertDataObjectsInDb:response dirty:NO];
+            }
+            else{
+                [self postSyncnotification];
+            }
         }
         NSLog(@"session count is %d",self.requestQueue.operationCount);
     }
-        
 }
 
--(void)session:(WebserviceSession*)session didFailWithError:(NSError*)error
-{   
+# pragma mark - Web service session error blocks
+
+- (void) uploadFailedWithError:(NSError*) error forModule:(NSString*) moduleName
+{
     @synchronized([self class]){
         NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
-        if (session.syncAction == kRead) {
-            [session.parent syncHandler:self failedWithError:error];
-              [self postSyncnotification];
-        }
-        else {
-            //write to local db with dirty flag
-            SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-            DBMetadata *metadata = [sharedInstance dbMetadataForModule:session.metadata.moduleName];
-            DBSession *dbSession = [DBSession sessionWithMetadata:metadata];
-            //dbSession.syncDelegate = self;
-            dbSession.parent = session.parent;
-            NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[session.uploadDataObjects count]];
-            for(DataObject* dataObject in session.uploadDataObjects)
-            {                
-                // Add a dummy id for new records this dummy id will not be sent to the server when syncing this record
-                if( ![dataObject objectForFieldName:@"id"])
-                {
-                    [dataObject setObject:[NSString stringWithFormat:@"%@%f", LOCAL_ID_PREFIX, [[NSDate date] timeIntervalSince1970]] forFieldName:@"id"];
-                }
-                
-                [dataObjects addObject:dataObject];
+        //write to local db with dirty flag
+        DBSession *dbSession = [DBSession sessionForModule:moduleName];
+        NSArray* uploadDataObjects = [dbSession getUploadData];
+        NSMutableArray* dataObjects = [[NSMutableArray alloc] initWithCapacity:[uploadDataObjects count]];
+        for(DataObject* dataObject in uploadDataObjects)
+        {
+            // Add a dummy id for new records this dummy id will not be sent to the server when syncing this record
+            if( ![dataObject objectForFieldName:@"id"])
+            {
+                [dataObject setObject:[NSString stringWithFormat:@"%@%f", LOCAL_ID_PREFIX, [[NSDate date] timeIntervalSince1970]] forFieldName:@"id"];
             }
-            [dbSession insertDataObjectsInDb:dataObjects dirty:YES];
-            [session.parent syncHandler:self failedWithError:error];
+            
+            [dataObjects addObject:dataObject];
         }
+        [dbSession insertDataObjectsInDb:dataObjects dirty:YES];
+        
+        // Add error to the errors array
+        [self.errors addObject:error];
     }
-    NSLog(@"session count is %d",self.requestQueue.operationCount);   
+    NSLog(@"session count is %d",self.requestQueue.operationCount);
 }
 
--(void)postSyncnotification{
+- (void) downloadFailedWithError:(NSError*) error forModule:(NSString*) moduleName
+{
+    @synchronized([self class]){
+        NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
+        [self.errors addObject:error];
+        [self postSyncnotification];
+    }
+}
+
+-(void)postSyncnotification
+{
     if ([self.requestQueue operationCount]<= 1) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"SugarSyncComplete" object:nil];
-        [delegate syncComplete:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
+        if ( self.errors.count > 0) {
+            if ( nil != self.errorBlock ) {
+                self.errorBlock(self.errors);
+            }
+        } else{
+            if ( nil != self.completionBlock) {
+                self.completionBlock();
+            }
+        }
         self.skipSeamlessLogin = NO;
     }
 }
-#pragma mark Utility
+
+#pragma mark - Utility
 
 //move this method to utils
 -(NSString *) formatDate:(NSString *)date
@@ -452,38 +370,5 @@ static SyncHandler *sharedInstance;
     
     return date;
 }
-
-/*
-+ (BOOL)isReachable:(NSError**)error {
-    
-	BOOL reachable = YES;
-	NSError* localError = nil;
-    if ( nil == error )
-		*error = localError;
-	//[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
-    NSRange range = [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] rangeOfString:@"://"];
-    if(range.location == NSNotFound)
-    {
-        range.location = 0;
-    }
-    NSString *hostname = [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] substringWithRange:NSMakeRange(range.location+range.length, [[[NSUserDefaults standardUserDefaults] objectForKey:@"endpointURL"] rangeOfString:@"/"].location)];
-    Reachability *internetReach = [Reachability reachabilityWithHostName: hostname];
-    //OR below method
-    //Reachability *internetReach = [Reachability reachabilityForInternetConnection];
-    [internetReach startNotifier];
-    NetworkStatus netStatus = [internetReach currentReachabilityStatus];
-    
-	// No internet connection, die right away
-	if ( netStatus == NotReachable ) {
-		*error = [NSError errorWithDomain:NetworkRequestErrorDomain 
-                                     code:NotReachable 
-                                 userInfo:[NSDictionary 
-                                           dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No internet connection available."],NSLocalizedDescriptionKey,nil]];
-		reachable = NO;
-	}
-    [internetReach stopNotifier];
-	return reachable;
-}
- */
 
 @end

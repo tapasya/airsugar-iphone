@@ -69,59 +69,9 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
-#pragma mark DbSession Load Delegate methods
 
--(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
-{       
-    self.detailsArray = [details mutableCopy];
-    NSMutableArray* sections = [[NSMutableArray alloc] init];
-    if( [details count] >0)
-    {
-        for(NSDictionary *sectionItem_ in metadata.sections  )
-        {   
-            DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
-            sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
-            NSMutableArray *rowItems = [[NSMutableArray alloc] init];
-            NSArray *rows = [sectionItem_ objectForKey:@"rows"];
-            for(NSDictionary *rowItem_ in rows)
-            {
-                DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
-                rowItem.label = [rowItem_ objectForKey:@"label"];
-                //workaround for deteremining action type. pls resolve.
-                rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
-            
-                NSMutableArray *fields = [NSMutableArray array];
-                for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
-                {
-                    NSString *value = [[details objectAtIndex:0] objectForFieldName:field.name];
-                    if (value) 
-                    {
-                        [fields addObject:value];    
-                    }
-                }
-                rowItem.values = fields;
-                [rowItems addObject:rowItem];
-            }
-            sectionItem.rowItems = rowItems;
-            [sections addObject:sectionItem];
-        }        
-        //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editDetails)];        
-    }
-    self.datasource = sections;
-    [self.tableView reloadData];
-}
--(void)session:(DBSession *)session detailDownloadFailedWithError:(NSError *)error
-{
-    NSLog(@"Error: %@",[error localizedDescription]);
-}
+#pragma mark -- edit methods
 
-//-(void)dismissView:(id)sender
-//{
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
-
-
-#pragma mark --
 -(void)editDetails
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
@@ -133,13 +83,64 @@
     [self presentModalViewController:navController animated:YES];
 }
 
+- (void) refreshUI
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self.tableView reloadData];
+    });
+}
+
+#pragma mark -- data loading
+
 -(void) loadDataFromDb
 {
     if(self.beanId){
-        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-        DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-        dbSession.delegate = self;
+        
+        DBSessionCompletionBlock completionBlock = ^(NSArray* details){
+            self.detailsArray = [details mutableCopy];
+            NSMutableArray* sections = [[NSMutableArray alloc] init];
+            if( [details count] >0)
+            {
+                for(NSDictionary *sectionItem_ in metadata.sections  )
+                {
+                    DetailViewSectionItem *sectionItem = [[DetailViewSectionItem alloc] init];
+                    sectionItem.sectionTitle = [sectionItem_ objectForKey:@"section_name"];
+                    NSMutableArray *rowItems = [[NSMutableArray alloc] init];
+                    NSArray *rows = [sectionItem_ objectForKey:@"rows"];
+                    for(NSDictionary *rowItem_ in rows)
+                    {
+                        DetailViewRowItem *rowItem = [[DetailViewRowItem alloc] init];
+                        rowItem.label = [rowItem_ objectForKey:@"label"];
+                        //workaround for deteremining action type. pls resolve.
+                        rowItem.action = [(DataObjectField*)[[rowItem_ objectForKey:@"fields"] objectAtIndex:0] action];
+                        
+                        NSMutableArray *fields = [NSMutableArray array];
+                        for(DataObjectField *field in [rowItem_ objectForKey:@"fields"])
+                        {
+                            NSString *value = [[details objectAtIndex:0] objectForFieldName:field.name];
+                            if (value)
+                            {
+                                [fields addObject:value];
+                            }
+                        }
+                        rowItem.values = fields;
+                        [rowItems addObject:rowItem];
+                    }
+                    sectionItem.rowItems = rowItems;
+                    [sections addObject:sectionItem];
+                }
+            }
+            self.datasource = sections;
+            [self refreshUI];
+        };
+        
+        DBSessionErrorBlock errorBlock = ^(NSError* error){
+            NSLog(@"Error: %@",[error localizedDescription]);
+        };
+        
+        DBSession* dbSession = [DBSession sessionForModule:self.metadata.moduleName];
+        dbSession.completionBlock = completionBlock;
+        dbSession.errorBlock = errorBlock;
         [dbSession loadDetailsForId:self.beanId];
     }
 }
@@ -257,22 +258,39 @@
 {
     DataObject* dataObject = [detailsArray objectAtIndex:0];
     [dataObject setObject:@"1" forFieldName:@"deleted"];    
-    NSArray *uploadData = [NSArray arrayWithObject:dataObject];
     
-    SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-    DBMetadata *dbMetadata = [sharedInstance dbMetadataForModule:metadata.moduleName];
-    DBSession * dbSession = [DBSession sessionWithMetadata:dbMetadata];
-    [dbSession insertDataObjectsInDb:uploadData dirty:NO];
+    DBSession * dbSession = [DBSession sessionForModule:self.metadata.moduleName];
     
-    SyncHandler * syncHandler = [SyncHandler sharedInstance];
-    AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-    NSMutableArray* uploadDataArray = [[dbSession getUploadData] mutableCopy];
-    [uploadDataArray addObject:dataObject];
-    [syncHandler uploadData:uploadDataArray forModule:self.metadata.moduleName parent:self];
-    self.beanId = nil;
-    self.beanTitle = @"";
-    self.navigationController.title = @"";
+    __weak DetailViewController* dvc = self;
+    
+    dbSession.completionBlock = ^(NSArray* data){
+        
+        self.beanId = nil;
+        self.beanTitle = @"";
+        self.navigationController.title = @"";
+        
+        SyncHandler * syncHandler = [SyncHandler sharedInstance];
+        
+        syncHandler.completionBlock = ^(){
+            [dvc syncComplete];
+        };
+        
+        syncHandler.errorBlock = ^(NSArray* errors){
+            [dvc syncFailedWithError:[errors objectAtIndex:0]];
+        };
+        
+        AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
+        
+        [syncHandler runSyncforModules:[NSArray arrayWithObject:self.metadata.moduleName] withSyncType:SYNC_TYPE_WITH_TIME_STAMP];
+        
+    };
+    
+    dbSession.errorBlock = ^(NSError* error){
+        NSLog(@"Handle database error while saving a record : %@", [error localizedDescription]);
+    };
+    
+    [dbSession insertDataObjectsInDb:[NSArray arrayWithObject:dataObject] dirty:YES];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -283,9 +301,9 @@
     }
 }
 
-#pragma mark SyncHandler Delegate
+#pragma mark SyncHandler block methods
 
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
+-(void) syncFailedWithError:(NSError*)error
 {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -304,7 +322,7 @@
         }
     });
 }
--(void)syncComplete:(SyncHandler*)syncHandler
+-(void) syncComplete
 {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;

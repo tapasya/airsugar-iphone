@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DetailViewMetadata.h"
 #import "DBSession.h"
-@interface DetailViewController : UITableViewController<DBLoadSessionDelegate, UIAlertViewDelegate>
+@interface DetailViewController : UITableViewController< UIAlertViewDelegate>
 
 @property(strong)NSArray *datasource;
 @property(strong)DetailViewMetadata *metadata;
@@ -19,4 +19,5 @@
 +(DetailViewController*)detailViewcontroller:(DetailViewMetadata*)metadata beanId:(NSString*)beanId beanTitle:(NSString*)beanTitle;
 -(void) loadDataFromDb;
 -(void) editDetails;
+- (void) refreshUI;
 @end

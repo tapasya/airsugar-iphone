@@ -39,9 +39,34 @@
 -(void) setMaster:(UIViewController *)master
 {
     _mvc = master;
-    if([master respondsToSelector:@selector(setDetailViewDelegate:)])
+    if([master respondsToSelector:@selector(setSelectionBlock:)])
     {
-        [master performSelector:@selector(setDetailViewDelegate:) withObject:self];
+        [master performSelector:@selector(setSelectionBlock:) withObject:^(NSString* beanId, NSString* beanTitle, NSString* moduleName){
+            if(!self.detail)
+            {
+                self.detail = [[DetailViewController_pad alloc] init];
+            }
+            
+            if( !self.detail.metadata || ![self.detail.metadata.moduleName isEqualToString:moduleName])
+            {
+                SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
+                self.detail.metadata = [sharedInstance detailViewMetadataForModule:moduleName];
+            }
+            
+            if (self.detail.popoverController != nil) {
+                [self.detail.popoverController dismissPopoverAnimated:YES];
+            }
+            
+            if([self.detail.navigationController visibleViewController] != self.detail)
+            {
+                [self.detail.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+            self.detail.beanId = beanId;
+            self.detail.beanTitle = beanTitle;
+            self.detail.navigationItem.title = beanTitle;
+            [self.detail loadDataFromDb];
+        }];
     }
 }
 
@@ -90,34 +115,6 @@
 {
     // Return YES for supported orientations
     return YES;
-}
-
--(void) loadDetailViewWithBeanId:(NSString *)beanId beanTitle:(NSString *)beanTitle moduleName:(NSString *)moduleName
-{
-    if(!self.detail)
-    {
-        self.detail = [[DetailViewController_pad alloc] init];
-    }
-    
-    if( !self.detail.metadata || ![self.detail.metadata.moduleName isEqualToString:moduleName])
-    {
-        SugarCRMMetadataStore *sharedInstance = [SugarCRMMetadataStore sharedInstance];
-        self.detail.metadata = [sharedInstance detailViewMetadataForModule:moduleName];
-    }
-    
-    if (self.detail.popoverController != nil) {
-        [self.detail.popoverController dismissPopoverAnimated:YES];
-    }
-    
-    if([self.detail.navigationController visibleViewController] != self.detail)
-    {
-        [self.detail.navigationController popToRootViewControllerAnimated:YES];
-    }
-
-    self.detail.beanId = beanId;
-    self.detail.beanTitle = beanTitle;
-    self.detail.navigationItem.title = beanTitle;
-    [self.detail loadDataFromDb];
 }
 
 @end

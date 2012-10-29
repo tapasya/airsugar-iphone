@@ -10,5 +10,5 @@
 #import "ListViewController_pad.h"
 
 @interface RecentViewController_pad : RecentViewController
-@property (weak) id<DetailViewDelegate> detailViewDelegate;
+@property (nonatomic, strong) ListViewSelectionBlock selectionBlock;
 @end

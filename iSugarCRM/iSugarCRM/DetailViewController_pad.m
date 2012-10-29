@@ -112,19 +112,22 @@
     }
 }
 
--(void)session:(DBSession *)session downloadedDetails:(NSArray *)details
+- (void) refreshUI
 {
-    [super session:session downloadedDetails:details];
-    if(self.beanId)
-    {
-        if(defaultView){
-            [defaultView removeFromSuperview];
-            defaultView = nil;
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self.tableView reloadData];
+        if(self.beanId)
+        {
+            if(defaultView){
+                [defaultView removeFromSuperview];
+                defaultView = nil;
+            }
+            [self.tableView setBackgroundColor:[UIColor whiteColor]];
+            self.tableView.separatorColor = [UIColor lightGrayColor];
+            [self addToolbar];
         }
-        [self.tableView setBackgroundColor:[UIColor whiteColor]];
-        self.tableView.separatorColor = [UIColor lightGrayColor];
-        [self addToolbar];
-    }
+
+    });
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

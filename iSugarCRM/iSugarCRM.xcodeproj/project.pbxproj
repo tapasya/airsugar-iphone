@@ -639,8 +639,6 @@
 		3B5C9805147CF7D1007EF770 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				18C4E2ED1590AB890037F6C0 /* SyncHandler.h */,
-				18C4E2EE1590AB890037F6C0 /* SyncHandler.m */,
 				18C4E2DF1590A9990037F6C0 /* Reachability */,
 				0FAC5DF614DC135F009FEC5F /* keychainstore */,
 				2FCB48E914A21328009079A1 /* itemfiles */,
@@ -653,6 +651,7 @@
 				3B504E5414862D1B0037D75E /* database */,
 				0F4EE03A14BAFE1500F43692 /* Settings */,
 				3B504E5314862D170037D75E /* view */,
+				849786541637129D00B80E89 /* SyncHandlers */,
 				3B504E5114862CF30037D75E /* webservice */,
 			);
 			name = source;
@@ -669,6 +668,15 @@
 				4E9453CD156BB7B300F8867E /* Syncsetup.js */,
 			);
 			name = Testscripts;
+			sourceTree = "<group>";
+		};
+		849786541637129D00B80E89 /* SyncHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				18C4E2ED1590AB890037F6C0 /* SyncHandler.h */,
+				18C4E2EE1590AB890037F6C0 /* SyncHandler.m */,
+			);
+			name = SyncHandlers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

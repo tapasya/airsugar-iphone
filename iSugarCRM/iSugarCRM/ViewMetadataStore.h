@@ -10,18 +10,18 @@
 
 @interface ViewMetadataStore : NSObject
 
-+(ViewMetadataStore*)storeForModule:(NSString*)moduleId;
-
-
-/*!
- @brief     returns the information for rendering list view.
- */
--(NSDictionary*)listViewMap;
-
-/*!
- @brief     returns the information for rendering detail view
- */
--(NSDictionary*)detailResponseKeyPaths;
+//+(ViewMetadataStore*)storeForModule:(NSString*)moduleId;
+//
+//
+///*!
+// @brief     returns the information for rendering list view.
+// */
+//-(NSDictionary*)listViewMap;
+//
+///*!
+// @brief     returns the information for rendering detail view
+// */
+//-(NSDictionary*)detailResponseKeyPaths;
 
 
 @end

@@ -9,6 +9,7 @@
 #import "ApplicationKeyStore.h"
 #import <Security/Security.h>
 #import "SyncSettingsViewController.h"
+#import "SettingsStore.h"
 
 @interface ApplicationKeyStore()
 -(void) deleteDefaults;

@@ -96,7 +96,7 @@ int usernameLength,passwordLength;
     bool deletionFailed = false;
     
     for(NSString *moduleName in sugarMetaDataStore.modulesSupported){
-        DBSession *dbSession = [DBSession sessionWithMetadata:[sugarMetaDataStore dbMetadataForModule:moduleName]];
+        DBSession *dbSession = [DBSession sessionForModule:moduleName];
         if(![dbSession deleteAllRecordsInTable])
         {
             deletionFailed = true;
@@ -151,11 +151,21 @@ int usernameLength,passwordLength;
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
     self.syncHandler = [SyncHandler sharedInstance];
-    syncHandler.delegate = self;
-    NSString *startDate = [SettingsStore objectForKey:kStartDateIdentifier];
-    NSString *endDate = [SettingsStore objectForKey:kEndDateIdentifier];
-    [syncHandler runCompleteSyncWithTimestampAndStartDate:startDate endDate:endDate];
+    
+    __weak AppDelegate* delegate = self;
+    
+    syncHandler.completionBlock = ^(){
+        
+    };
+    
+    syncHandler.errorBlock = ^(NSArray* errors){
+        [delegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncFailed" object:errors];
+    };
+    
+    [syncHandler runSyncforModules:sugarMetaDataStore.modulesSupported withSyncType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES];
 }
+
 - (void) resignFirstResponderRec:(UIView*) view {
     if ([view respondsToSelector:@selector(resignFirstResponder)]){
         [view resignFirstResponder];

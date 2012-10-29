@@ -23,10 +23,12 @@
 
 @implementation WebserviceSession
 @synthesize uploadDataObjects;
-@synthesize delegate,conn,req,responseData,done;
+@synthesize conn,req,responseData,done;
 @synthesize metadata,syncAction,parent;
 @synthesize executing = _isExecuting;
 @synthesize finished = _isFinished ;
+@synthesize completionBlock = _completionBlock;
+@synthesize errorBlock = _errorBlock;
 
 +(WebserviceSession*)sessionWithMetadata:(WebserviceMetadata*)metadata
 {
@@ -75,8 +77,6 @@
     [[SyncHandler sharedInstance] addSyncSession:self];
 }
 
-
-
 - (void)finish
 {   
     //clean up
@@ -111,8 +111,8 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {   
-    if (delegate != nil && [delegate respondsToSelector:@selector(session:didFailWithError:)]) {
-        [self.delegate session:self didFailWithError:error];
+    if (self.errorBlock != nil ) {
+        self.errorBlock(error, self.metadata.moduleName);
     }
     self.done = YES;
 }
@@ -123,13 +123,13 @@
             //return success or should wait for the response?   
            // [delegate sessionDidCompleteUploadSuccessfully:self]; should send a call back or not?
         } else if (syncAction == kRead){
-            if (delegate != nil && [delegate respondsToSelector:@selector(sessionWillStartLoading:)]) {
-                [delegate sessionWillStartLoading:self];
-            }
+//            if (delegate != nil && [delegate respondsToSelector:@selector(sessionWillStartLoading:)]) {
+//                [delegate sessionWillStartLoading:self];
+//            }
         }
     } else {
-            if (delegate != nil && [delegate respondsToSelector:@selector(session:didFailWithError:)]){
-                [self.delegate session:self didFailWithError:[NSError errorWithDomain:@"HTTP ERROR" code:errorCode userInfo:nil]];
+            if ( self.errorBlock != nil ){
+                self.errorBlock([NSError errorWithDomain:@"HTTP ERROR" code:errorCode userInfo:nil], self.metadata.moduleName);
            }
         self.done = YES;
     }
@@ -148,9 +148,9 @@
     
     if (syncAction == kWrite) {
         if (self.done == NO) {
-            if (delegate != nil && [delegate respondsToSelector:@selector(sessionDidCompleteUploadSuccessfully:)]) {
-            [delegate sessionDidCompleteUploadSuccessfully:self];
-            }  
+            if ( nil != self.completionBlock) {
+                self.completionBlock(nil, self.metadata.moduleName, self.syncAction, self.uploadDataObjects);
+            }
         }
     }  
     else  
@@ -199,7 +199,9 @@
                 NSLog(@"Error Parsing Data with Exception = %@, %@",[exception name],[exception description]);
             }
         }
-        [delegate session:self didCompleteDownloadWithResponse:arrayOfDataObjects];
+        if ( nil != self.completionBlock) {
+            self.completionBlock(arrayOfDataObjects, self.metadata.moduleName, self.syncAction, nil);
+        }
     }
     self.done = YES;
 }

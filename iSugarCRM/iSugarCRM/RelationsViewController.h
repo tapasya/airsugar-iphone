@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DataObject.h"
 #import "DBSession.h"
-@interface RelationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,DBLoadSessionDelegate>{
+@interface RelationsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>{
 //  NSMutableDictionary *dataSourceDictionary;
 }
 @property(strong)NSMutableDictionary *dataSourceDictionary;
