@@ -11,6 +11,8 @@
 #import "JSONKit.h"
 #import "SettingsStore.h"
 
+# define kMaxRecords        @"1000"
+
 static inline NSString* httpMethodAsString(HTTPMethod method){
     switch (method) {
         case HTTPMethodGet:
@@ -30,14 +32,23 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
 @implementation WebserviceMetadata
 @synthesize urlParameters,postParameters,headers,endpoint,method,moduleName,pathToRelationshipInResponse;
 @synthesize pathToObjectsInResponse,responseKeyPathMap,data_key;
+@synthesize offset;
+@synthesize timeStamp = _timeStamp;
+@synthesize startDate = _startDate;
+@synthesize endDate = _endDate;
+@synthesize downlaodObjects;
+
 -(id)init{
+    
     if (self=[super init]) {
         headers=[[OrderedDictionary alloc]init];
         urlParameters=[[NSMutableArray alloc]init];
         postParameters=[[OrderedDictionary alloc]init];
+        offset = 0;
     }
     return  self;
 }
+
 -(void)setHeader:(NSString*)headerVal forKey:(NSString*)key
 {
     NSMutableDictionary *headerCopy =  [headers mutableCopy];
@@ -45,7 +56,8 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     headers = headerCopy;
 }
 
--(void)setPostParam:(NSString*)postParam forKey:(NSString*)key{
+-(void)setPostParam:(NSString*)postParam forKey:(NSString*)key
+{
     NSMutableDictionary *postParamsCopy =  [postParameters mutableCopy];
     [postParamsCopy setValue:postParam forKey:key];
     postParameters = postParamsCopy;
@@ -61,113 +73,81 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [urlParameters addObject:dictionary];
 }
 
-
--(NSURLRequest*)getRequest
+-(NSURLRequest*) constructRequest
 {
     //append url parameters
     NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
     [restDataDictionary setObject:session forKey:@"session"];
     [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    NSString *restDataString = [restDataDictionary JSONString];
-    [self setUrlParam:restDataString forKey:@"rest_data"];
+    
+    if (self.downlaodObjects && self.downlaodObjects.count > 0) {
+        
+        [restDataDictionary setObject:self.downlaodObjects forKey:@"ids"];
+        
+        for (int i = 0; i < [self.downlaodObjects count] ; i ++) {
+            if (i == [self.downlaodObjects count]-1) {
+                [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.id='%@' ",[moduleName lowercaseString],[self.downlaodObjects objectAtIndex:i]] forKey:@"query"];
+            }else{
+                [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.id='%@' OR ",[moduleName lowercaseString],[self.downlaodObjects objectAtIndex:i]] forKey:@"query"];
+            }
+        }
+
+        [restDataDictionary  setObject:@"" forKey:@"order_by"];
+        
+        if ( self.offset != -1) {
+            [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];
+        } else{
+            [restDataDictionary  setObject:@"" forKey:@"offset"];
+        }
+        
+        [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
+        NSMutableArray *relationshipList = [NSMutableArray array];
+        NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+        for(NSString *module in moduleList){
+            [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
+        }
+        
+        [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
+        [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
+    }
+    
+    if (((self.startDate != nil && [self.startDate length] > 0) && (self.endDate != nil || [self.endDate length] > 0)) || (self.timeStamp != nil || [self.timeStamp length] > 0)) {
+        
+        //TODO: check for min b/w enddate and timestamp
+        
+        if ( nil == self.startDate || [self.startDate length] > 0) {
+            [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],self.timeStamp ? self.timeStamp : @""]  forKey:@"query"];
+            
+        } else{
+            [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],self.startDate, [moduleName lowercaseString], self.endDate] forKey:@"query"];
+        }
+        
+        [restDataDictionary  setObject:@"" forKey:@"order_by"];
+        
+        if ( self.offset != -1) {
+            [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];
+        } else{
+            [restDataDictionary  setObject:@"" forKey:@"offset"];
+        }
+        
+        [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
+        NSMutableArray *relationshipList = [NSMutableArray array];
+        NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+        for(NSString *module in moduleList){
+            [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
+        }
+        
+        [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
+        [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
+    }
+    
+    [self setUrlParam:[restDataDictionary JSONString] forKey:@"rest_data"];
+    
     return [self formatRequest];
-}
-
-
--(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString*)timestamp;
-{
-    if (timestamp==nil) {
-        return [self getRequest];
-    }
-    //append url parameters
-    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],timestamp] forKey:@"query"];
-    [restDataDictionary  setObject:@"" forKey:@"order_by"];
-    [restDataDictionary  setObject:@"" forKey:@"offset"];
-    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
-    NSMutableArray *relationshipList = [NSMutableArray array];
-    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
-    for(NSString *module in moduleList){
-        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
-    }
-    
-    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
-     [restDataDictionary setObject:@"1000" forKey:@"max_results"];
-    NSString *restDataString = [restDataDictionary JSONString];
-    [self setUrlParam:restDataString forKey:@"rest_data"];
-    return [self formatRequest];
-}
-
--(NSURLRequest*)getRequestWithStartDate:(NSString*)startDate endDate:(NSString*)endDate
-{
-    if (startDate==nil || endDate == nil) {
-        return [self getRequest];
-    }
-    //append url parameters
-    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],startDate, [moduleName lowercaseString], endDate] forKey:@"query"];
-    [restDataDictionary  setObject:@"" forKey:@"order_by"];
-    [restDataDictionary  setObject:@"" forKey:@"offset"];
-    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
-    NSMutableArray *relationshipList = [NSMutableArray array];
-    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
-    for(NSString *module in moduleList){
-        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
-
-    }
-    
-    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
-     [restDataDictionary setObject:@"1000" forKey:@"max_results"];
-    NSString *restDataString = [restDataDictionary JSONString];
-    [self setUrlParam:restDataString forKey:@"rest_data"];
-    return [self formatRequest];
-
-}
-
--(NSURLRequest*)getRequestWithLastSyncTimestamp:(NSString *)timestamp startDate:(NSString*)startDate endDate:(NSString*)endDate{
-    
-    if ((startDate == nil||[startDate length]==0)&&(endDate == nil||[endDate length]==0)&&(timestamp == nil||[timestamp length]==0)) {
-        return [self getRequest];
-    }
-    
-    if ((startDate==nil||[startDate length]==0) && (endDate == nil||[endDate length]==0)) {
-        return [self getRequestWithLastSyncTimestamp:timestamp];
-    }
-    if (timestamp == nil ||!([timestamp length]>0)) {
-        return [self getRequestWithStartDate:startDate endDate:endDate];
-    }
-  
-    //append url parameters
-    NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];
-    [restDataDictionary setObject:session forKey:@"session"];
-    [restDataDictionary  setObject:moduleName forKey:@"module_name"];
-    
-    //TODO: check for min b/w enddate and timestamp
-    [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],timestamp, [moduleName lowercaseString], endDate] forKey:@"query"];
-    
-    [restDataDictionary  setObject:@"" forKey:@"order_by"];
-    [restDataDictionary  setObject:@"" forKey:@"offset"];
-    [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
-    NSMutableArray *relationshipList = [NSMutableArray array];
-    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
-    for(NSString *module in moduleList){
-        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
-    }
-    
-    [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
-    [restDataDictionary setObject:@"1000" forKey:@"max_results"];
-    NSString *restDataString = [restDataDictionary JSONString];
-    [self setUrlParam:restDataString forKey:@"rest_data"];
-    return [self formatRequest];
-
 
 }
 
--(NSURLRequest*) getWriteRequestWithData:(NSArray*)data
+-(NSURLRequest*) constructWriteRequestWithData:(NSArray*)data
 {
     //append url parameters
     NSMutableDictionary *restDataDictionary = [[OrderedDictionary alloc] init];

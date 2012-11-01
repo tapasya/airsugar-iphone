@@ -155,7 +155,7 @@ int usernameLength,passwordLength;
     __weak AppDelegate* delegate = self;
     
     syncHandler.completionBlock = ^(){
-        
+        [delegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
     };
     
     syncHandler.errorBlock = ^(NSArray* errors){

@@ -38,6 +38,10 @@
 -(void) sortData;
 -(void) showActionSheet;
 -(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
+
+-(void) syncFailedWithError:(NSError*)error;
+-(void) syncComplete;
+
 @property (strong) UIActionSheet *_actionSheet;
 @property(nonatomic, retain) UISegmentedControl *segmentedControl;
 @end
@@ -160,12 +164,12 @@
 
 #pragma mark - Sync handler delegate methods
 
--(void)syncHandler:(SyncHandler*)syncHandler failedWithError:(NSError*)error
+-(void)syncFailedWithError:(NSError*)error
 {
     [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:error waitUntilDone:NO];
 }
 
--(void)syncComplete:(SyncHandler*)syncHandler
+-(void)syncComplete
 {   
     [self loadData];
     [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];

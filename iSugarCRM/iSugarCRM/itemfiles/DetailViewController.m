@@ -27,6 +27,9 @@
 @property(strong) NSArray *detailsArray;
 //@property(strong) NSMutableArray *detailsArray;
 -(void) addToolbar;
+-(void) syncFailedWithError:(NSError*)error;
+-(void) syncComplete;
+
 @end
 
 @implementation DetailViewController

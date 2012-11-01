@@ -29,8 +29,6 @@ typedef void (^SyncHandlerErrorBlock)(NSArray* errors);
 
 + (SyncHandler*)sharedInstance;
 
-- (void)addSyncSession:(WebserviceSession*)session;
-
 // Complete app sync methods
 -(void) runSyncforModules:(NSArray*) modules withSyncType:(enum SYNC_TYPE) syncType;
 
