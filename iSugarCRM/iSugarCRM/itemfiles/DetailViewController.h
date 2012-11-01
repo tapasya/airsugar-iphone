@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DetailViewMetadata.h"
 #import "DBSession.h"
-@interface DetailViewController : UITableViewController< UIAlertViewDelegate>
+#import <MessageUI/MFMailComposeViewController.h>
+@interface DetailViewController : UITableViewController< UIAlertViewDelegate,MFMailComposeViewControllerDelegate>
 
 @property(strong)NSArray *datasource;
 @property(strong)DetailViewMetadata *metadata;

@@ -18,6 +18,7 @@
 #import "DBSession.h"
 #import "DBHelper.h"
 #import "Reachability.h"
+#import "SplitViewController.h"
 
 #define kSideMargin 5.0
 #define kLabelWidth 150.0
@@ -305,6 +306,14 @@
 {
     dataSource = nil;
     [self.navigationController dismissModalViewControllerAnimated:YES];
+    if (IS_IPAD) {
+        SplitViewController *svc = (SplitViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+        for (UIViewController *vc in svc.viewControllers) {
+            if ([vc.view respondsToSelector:@selector(endEditing:)]) {
+                [vc.view endEditing:YES];
+            }
+        }
+    }
 }
 
 #pragma mark SyncHandler block methods

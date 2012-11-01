@@ -97,12 +97,12 @@ ApplicationKeyStore *keyChain;
     
     usernameField.text = @"will";
     passwordField.text = @"will";
-    urlField.text = sugarEndpoint;
 
     if([LoginUtils keyChainHasUserData]){
         [spinner setHidden:NO];
         [spinner startAnimating];
     }else{
+        urlField.text = sugarEndpoint;
         [spinner stopAnimating];
     }
 }

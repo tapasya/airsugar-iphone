@@ -4,13 +4,15 @@
 //
 
 #import "DetailViewRowItem.h"
+#import <MessageUI/MFMailComposeViewController.h>
+
+
 #define kSideMargin 8.0
 #define kLabelWidth 150.0
 #define KCellHeight 50.0
 #define kHeightlMargin 30.0
 @interface DetailViewRowItem ()
 -(NSString*)valueStringWithFormat:(NSString*)format;
--(IBAction)actionHandler:(id)sender;
 @end
 @implementation DetailViewRowItem
 @synthesize label,values,action,type;
@@ -40,37 +42,6 @@
         textLabel.tag = 1001;
         textLabel.numberOfLines = 0;
         [cell.contentView addSubview:textLabel];
-        
-        if ([[self reusableCellIdentifier] isEqualToString:@"phone"]) {
-            UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
-            actionButton.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:actionButton];
-        }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"url"] || [[self reusableCellIdentifier] isEqualToString:@"map"]) {
-            UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
-            actionButton.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:actionButton];
-            
-        }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"email"]) {
-            UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
-            actionButton.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:actionButton];
-            
-        }
-        else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
-            UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            actionButton.tag = 1002;
-            [actionButton addTarget:self action:@selector(actionHandler:) forControlEvents:UIControlEventTouchDown];
-            actionButton.backgroundColor = [UIColor clearColor];
-            [cell.contentView addSubview:actionButton];
-        }
     }
     
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:1000];
@@ -88,16 +59,10 @@
         
         if ([[self reusableCellIdentifier] isEqualToString:@"phone"]) {
             textLabel.text = [self valueStringWithFormat:nil];
-            UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width +kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"url"] || [[self reusableCellIdentifier] isEqualToString:@"map"]) {
             textLabel.text = [self valueStringWithFormat:nil];
-            UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"email"]) {
             textLabel.text = [self valueStringWithFormat:nil];
-            UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else if ([[self reusableCellIdentifier] isEqualToString:@"date"]) {
             NSString *dateString = [self valueStringWithFormat:nil];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -111,8 +76,6 @@
             dateString = [dateFormatter stringFromDate:date];
             
             textLabel.text = dateString;
-            UIButton *button = (UIButton*)[cell.contentView viewWithTag:1002];
-            button.frame = CGRectMake(kSideMargin+[self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width+kSideMargin, 0, cell.contentView.frame.size.width - [self.label sizeWithFont:[UIFont boldSystemFontOfSize:18]].width-kSideMargin, cell.contentView.frame.size.height);
         } else {
             textLabel.text = [self valueStringWithFormat:nil];
         }
@@ -141,7 +104,7 @@
             continue;
         }
         if (count==[values count]) {
-            [valueString appendString:[NSString stringWithFormat:@"%@ ",value]];
+            [valueString appendString:[NSString stringWithFormat:@"%@",value]];
         }
         else {
             [valueString appendString:[NSString stringWithFormat:@"%@, ",value]];
@@ -167,7 +130,8 @@
         return [[self class]description];
     }
 }
--(IBAction)actionHandler:(id)sender{
+-(void)actionHandlerOnViewcontroller:(UIViewController *)viewController
+{
     if ([action isEqualToString:@"phone"]) {
         NSMutableString *phone = [[self valueStringWithFormat:nil] mutableCopy];
         [phone replaceOccurrencesOfString:@" " 
@@ -184,19 +148,33 @@
                                     range:NSMakeRange(0, [phone length])];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phone]];
         [[UIApplication sharedApplication] openURL:url];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phone]]];
+
     }
     else if ([action isEqualToString:@"date"]) {
         return;
     }
     else if ([action isEqualToString:@"email"]) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@",[self valueStringWithFormat:nil]]]];  
+        NSString *urlString = [NSString stringWithFormat:@"mailto:%@",[self valueStringWithFormat:nil]];
+        NSURL *url = [NSURL URLWithString:urlString];
+        //YET TO EXTRACT TOKENS FROM valueStringWithFormat
+        if ([MFMailComposeViewController canSendMail]) {
+            MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
+            mail.mailComposeDelegate = (id)viewController;
+            [mail setToRecipients:[NSArray arrayWithObjects:[self valueStringWithFormat:nil],nil]];
+            [mail setSubject:@"Subject"];
+            [viewController presentViewController:mail animated:YES completion:nil];
+        }else{
+            [[UIApplication sharedApplication] openURL:url];
+        }
     } 
     else if ([action isEqualToString:@"url"]) {
         
         NSString *urlString = [[self valueStringWithFormat:nil] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        if (!([urlString hasPrefix:@"http"] || [urlString hasPrefix:@"https"])) {
+            urlString = [NSString stringWithFormat:@"http://%@",[urlString stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+
+        }
     }
     else if ([action isEqualToString:@"map"]) {
         NSString* query = [self valueStringWithFormat:nil];

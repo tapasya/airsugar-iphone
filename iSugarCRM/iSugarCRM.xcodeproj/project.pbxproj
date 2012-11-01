@@ -112,6 +112,7 @@
 		4E9453D0156BB7B300F8867E /* Moduleicons.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CA156BB7B300F8867E /* Moduleicons.js */; };
 		4E9453D2156BB7B300F8867E /* Settings.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CC156BB7B300F8867E /* Settings.js */; };
 		4E9453D3156BB7B300F8867E /* Syncsetup.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CD156BB7B300F8867E /* Syncsetup.js */; };
+		846B4D7F16426773002AAF69 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846B4D7E16426772002AAF69 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -288,6 +289,7 @@
 		4E9453CA156BB7B300F8867E /* Moduleicons.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Moduleicons.js; path = iSugarCRMTests/Testscripts/Moduleicons.js; sourceTree = "<group>"; };
 		4E9453CC156BB7B300F8867E /* Settings.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Settings.js; path = iSugarCRMTests/Testscripts/Settings.js; sourceTree = "<group>"; };
 		4E9453CD156BB7B300F8867E /* Syncsetup.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Syncsetup.js; path = iSugarCRMTests/Testscripts/Syncsetup.js; sourceTree = "<group>"; };
+		846B4D7E16426772002AAF69 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,6 +297,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846B4D7F16426773002AAF69 /* MessageUI.framework in Frameworks */,
 				2FBFC5AD150DF1EE00A4831B /* SystemConfiguration.framework in Frameworks */,
 				0FB9F84014DC20380084BF7E /* Security.framework in Frameworks */,
 				0FB17A0214B5A14E004F0C80 /* QuartzCore.framework in Frameworks */,
@@ -465,8 +468,8 @@
 		3B3E6277148E3288002BAE48 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				2F05832B152B06E6006DCD26 /* RecentViewController.h */,
 				2F05832C152B06EA006DCD26 /* RecentViewController.m */,
+				2F05832B152B06E6006DCD26 /* RecentViewController.h */,
 				0F93BDED1524530700E57E80 /* RelationsViewController.h */,
 				0F93BDEE1524530700E57E80 /* RelationsViewController.m */,
 				0FF27E9414DA6422002169D7 /* TextFieldTableCell.h */,
@@ -556,6 +559,7 @@
 		3B5C97C1147CF7BC007EF770 = {
 			isa = PBXGroup;
 			children = (
+				846B4D7E16426772002AAF69 /* MessageUI.framework */,
 				4E8AA1DE156BB52D0024FEE5 /* Testscripts */,
 				2FBFC5AC150DF1EE00A4831B /* SystemConfiguration.framework */,
 				3B5C97D6147CF7BC007EF770 /* iSugarCRM */,

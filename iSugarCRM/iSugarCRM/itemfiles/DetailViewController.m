@@ -17,6 +17,7 @@
 #import "SyncHandler.h"
 #import "AppDelegate.h"
 #import "Reachability.h"
+#import "SplitViewController.h"
 
 #define kDeleteAlertViewTag 1001
 
@@ -229,7 +230,7 @@
     [self.navigationController setToolbarHidden:NO];
 }
 
--(IBAction)createButtonClicked:(id)sender
+-(void)createButtonClicked:(id)sender
 {
     SugarCRMMetadataStore *metadataStore= [SugarCRMMetadataStore sharedInstance];
     EditViewController *editViewController = [EditViewController editViewControllerWithMetadata:[metadataStore objectMetadataForModule:self.metadata.moduleName]];
@@ -239,7 +240,7 @@
     [self presentModalViewController:navController animated:YES];        
 }
 
--(IBAction)deleteButtonClicked:(id)sender
+-(void)deleteButtonClicked:(id)sender
 {
     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Confirm" message:@"Do you really want to delete the record ?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Cancel", nil];
     alertView.tag = kDeleteAlertViewTag;
@@ -247,7 +248,7 @@
     return;
 }
 
--(IBAction)relatedButtonClicked:(id)sender
+-(void)relatedButtonClicked:(id)sender
 {
     RelationsViewController *relationsController = [[RelationsViewController alloc]initWithDataObject:[detailsArray objectAtIndex:0]];
     relationsController.title = @"Relations";
@@ -301,6 +302,14 @@
     if(alertView.tag == kDeleteAlertViewTag && buttonIndex == 0)
     {
         [self deleteRecord];
+        if (IS_IPAD) {
+            SplitViewController *svc = (SplitViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+            for (UIViewController *vc in svc.viewControllers) {
+                if ([vc.view respondsToSelector:@selector(endEditing:)]) {
+                    [vc.view endEditing:YES];
+                }
+            }
+        }
     }
 }
 
@@ -395,7 +404,28 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    id<UITableViewCellSectionItem> sectionItem = [datasource objectAtIndex:indexPath.section];
+    DetailViewRowItem *rowItem  = [[sectionItem rowItems] objectAtIndex:indexPath.row];
+    [rowItem actionHandlerOnViewcontroller:self];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];   
+}
+
+#pragma mark - MailComposer delegate
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    if (result == MFMailComposeResultFailed || error) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+															message:[error localizedDescription]
+														   delegate:nil
+												  cancelButtonTitle:@"OK"
+												  otherButtonTitles:nil];
+		
+		[alertView show];
+	}
+	
+	[self dismissModalViewControllerAnimated:YES];
+
 }
 
 @end

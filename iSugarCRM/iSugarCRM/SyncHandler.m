@@ -40,9 +40,13 @@ static SyncHandler *sharedInstance;
 
 @property (assign) NSInteger requestCount;
 
+/*
+ Currently unused, may be useful in future
+ 
 @property (nonatomic, strong) WebserviceSessionCompletionBlock websessionCompletionBlock;
 
 @property (nonatomic, strong) WebserviceSessionErrorBlock websessionErrorBlock ;
+ */
 
 @property (nonatomic, strong) NSMutableArray* errors;
 
@@ -67,8 +71,11 @@ static SyncHandler *sharedInstance;
 @synthesize requestCount;
 @synthesize skipSeamlessLogin;
 
+/*
+ Currently unused, may be useful in future
 @synthesize websessionCompletionBlock = _websessionCompletionBlock;
 @synthesize websessionErrorBlock = _websessionErrorBlock;
+*/
 
 @synthesize completionBlock = _completionBlock;
 @synthesize errorBlock = _errorBlock;

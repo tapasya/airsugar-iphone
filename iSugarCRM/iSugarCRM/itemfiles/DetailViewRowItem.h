@@ -11,4 +11,5 @@
 @property (nonatomic, copy) NSString *action;
 @property (nonatomic, copy) NSString *label;
 @property (nonatomic, copy) NSArray *values;
+-(void)actionHandlerOnViewcontroller:(UIViewController *)viewController;
 @end

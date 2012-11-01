@@ -164,7 +164,7 @@ NSString* const errorDomain = @"SQLite Database Error Domain";
 		int len = strlen(tempStr) + 1;
 		char * sqlCStr = malloc(len * (sizeof(char)));
 		strcpy(sqlCStr, tempStr);
-	        do {
+        do {
             retry   = NO;
             rc      = sqlite3_prepare_v2(database, sqlCStr, -1, &pStmt, 0);
             if (SQLITE_BUSY == rc) {
