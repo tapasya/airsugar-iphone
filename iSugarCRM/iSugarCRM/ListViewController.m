@@ -256,6 +256,9 @@
         [tableData removeAllObjects];
         [tableData addObjectsFromArray:datasource];
         [self sortData];
+        
+        NSLog(@"Number of records in module %@ : %d", self.moduleName, records.count);
+        
         // Load UI on mail queue
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [myTableView reloadData];

@@ -18,6 +18,8 @@
 #import "ConnectivityChecker.h"
 #import "SettingsStore.h"
 #import <dispatch/dispatch.h>
+#import "JSONKit.h"
+#import "DateUtils.h"
 
 NSString* const NetworkRequestErrorDomain = @"HTTPRequestErrorDomain";
 
@@ -26,13 +28,12 @@ static SyncHandler *sharedInstance;
 @interface SyncHandler ()
 {
     dispatch_queue_t bgQueue;
+
 }
 
 -(id)initPrivate;
 
 -(void)postSyncnotification;
-
--(NSString*)formatDate:(NSString*)date;
 
 @property (strong) NSOperationQueue *requestQueue;
 
@@ -40,21 +41,11 @@ static SyncHandler *sharedInstance;
 
 @property (assign) NSInteger requestCount;
 
-/*
- Currently unused, may be useful in future
- 
-@property (nonatomic, strong) WebserviceSessionCompletionBlock websessionCompletionBlock;
-
-@property (nonatomic, strong) WebserviceSessionErrorBlock websessionErrorBlock ;
- */
-
 @property (nonatomic, strong) NSMutableArray* errors;
 
-@property (nonatomic, strong) NSMutableArray* webServiceSessions;
+- (void) startUploadOperationsForModule:(NSString*) moduleName;
 
--(BOOL) startUploadSessionforModule:(NSString*)module;
-
-- (void) startDownloadSessionForModule:(NSString*) moduleName syncType:(enum SYNC_TYPE) syncType;
+- (void) startDownloadOperationsForModule:(NSString*) moduleName syncType:(enum SYNC_TYPE) syncType;
 
 - (void) uploadFailedWithError:(NSError*) error forModule:(NSString*) moduleName;
 
@@ -70,12 +61,6 @@ static SyncHandler *sharedInstance;
 @synthesize requestQueue = mRequestQueue;
 @synthesize requestCount;
 @synthesize skipSeamlessLogin;
-
-/*
- Currently unused, may be useful in future
-@synthesize websessionCompletionBlock = _websessionCompletionBlock;
-@synthesize websessionErrorBlock = _websessionErrorBlock;
-*/
 
 @synthesize completionBlock = _completionBlock;
 @synthesize errorBlock = _errorBlock;
@@ -111,6 +96,7 @@ static SyncHandler *sharedInstance;
     self.requestQueue = [[NSOperationQueue alloc] init];
     //remove later
     self.requestQueue.maxConcurrentOperationCount = 1;
+    
     return self;
 }
 
@@ -144,8 +130,6 @@ static SyncHandler *sharedInstance;
     dispatch_async(bgQueue, ^(){
         self.errors = [[NSMutableArray alloc] initWithCapacity:modules.count];
         
-        self.webServiceSessions = [[NSMutableArray alloc] initWithCapacity:modules.count];
-        
         if (![[ConnectivityChecker singletonObject] isNetworkReachable])
         {
             [self showNetworkError];
@@ -155,173 +139,134 @@ static SyncHandler *sharedInstance;
             if (![self isSeamlessloginSuccessfull])
                 return;
             
-            //SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
+            // Add observer for operation queue changes
+            
+            [self.requestQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
             
             for(NSString *moduleName in modules)
             {
-                [self startUploadSessionforModule:moduleName];
+                [self startUploadOperationsForModule:moduleName];
                 
-                //create download session
-                [self startDownloadSessionForModule:moduleName syncType:syncType];
+                [self startDownloadOperationsForModule:moduleName syncType:syncType];
             }
+            
+            [self postSyncnotification];
         }
     });
 }
 
-#pragma mark - Module Sync Methods
--(BOOL) startUploadSessionforModule:(NSString*)module
+- (void) startUploadOperationsForModule:(NSString*) moduleName
 {
-    BOOL isSessionStarted = NO;
-    
     SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    DBSession *dbSession = [DBSession sessionForModule:module];
+    DBSession *dbSession = [DBSession sessionForModule:moduleName];
     NSArray* uploadData = [dbSession getUploadData];
     if ([uploadData count] > 0) {
-        WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_writeMetadataForModule:module]];
         
-//        session.completionBlock = ^(id response, NSString* moduleName, enum SyncAction syncAction, NSArray* dirtyData){
-//            [self uploadCompleteWithResponse:response forModule:moduleName forObjects:dirtyData];
-//        };
-//        
-//        session.errorBlock = ^ (NSError* error, NSString* moduleName){
-//            [self uploadFailedWithError:error forModule:moduleName];
-//        };
+        UploadOperation* uploadOperation  = [[UploadOperation alloc] initWithMetaData:[metadataStore webservice_writeMetadataForModule:moduleName]];
+        uploadOperation.uploadDataObjects = uploadData;
+        uploadOperation.delegate = self;
         
-        session.delegate = self;
+        [self.requestQueue addOperation:uploadOperation];
         
-        session.syncAction = kWrite;    
-        session.uploadDataObjects = uploadData;
-        
-        if (![[ConnectivityChecker singletonObject] isNetworkReachable])
-        {
-            [self showNetworkError];
-        }
-        else
-        {  
-            if ([self isSeamlessloginSuccessfull]) {
-                session.queuePriority = NSOperationQueuePriorityHigh;
-                [session constructSession];
-                [self.requestQueue addOperation:session];
-                isSessionStarted = YES;
-                
-            }
-        }
     }
-    
-    return YES;
-}
-
-- (void) startDownloadSessionForModule:(NSString*) moduleName syncType:(enum SYNC_TYPE) syncType
-{
-    //create download session
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:moduleName]];
-    session.syncAction = kRead;
-    
-//    session.completionBlock = ^(id response, NSString* moduleName, enum SyncAction syncAction, NSArray* dirtyData){
-//        // [self downloadCompleteWithResponse:response forModule:moduleName];
-//        NSLog(@"Module Download complete");
-//    };
-//    
-//    session.errorBlock = ^ (NSError* error, NSString* moduleName){
-//        [self downloadFailedWithError:error forModule:moduleName];
-//    };
-    
-    session.delegate = self;
-    
-    
-    switch (syncType) {
-        case SYNC_TYPE_WITH_DATES:
-            {
-                NSString *startDate = [self formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
-                NSString *endDate = [self formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
-                session.metadata.startDate = startDate;
-                session.metadata.endDate = endDate;
-            }
-            break;
-        case SYNC_TYPE_WITH_TIME_STAMP:
-            {
-                DBSession *dbSession = [DBSession sessionForModule:moduleName];
-                NSString* deltaMark = [dbSession getLastSyncTimestamp];
-//                if ( nil ==  deltaMark) {
-//                    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-//                    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-//                    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-//                    
-//                    deltaMark = [dateFormatter stringFromDate:[NSDate date]];
-//                }
-                
-                session.metadata.timeStamp = deltaMark;
-            }
-            break;
-            
-        case SYNC_TYPE_WITH_TIME_STAMP_AND_DATES:
-            {
-                DBSession *dbSession = [DBSession sessionForModule:moduleName];
-                NSString* deltaMark = [dbSession getLastSyncTimestamp];
-                NSString *startDate = [self formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
-                NSString *endDate = [self formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
-                session.metadata.startDate = startDate;
-                session.metadata.endDate = endDate;
-                session.metadata.timeStamp = deltaMark;
-            }
-            break;
-        
-        default:
-            break;
-    }
-    
-    [session constructSession];
-    [self.requestQueue addOperation:session];
-    
-     [self.webServiceSessions addObject:session];
 }
 
 - (void) downloadRecordWithIds:(NSArray* ) idsToDownload forModule:(NSString*) moduleName
 {
-    //create download session
-    SugarCRMMetadataStore *metadataStore = [SugarCRMMetadataStore sharedInstance];
-    WebserviceSession *session = [WebserviceSession sessionWithMetadata:[metadataStore webservice_readMetadataForModule:moduleName]];
-    session.syncAction = kRead;
+    WebserviceMetadata* metadata = [[SugarCRMMetadataStore sharedInstance] webservice_readMetadataForModule:moduleName];
+    metadata.downlaodObjects = idsToDownload;
     
-    session.delegate = self ;
-    
-    session.metadata.downlaodObjects = idsToDownload;
-    
-    [session constructSession];
-    
-    [self.requestQueue addOperation:session];
+    DownloadOperation* downloadOperation = [[DownloadOperation alloc] initWithMetaData:metadata];
+    downloadOperation.delegate = self;
+    [self.requestQueue addOperation:downloadOperation];
 
 }
 
-# pragma mark - Webservice session delegate methods
-
-- (void) session:(WebserviceSession *)session didCompleteUploadSuccessfully:(id)response
+- (void) startDownloadOperationsForModule:(NSString*) moduleName syncType:(enum SYNC_TYPE) syncType
 {
-    [self uploadCompleteWithResponse:response forModule:session.metadata.moduleName forObjects:session.uploadDataObjects];
-}
-
-- (void) session:(WebserviceSession *)session didCompleteDownloadWithResponse:(id)response shouldDownloadRemaining:(BOOL) downloadRemaining
-{
-    [self downloadCompleteWithResponse:response forModule:session.metadata.moduleName];
+    WebserviceMetadata* webMetaData = [[SugarCRMMetadataStore sharedInstance] webservice_readMetadataForModule:moduleName];
     
-    // Check for more records and add a download session
-    if ( downloadRemaining ) {
-        WebserviceSession* downloadSession = [WebserviceSession sessionWithMetadata:session.metadata];
-        downloadSession.syncAction = kRead;
-        downloadSession.delegate = self;
-        [downloadSession constructSession];
-        [self.requestQueue addOperation:downloadSession];
+    switch (syncType) {
+        case SYNC_TYPE_WITH_DATES:
+        {
+            NSString *startDate = [DateUtils formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
+            NSString *endDate = [DateUtils formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
+            webMetaData.startDate = startDate;
+            webMetaData.endDate = endDate;
+        }
+            break;
+        case SYNC_TYPE_WITH_TIME_STAMP:
+        {
+            DBSession *dbSession = [DBSession sessionForModule:moduleName];
+            NSString* deltaMark = [dbSession getLastSyncTimestamp];
+            webMetaData.timeStamp = deltaMark;
+        }
+            break;
+            
+        case SYNC_TYPE_WITH_TIME_STAMP_AND_DATES:
+        {
+            DBSession *dbSession = [DBSession sessionForModule:moduleName];
+            NSString* deltaMark = [dbSession getLastSyncTimestamp];
+            NSString *startDate = [DateUtils formatDate:[SettingsStore objectForKey:kStartDateIdentifier]];
+            NSString *endDate = [DateUtils formatDate:[SettingsStore objectForKey:kEndDateIdentifier]];
+            webMetaData.startDate = startDate;
+            webMetaData.endDate = endDate;
+            webMetaData.timeStamp = deltaMark;
+        }
+            break;
+            
+        default:
+            break;
     }
+    
+    // First get the total record count and then queue download operations
+    
+    // TODO not a nice way to construct the request
+    [webMetaData setUrlParam:@"get_entries_count" forKey:@"method"];
+    
+    NSURLResponse* response;
+    NSError* error = nil;
+    
+    NSData* resultData = [NSURLConnection sendSynchronousRequest:[webMetaData constructRequest] returningResponse:&response error:&error];
+    
+    NSDictionary* responseDict = [resultData objectFromJSONData];
+    
+    NSInteger totalRecords = [[responseDict objectForKey:@"result_count"] integerValue];
+    
+    NSLog(@"Records is for module %@ - %d", moduleName, totalRecords);
+
+    if ( totalRecords > 0) {
+        // TODO change the max condition
+        for (int offset = 0 ; offset < totalRecords; offset +=1000) {
+            // Add request queues to download the remaining data
+            WebserviceMetadata* metadata = [[SugarCRMMetadataStore sharedInstance] webservice_readMetadataForModule:moduleName];
+            
+            metadata.timeStamp = webMetaData.timeStamp;
+            metadata.startDate = webMetaData.startDate;
+            metadata.endDate = webMetaData.endDate;
+            
+            metadata.offset = offset;
+            
+            DownloadOperation* downloadOperation = [[DownloadOperation alloc] initWithMetaData:metadata];
+            downloadOperation.delegate = self;
+            [self.requestQueue addOperation:downloadOperation];
+        }
+    } else{
+        NSLog(@"No Records in module %@", moduleName);
+     }
 }
 
-- (void) session:(WebserviceSession *)session didFailWithError:(NSError *)error
+# pragma mark - Download Operation delegate
+
+- (void) downloadCompletedWithDataObjects:(NSArray *)dataObjects forModule:(NSString *)moduleName
 {
-    if (session.syncAction == kWrite) {
-        [self uploadFailedWithError:error forModule:session.metadata.moduleName];
-    } else {
-        [self downloadFailedWithError:error forModule:session.metadata.moduleName];
-    }
+    [self downloadCompleteWithResponse:dataObjects forModule:moduleName];
+}
+
+# pragma mark = Upload Operation delegate
+- (void) uploadCompletedWithDataObjects:(NSArray *)dataObjects forModule:(NSString *)moduleName uploadObjects:(NSArray *)uploadObjects
+{
+    [self uploadCompleteWithResponse:dataObjects forModule:moduleName forObjects:uploadObjects];
 }
 
 # pragma mark - Webservice session completion block Methods
@@ -423,9 +368,36 @@ static SyncHandler *sharedInstance;
     }
 }
 
+// Get this working instead of using postSyncNotificationMethod
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.requestQueue && [keyPath isEqualToString:@"operations"]) {
+        if ([self.requestQueue.operations count] == 0) {
+            // Do something here when your queue has completed
+            NSLog(@"queue has completed");
+//            [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
+//            if ( self.errors.count > 0) {
+//                if ( nil != self.errorBlock ) {
+//                    self.errorBlock(self.errors);
+//                }
+//            } else{
+//                if ( nil != self.completionBlock) {
+//                    self.completionBlock();
+//                }
+//            }
+//            self.skipSeamlessLogin = NO;
+
+        }
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 -(void)postSyncnotification
 {
-    if ([self.requestQueue operationCount]<= 1) {
+    if ([self.requestQueue operationCount]<= 1 ) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
         if ( self.errors.count > 0) {
             if ( nil != self.errorBlock ) {
@@ -439,24 +411,4 @@ static SyncHandler *sharedInstance;
         self.skipSeamlessLogin = NO;
     }
 }
-
-#pragma mark - Utility
-
-//move this method to utils
--(NSString *) formatDate:(NSString *)date
-{    
-    NSDateFormatter *dateFormatter;
-    
-    if(date == nil){
-        date = [[[[NSDate date] description]componentsSeparatedByString:@" "] objectAtIndex:0];
-    }else{
-        dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateStyle = NSDateFormatterShortStyle;
-        dateFormatter.timeStyle = NSDateFormatterNoStyle;
-        date = [[[[dateFormatter dateFromString:date] description] componentsSeparatedByString:@" "] objectAtIndex:0];
-    }
-    
-    return date;
-}
-
 @end

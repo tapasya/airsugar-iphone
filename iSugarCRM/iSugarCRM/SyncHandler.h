@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WebserviceSession.h"
 #import "DBSession.h"
+#import "DownloadOperation.h"
+#import "UploadOperation.h"
 
 enum SYNC_TYPE {
     SYNC_TYPE_DEFAULT = 0,
@@ -21,7 +22,7 @@ typedef void (^SyncHandlerCompletionBlock) ();
 
 typedef void (^SyncHandlerErrorBlock)(NSArray* errors);
 
-@interface SyncHandler : NSObject<WebserviceSessionDelegate> {
+@interface SyncHandler : NSObject< DownloadCompletionDelegate, UploadCompletionDelegate> {
 
 @private
     NSOperationQueue        *mRequestQueue;

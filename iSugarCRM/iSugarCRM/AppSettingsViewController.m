@@ -21,7 +21,6 @@
 @interface AppSettingsViewController ()
 @property (strong) NSArray* cellIdentifierArray;
 @property (strong)UIDatePicker *pickerView;    
-@property (strong) NSDateFormatter *dateFormatter; 
 @property (strong) UIBarButtonItem *saveButton;
 @property (strong) UIActionSheet *actionSheet;
 @property (strong) NSString *username;
@@ -35,13 +34,13 @@
 @implementation AppSettingsViewController
 @synthesize cellIdentifierArray; 
 @synthesize pickerView;
-@synthesize dateFormatter;
 @synthesize saveButton;
 @synthesize actionSheet;
 @synthesize username;
 @synthesize password;
 @synthesize urlString;
 @synthesize keyChain,footerView;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
@@ -68,9 +67,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.dateFormatter = [[NSDateFormatter alloc] init];
-	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     self.navigationItem.rightBarButtonItem = self.saveButton;
     self.navigationItem.rightBarButtonItem.enabled = NO;

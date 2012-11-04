@@ -12,6 +12,7 @@
 #import "Reachability.h"
 #import "SyncHandler.h"
 #import "ConnectivityChecker.h"
+#import "DateUtils.h"
 
 #define kEraseAlertViewTag 1001
 
@@ -24,7 +25,6 @@
 
 @synthesize settingsArray;
 @synthesize pickerView; 
-@synthesize dateFormatter; 
 @synthesize actionSheet;
 @synthesize startDate;
 @synthesize endDate;
@@ -116,9 +116,6 @@ BOOL isFirstTime;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.dateFormatter = [[NSDateFormatter alloc] init];
-	[self.dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     self.navigationItem.rightBarButtonItem = [self addNextButton];
     
     self.tableView.tableFooterView.autoresizesSubviews = YES;
@@ -191,7 +188,7 @@ BOOL isFirstTime;
         [[cell textLabel] setText:@"Start Date"];
         if(!value){
             if(startDate == nil){
-                value = [self.dateFormatter stringFromDate:[NSDate date]];
+                value = [DateUtils stringFromDate:[NSDate date]];
                 startDate = value;
             }else{
                 value = startDate;
@@ -209,7 +206,7 @@ BOOL isFirstTime;
         [[cell textLabel] setText:@"End Date"];
         if(!value){
             if(endDate == nil){
-                value = [self.dateFormatter stringFromDate:[NSDate date]];
+                value = [DateUtils stringFromDate:[NSDate date]];
                 endDate = value;
             }else{
                 value = endDate;
@@ -246,16 +243,16 @@ BOOL isFirstTime;
     if([identifier isEqualToString:kStartDateIdentifier] || [identifier isEqualToString:kEndDateIdentifier])
     {
         UITableViewCell *targetCell = [tableView cellForRowAtIndexPath:indexPath];
-        self.pickerView.date = [self.dateFormatter dateFromString:targetCell.detailTextLabel.text];
+        self.pickerView.date = [DateUtils dateFromString:targetCell.detailTextLabel.text];
         if( [identifier isEqualToString:kStartDateIdentifier])
         {
-            self.pickerView.maximumDate = [self.dateFormatter dateFromString:endDate];
+            self.pickerView.maximumDate = [DateUtils dateFromString:endDate];
             self.pickerView.minimumDate = nil;
         }
         
         if( [identifier isEqualToString:kEndDateIdentifier])
         {
-            self.pickerView.minimumDate = [self.dateFormatter dateFromString:startDate];
+            self.pickerView.minimumDate = [DateUtils dateFromString:startDate];
             self.pickerView.maximumDate = [NSDate date];
         }
         
@@ -312,15 +309,15 @@ BOOL isFirstTime;
 {
 	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
+	cell.detailTextLabel.text = [DateUtils stringFromDate:self.pickerView.date];
     
     if (cell.detailTextLabel.tag == kStartDateTag) {
         startDate = cell.detailTextLabel.text;
     }else if(cell.detailTextLabel.tag == kEndDateTag){
         endDate = cell.detailTextLabel.text;
     }
-    NSDate *dateStart = [self.dateFormatter dateFromString:self.startDate];
-    NSDate *dateEnd = [self.dateFormatter dateFromString:self.endDate];
+    NSDate *dateStart = [DateUtils dateFromString:self.startDate];
+    NSDate *dateEnd = [DateUtils dateFromString:self.endDate];
     if([dateStart compare:dateEnd] == NSOrderedDescending || [dateEnd compare:[NSDate date]] == NSOrderedDescending){
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }else{
@@ -338,11 +335,11 @@ BOOL isFirstTime;
 -(void)showDashboard:(id)sender
 {
     if(!startDate){
-        startDate = [self.dateFormatter stringFromDate:[NSDate date]];
+        startDate = [DateUtils stringFromDate:[NSDate date]];
     }
     
     if(!endDate){
-        endDate = [self.dateFormatter stringFromDate:[NSDate date]];
+        endDate = [DateUtils stringFromDate:[NSDate date]];
     }
     
     [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
@@ -358,11 +355,11 @@ BOOL isFirstTime;
     if([[ConnectivityChecker singletonObject] isNetworkReachable])
     {
         if(!startDate){
-            startDate = [self.dateFormatter stringFromDate:[NSDate date]];
+            startDate = [DateUtils stringFromDate:[NSDate date]];
         }
         
         if(!endDate){
-            endDate = [self.dateFormatter stringFromDate:[NSDate date]];
+            endDate = [DateUtils stringFromDate:[NSDate date]];
         }
         [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
         [SettingsStore setObject:endDate forKey:kEndDateIdentifier];

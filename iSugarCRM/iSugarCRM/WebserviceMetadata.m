@@ -10,6 +10,7 @@
 #import "OrderedDictionary.h"
 #import "JSONKit.h"
 #import "SettingsStore.h"
+#import "DateUtils.h"
 
 # define kMaxRecords        @"1000"
 
@@ -73,6 +74,32 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
     [urlParameters addObject:dictionary];
 }
 
+- (void) addSelectFieldsAndLinkFields:(NSMutableDictionary*) dict
+{
+    [dict  setObject:[NSArray array] forKey:@"select_fields"];
+    NSMutableArray *relationshipList = [NSMutableArray array];
+    NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
+    for(NSString *module in moduleList){
+        [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
+    }
+    
+    [dict  setObject:relationshipList forKey:@"link_name_to_fields_array"];
+}
+
+- (void) addTimeQuery:(NSMutableDictionary*) dict
+{
+    // if time stamp is available query for modified records after timestamp
+    if ( nil != self.timeStamp) {
+        [dict  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],self.timeStamp ? self.timeStamp : @""]  forKey:@"query"];
+        
+    } else if ( nil != self.startDate && nil != self.endDate){
+        [dict  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],self.startDate, [moduleName lowercaseString], self.timeStamp] forKey:@"query"];
+    } else {
+        [dict setObject:@"" forKey:@"query"];
+    }
+
+}
+
 -(NSURLRequest*) constructRequest
 {
     //append url parameters
@@ -100,28 +127,15 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
             [restDataDictionary  setObject:@"" forKey:@"offset"];
         }
         
-        [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
-        NSMutableArray *relationshipList = [NSMutableArray array];
-        NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
-        for(NSString *module in moduleList){
-            [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
-        }
+        [self addSelectFieldsAndLinkFields:restDataDictionary];
         
-        [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
         [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
     }
     
     if (((self.startDate != nil && [self.startDate length] > 0) && (self.endDate != nil || [self.endDate length] > 0)) || (self.timeStamp != nil || [self.timeStamp length] > 0)) {
         
-        //TODO: check for min b/w enddate and timestamp
-        
-        if ( nil == self.startDate || [self.startDate length] > 0) {
-            [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],self.timeStamp ? self.timeStamp : @""]  forKey:@"query"];
-            
-        } else{
-            [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],self.startDate, [moduleName lowercaseString], self.endDate] forKey:@"query"];
-        }
-        
+        [self addTimeQuery:restDataDictionary];
+               
         [restDataDictionary  setObject:@"" forKey:@"order_by"];
         
         if ( self.offset != -1) {
@@ -130,14 +144,8 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
             [restDataDictionary  setObject:@"" forKey:@"offset"];
         }
         
-        [restDataDictionary  setObject:[NSArray array] forKey:@"select_fields"];
-        NSMutableArray *relationshipList = [NSMutableArray array];
-        NSArray *moduleList = [[SugarCRMMetadataStore sharedInstance] modulesSupported];
-        for(NSString *module in moduleList){
-            [relationshipList addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:@"id"],@"value",[module lowercaseString],@"name",nil]];
-        }
+        [self addSelectFieldsAndLinkFields:restDataDictionary];
         
-        [restDataDictionary  setObject:relationshipList forKey:@"link_name_to_fields_array"];
         [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
     }
     

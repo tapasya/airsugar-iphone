@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) NSArray* settingsArray;       //move these to class extenstion
 @property (nonatomic, retain) UIDatePicker *pickerView; 
-@property (nonatomic, retain) NSDateFormatter *dateFormatter; 
 @property (nonatomic, retain) UIActionSheet *actionSheet;
 @property (nonatomic, retain) NSString *startDate;
 @property (nonatomic, retain) NSString *endDate;

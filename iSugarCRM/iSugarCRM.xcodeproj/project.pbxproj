@@ -113,6 +113,9 @@
 		4E9453D2156BB7B300F8867E /* Settings.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CC156BB7B300F8867E /* Settings.js */; };
 		4E9453D3156BB7B300F8867E /* Syncsetup.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E9453CD156BB7B300F8867E /* Syncsetup.js */; };
 		846B4D7F16426773002AAF69 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 846B4D7E16426772002AAF69 /* MessageUI.framework */; };
+		84B3B15C16448A4B00884EE1 /* DownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B3B15B16448A4A00884EE1 /* DownloadOperation.m */; };
+		84B3B1601645FBBA00884EE1 /* UploadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B3B15F1645FBB800884EE1 /* UploadOperation.m */; };
+		84B3B1671645FBBA00884EE1 /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B3B1661645FBBA00884EE1 /* DateUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +293,12 @@
 		4E9453CC156BB7B300F8867E /* Settings.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Settings.js; path = iSugarCRMTests/Testscripts/Settings.js; sourceTree = "<group>"; };
 		4E9453CD156BB7B300F8867E /* Syncsetup.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = Syncsetup.js; path = iSugarCRMTests/Testscripts/Syncsetup.js; sourceTree = "<group>"; };
 		846B4D7E16426772002AAF69 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		84B3B15A16448A4900884EE1 /* DownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadOperation.h; sourceTree = "<group>"; };
+		84B3B15B16448A4A00884EE1 /* DownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadOperation.m; sourceTree = "<group>"; };
+		84B3B15E1645FBB500884EE1 /* UploadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadOperation.h; sourceTree = "<group>"; };
+		84B3B15F1645FBB800884EE1 /* UploadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadOperation.m; sourceTree = "<group>"; };
+		84B3B1651645FBBA00884EE1 /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
+		84B3B1661645FBBA00884EE1 /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,6 +446,8 @@
 				2F6C469F148676A300865C25 /* JSONKit.m */,
 				0F02AAE714B305D200AABAA9 /* LoginUtils.h */,
 				18C4E2F21590ABB00037F6C0 /* LoginUtils.m */,
+				84B3B1651645FBBA00884EE1 /* DateUtils.h */,
+				84B3B1661645FBBA00884EE1 /* DateUtils.m */,
 			);
 			name = Utitlity;
 			sourceTree = "<group>";
@@ -502,6 +513,7 @@
 				3B5C9810147CF83E007EF770 /* WebserviceSession.m */,
 				3B5C981C1484BE25007EF770 /* WebserviceMetadata.h */,
 				3B5C981D1484BE26007EF770 /* WebserviceMetadata.m */,
+				84A080E11646E46C003895BF /* Web Operations */,
 			);
 			name = webservice;
 			sourceTree = "<group>";
@@ -681,6 +693,17 @@
 				18C4E2EE1590AB890037F6C0 /* SyncHandler.m */,
 			);
 			name = SyncHandlers;
+			sourceTree = "<group>";
+		};
+		84A080E11646E46C003895BF /* Web Operations */ = {
+			isa = PBXGroup;
+			children = (
+				84B3B15A16448A4900884EE1 /* DownloadOperation.h */,
+				84B3B15B16448A4A00884EE1 /* DownloadOperation.m */,
+				84B3B15E1645FBB500884EE1 /* UploadOperation.h */,
+				84B3B15F1645FBB800884EE1 /* UploadOperation.m */,
+			);
+			name = "Web Operations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -880,6 +903,9 @@
 				18C4E2F61590ABCF0037F6C0 /* DashboardController.m in Sources */,
 				18C4E2F71590ABCF0037F6C0 /* LoginViewController.m in Sources */,
 				18C19D03159B039100616B7D /* ConnectivityChecker.m in Sources */,
+				84B3B15C16448A4B00884EE1 /* DownloadOperation.m in Sources */,
+				84B3B1601645FBBA00884EE1 /* UploadOperation.m in Sources */,
+				84B3B1671645FBBA00884EE1 /* DateUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,7 +1008,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
@@ -1005,7 +1031,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iSugarCRM/iSugarCRM-Prefix.pch";
 				INFOPLIST_FILE = "iSugarCRM/iSugarCRM-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
