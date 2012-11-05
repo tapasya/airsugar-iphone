@@ -93,7 +93,7 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
         [dict  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@'",[moduleName lowercaseString],self.timeStamp ? self.timeStamp : @""]  forKey:@"query"];
         
     } else if ( nil != self.startDate && nil != self.endDate){
-        [dict  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],self.startDate, [moduleName lowercaseString], self.timeStamp] forKey:@"query"];
+        [dict  setObject:[NSString stringWithFormat:@"%@.date_modified>'%@' AND %@.date_modified<'%@'",[moduleName lowercaseString],self.startDate, [moduleName lowercaseString], self.endDate] forKey:@"query"];
     } else {
         [dict setObject:@"" forKey:@"query"];
     }
@@ -118,36 +118,22 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
                 [restDataDictionary  setObject:[NSString stringWithFormat:@"%@.id='%@' OR ",[moduleName lowercaseString],[self.downlaodObjects objectAtIndex:i]] forKey:@"query"];
             }
         }
-
-        [restDataDictionary  setObject:@"" forKey:@"order_by"];
-        
-        if ( self.offset != -1) {
-            [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];
-        } else{
-            [restDataDictionary  setObject:@"" forKey:@"offset"];
-        }
-        
-        [self addSelectFieldsAndLinkFields:restDataDictionary];
-        
-        [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
+    } else{
+    
+        [self addTimeQuery:restDataDictionary];
     }
     
-    if (((self.startDate != nil && [self.startDate length] > 0) && (self.endDate != nil || [self.endDate length] > 0)) || (self.timeStamp != nil || [self.timeStamp length] > 0)) {
-        
-        [self addTimeQuery:restDataDictionary];
-               
-        [restDataDictionary  setObject:@"" forKey:@"order_by"];
-        
-        if ( self.offset != -1) {
-            [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];
-        } else{
-            [restDataDictionary  setObject:@"" forKey:@"offset"];
-        }
-        
-        [self addSelectFieldsAndLinkFields:restDataDictionary];
-        
-        [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
+    [restDataDictionary  setObject:@"" forKey:@"order_by"];
+    
+    if ( self.offset != -1) {
+        [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];
+    } else{
+        [restDataDictionary  setObject:@"" forKey:@"offset"];
     }
+    
+    [self addSelectFieldsAndLinkFields:restDataDictionary];
+    
+    [restDataDictionary setObject:kMaxRecords forKey:@"max_results"];
     
     [self setUrlParam:[restDataDictionary JSONString] forKey:@"rest_data"];
     
