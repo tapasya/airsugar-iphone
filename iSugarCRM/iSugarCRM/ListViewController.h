@@ -16,7 +16,6 @@
     @protected
     UITableView *myTableView;
     UISearchBar *sBar;
-    int *tableDataMask;
 }
 
 +(ListViewController*)listViewControllerWithMetadata:(ListViewMetadata*)metadata;

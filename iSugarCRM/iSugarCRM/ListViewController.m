@@ -122,7 +122,6 @@
     __weak ListViewController* lvc = self;
     
     syncHandler.completionBlock = ^(){
-        self->tableDataMask = NULL;
         [lvc loadData];
         [lvc performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
     };
@@ -245,7 +244,6 @@
 
 -(void)loadData
 {
-    __weak ListViewController *lvc = self;
     DBSessionCompletionBlock completionBlock = ^(NSArray* records){
         NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
         for(DataObject* dataObject in records)
@@ -261,7 +259,6 @@
         //[self sortData];
         
         NSLog(@"Number of records in module %@ : %d", self.moduleName, records.count);
-        [lvc intializeTableDataMask];
         // Load UI on mail queue
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [myTableView reloadData];
@@ -296,7 +293,6 @@
             }
         }
         lvc.datasource = [lvc.tableData copy];
-        [lvc intializeTableDataMask];
         if ([records count]>0) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 [myTableView beginUpdates];
@@ -350,32 +346,6 @@
     }] mutableCopy];
 }
 
--(void)intializeTableDataMask{
-    int *temp;
-    if (!searchCancelled) {
-        self->tableDataMask = malloc(tableData.count*sizeof(int));
-        for(int i=0;i<tableData.count;i++){
-            self->tableDataMask[i]=0;
-        }
-    }
-    else{
-        if (self->tableDataMask == NULL) {
-            self->tableDataMask = malloc(tableData.count*sizeof(int));
-            for(int i=0;i<tableData.count;i++){
-                self->tableDataMask[i]=0;
-            }
-        }else{
-            temp = malloc(tableData.count*sizeof(int));
-            for(int i=0;i<tableData.count-kRowLimit;i++){
-                temp[i]=self->tableDataMask[i];
-            }
-            for(int i=kRowLimit;i<tableData.count;i++){
-                temp[i]=0;
-            }
-            tableDataMask = temp;
-        }
-    }
-}
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -396,7 +366,7 @@
 {
     [super viewWillAppear:animated];
     searchCancelled = TRUE;
-    [self sortData];
+//    [self sortData];
     [myTableView reloadData];
 }
 
@@ -414,6 +384,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+//    self->tableDataMask = NULL;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -489,11 +460,6 @@
         {
             [self addRows];
             id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
-            if(self->tableDataMask[indexPath.row] == 0){
-                cell.textLabel.textColor = [UIColor blackColor];
-            }else{
-                cell.textLabel.textColor = [UIColor grayColor];
-            }
             cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
             NSLog(@"primary text   :%@",cell.textLabel.text);
             for(DataObjectField *otherField in metadata.otherFields)
@@ -514,11 +480,6 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         }
         id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
-        if(self->tableDataMask[indexPath.row] == 0){
-            cell.textLabel.textColor = [UIColor blackColor];
-        }else{
-            cell.textLabel.textColor = [UIColor grayColor];
-        }
         cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
         NSLog(@"primary text:%@",cell.textLabel.text);
         for(DataObjectField *otherField in metadata.otherFields)
@@ -551,7 +512,6 @@
 {    // Navigation logic may go here. Create and push another view controller.
     if(!self.editing)
     {        
-        self->tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
         id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
         id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
         AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
@@ -687,8 +647,6 @@
         searchCancelled = TRUE;
         [tableData addObjectsFromArray:datasource];
         [myTableView reloadData];
-        self->tableDataMask = NULL;
-        [self intializeTableDataMask];
         return;
     }
     for(int i=0; i < [datasource count]; i++)
@@ -702,7 +660,6 @@
         }
     }
     [myTableView reloadData];
-    [self intializeTableDataMask];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -712,9 +669,7 @@
     [self.tableData addObjectsFromArray:self.datasource];
     @try{
         searchCancelled = TRUE;
-        self->tableDataMask = NULL;
         [myTableView reloadData];
-        [self intializeTableDataMask];
     }
     @catch(NSException *e){
     }
@@ -729,7 +684,7 @@
 }
 
 -(void)dealloc{
-    free(tableDataMask);
+
 }
 
 @end

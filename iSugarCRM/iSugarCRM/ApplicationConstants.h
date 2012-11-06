@@ -31,7 +31,7 @@
     #define kCharWrapping       UILineBreakModeCharacterWrap
 #endif
 
-#define kRowLimit 10
+#define kRowLimit 50
 
 #pragma mark modulesettings constants
 //Module specific settings constants
