@@ -299,6 +299,7 @@
 		84B3B15F1645FBB800884EE1 /* UploadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadOperation.m; sourceTree = "<group>"; };
 		84B3B1651645FBBA00884EE1 /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
 		84B3B1661645FBBA00884EE1 /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
+		84CDFA481643F61300B5A128 /* ApplicationConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -629,6 +630,7 @@
 				3B5C97D9147CF7BC007EF770 /* InfoPlist.strings */,
 				3B5C97DC147CF7BC007EF770 /* main.m */,
 				3B5C97DE147CF7BD007EF770 /* iSugarCRM-Prefix.pch */,
+				84CDFA481643F61300B5A128 /* ApplicationConstants.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -968,7 +970,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PROVISIONING_PROFILE = "0F001E5B-8D04-4DD6-BF65-E4F65B5C293B";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F001E5B-8D04-4DD6-BF65-E4F65B5C293B";
 				SDKROOT = iphoneos;
@@ -990,7 +992,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "C60C3E8C-49B3-42C6-9D12-0883FE73B0E1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C60C3E8C-49B3-42C6-9D12-0883FE73B0E1";

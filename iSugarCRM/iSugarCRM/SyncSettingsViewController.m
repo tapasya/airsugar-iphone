@@ -121,7 +121,7 @@ BOOL isFirstTime;
     self.tableView.tableFooterView.autoresizesSubviews = YES;
     //self.tableView.tableFooterView.frame = CGRectMake(10, 10, 70, 50);//(10, 10, 274, 144)
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 10, 20, 50)];//(230, 120, 270, 140)
-    label.textAlignment = UITextAlignmentLeft;
+    label.textAlignment = kAlignLeft;
     label.text = @"Sync Data by selecting startdate and enddate";
     label.font = [UIFont systemFontOfSize:15.0f];
     //label.adjustsFontSizeToFitWidth = NO;
@@ -221,7 +221,7 @@ BOOL isFirstTime;
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.textLabel.text = kSyncNowCellIdentifier;
-        cell.textLabel.textAlignment = UITextAlignmentCenter; 
+        cell.textLabel.textAlignment = kAlignCenter;
     }
     else if( [cellIdentifier isEqualToString:kEraseAllCellIdentifier])
     {
@@ -229,7 +229,7 @@ BOOL isFirstTime;
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.textLabel.text = kEraseAllCellIdentifier;
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = kAlignCenter;
     }
     return cell;
 }

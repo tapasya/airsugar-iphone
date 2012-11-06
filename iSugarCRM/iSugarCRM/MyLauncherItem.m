@@ -115,8 +115,8 @@
         itemLabel.font = [UIFont boldSystemFontOfSize:11];
     }
 	itemLabel.textColor = COLOR(46, 46, 46);
-	itemLabel.textAlignment = UITextAlignmentCenter;
-	itemLabel.lineBreakMode = UILineBreakModeTailTruncation;
+	itemLabel.textAlignment = kAlignCenter;
+	itemLabel.lineBreakMode = kTruncatingTail;
 	itemLabel.text = self.title;
 	itemLabel.numberOfLines = 2;
 	[self addSubview:itemLabel];

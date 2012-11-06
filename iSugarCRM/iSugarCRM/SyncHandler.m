@@ -303,7 +303,7 @@ static SyncHandler *sharedInstance;
 {
     @synchronized([self class])
     {
-        if ([response isKindOfClass:[NSArray class]]) {
+        if (response && [response isKindOfClass:[NSArray class]]) {
             
             DBSession *dbSession = [DBSession sessionForModule:moduleName];
             

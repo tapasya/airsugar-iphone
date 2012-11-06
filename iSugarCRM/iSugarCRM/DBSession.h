@@ -29,6 +29,7 @@ typedef void(^DBSessionErrorBlock)(NSError* error);
 +(DBSession*)sessionForModule:(NSString*) moduleName;
 //reading
 -(void)startLoading;
+-(void)rowsFromDBWithLimit:(int)rowLimit andOffset:(int)offSet orderBy:(NSString*)orderField;
 -(void)loadDetailsForId:(NSString*)beanId;
 -(NSArray*)getUploadData;
 //writing

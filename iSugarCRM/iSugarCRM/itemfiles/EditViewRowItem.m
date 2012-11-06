@@ -43,9 +43,9 @@
         fieldLabel.text = self.label;
         [fieldLabel setFont:[UIFont boldSystemFontOfSize:15]];
         fieldLabel.tag = 1000;
-        fieldLabel.textAlignment = UITextAlignmentLeft;
+        fieldLabel.textAlignment = kAlignLeft;
         fieldLabel.numberOfLines = 0;
-        fieldLabel.lineBreakMode = UILineBreakModeWordWrap;
+        fieldLabel.lineBreakMode = kWordWrapping;
         fieldLabel.frame = CGRectMake(kSideMargin, 0,cell.contentView.frame.size.width/2 - 30,cell.contentView.frame.size.height);
         fieldLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [cell.contentView addSubview:fieldLabel];
@@ -127,9 +127,9 @@
     
     [fieldLabel setFont:[UIFont boldSystemFontOfSize:15]];
     fieldLabel.text = self.label;
-    fieldLabel.textAlignment = UITextAlignmentLeft;
+    fieldLabel.textAlignment = kAlignLeft;
     fieldLabel.numberOfLines = 0;
-    fieldLabel.lineBreakMode = UILineBreakModeWordWrap;
+    fieldLabel.lineBreakMode = kWordWrapping;
     fieldLabel.frame = CGRectMake(kSideMargin, 0,cell.contentView.frame.size.width/2 - 30,cell.contentView.frame.size.height);
     if ([[self reusableCellIdentifier] isEqualToString:@"phone"]) {
         valueField = (UITextField*)[cell.contentView viewWithTag:1001];

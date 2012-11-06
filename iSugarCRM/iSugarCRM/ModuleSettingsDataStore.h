@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DataObjectMetadata.h"
 
-#define kSettingTitleForSortField       @"Sort by"
-#define kSettingTitleForSortorder       @"Sort Order"
-#define kOptionAscending                @"Ascending"
-#define kOptionDescending               @"Descending"
-
 
 @interface ModuleSettingsDataStore : NSObject
 

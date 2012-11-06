@@ -106,7 +106,7 @@ bool isSyncEnabled ;
             spinner.frame = CGRectMake(self.view.frame.size.width/2-kIphoneSpinnerSize/2, self.view.frame.size.height/2, kIphoneSpinnerSize, kIphoneSpinnerSize);
         }
         loadingLabel.text = @"Please wait loading data...";
-        loadingLabel.textAlignment = UITextAlignmentCenter;
+        loadingLabel.textAlignment = kAlignCenter;
         loadingLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
         spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
         [self.view addSubview:loadingLabel];

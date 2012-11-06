@@ -14,6 +14,7 @@
 @interface DBSession ()
 -(BOOL)loadRelationshipsForBean:(DataObject*)bean;
 -(BOOL)checkIfBeanExists:(DataObject*)bean inDatabase:(SqliteObj*)db;
+-(void)startLoadingWithLimit:(int)rowLimit andOffset:(int)offSet orderBy:(NSString*)orderField inOrder:(NSString*)order;
 @end
 @implementation DBSession
 @synthesize metadata,parent;
@@ -78,6 +79,73 @@
     if (nil != self.completionBlock) {
         self.completionBlock(rows);
     }
+}
+
+-(void)startLoadingWithLimit:(int)rowLimit andOffset:(int)offSet orderBy:(NSString*)orderField inOrder:(NSString*)sortOrderValue
+{
+    SqliteObj* db = [[SqliteObj alloc] init];
+    NSError* error = nil;
+    NSMutableArray *rows = [[NSMutableArray alloc]init];
+    if(![db initializeDatabaseWithError:&error]){
+        NSLog(@"%@",[error localizedDescription]);
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
+    }
+    if (orderField == nil) {
+        orderField = @"name";
+    }
+    
+    if (sortOrderValue == @"Descending") {
+        sortOrderValue = @"DESC";
+    }else{
+        sortOrderValue = @"ASC";
+    }
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ ORDER BY %@  %@ LIMIT %d OFFSET %d;",metadata.tableName,orderField,sortOrderValue,rowLimit,offSet];
+    sqlite3_stmt *stmt =[db executeQuery:sql error:&error];
+    if (error) {
+        NSLog(@"error retrieving data from database: %@",[error localizedDescription]);
+        if (nil != self.errorBlock) {
+            self.errorBlock(error);
+        };
+    }
+    
+    while(sqlite3_step(stmt)==SQLITE_ROW){
+        DataObject *dataObject = [[DataObject alloc] initWithMetadata:[[SugarCRMMetadataStore sharedInstance] objectMetadataForModule:self.metadata.tableName]];
+        int columnCount = sqlite3_column_count(stmt);
+        int columnIdx=0;
+        for (columnIdx=0;columnIdx<columnCount;columnIdx++)
+        {
+            NSString* fieldName = [NSString stringWithUTF8String:sqlite3_column_name(stmt, columnIdx)];
+            NSString *value;
+            
+            char *field_value = (char*)sqlite3_column_text(stmt, columnIdx);
+            //  NSLog(@"%s",field_value);
+            if (field_value!=NULL) {
+                value = [NSString stringWithFormat:@"%s",field_value];
+            }
+            else value = @"";
+            if (![fieldName isEqualToString:@"dirty"]) {
+                if(![dataObject setObject:value forFieldName:[metadata.column_objectFieldMap objectForKey:fieldName]]){
+                    NSLog(@"No %@ field in data object with specified metadata",fieldName);
+                }
+            }
+        }
+        [rows addObject:dataObject];
+    }
+    sqlite3_finalize(stmt);
+    [db closeDatabase];
+    
+    if (nil != self.completionBlock) {
+        self.completionBlock(rows);
+    }
+}
+
+-(void)rowsFromDBWithLimit:(int)rowLimit andOffset:(int)offSet orderBy:(NSString *)orderField
+{
+    NSString *sortOrderValue = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",self.metadata.tableName,kSettingTitleForSortorder]];
+   
+    [self startLoadingWithLimit:rowLimit andOffset:offSet orderBy:orderField inOrder:sortOrderValue];
 }
 
 -(void)loadDetailsForId:(NSString *)beanId

@@ -128,7 +128,7 @@
         if([cellIdentifier isEqualToString:kTextFieldCell])
         {
             cell = (TextFieldTableCell*) [[[NSBundle mainBundle] loadNibNamed:@"TextFieldTableCell"  owner:self options:nil] objectAtIndex:0];
-            ((TextFieldTableCell*)cell).textField.textAlignment = UITextAlignmentRight;
+            ((TextFieldTableCell*)cell).textField.textAlignment = kAlignRight;
             ((TextFieldTableCell*)cell).textField.returnKeyType = UIReturnKeyDone;
             cell.accessoryType = UITableViewCellAccessoryNone;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -181,13 +181,13 @@
     else  if([cellIdentifier isEqualToString:kSyncSettingsIdentifier])
         {
             cell.textLabel.text = @"Sync Settings";
-            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textAlignment = kAlignCenter;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     else  if([cellIdentifier isEqualToString:kLogoutCell])
     {
         cell.textLabel.text = @"Logout";
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = kAlignCenter;
     }
 return cell;
 }

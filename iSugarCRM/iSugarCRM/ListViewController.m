@@ -31,10 +31,12 @@
 {
     UIActivityIndicatorView* activityIndicator;
     UILabel* syncLabel;
+    BOOL searchCancelled;
 }
 -(void) showProgress;
 -(void) hideProgress;
 -(void) loadData;
+-(void) addRows;
 -(void) sortData;
 -(void) showActionSheet;
 -(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
@@ -120,6 +122,7 @@
     __weak ListViewController* lvc = self;
     
     syncHandler.completionBlock = ^(){
+        self->tableDataMask = NULL;
         [lvc loadData];
         [lvc performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
     };
@@ -170,7 +173,7 @@
 }
 
 -(void)syncComplete
-{   
+{
     [self loadData];
     [self performSelectorOnMainThread:@selector(showSyncAlert:) withObject:nil waitUntilDone:NO];
 }
@@ -226,7 +229,6 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentedControl];
     self.navigationItem.rightBarButtonItem = barButtonItem;
     [self loadData];
-    [self intializeTableDataMask];
   }
 
 -(void) showProgress
@@ -243,6 +245,7 @@
 
 -(void)loadData
 {
+    __weak ListViewController *lvc = self;
     DBSessionCompletionBlock completionBlock = ^(NSArray* records){
         NSMutableArray* visibleRecords = [[NSMutableArray alloc] init];
         for(DataObject* dataObject in records)
@@ -255,14 +258,13 @@
         datasource = visibleRecords;
         [tableData removeAllObjects];
         [tableData addObjectsFromArray:datasource];
-        [self sortData];
+        //[self sortData];
         
         NSLog(@"Number of records in module %@ : %d", self.moduleName, records.count);
-        
+        [lvc intializeTableDataMask];
         // Load UI on mail queue
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [myTableView reloadData];
-            [self intializeTableDataMask];
         });
     };
     
@@ -273,7 +275,50 @@
     DBSession* dbSession = [DBSession sessionForModule:self.moduleName];
     dbSession.completionBlock = completionBlock;
     dbSession.errorBlock = errorBlock;
-    [dbSession startLoading];
+//    [dbSession startLoading];
+    NSString *orderField = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortField]];
+    [dbSession rowsFromDBWithLimit:kRowLimit andOffset:0 orderBy:orderField];
+}
+
+-(void)addRows
+{
+    __weak ListViewController *lvc = self;
+    DBSessionCompletionBlock completionBlock = ^(NSArray* records){
+        __block int newRowCount = [records count];
+        [lvc.tableData removeAllObjects];
+        [lvc.tableData addObjectsFromArray:lvc.datasource];
+        lvc.datasource = nil;
+        for(DataObject* dataObject in records)
+        {
+            if(![[dataObject objectForFieldName:@"deleted"] isEqualToString:@"1"])
+            {
+                [lvc.tableData addObject:dataObject];
+            }
+        }
+        lvc.datasource = [lvc.tableData copy];
+        [lvc intializeTableDataMask];
+        if ([records count]>0) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [myTableView beginUpdates];
+                NSMutableArray* newRecords = [[NSMutableArray alloc] init];
+                for (int i=0; i<newRowCount; i++) {
+                    [newRecords addObject:[NSIndexPath indexPathForRow:[lvc.tableData count]-newRowCount+i inSection:0]];
+                }
+                [myTableView insertRowsAtIndexPaths:newRecords withRowAnimation:UITableViewRowAnimationLeft];
+                [myTableView endUpdates];
+            });
+        }
+    };
+    
+    DBSessionErrorBlock errorBlock = ^(NSError* error){
+        NSLog(@"Error: %@",[error localizedDescription]);
+    };
+    
+    DBSession* dbSession = [DBSession sessionForModule:self.moduleName];
+    dbSession.completionBlock = completionBlock;
+    dbSession.errorBlock = errorBlock;
+    NSString *orderField = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"key_%@_%@",moduleName,kSettingTitleForSortField]];
+    [dbSession rowsFromDBWithLimit:kRowLimit andOffset:[datasource count] orderBy:orderField];
 }
 
 -(void)sortData
@@ -306,11 +351,30 @@
 }
 
 -(void)intializeTableDataMask{
-    tableDataMask = malloc(tableData.count*sizeof(int));//Values in this array are used change the font color of particular cell
-    for(int i=0;i<tableData.count;i++){
-        tableDataMask[i]=0;
+    int *temp;
+    if (!searchCancelled) {
+        self->tableDataMask = malloc(tableData.count*sizeof(int));
+        for(int i=0;i<tableData.count;i++){
+            self->tableDataMask[i]=0;
+        }
     }
-    //default value is 0
+    else{
+        if (self->tableDataMask == NULL) {
+            self->tableDataMask = malloc(tableData.count*sizeof(int));
+            for(int i=0;i<tableData.count;i++){
+                self->tableDataMask[i]=0;
+            }
+        }else{
+            temp = malloc(tableData.count*sizeof(int));
+            for(int i=0;i<tableData.count-kRowLimit;i++){
+                temp[i]=self->tableDataMask[i];
+            }
+            for(int i=kRowLimit;i<tableData.count;i++){
+                temp[i]=0;
+            }
+            tableDataMask = temp;
+        }
+    }
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
@@ -331,6 +395,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    searchCancelled = TRUE;
     [self sortData];
     [myTableView reloadData];
 }
@@ -388,31 +453,86 @@
     return [tableData count];
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
-    if(tableDataMask[indexPath.row] == 0){
-        cell.textLabel.textColor = [UIColor blackColor];//default color is black
-    }else{
-        cell.textLabel.textColor = [UIColor grayColor];
-    }
-    cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
+    static NSString *moreCellIdentifier = @"newCell";
+    UITableViewCell *cell = nil;
     
-    for(DataObjectField *otherField in metadata.otherFields)
-    {
-        NSString* value = [dataObjectForRow objectForFieldName:otherField.name];
-      if (value && [value length] >0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,value];
-      }
-      else{
-          cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
-      }
+    NSUInteger row = [indexPath row]+1;
+    NSUInteger count = [tableData count];
+    if (row == count) {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:moreCellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:moreCellIdentifier];
+        }
+        if (!searchCancelled) {
+            id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
+            cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
+            NSLog(@"primary text   :%@",cell.textLabel.text);
+            for(DataObjectField *otherField in metadata.otherFields)
+            {
+                NSString* value = [dataObjectForRow objectForFieldName:otherField.name];
+                if (value && [value length] >0) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,value];
+                }
+                else{
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
+                }
+            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
+        }
+        else
+        {
+            [self addRows];
+            id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
+            if(self->tableDataMask[indexPath.row] == 0){
+                cell.textLabel.textColor = [UIColor blackColor];
+            }else{
+                cell.textLabel.textColor = [UIColor grayColor];
+            }
+            cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
+            NSLog(@"primary text   :%@",cell.textLabel.text);
+            for(DataObjectField *otherField in metadata.otherFields)
+            {
+                NSString* value = [dataObjectForRow objectForFieldName:otherField.name];
+                if (value && [value length] >0) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,value];
+                }
+                else{
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
+                }
+            }
+        }
+        
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        }
+        id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
+        if(self->tableDataMask[indexPath.row] == 0){
+            cell.textLabel.textColor = [UIColor blackColor];
+        }else{
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+        cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
+        NSLog(@"primary text:%@",cell.textLabel.text);
+        for(DataObjectField *otherField in metadata.otherFields)
+        {
+            NSString* value = [dataObjectForRow objectForFieldName:otherField.name];
+            if (value && [value length] >0) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@",otherField.label,value];
+            }
+            else{
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: NA",otherField.label];
+            }
+        }
     }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -431,7 +551,7 @@
 {    // Navigation logic may go here. Create and push another view controller.
     if(!self.editing)
     {        
-        tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
+        self->tableDataMask[indexPath.row] = 1;//changing the value of array at particular index to change font color of the cell.
         id beanTitle = [[tableData objectAtIndex:indexPath.row] objectForFieldName:@"name"];
         id beanId =[[tableData objectAtIndex:indexPath.row]objectForFieldName:@"id"];
         AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
@@ -547,6 +667,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     // only show the status bar’s cancel button while in edit mode
+    searchCancelled = FALSE;
     sBar.showsCancelButton = YES;
     sBar.autocorrectionType = UITextAutocorrectionTypeNo;
     // flush the previous search content
@@ -554,15 +675,19 @@
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
+    searchCancelled = TRUE;
     sBar.showsCancelButton = NO;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    searchCancelled = FALSE;
     [tableData removeAllObjects];// remove all data that belongs to previous search
     if(searchText==nil || [searchText isEqualToString:@""]){
+        searchCancelled = TRUE;
         [tableData addObjectsFromArray:datasource];
         [myTableView reloadData];
+        self->tableDataMask = NULL;
         [self intializeTableDataMask];
         return;
     }
@@ -583,10 +708,11 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     // if a valid search was entered but the user wanted to cancel, bring back the main list content
-    [tableData removeAllObjects];
-    [tableData addObjectsFromArray:datasource];
+    [self.tableData removeAllObjects];
+    [self.tableData addObjectsFromArray:self.datasource];
     @try{
-        [self sortData];
+        searchCancelled = TRUE;
+        self->tableDataMask = NULL;
         [myTableView reloadData];
         [self intializeTableDataMask];
     }
@@ -598,6 +724,7 @@
 // called when Search (in our case “Done”) button pressed
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    searchCancelled = FALSE;
     [searchBar resignFirstResponder];
 }
 
