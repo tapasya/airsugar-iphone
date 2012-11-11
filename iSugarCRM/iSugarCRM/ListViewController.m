@@ -293,8 +293,8 @@
             }
         }
         lvc.datasource = [lvc.tableData copy];
+        NSLog(@"%d<----Number of records into datasource now",[lvc.datasource count]);
         if ([records count]>0) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
                 [myTableView beginUpdates];
                 NSMutableArray* newRecords = [[NSMutableArray alloc] init];
                 for (int i=0; i<newRowCount; i++) {
@@ -302,7 +302,6 @@
                 }
                 [myTableView insertRowsAtIndexPaths:newRecords withRowAnimation:UITableViewRowAnimationLeft];
                 [myTableView endUpdates];
-            });
         }
     };
     
@@ -458,7 +457,6 @@
         }
         else
         {
-            [self addRows];
             id dataObjectForRow = [tableData objectAtIndex:indexPath.row];
             cell.textLabel.text = [dataObjectForRow objectForFieldName:metadata.primaryDisplayField.name];
             NSLog(@"primary text   :%@",cell.textLabel.text);
@@ -507,6 +505,15 @@
 }
 
 #pragma mark - Table view delegate
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSUInteger row = [indexPath row]+1;
+    NSUInteger count = [tableData count];
+    if (row == count) {
+			[self performSelector:@selector(addRows) withObject:nil afterDelay:.1];
+    }
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    // Navigation logic may go here. Create and push another view controller.
