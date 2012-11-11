@@ -145,7 +145,7 @@ int usernameLength,passwordLength;
 }
 
 #pragma mark Sync Methods
--(void)completeSyncWithDateFilters
+-(void) syncWithType:(enum SYNC_TYPE) type completionBlock:(SyncHandlerCompletionBlock) completionBlock errorBlock:(SyncHandlerErrorBlock) errorBlock;
 {
     SugarCRMMetadataStore *sugarMetaDataStore = [SugarCRMMetadataStore sharedInstance];
     [sugarMetaDataStore configureMetadata];
@@ -153,14 +153,8 @@ int usernameLength,passwordLength;
     
     __weak AppDelegate* delegate = self;
     
-    syncHandler.completionBlock = ^(){
-        [delegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
-    };
-    
-    syncHandler.errorBlock = ^(NSArray* errors){
-        [delegate performSelectorOnMainThread:@selector(dismissWaitingAlert) withObject:nil waitUntilDone:NO];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncFailed" object:errors];
-    };
+    syncHandler.completionBlock = completionBlock;
+    syncHandler.errorBlock = errorBlock;
     
     [syncHandler runSyncforModules:sugarMetaDataStore.modulesSupported withSyncType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES];
 }

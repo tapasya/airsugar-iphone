@@ -10,6 +10,11 @@
 
 @implementation DateUtils
 
++ (NSString *)getCurrentDate
+{
+    return [[DateUtils getDefaultFormatter] stringFromDate:[NSDate date]];
+}
+
 + (NSDateFormatter*) getDefaultFormatter
 {
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -19,16 +24,15 @@
     return dateFormatter;
 }
 
-+ (NSString*) formatDate:(NSString *)date
++ (NSString*) formatDate:(NSString *) dateString
 {
+    NSDate* date = (dateString != nil) ? [[DateUtils getDefaultFormatter] dateFromString:dateString] : [NSDate date] ;
     
-    if(date == nil){
-        date = [[[[NSDate date] description]componentsSeparatedByString:@" "] objectAtIndex:0];
-    }else{
-        date = [[[[[DateUtils getDefaultFormatter] dateFromString:date] description] componentsSeparatedByString:@" "] objectAtIndex:0];
-    }
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString* formattedDate = [formatter stringFromDate:date];
     
-    return date;
+    return formattedDate;
 }
 
 + (NSString*) stringFromDate:(NSDate *)date

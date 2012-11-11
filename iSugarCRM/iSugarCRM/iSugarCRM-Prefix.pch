@@ -13,8 +13,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "SugarCRMMetadataStore.h"
-#define sugarEndpoint @"http://50.16.5.141/html/sugarcrm/service/v4/rest.php"
-//#define sugarEndpoint @"http://127.0.0.1/sugarcrm/service/v4/rest.php"
+//#define sugarEndpoint @"http://50.16.5.141/html/sugarcrm/service/v4/rest.php"
+#define sugarEndpoint @"http://127.0.0.1/sugarcrm/service/v4/rest.php"
 #define kAppAuthenticationState @"state"
 extern NSString*  session;
 #endif
@@ -22,3 +22,17 @@ extern NSString*  session;
 #define COLOR(r,g,b)    [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 #define IS_IPAD         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define LOCAL_ID_PREFIX @"local_id_"
+#define MAX_DOWNLOAD_PER_MODULE 5000
+#define RESULTS_PER_PAGE        1000
+
+#ifdef DEBUG
+#   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define DLog(...)
+#endif
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#ifdef DEBUG
+#   define ULog(fmt, ...)  { UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show]; }
+#else
+#   define ULog(...)
+#endif

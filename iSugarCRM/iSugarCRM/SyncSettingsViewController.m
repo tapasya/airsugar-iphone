@@ -66,7 +66,8 @@ BOOL isFirstTime;
     return settingsArray;
 }
 
--(UIBarButtonItem *)addNextButton{
+-(UIBarButtonItem *)addNextButton
+{
     UIBarButtonItem *barButton = nil;
     if(isFirstTime){
         barButton = [[UIBarButtonItem alloc]initWithTitle:@"Next" style:UIBarButtonItemStyleDone target:self action:@selector(showDashboard:)];
@@ -188,7 +189,7 @@ BOOL isFirstTime;
         [[cell textLabel] setText:@"Start Date"];
         if(!value){
             if(startDate == nil){
-                value = [DateUtils stringFromDate:[NSDate date]];
+                value = [DateUtils getCurrentDate];
                 startDate = value;
             }else{
                 value = startDate;
@@ -206,7 +207,7 @@ BOOL isFirstTime;
         [[cell textLabel] setText:@"End Date"];
         if(!value){
             if(endDate == nil){
-                value = [DateUtils stringFromDate:[NSDate date]];
+                value = [DateUtils getCurrentDate];
                 endDate = value;
             }else{
                 value = endDate;
@@ -335,11 +336,11 @@ BOOL isFirstTime;
 -(void)showDashboard:(id)sender
 {
     if(!startDate){
-        startDate = [DateUtils stringFromDate:[NSDate date]];
+        startDate = [DateUtils getCurrentDate];
     }
     
     if(!endDate){
-        endDate = [DateUtils stringFromDate:[NSDate date]];
+        endDate = [DateUtils getCurrentDate];
     }
     
     [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
@@ -349,25 +350,34 @@ BOOL isFirstTime;
     [sharedDelegate showDashboardController];
 }
 
--(void)syncNow:(id)sender{
-    
+-(void)syncNow:(id)sender
+{
     //NSError* error;
     if([[ConnectivityChecker singletonObject] isNetworkReachable])
     {
         if(!startDate){
-            startDate = [DateUtils stringFromDate:[NSDate date]];
+            startDate = [DateUtils getCurrentDate];
         }
         
         if(!endDate){
-            endDate = [DateUtils stringFromDate:[NSDate date]];
+            endDate = [DateUtils getCurrentDate];
         }
         [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
         [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
-        //[sharedAppDelegate sync];
-        [sharedAppDelegate performSelectorInBackground:@selector(completeSyncWithDateFilters) withObject:nil];
-        //[sharedAppDelegate dismissWaitingAlert];
+        
+        __weak SyncSettingsViewController* svc = self;
+        
+        SyncHandlerCompletionBlock completionBlock = ^(){
+            [svc didCompleteSync];
+        };
+        
+        SyncHandlerErrorBlock errorBlock = ^(NSArray* errors){
+            [svc syncFailed:[errors objectAtIndex:0]];
+        };
+        
+        [sharedAppDelegate syncWithType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES completionBlock:completionBlock errorBlock:errorBlock];
     }
     else
     {
@@ -397,7 +407,8 @@ BOOL isFirstTime;
     });
 }
 
--(void)eraseDBData:(id)sender{
+-(void)eraseDBData:(id)sender
+{
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     UIAlertView *alert;

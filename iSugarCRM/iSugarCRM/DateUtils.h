@@ -10,6 +10,8 @@
 
 @interface DateUtils : NSOperation
 
++(NSString*) getCurrentDate;
+
 +(NSString *) formatDate:(NSString *)date;
 
 +(NSString*) stringFromDate:(NSDate*) date;

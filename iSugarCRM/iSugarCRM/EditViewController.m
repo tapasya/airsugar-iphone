@@ -325,6 +325,7 @@
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [sharedAppDelegate dismissWaitingAlert];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
         if([error code] == NotReachable)
         {
             [self.navigationController dismissModalViewControllerAnimated:YES];

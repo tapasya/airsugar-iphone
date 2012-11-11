@@ -158,9 +158,19 @@ bool isSyncEnabled ;
     AppDelegate *sharedAppDelegate;//NSError* error;
     if([[ConnectivityChecker singletonObject] isNetworkReachable])
     {
+        __weak DashboardController* dbc = self;
+        
+        SyncHandlerCompletionBlock completionBlock = ^(){
+            [dbc didCompleteSync];
+        };
+        
+        SyncHandlerErrorBlock errorBlock = ^(NSArray* errors){
+            [dbc syncFailed:[errors objectAtIndex:0]];
+        };
+        
         if(session){
             sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [sharedAppDelegate completeSyncWithDateFilters];
+            [sharedAppDelegate syncWithType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES completionBlock:completionBlock errorBlock:errorBlock];
         }else{
             session = nil;
             response = [LoginUtils login];
@@ -172,7 +182,7 @@ bool isSyncEnabled ;
                 [LoginUtils displayLoginError:response];
             }else{
                 sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [sharedAppDelegate completeSyncWithDateFilters];
+                [sharedAppDelegate syncWithType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES completionBlock:completionBlock errorBlock:errorBlock];
             }
         }
     }

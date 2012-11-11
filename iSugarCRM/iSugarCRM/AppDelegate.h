@@ -15,7 +15,9 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nvc;
 @property (strong) NSMutableDictionary *recentItems;
--(void)completeSyncWithDateFilters;
+
+-(void) syncWithType:(enum SYNC_TYPE) type completionBlock:(SyncHandlerCompletionBlock) completionBlock errorBlock:(SyncHandlerErrorBlock) errorBlock;
+
 -(void)logout;
 -(BOOL)wipeDatabase;
 -(void)resetApp;

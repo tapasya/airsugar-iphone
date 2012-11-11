@@ -233,11 +233,13 @@ static SyncHandler *sharedInstance;
     
     NSInteger totalRecords = [[responseDict objectForKey:@"result_count"] integerValue];
     
-    NSLog(@"Records is for module %@ - %d", moduleName, totalRecords);
+    DLog(@"Records is for module %@ - %d", moduleName, totalRecords);
 
     if ( totalRecords > 0) {
         // TODO change the max condition
-        for (int offset = 0 ; offset < totalRecords; offset +=1000) {
+        NSInteger maxRecords = totalRecords >  MAX_DOWNLOAD_PER_MODULE ? MAX_DOWNLOAD_PER_MODULE : totalRecords;
+        
+        for (int offset = 0 ; offset < maxRecords ; offset += RESULTS_PER_PAGE) {
             // Add request queues to download the remaining data
             WebserviceMetadata* metadata = [[SugarCRMMetadataStore sharedInstance] webservice_readMetadataForModule:moduleName];
             
@@ -252,7 +254,7 @@ static SyncHandler *sharedInstance;
             [self.requestQueue addOperation:downloadOperation];
         }
     } else{
-        NSLog(@"No Records in module %@", moduleName);
+        DLog(@"No Records in module %@", moduleName);
      }
 }
 
@@ -273,7 +275,7 @@ static SyncHandler *sharedInstance;
 
 - (void) uploadCompleteWithResponse:(id) response forModule:(NSString*) moduleName forObjects:(NSArray*) uploadedData
 {
-    NSLog(@"session count is %d",self.requestQueue.operationCount);
+    DLog(@"session count is %d",self.requestQueue.operationCount);
     DBSession *dbSession = [DBSession sessionForModule:moduleName];
     //reset dirty flags
     if ([uploadedData isKindOfClass:[NSArray class]] && [response isKindOfClass:[NSArray class]]) {
@@ -327,7 +329,7 @@ static SyncHandler *sharedInstance;
                 [self postSyncnotification];
             }
         }
-        NSLog(@"session count is %d",self.requestQueue.operationCount);
+        DLog(@"session count is %d",self.requestQueue.operationCount);
     }
 }
 
@@ -336,7 +338,7 @@ static SyncHandler *sharedInstance;
 - (void) uploadFailedWithError:(NSError*) error forModule:(NSString*) moduleName
 {
     @synchronized([self class]){
-        NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
+        DLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
         //write to local db with dirty flag
         DBSession *dbSession = [DBSession sessionForModule:moduleName];
         NSArray* uploadDataObjects = [dbSession getUploadData];
@@ -356,13 +358,13 @@ static SyncHandler *sharedInstance;
         // Add error to the errors array
         [self.errors addObject:error];
     }
-    NSLog(@"session count is %d",self.requestQueue.operationCount);
+    DLog(@"session count is %d",self.requestQueue.operationCount);
 }
 
 - (void) downloadFailedWithError:(NSError*) error forModule:(NSString*) moduleName
 {
     @synchronized([self class]){
-        NSLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
+        DLog(@"Error syncing data: %@ \nOperation Count = %d",[error localizedDescription],[self.requestQueue operationCount]);
         [self.errors addObject:error];
         [self postSyncnotification];
     }
@@ -375,7 +377,7 @@ static SyncHandler *sharedInstance;
     if (object == self.requestQueue && [keyPath isEqualToString:@"operations"]) {
         if ([self.requestQueue.operations count] == 0) {
             // Do something here when your queue has completed
-            NSLog(@"queue has completed");
+            DLog(@"queue has completed");
 //            [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
 //            if ( self.errors.count > 0) {
 //                if ( nil != self.errorBlock ) {
@@ -398,14 +400,17 @@ static SyncHandler *sharedInstance;
 -(void)postSyncnotification
 {
     if ([self.requestQueue operationCount]<= 1 ) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
         if ( self.errors.count > 0) {
             if ( nil != self.errorBlock ) {
                 self.errorBlock(self.errors);
+            } else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncFailed" object:nil];
             }
         } else{
             if ( nil != self.completionBlock) {
                 self.completionBlock();
+            } else{
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SugarSyncComplete" object:nil];
             }
         }
         self.skipSeamlessLogin = NO;
