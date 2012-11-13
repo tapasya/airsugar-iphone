@@ -39,7 +39,7 @@
 -(void) addRows;
 -(void) sortData;
 -(void) showActionSheet;
--(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
+//-(void) intializeTableDataMask;//this function is to intialize an array of tableData size which contains values 1 or 0.
 
 -(void) syncFailedWithError:(NSError*)error;
 -(void) syncComplete;

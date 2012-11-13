@@ -34,8 +34,8 @@ typedef void (^SyncHandlerErrorBlock)(NSArray* errors);
 -(void) runSyncforModules:(NSArray*) modules withSyncType:(enum SYNC_TYPE) syncType;
 
 // Callback blocks
-@property (nonatomic, strong) SyncHandlerCompletionBlock completionBlock;
+@property (nonatomic, copy) SyncHandlerCompletionBlock completionBlock;
 
-@property (nonatomic, strong) SyncHandlerErrorBlock errorBlock;
+@property (nonatomic, copy) SyncHandlerErrorBlock errorBlock;
 
 @end

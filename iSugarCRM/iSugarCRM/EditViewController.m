@@ -66,6 +66,8 @@
 
 -(BOOL)validateEmail:(UITextField *)textField;
 -(BOOL)validatePhoneNumber:(UITextField *)textField;
+- (void) syncComplete;
+- (void) syncFailedWithError:(NSError*) error;
 @end
 
 @implementation EditViewController

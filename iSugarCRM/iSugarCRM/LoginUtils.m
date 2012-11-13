@@ -142,6 +142,13 @@
     //return [self login:username :[self md5Hash:password]];
 }
 
++ (void) showAlert:(UIAlertView*) alert
+{
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        [alert show];
+    });
+}
+
 +(void)displayLoginError:(id)response
 {
     AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;    
@@ -212,13 +219,6 @@
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:messageString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [self showAlert:alertView];
-}
-
-+ (void) showAlert:(UIAlertView*) alert
-{
-    dispatch_async(dispatch_get_main_queue(), ^(){
-        [alert show];
-    });
 }
 
 + (NSString *) md5Hash:(NSString*)string

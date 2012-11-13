@@ -22,9 +22,9 @@ typedef void(^DBSessionErrorBlock)(NSError* error);
 
 @property(strong)DBMetadata *metadata;
 
-@property (nonatomic, strong) DBSessionCompletionBlock completionBlock;
+@property (nonatomic, copy) DBSessionCompletionBlock completionBlock;
 
-@property (nonatomic, strong) DBSessionErrorBlock errorBlock;
+@property (nonatomic, copy) DBSessionErrorBlock errorBlock;
 
 +(DBSession*)sessionForModule:(NSString*) moduleName;
 //reading

@@ -16,7 +16,7 @@ typedef void(^ListViewSelectionBlock)(NSString* beanId, NSString* beanTitle, NSS
 +(ListViewController_pad*)listViewControllerWithMetadata:(ListViewMetadata*)metadata;
 +(ListViewController_pad*)listViewControllerWithModuleName:(NSString*)module;
 
-@property (nonatomic , strong) ListViewSelectionBlock selectionBlock;
+@property (nonatomic , copy) ListViewSelectionBlock selectionBlock;
 
 @end
 
