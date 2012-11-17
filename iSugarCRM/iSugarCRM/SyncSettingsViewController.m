@@ -13,12 +13,18 @@
 #import "SyncHandler.h"
 #import "ConnectivityChecker.h"
 #import "DateUtils.h"
+#import "TextFieldTableCell.h"
 
 #define kEraseAlertViewTag 1001
+#define kMaxRecordsCellTag 1101
 
 @interface SyncSettingsViewController()
--(void) showDatePickerPopoverAtFrame:(CGRect) frame;
+- (void) showDatePickerPopoverAtFrame:(CGRect) frame;
+- (void) textChanged:(id)sender ;
+
 @property (nonatomic, retain) UIPopoverController* popoverController;
+@property (nonatomic, assign) NSInteger maxRecords;
+
 @end
 
 @implementation SyncSettingsViewController
@@ -29,6 +35,7 @@
 @synthesize startDate;
 @synthesize endDate;
 @synthesize popoverController;
+@synthesize maxRecords;
 
 BOOL isFirstTime;
 
@@ -46,6 +53,13 @@ BOOL isFirstTime;
         }else{
             isFirstTime = false;
         }
+        
+        NSInteger storedMaxRecords = [SettingsStore integerForKey:kSettingsStoreMaxRecordsKey];
+        if (0 == storedMaxRecords) {
+            self.maxRecords = kOptimalMaxRecords;
+        } else{
+            self.maxRecords = storedMaxRecords;
+        }
     }
     return self;
 }
@@ -53,15 +67,17 @@ BOOL isFirstTime;
 -(NSArray*) settingsArray
 {
     if(!settingsArray){
-        NSArray *dateSettings,*syncSettings,*eraseSettings;
+        NSArray *dateSettings, *maxRecordsSettings, *syncSettings,*eraseSettings;
         if(isFirstTime){
             dateSettings = [[NSArray alloc] initWithObjects:kStartDateIdentifier,kEndDateIdentifier, nil];
+            maxRecordsSettings = [[NSArray alloc] initWithObjects:kMaxRecordsCellIdentifier, nil];
         }else{
             dateSettings = [[NSArray alloc] initWithObjects:kStartDateIdentifier,kEndDateIdentifier, nil];
+            maxRecordsSettings = [[NSArray alloc] initWithObjects:kMaxRecordsCellIdentifier, nil];
             syncSettings = [[NSArray alloc] initWithObjects:kSyncNowCellIdentifier, nil];
             eraseSettings = [[NSArray alloc] initWithObjects:kEraseAllCellIdentifier, nil];
         }
-        settingsArray = [[NSArray alloc] initWithObjects:dateSettings, syncSettings,eraseSettings, nil];        
+        settingsArray = [[NSArray alloc] initWithObjects:dateSettings,maxRecordsSettings, syncSettings,eraseSettings, nil];
     }
     return settingsArray;
 }
@@ -216,6 +232,22 @@ BOOL isFirstTime;
         cell.detailTextLabel.text = value;
         [cell detailTextLabel].tag = kEndDateTag;
     }
+    else if ([cellIdentifier isEqualToString:kMaxRecordsCellIdentifier])
+    {
+        if ( nil == cell) {
+            cell = (TextFieldTableCell*) [[[NSBundle mainBundle] loadNibNamed:@"TextFieldTableCell"  owner:self options:nil] objectAtIndex:0];
+            ((TextFieldTableCell*)cell).textField.textAlignment = kAlignRight;
+            ((TextFieldTableCell*)cell).textField.returnKeyType = UIReturnKeyDone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            ((TextFieldTableCell*)cell).textField.delegate = self;
+        }
+        [((TextFieldTableCell*)cell).textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
+        ((TextFieldTableCell*)cell).textField.tag = kMaxRecordsCellTag;
+        ((TextFieldTableCell*)cell).label.text = kMaxRecordsCellIdentifier;
+        ((TextFieldTableCell*)cell).textField.keyboardType = UIKeyboardTypeNumberPad;
+        ((TextFieldTableCell*)cell).textField.text = [NSString stringWithFormat:@"%d", self.maxRecords];
+    }
     else if( [cellIdentifier isEqualToString:kSyncNowCellIdentifier])
     {
         if (cell == nil) {
@@ -333,7 +365,7 @@ BOOL isFirstTime;
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
--(void)showDashboard:(id)sender
+- (void) saveSettingsToStore
 {
     if(!startDate){
         startDate = [DateUtils getCurrentDate];
@@ -345,7 +377,16 @@ BOOL isFirstTime;
     
     [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
     [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
+    [SettingsStore setInteger:self.maxRecords forKey:kSettingsStoreMaxRecordsKey];
+    
     [SettingsStore setObject:@"YES" forKey:@"hasDates"];
+    
+}
+
+-(void)showDashboard:(id)sender
+{
+    [self saveSettingsToStore];
+    
     AppDelegate* sharedDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [sharedDelegate showDashboardController];
 }
@@ -355,15 +396,8 @@ BOOL isFirstTime;
     //NSError* error;
     if([[ConnectivityChecker singletonObject] isNetworkReachable])
     {
-        if(!startDate){
-            startDate = [DateUtils getCurrentDate];
-        }
+        [self saveSettingsToStore];
         
-        if(!endDate){
-            endDate = [DateUtils getCurrentDate];
-        }
-        [SettingsStore setObject:startDate forKey:kStartDateIdentifier];
-        [SettingsStore setObject:endDate forKey:kEndDateIdentifier];
         AppDelegate *sharedAppDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [sharedAppDelegate showWaitingAlertWithMessage:@"Please wait syncing"];
         
@@ -377,7 +411,8 @@ BOOL isFirstTime;
             [svc syncFailed:[errors objectAtIndex:0]];
         };
         
-        [sharedAppDelegate syncWithType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES completionBlock:completionBlock errorBlock:errorBlock];
+        // Sync only with dates
+        [sharedAppDelegate syncWithType:SYNC_TYPE_WITH_DATES completionBlock:completionBlock errorBlock:errorBlock];
     }
     else
     {
@@ -422,5 +457,28 @@ BOOL isFirstTime;
     }
     window.userInteractionEnabled=YES;
 }
+
+# pragma mark textfield delegates
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+	return YES;
+}
+
+- (void) textChanged:(id)sender
+{
+    UITextField *textField = (UITextField *)sender;
+    if ( textField.tag == kMaxRecordsCellTag) {
+        self.maxRecords = [textField.text integerValue];
+        self.navigationItem.rightBarButtonItem.enabled = maxRecords > kMinValueForMaxRecords;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+	return YES;
+}
+
 
 @end

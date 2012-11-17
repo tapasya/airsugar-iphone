@@ -156,7 +156,7 @@ int usernameLength,passwordLength;
     syncHandler.completionBlock = completionBlock;
     syncHandler.errorBlock = errorBlock;
     
-    [syncHandler runSyncforModules:sugarMetaDataStore.modulesSupported withSyncType:SYNC_TYPE_WITH_TIME_STAMP_AND_DATES];
+    [syncHandler runSyncforModules:sugarMetaDataStore.modulesSupported withSyncType:type];
 }
 
 - (void) resignFirstResponderRec:(UIView*) view {

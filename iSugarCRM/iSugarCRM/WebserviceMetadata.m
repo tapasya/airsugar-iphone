@@ -123,7 +123,8 @@ static inline NSString* httpMethodAsString(HTTPMethod method){
         [self addTimeQuery:restDataDictionary];
     }
     
-    [restDataDictionary  setObject:@"" forKey:@"order_by"];
+    // Order by Modified date
+    [restDataDictionary  setObject:@"date_modified ASC" forKey:@"order_by"];
     
     if ( self.offset != -1) {
         [restDataDictionary  setObject:[NSString stringWithFormat:@"%d", self.offset] forKey:@"offset"];

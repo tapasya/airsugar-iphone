@@ -22,8 +22,6 @@ extern NSString*  session;
 #define COLOR(r,g,b)    [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 #define IS_IPAD         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define LOCAL_ID_PREFIX @"local_id_"
-#define MAX_DOWNLOAD_PER_MODULE 5000
-#define RESULTS_PER_PAGE        1000
 
 #ifdef DEBUG
 #   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);

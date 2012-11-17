@@ -14,24 +14,31 @@
  DEPRECATED ENUMS or CONSTANTS prior in iOS6 version
  */
 #if __IPHONE_6_0
-    #define kAlignCenter            NSTextAlignmentCenter
-    #define kAlignLeft                NSTextAlignmentLeft
-    #define kAlignRight              NSTextAlignmentRight
-    #define kTruncatingTail         NSLineBreakByTruncatingTail
-    #define kTruncatingMiddle   NSLineBreakByTruncatingMiddle
-    #define kWordWrapping       NSLineBreakByWordWrapping
-    #define kCharWrapping       NSLineBreakByCharWrapping
+    #define kAlignCenter                NSTextAlignmentCenter
+    #define kAlignLeft                  NSTextAlignmentLeft
+    #define kAlignRight                 NSTextAlignmentRight
+    #define kTruncatingTail             NSLineBreakByTruncatingTail
+    #define kTruncatingMiddle           NSLineBreakByTruncatingMiddle
+    #define kWordWrapping               NSLineBreakByWordWrapping
+    #define kCharWrapping               NSLineBreakByCharWrapping
 #else
-    #define kAlignCenter            UITextAlignmentCenter
-    #define kAlignLeft                 UITextAlignmentLeft
-    #define kAlignRight               UITextAlignmentRight
-    #define kTruncatingTail         UILineBreakModeTailTruncation
-    #define kTruncatingMiddle   UILineBreakModeMiddleTruncation
-    #define kWordWrapping       UILineBreakModeWordWrap
-    #define kCharWrapping       UILineBreakModeCharacterWrap
+    #define kAlignCenter                UITextAlignmentCenter
+    #define kAlignLeft                  UITextAlignmentLeft
+    #define kAlignRight                 UITextAlignmentRight
+    #define kTruncatingTail             UILineBreakModeTailTruncation
+    #define kTruncatingMiddle           UILineBreakModeMiddleTruncation
+    #define kWordWrapping               UILineBreakModeWordWrap
+    #define kCharWrapping               UILineBreakModeCharacterWrap
 #endif
 
-#define kRowLimit 50
+#define kRowLimit                       50
+#define kOptimalMaxRecords              2000
+#define kMinValueForMaxRecords          100
+#define kResultsPerPage                 1000
+
+// Setting Store keys
+
+#define kSettingsStoreMaxRecordsKey     @"maxrecords"
 
 #pragma mark modulesettings constants
 //Module specific settings constants
